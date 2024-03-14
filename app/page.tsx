@@ -1,8 +1,12 @@
 import Form from "@/components/Form";
+import Nav from "@/components/Nav";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <Form type="Create" />
+    <>
+      <Nav />
+      <Form type="Create" />
+    </>
   )
 }
