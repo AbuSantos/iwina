@@ -12,10 +12,12 @@ export const connectToDB = async () => {
   }
 
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      dbName: process.env.dbName,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+    const mongoUri = process.env.MONGODB_URI;
+    if (!mongoUri) {
+      console.log("Mongo Uri isnt defined");
+    }
+    await mongoose.connect(`${mongoUri}`, {
+      dbName: "iwina",
     });
 
     isConnected = true;

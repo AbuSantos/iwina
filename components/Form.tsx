@@ -2,6 +2,7 @@
 import { useState } from "react"
 import Input from "./Input"
 import clsx from "clsx"
+import { useSession } from 'next-auth/react'
 type PropsType = {
     type: string
 }
@@ -12,6 +13,7 @@ const Form = ({ type }: PropsType) => {
         points: ""
     })
     const [submit, setSubmit] = useState<boolean>(false)
+    const { data: session } = useSession()
     const handleSubmit = async (e) => {
         e.preventDefault()
         setSubmit(true)
@@ -22,13 +24,15 @@ const Form = ({ type }: PropsType) => {
                 body: JSON.stringify({
                     taskDesc: task.description,
                     taskDdl: task.description,
-                    taskPnt: task.points
+                    taskPnt: task.points,
+                    userId: session?.user?._id
+
                 })
             })
             if (response.ok) {
                 console.log("task created successfully");
             }
-        }   catch (error) {
+        } catch (error) {
             console.log(error)
         } finally {
             setSubmit(false)

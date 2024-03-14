@@ -27,7 +27,7 @@ const handler = NextAuth({
         });
 
         if (sessionUser) {
-          session?.user?.id = sessionUser._id.toString();
+          session.user.id = sessionUser._id.toString();
         }
 
         return session;
@@ -40,7 +40,6 @@ const handler = NextAuth({
     async signIn({ profile }: { profile: ProfileType }) {
       try {
         await connectToDB(); // Connect to the database
-
         const userExist = await User.findOne({
           email: profile?.email,
         });
@@ -49,10 +48,12 @@ const handler = NextAuth({
           await User.create({
             email: profile?.email,
             // Ensure there's no space in the username and convert to lowercase
-            username: profile?.name?.replace(" ", "").toLowerCase(),
-            image: profile?.image,
+            username: profile?.name?.replace(" ", " ").toLowerCase(),
+            image: profile?.picture,
           });
         }
+        return true;
+        
       } catch (error) {
         console.error("Error signing in:", error);
         throw error;
