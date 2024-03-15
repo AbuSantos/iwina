@@ -3,10 +3,12 @@ import { useState } from "react"
 import Input from "./Input"
 import clsx from "clsx"
 import { useSession } from 'next-auth/react'
+import { useRouter } from "next/navigation"
 type PropsType = {
     type: string
 }
 const Form = ({ type }: PropsType) => {
+    const router = useRouter()
     const [task, setTask] = useState({
         description: "",
         deadline: "",
@@ -19,25 +21,25 @@ const Form = ({ type }: PropsType) => {
         setSubmit(true)
 
         try {
-            const response = await fetch("api/tasks/new", {
+            const response = await fetch("api/task/new", {
                 method: "POST",
                 body: JSON.stringify({
                     taskDesc: task.description,
-                    taskDdl: task.description,
+                    taskDdl: task.deadline,
                     taskPnt: task.points,
-                    userId: session?.user?._id
+                    userId: session?.user?.id
 
                 })
             })
             if (response.ok) {
                 console.log("task created successfully");
+                router.push("/")
             }
         } catch (error) {
             console.log(error)
         } finally {
             setSubmit(false)
         }
-
 
     }
     const handleChange = (e) => {

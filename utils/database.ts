@@ -18,6 +18,8 @@ export const connectToDB = async () => {
     }
     await mongoose.connect(`${mongoUri}`, {
       dbName: "iwina",
+      bufferCommands: true, // Disable command buffering
+      socketTimeoutMS: 10000,
     });
 
     isConnected = true;

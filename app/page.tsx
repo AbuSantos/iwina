@@ -4,6 +4,8 @@ import Nav from "@/components/Nav";
 import Image from "next/image";
 import { getProviders, signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import Feed from "@/components/Feed";
 
 export default function Home() {
   const { data: session } = useSession()
@@ -17,12 +19,15 @@ export default function Home() {
 
     setProviders()
   }, [])
+
   return (
     <div className="flex justify-center items-center flex-col">
       {
         session?.user ?
           <>
             <Nav signOut={signOut} />
+            <Link href="/createTask"> Create Task</Link>
+            <Feed />
           </> :
           < div className="flex justify-center items-center h-screen">
             {
