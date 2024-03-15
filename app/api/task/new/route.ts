@@ -1,10 +1,11 @@
 // import Prompt from "@/models/Prompt";
 import Task from "@/models/Task";
 import { connectToDB } from "@/utils/database";
+import { NextRequest } from "next/server";
 
-export const POST = async (req) => {
+export const POST = async (req: NextRequest) => {
   const { userId, taskDesc, taskDdl, taskPnt } = await req.json();
-    console.log(userId, taskDesc, taskDdl, taskPnt);
+  console.log(userId, taskDesc, taskDdl, taskPnt);
 
   try {
     await connectToDB();
