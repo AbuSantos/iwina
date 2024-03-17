@@ -13,17 +13,14 @@ const Feed = () => {
             const data = await res.json()
             setTasks(data)
         }
-
         fetchTasks()
     }, [])
     return (
         <>
-
             {
                 tasks.map((task, index) => {
-                    // console.log(task._id);
-
-                    const { taskDdl: deadline, taskDesc: description, taskPnt: points, status, _id: id } = task
+                    console.log(task);
+                    const { taskDdl: deadline, taskDesc: description, taskPnt: points, status, _id: id, pickedBy } = task
                     return (
                         <div>
 
@@ -32,13 +29,12 @@ const Feed = () => {
                                 description={description}
                                 points={points}
                                 status={status}
+                                pickedBy={pickedBy}
                                 key={index}
                             // id={id}
                             />
                             <button className='bg-green-600 p-2 mb-3' onClick={() => router.push(`/task?id=${id}`)}>View Task</button>
-
                         </div>
-
                     )
                 }
                 )

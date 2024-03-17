@@ -14,6 +14,7 @@ export const POST = async (req: NextRequest) => {
       taskDesc,
       taskDdl,
       taskPnt,
+      pickedBy: null,
     });
     await task.save();
     return new Response(JSON.stringify(task), { status: 200 });

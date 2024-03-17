@@ -28,7 +28,6 @@ const Form = ({ type }: PropsType) => {
                     taskDdl: task.deadline,
                     taskPnt: task.points,
                     userId: session?.user?.id
-
                 })
             })
             if (response.ok) {

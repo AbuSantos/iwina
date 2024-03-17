@@ -17,6 +17,10 @@ const taskSchema = new Schema({
     type: Number,
     required: true,
   },
+  pickedBy: {
+    type: String,
+    required: false,
+  },
   status: {
     type: String,
     enum: ["Not Started", "In Progress", "Completed"],

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation'
 
-const TaskCard = ({ description, deadline, points, status }) => {
-    // console.log(task);
+const TaskCard = ({ description, deadline, points, status, pickedBy }) => {
+    console.log(pickedBy);
 
     const router = useRouter()
     return (
@@ -22,13 +22,16 @@ const TaskCard = ({ description, deadline, points, status }) => {
 
                         <p className="text-sm text-gray-50 ml-4 ">
                             Status:{status}
+                            {
+                                status === "In Progress" ? " In Progress" : ""
+                            }
                         </p>
-                        
+
                         <p className="text-sm text-gray-50 ml-4 ">
                             Point:{points}
                         </p>
                         <p className="text-sm text-gray-50 ml-4 ">
-                            Picked By:
+                            Picked By: {pickedBy}
                         </p>
                         {/* <button className='bg-green-600 p-2 mb-3' onClick={() => router.push(`/task?id=${id}`)}>View Task</button> */}
                     </div>
