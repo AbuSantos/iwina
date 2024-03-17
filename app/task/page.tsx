@@ -12,6 +12,7 @@ const page = () => {
     const session = useSession()
     const [task, setTask] = useState()
     const [picked, setPicked] = useState(false)
+    const [completed, setCompleted] = useState(false)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
@@ -66,6 +67,7 @@ const page = () => {
             })
             if (resp.ok) {
                 setPicked(true)
+                setCompleted(true)
                 console.log("Status successfully completed");
             } else {
                 throw new Error('Failed to update task status')
@@ -107,7 +109,9 @@ const page = () => {
                         <p>
                             If done please press completed
                         </p>
-                        <button className='bg-green-500 p-4 ' onClick={handleCompleted}>
+                        <button
+                            disabled={completed}
+                            className='bg-green-500 p-4 ' onClick={handleCompleted}>
                             Completed
                         </button>
                     </div>
