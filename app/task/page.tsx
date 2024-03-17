@@ -66,49 +66,60 @@ const page = () => {
             })
             if (resp.ok) {
                 setPicked(true)
-                console.log("Status successfully changed");
+                console.log("Status successfully completed");
             } else {
                 throw new Error('Failed to update task status')
             }
         } catch (error) {
             console.log(error)
         }
-        if (loading) {
-            return <div>Loading...</div>
-        }
-
-        if (error) {
-            return <div>Error: {error}</div>
-        }
-        console.log(task)
-
-
-        return (
-            <div>
-                <TaskCard
-                    description={task?.[0].taskDesc}
-                    status={task?.[0].status}
-                    pickedBy={task?.[0].pickedBy}
-                />
-
-                <div>
-
-                    <button
-                        className='bg-red-500 p-4'
-                        onClick={handleStatus}
-                        disabled={picked}
-                    >
-                        {picked ? "Task Picked!" : "Pick Task"}
-                    </button>
-
-
-                    <button className='bg-green-500 p-4 '>
-                        Completed
-                    </button>
-                </div>
-
-            </div>
-        )
+    }
+    if (loading) {
+        return <div>Loading...</div>
     }
 
-    export default page
+    if (error) {
+        return <div>Error: {error}</div>
+    }
+
+
+    return (
+        <div className='gap-5'>
+            <TaskCard
+                description={task?.[0].taskDesc}
+                status={task?.[0].status}
+                pickedBy={task?.[0].pickedBy}
+            />
+
+            <div>
+
+                <button
+                    className='bg-red-500 p-4'
+                    onClick={handleStatus}
+                    disabled={picked}
+                >
+                    {picked ? "Task Picked!" : "Pick Task"}
+                </button>
+
+                {
+                    picked &&
+                    <div>
+                        <p>
+                            If done please press completed
+                        </p>
+                        <button className='bg-green-500 p-4 ' onClick={handleCompleted}>
+                            Completed
+                        </button>
+                    </div>
+
+
+                }
+
+
+            </div>
+
+        </div>
+    )
+}
+
+export default page
