@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation'
 
 const TaskCard = ({ description, deadline, points, status, pickedBy }) => {
-    console.log(pickedBy);
+    // console.log(pickedBy);
 
     const router = useRouter()
     return (

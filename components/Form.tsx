@@ -16,6 +16,7 @@ const Form = ({ type }: PropsType) => {
     })
     const [submit, setSubmit] = useState<boolean>(false)
     const { data: session } = useSession()
+   
     const handleSubmit = async (e) => {
         e.preventDefault()
         setSubmit(true)

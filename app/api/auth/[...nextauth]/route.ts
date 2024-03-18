@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { connectToDB } from "@/utils/database";
 import User from "@/models/User";
+// import { profile } from "console";
 
 type ProfileType = {
   email: string | undefined;
@@ -12,6 +13,18 @@ type ProfileType = {
 const handler = NextAuth({
   providers: [
     GoogleProvider({
+      profile(profile) {
+        const points = profile.points || 0;
+        const { sub, email, name, image } = profile;
+
+        return {
+          id: sub,
+          email,
+          name,
+          image,
+          points,
+        };
+      },
       clientId: process.env.CLIENT_ID || "",
       clientSecret: process.env.CLIENT_SECRET || "",
     }),
@@ -53,7 +66,6 @@ const handler = NextAuth({
           });
         }
         return true;
-        
       } catch (error) {
         console.error("Error signing in:", error);
         throw error;

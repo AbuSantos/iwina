@@ -15,6 +15,7 @@ const page = () => {
     const [completed, setCompleted] = useState(false)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const router = useRouter()
 
     // console.log(session)
     useEffect(() => {
@@ -36,7 +37,7 @@ const page = () => {
         }
         fetchTask()
     }, [taskId])
-    // console.log(task[0]);
+    // console.log(task);
 
 
     const handleStatus = async () => {
@@ -68,6 +69,7 @@ const page = () => {
             if (resp.ok) {
                 setPicked(true)
                 setCompleted(true)
+                router.push("/")
                 console.log("Status successfully completed");
             } else {
                 throw new Error('Failed to update task status')
@@ -91,6 +93,7 @@ const page = () => {
                 description={task?.[0].taskDesc}
                 status={task?.[0].status}
                 pickedBy={task?.[0].pickedBy}
+                
             />
 
             <div>
@@ -110,7 +113,7 @@ const page = () => {
                             If done please press completed
                         </p>
                         <button
-                            disabled={completed}
+                            // disabled={completed}
                             className='bg-green-500 p-4 ' onClick={handleCompleted}>
                             Completed
                         </button>
