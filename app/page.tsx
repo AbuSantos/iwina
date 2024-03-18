@@ -6,6 +6,7 @@ import { getProviders, signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Feed from "@/components/Feed";
+import UserForm from "@/components/UserForm";
 
 export default function Home() {
   const { data: session } = useSession()
@@ -21,7 +22,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="flex justify-center items-center flex-col">
+    <div className="flex justify-center items-center flex-col w-full">
       {
         session?.user ?
           <>
@@ -29,18 +30,26 @@ export default function Home() {
             <Link href="/createTask"> Create Task</Link>
             <Feed />
           </> :
-          < div className="flex justify-center items-center h-screen">
-            {
-              provider && Object.values(provider).map(prov => (
-                <button
-                  key={prov.name}
-                  onClick={() => signIn(prov.id)}
-                  className="text-gray-50 text-lg ">
-                  Sign in
-                </button>
-              ))
-            }
+          <div>
+
+
+            < div className="flex justify-center items-center h-screen flex-col w-full">
+              {
+                provider && Object.values(provider).map(prov => (
+                  <button
+                    key={prov.name}
+                    onClick={() => signIn(prov.id)}
+                    className="text-gray-50 text-lg ">
+                    Sign in with {prov.name}
+                  </button>
+                ))
+              }
+
+
+              or sign in with <UserForm />
+            </div>
           </div>
+
 
       }
 

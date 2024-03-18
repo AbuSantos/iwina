@@ -1,11 +1,13 @@
 import User from "@/models/User";
 import { connectToDB } from "@/utils/database";
 import bcrypt from "bcrypt";
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req ,res) => {
   try {
     await connectToDB();
 
-    const { username, password, email, points } = await req.json();
+    const { username, password, email } = await req.json();
+    console.log(username, password, email);
+    
 
     const newUser = new User({
       username,
@@ -15,7 +17,7 @@ export const POST = async (req: Request, res: Response) => {
     });
 
     // check if the values are present
-    if (!username || !password || !email || !points) {
+    if (!username || !password || !email) {
       return Response.json(
         { message: "All fields are required!" },
         { status: 400 }
@@ -34,9 +36,9 @@ export const POST = async (req: Request, res: Response) => {
       );
     }
 
-    // hashjing th password hash
-    const hashPassword = await bcrypt.hash(password, 10);
-    password = hashPassword;
+    // hashing th password hash
+    const hashPassword = await bcrypt.hash(newUser.password, 10);
+    newUser.password = hashPassword;
 
     await User.create(newUser);
     return new Response({ message: "user created" }, { status: 200 });
