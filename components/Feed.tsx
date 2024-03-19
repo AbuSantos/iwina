@@ -20,19 +20,14 @@ const Feed = () => {
     }, [])
 
 
-    const acceptedTasks = async () => {
-        try {
-            
-        } catch (error) {
-            
-        }
-    }
+
+
     return (
         <>
             {
                 tasks.map((task, index) => {
                     // console.log(task);
-                    const { taskDdl: deadline, taskDesc: description, taskPnt: points, status, _id: id, pickedBy, creator } = task
+                    const { taskDdl: deadline, taskDesc: description, taskPnt: points, status, _id: id, pickedBy, creator, createdAt } = task
                     const isCurrentUserCreator = creator._id === session?.user?.id
                     return (
                         <div>
@@ -44,11 +39,16 @@ const Feed = () => {
                                 status={status}
                                 pickedBy={pickedBy}
                                 key={index}
+                                createdAt={createdAt}
                             // id={id}
                             />
                             <div className="space-x-4">
                                 {
-                                    isCurrentUserCreator && <button className="bg-green-600 p-2 ">accept </button>
+                                    isCurrentUserCreator &&
+                                    <button className="bg-green-600 p-2 "
+                                        onClick={() => acceptTask(id)}>
+                                        accept
+                                    </button>
                                 }
 
                                 <button

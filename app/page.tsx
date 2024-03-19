@@ -46,7 +46,7 @@ export default function Home() {
               }
 
 
-              or sign in with <UserForm />
+              <UserForm />
             </div>
           </div>
 

@@ -1,7 +1,9 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDB } from "@/utils/database";
-import User from "@/models/User";
+import bcrypt from "bcrypt";
+import User from "@/(models)/User";
 // import { profile } from "console";
 
 type ProfileType = {
@@ -27,6 +29,48 @@ const handler = NextAuth({
       },
       clientId: process.env.CLIENT_ID || "",
       clientSecret: process.env.CLIENT_SECRET || "",
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "text",
+          placeholder: "Your Email",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "YourPassword",
+        },
+      },
+      async authorize(credentials) {
+        try {
+          if (!credentials || !credentials.email || !credentials.password) {
+            // Return null if required credentials are missing
+            return null;
+          }
+          const foundUser = await User.findOne({ email: credentials?.email })
+            .lean()
+            .exec();
+          if (foundUser) {
+            console.log("User Exist");
+            const match = await bcrypt.compare(
+              credentials?.password,
+              foundUser.password
+            );
+            if (match) {
+              console.log("Good Pass");
+              // delete foundUser.password;
+
+              return foundUser;
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        return null;
+      },
     }),
   ],
 
@@ -63,6 +107,7 @@ const handler = NextAuth({
             // Ensure there's no space in the username and convert to lowercase
             username: profile?.name?.replace(" ", " ").toLowerCase(),
             image: profile?.picture,
+            points: 0,
           });
         }
         return true;

@@ -48,7 +48,7 @@ const UserForm = () => {
                     setErrMessage('An unexpected error occurred')
                 }
             } else {
-                router.push('/')
+                router.push('/createTask')
                 router.refresh()
             }
 

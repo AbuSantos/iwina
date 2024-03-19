@@ -1,8 +1,8 @@
-import Task from "@/models/Task";
+import Task from "@/(models)/Task";
 import { connectToDB } from "@/utils/database";
 import { NextRequest } from "next/server";
 
-export const GET = async (req: NextRequest) => {
+export const acceptTask = async (req: NextRequest) => {
   try {
     await connectToDB();
 

@@ -17,7 +17,9 @@ const page = () => {
     const [error, setError] = useState(null)
     const router = useRouter()
 
-    // console.log(session)
+    // const isCurrentUserCreator = creator._id === session?.user?.id
+
+
     useEffect(() => {
         const fetchTask = async () => {
             try {
@@ -37,7 +39,6 @@ const page = () => {
         }
         fetchTask()
     }, [taskId])
-    // console.log(task);
 
 
     const handleStatus = async () => {
@@ -82,10 +83,28 @@ const page = () => {
         return <div>Loading...</div>
     }
 
+    const acceptTask = async () => {
+        try {
+            const res = await fetch(`/api/task/${taskId}/acceptTask`, {
+                method: "PATCH",
+            });
+
+            if (res.ok) {
+                console.log("Task accepted successfully");
+            } else {
+                throw new Error('Failed to update task status');
+            }
+        } catch (error) {
+            console.error("Error accepting task:", error);
+        }
+    };
+
     if (error) {
         return <div>Error: {error}</div>
     }
 
+    const isCreator = task?.[0].creator === session?.data?.user?.id
+    // console.log(task[0]);
 
     return (
         <div className='gap-5'>
@@ -93,38 +112,39 @@ const page = () => {
                 description={task?.[0].taskDesc}
                 status={task?.[0].status}
                 pickedBy={task?.[0].pickedBy}
-                
             />
 
-            <div>
+            {
+                isCreator ? <div>
+                    <button className='bg-green-500 p-4'
+                    onClick={acceptTask}
+                    >Good Job</button>
+                </div> :
 
-                <button
-                    className='bg-red-500 p-4'
-                    onClick={handleStatus}
-                    disabled={picked}
-                >
-                    {picked ? "Task Picked!" : "Pick Task"}
-                </button>
-
-                {
-                    picked &&
                     <div>
-                        <p>
-                            If done please press completed
-                        </p>
                         <button
-                            // disabled={completed}
-                            className='bg-green-500 p-4 ' onClick={handleCompleted}>
-                            Completed
+                            className='bg-red-500 p-4'
+                            onClick={handleStatus}
+                        // disabled={picked}
+                        >
+                            {picked ? "Task Picked!" : "Pick Task"}
                         </button>
+
+                        {
+                            picked &&
+                            <div>
+                                <p>
+                                    If done please press completed
+                                </p>
+                                <button
+                                    // disabled={completed}
+                                    className='bg-green-500 p-4 ' onClick={handleCompleted}>
+                                    Completed
+                                </button>
+                            </div>
+                        }
                     </div>
-
-
-                }
-
-
-            </div>
-
+            }
         </div>
     )
 }

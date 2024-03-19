@@ -1,4 +1,4 @@
-import Task from "@/models/Task";
+import Task from "@/(models)/Task";
 import { connectToDB } from "@/utils/database";
 
 export const GET = async (req: Request, res: Response) => {

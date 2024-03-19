@@ -1,5 +1,5 @@
 // import Prompt from "@/models/Prompt";
-import Task from "@/models/Task";
+import Task from "@/(models)/Task";
 import { connectToDB } from "@/utils/database";
 import { NextRequest } from "next/server";
 

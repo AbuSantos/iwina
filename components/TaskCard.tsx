@@ -1,7 +1,8 @@
+import { FormatTimeDifference } from '@/lib/FormatTime'
 import { useRouter } from 'next/navigation'
 
-const TaskCard = ({ description, deadline, points, status, pickedBy }) => {
-    // console.log(pickedBy);
+const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }) => {
+
 
     const router = useRouter()
     return (
@@ -33,6 +34,7 @@ const TaskCard = ({ description, deadline, points, status, pickedBy }) => {
                         <p className="text-sm text-gray-50 ml-4 ">
                             Picked By: {pickedBy}
                         </p>
+                        <span>Posted: {FormatTimeDifference(createdAt)}</span>
                         {/* <button className='bg-green-600 p-2 mb-3' onClick={() => router.push(`/task?id=${id}`)}>View Task</button> */}
                     </div>
                 </div>
