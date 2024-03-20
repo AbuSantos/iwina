@@ -1,6 +1,7 @@
 import Task from "@/(models)/Task";
 import { connectToDB } from "@/utils/database";
 import { getServerSession } from "next-auth";
+// import { URL } from "url";
 
 export const GET = async (req, { params }) => {
   try {
@@ -15,6 +16,8 @@ export const GET = async (req, { params }) => {
 };
 
 export const PATCH = async (req, { params }) => {
+  // console.log(params, "Params");
+
   const { status, userId } = await req.json();
   const session = await getServerSession({ req });
   // console.log("This is the session", session.name);
@@ -39,5 +42,21 @@ export const PATCH = async (req, { params }) => {
     return new Response(JSON.stringify(existingTask), { status: 200 });
   } catch (error) {
     return new Response("Failed to update prompt", { status: 201 });
+  }
+};
+
+export const DELETE = async (req) => {
+  const { pathname } = new URL(req.url);
+  const segments = pathname.split("/");
+  const taskId = segments[segments?.length - 2];
+  // console.log(taskId, "Delete");
+
+  try {
+    await connectToDB();
+    await Task.findByIdAndDelete(taskId);
+
+    return new Response("Task deleted successfully ", { status: 200 });
+  } catch (error) {
+    return new Response("Failed to delete Task", { status: 201 });
   }
 };

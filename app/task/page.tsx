@@ -52,6 +52,7 @@ const page = () => {
             })
             if (resp.ok) {
                 setPicked(true)
+                router.refresh()
                 console.log("Status successfully changed");
             } else {
                 throw new Error('Failed to update task status')
@@ -70,17 +71,42 @@ const page = () => {
             if (resp.ok) {
                 setPicked(true)
                 setCompleted(true)
-                router.push("/")
                 console.log("Status successfully completed");
             } else {
                 throw new Error('Failed to update task status')
             }
         } catch (error) {
             console.log(error)
+        } finally {
+            router.refresh()
         }
     }
     if (loading) {
         return <div>Loading...</div>
+    }
+    console.log(task);
+
+
+    const handleDelete = async () => {
+        // console.log(task?.[0]._id);
+
+        // const  hasConfirmed = confirm('Are you sure you want to delete')
+        // if (hasConfirmed) {
+        try {
+            const res = await fetch(`api/task/${taskId}/etask`, {
+                method: "DELETE"
+            })
+            if (res.ok) {
+                // Remove the deleted task from the local state
+                const updatedTasks = task?.filter(t => t._id !== taskId);
+                setTask(updatedTasks);
+                router.push("/")
+                console.log("Successfully deleted task");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        // }
     }
 
     const acceptTask = async () => {
@@ -90,6 +116,7 @@ const page = () => {
             });
 
             if (res.ok) {
+                router.refresh()
                 console.log("Task accepted successfully");
             } else {
                 throw new Error('Failed to update task status');
@@ -103,23 +130,28 @@ const page = () => {
         return <div>Error: {error}</div>
     }
 
-    const isCreator = task?.[0].creator === session?.data?.user?.id
-    // console.log(task[0]);
+    const isCreator = task?.[0]?.creator === session?.data?.user?.id
 
     return (
         <div className='gap-5'>
             <TaskCard
-                description={task?.[0].taskDesc}
-                status={task?.[0].status}
-                pickedBy={task?.[0].pickedBy}
+                description={task?.[0]?.taskDesc}
+                status={task?.[0]?.status}
+                pickedBy={task?.[0]?.pickedBy}
+                createdAt={task?.[0]?.createdAt}
             />
 
             {
-                isCreator ? <div>
-                    <button className='bg-green-500 p-4'
-                    onClick={acceptTask}
-                    >Good Job</button>
-                </div> :
+                isCreator ?
+                    <div>
+                        <button className='bg-green-500 p-4'
+                            onClick={acceptTask}
+                        >Good Job
+                        </button>
+                        <button className='bg-red-500 p-4' onClick={handleDelete}>
+                            Delete task
+                        </button>
+                    </div> :
 
                     <div>
                         <button

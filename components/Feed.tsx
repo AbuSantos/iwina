@@ -19,7 +19,29 @@ const Feed = () => {
         fetchTasks()
     }, [])
 
+    // console.log(tasks);
 
+    const handleDelete = async (id) => {
+        console.log(id);
+
+        // const  hasConfirmed = confirm('Are you sure you want to delete')
+        // if (hasConfirmed) {
+        try {
+            const res = await fetch(`api/task/${id}/etask`, {
+                method: "DELETE"
+            })
+            if (res.ok) {
+                // Remove the deleted task from the local state
+                const updatedTasks = tasks?.filter(t => t._id !== id);
+                setTasks(updatedTasks);
+                router.refresh()
+                console.log("Successfully deleted task");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        // }
+    }
 
 
     return (
@@ -45,10 +67,16 @@ const Feed = () => {
                             <div className="space-x-4">
                                 {
                                     isCurrentUserCreator &&
-                                    <button className="bg-green-600 p-2 "
-                                        onClick={() => acceptTask(id)}>
-                                        accept
-                                    </button>
+                                    <div className="mb-3 space-x-3">
+                                        <button className='bg-red-500 p-4' onClick={() => handleDelete(id)}>
+                                            Delete task
+                                        </button>
+                                        {/* <button className="bg-green-600 p-2 "
+                                            onClick={() => acceptTask(id)}>
+                                            accept
+                                        </button> */}
+                                    </div>
+
                                 }
 
                                 <button
