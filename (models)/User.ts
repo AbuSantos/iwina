@@ -18,6 +18,18 @@ const UserSchema = new Schema({
   points: {
     type: Number,
   },
+  ongoingTask: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Task",
+    },
+  ],
+  completedTask: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Task",
+    },
+  ]
 });
 
 const User = models.User || model("User", UserSchema);

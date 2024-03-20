@@ -6,7 +6,10 @@ export const GET = async (req: NextRequest, { params }) => {
   try {
     await connectToDB();
 
-    const tasks = await Task.find({ creator: params.id }).populate("creator");
+    const tasks = await Task.find({ creator: params.id }).populate(
+      params.status,
+      "Completed"
+    );
     return new Response(JSON.stringify(tasks), { status: 200 });
   } catch (error) {
     console.log(error);

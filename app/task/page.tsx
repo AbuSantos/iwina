@@ -90,23 +90,23 @@ const page = () => {
     const handleDelete = async () => {
         // console.log(task?.[0]._id);
 
-        // const  hasConfirmed = confirm('Are you sure you want to delete')
-        // if (hasConfirmed) {
-        try {
-            const res = await fetch(`api/task/${taskId}/etask`, {
-                method: "DELETE"
-            })
-            if (res.ok) {
-                // Remove the deleted task from the local state
-                const updatedTasks = task?.filter(t => t._id !== taskId);
-                setTask(updatedTasks);
-                router.push("/")
-                console.log("Successfully deleted task");
+        const hasConfirmed = confirm('Are you sure you want to delete')
+        if (hasConfirmed) {
+            try {
+                const res = await fetch(`api/task/${taskId}/etask`, {
+                    method: "DELETE"
+                })
+                if (res.ok) {
+                    // Remove the deleted task from the local state
+                    const updatedTasks = task?.filter(t => t._id !== taskId);
+                    setTask(updatedTasks);
+                    router.push("/")
+                    console.log("Successfully deleted task");
+                }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
         }
-        // }
     }
 
     const acceptTask = async () => {

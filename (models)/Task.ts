@@ -27,6 +27,10 @@ const taskSchema = new Schema(
       enum: ["Not Started", "In Progress", "Completed"],
       default: "Not Started",
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
