@@ -50,7 +50,7 @@ const Feed = () => {
                 tasks.map((task, index) => {
                     // console.log(task);
                     const { taskDdl: deadline, taskDesc: description, taskPnt: points, status, _id: id, pickedBy, creator, createdAt } = task
-                    const isCurrentUserCreator = creator._id === session?.user?.id
+                    const isCurrentUserCreator = creator?._id === session?.user?.id
                     return (
                         <div>
 

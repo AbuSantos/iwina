@@ -108,6 +108,8 @@ const handler = NextAuth({
             username: profile?.name?.replace(" ", " ").toLowerCase(),
             image: profile?.picture,
             points: 0,
+            completedTasks: [],
+            ongoingTasks: [],
           });
         }
         return true;
