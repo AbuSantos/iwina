@@ -53,8 +53,12 @@ const page = () => {
             if (resp.ok) {
                 setPicked(true)
                 router.refresh()
+                // console.log(resp.message);
+
                 console.log("Status successfully changed");
             } else {
+                console.log(resp);
+                
                 throw new Error('Failed to update task status')
             }
         } catch (error) {
@@ -66,7 +70,7 @@ const page = () => {
         try {
             const resp = await fetch(`api/task/${taskId}/etask`, {
                 method: "PATCH",
-                body: JSON.stringify({ status: "Completed", userId: session?.data })
+                body: JSON.stringify({ status: "Completed", userId: session?.data?.user?.id })
             })
             if (resp.ok) {
                 setPicked(true)
@@ -77,14 +81,12 @@ const page = () => {
             }
         } catch (error) {
             console.log(error)
-        } finally {
-            router.refresh()
         }
     }
     if (loading) {
         return <div>Loading...</div>
     }
-    console.log(task);
+    // console.log(task);
 
 
     const handleDelete = async () => {

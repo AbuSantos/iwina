@@ -5,13 +5,13 @@ import { getServerSession } from "next-auth";
 import { comment } from "postcss";
 
 export const PATCH = async (req, { params }) => {
-  //   console.log("task id ", params.id);
+  console.log("task id ", params.id);
 
   try {
     await connectToDB();
 
     const completedTask = await Task.findById(params.id);
-    // console.log("Task completed", completedTask);
+    console.log("Task completed", completedTask);
 
     if (!completedTask) {
       throw new Error("Task not found");

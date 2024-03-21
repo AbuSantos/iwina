@@ -1,7 +1,9 @@
-import { FormatTimeDifference } from '@/lib/FormatTime'
+import { FormatTimeDifference, formatTime } from '@/lib/FormatTime'
 import { useRouter } from 'next/navigation'
 
 const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }) => {
+
+    const formatedTime = formatTime(deadline)
 
 
     const router = useRouter()
@@ -18,7 +20,7 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                             Task:{description}
                         </h3>
                         <p className="text-sm text-gray-50 ml-4 ">
-                            Deadline:{deadline}
+                            Deadline:{formatedTime}
                         </p>
 
                         <p className="text-sm text-gray-50 ml-4 ">
