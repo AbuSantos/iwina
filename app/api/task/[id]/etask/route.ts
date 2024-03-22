@@ -17,11 +17,7 @@ export const GET = async (req, { params }) => {
   }
 };
 
-export const PATCH = async (
-  req: NextRequest,
-  res: NextResponse,
-  { params }
-) => {
+export const PATCH = async (req: NextRequest, { params }) => {
   // console.log(params);
   const { status, userId } = await req.json();
   try {
@@ -58,9 +54,8 @@ export const PATCH = async (
       }
 
       if (pickedUser.ongoingTasks.length > 2) {
-        return res.status(404).json({
-          message: "You cannot pick more than 2 tasks",
-          status: 404,
+        return new Response("You cannot pick more than 2 tasks", {
+          status: 500,
         });
       }
       pickedUser.ongoingTasks.push(params.id);
@@ -89,6 +84,7 @@ export const PATCH = async (
       if (!pickedUser) {
         throw new Error("User not found");
       }
+
       pickedUser.ongoingTasks.pop(params.id);
       pickedUser.completedTasks.push(params.id);
 
@@ -106,7 +102,7 @@ export const PATCH = async (
   }
 };
 
-export const DELETE = async (req) => {
+export const DELETE = async (req: NextRequest) => {
   const { pathname } = new URL(req.url);
   const segments = pathname.split("/");
   const taskId = segments[segments?.length - 2];

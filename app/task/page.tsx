@@ -51,17 +51,17 @@ const page = () => {
                 })
             })
             if (resp.ok) {
-                setPicked(true)
-                router.refresh()
-                // console.log(resp.message);
-
+                setPicked(true);
+                router.refresh();
                 console.log("Status successfully changed");
             } else {
-                console.log(resp);
-                
-                throw new Error('Failed to update task status')
+                if (resp.status === 500) {
+                    alert("You cannot pick more than 2 tasks");
+                }
+                throw new Error('Failed to update task status');
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.log(error)
         }
     }

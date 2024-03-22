@@ -4,17 +4,21 @@ import { useState, useEffect } from "react"
 
 
 const CompletedTask = () => {
-    const { data: session } = useSession()
+    const session = useSession()
+    const [userTask, setUserTask] = useState()
+    const userId = session?.data?.user?.id
+
     useEffect(() => {
         const fetchTask = async () => {
-            const res = await fetch("api/task")
+            const res = await fetch(`api/tasks/${userId}/inprogress`)
             const data = await res.json()
-            const filteredData = data.filter(task => task.status === "Completed")
-            console.log(filteredData);
+            // const filteredData = data.filter(task => task.user == taskId)
+            console.log(data);
         }
 
         fetchTask()
     }, [])
+
 
     return (
         <div>CompletedTask</div>

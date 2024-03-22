@@ -44,8 +44,6 @@ export default function Home() {
                   </button>
                 ))
               }
-
-
               <UserForm />
             </div>
           </div>

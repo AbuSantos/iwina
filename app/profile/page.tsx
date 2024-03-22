@@ -1,20 +1,17 @@
 import CompletedTask from '@/components/CompletedTask'
+import Profile from '@/components/Profile'
 import React from 'react'
 
-const Profile = () => {
+const page = () => {
     return (
         <div>
-            <div className=''>
-
-                <h2>Name:</h2>
-                <h4>Total Points Earned :</h4>
-            </div>
             <div>
-                <CompletedTask />
+                {/* <CompletedTask /> */}
+                <Profile />
             </div>
 
         </div>
     )
 }
 
-export default Profile
+export default page
