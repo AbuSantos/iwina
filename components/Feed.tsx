@@ -6,20 +6,20 @@ import { useSession } from "next-auth/react"
 
 const Feed = () => {
     const [tasks, setTasks] = useState([])
-    const { data: session } = useSession()
-    // console.log(session?.data.user?.id, "Session");
+    const session = useSession()
+    const userId = session?.data.user?.id
 
     const router = useRouter()
     useEffect(() => {
         const fetchTasks = async () => {
-            const res = await fetch('api/task')
+            const res = await fetch(`api/task/${userId}/alltask`)
             const data = await res.json()
             setTasks(data)
         }
         fetchTasks()
     }, [])
 
-    // console.log(tasks);
+    console.log(tasks);
 
     const handleDelete = async (id) => {
         console.log(id);

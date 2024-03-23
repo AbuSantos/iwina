@@ -119,7 +119,7 @@ const page = () => {
 
             if (res.ok) {
                 router.refresh()
-                console.log("Task accepted successfully");
+                console.log("Point successfully sent");
             } else {
                 throw new Error('Failed to update task status');
             }

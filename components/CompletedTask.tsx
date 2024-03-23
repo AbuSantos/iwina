@@ -1,6 +1,7 @@
 "use client"
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
+import TaskCard from "./TaskCard"
 
 
 const CompletedTask = () => {
@@ -10,10 +11,13 @@ const CompletedTask = () => {
 
     useEffect(() => {
         const fetchTask = async () => {
-            const res = await fetch(`api/tasks/${userId}/inprogress`)
-            const data = await res.json()
+            const res = await fetch(`api/tasks/${userId}/completed`)
+            if (res.ok) {
+                const data = await res.json()
+                setUserTask(data)
+            }
             // const filteredData = data.filter(task => task.user == taskId)
-            console.log(data);
+            // console.log(data);
         }
 
         fetchTask()
@@ -21,7 +25,22 @@ const CompletedTask = () => {
 
 
     return (
-        <div>CompletedTask</div>
+        <div>
+            {
+                userTask?.map(task => {
+                    // console.log(task);
+                    const { taskDesc, taskDdl, taskPnt, status, createdAt } = task
+                    return < TaskCard
+                        description={taskDesc}
+                        deadline={taskDdl}
+                        points={taskPnt}
+                        status={status}
+                        createdAt={createdAt}
+                    />
+                }
+                )
+            }
+        </div>
     )
 }
 

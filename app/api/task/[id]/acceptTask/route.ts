@@ -2,9 +2,9 @@ import Task from "@/(models)/Task";
 import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
 import { getServerSession } from "next-auth";
-import { comment } from "postcss";
+import { NextRequest } from "next/server";
 
-export const PATCH = async (req, { params }) => {
+export const PATCH = async (req: NextRequest, { params }) => {
   console.log("task id ", params.id);
 
   try {
@@ -43,9 +43,9 @@ export const PATCH = async (req, { params }) => {
     // Save changes to the user
     await user.save();
 
-    return { message: "Points transferred successfully", status: 200 };
+    return new Response("Points transferred successfully", { status: 200 });
   } catch (error) {
     console.error("Error transferring points:", error);
-    return { message: "Failed to transfer points", status: 500 };
+    return new Response("Failed to transfer points", { status: 500 });
   }
 };

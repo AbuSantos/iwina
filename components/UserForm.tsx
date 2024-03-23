@@ -18,7 +18,6 @@ const UserForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
         try {
             const res = await fetch("api/users", {
                 method: 'POST',

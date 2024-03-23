@@ -13,6 +13,8 @@ export const POST = async (req, res) => {
       password,
       email,
       points: 0,
+      completedTasks: [],
+      ongoingTasks: [],
     });
     console.log(newUser.points, "password");
 

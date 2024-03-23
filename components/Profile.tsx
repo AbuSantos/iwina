@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import CompletedTask from "./CompletedTask"
+import OngoingTask from "./OngoingTask"
 
 
 const Profile = () => {
@@ -31,7 +32,17 @@ const Profile = () => {
             <div className=''>
                 <h2>Name: {data?.username}</h2>
                 <h4>Total Points Earned : {data?.points}</h4>
-                <CompletedTask userId={userId} />
+                <div>
+                    <div>
+                        <h2>Completed Task</h2>
+                        <CompletedTask />
+                    </div>
+                    <div>
+                        <h2>Ongoing Task</h2>
+                        <OngoingTask />
+                    </div>
+
+                </div>
 
             </div>
         </div>
