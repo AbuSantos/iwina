@@ -1,4 +1,3 @@
-// goal.js
 import { Schema, model, models } from "mongoose";
 
 const GoalSchema = new Schema({
@@ -19,7 +18,6 @@ const GoalSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  // Other goal-related fields
 });
 
 const Goal = models.Goal || model("Goal", GoalSchema);

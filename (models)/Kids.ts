@@ -1,11 +1,12 @@
 import { Schema, model, models } from "mongoose";
 
-const kidsSchema = new Schema({
+const KidsSchema = new Schema({
   username: {
     type: String,
     unique: [true, "Username already exists"],
+    required: [true],
   },
-  password: { type: String },
+  password: { type: String, required: [true] },
   points: { type: Number },
   ongoingTasks: [
     {
@@ -27,4 +28,6 @@ const kidsSchema = new Schema({
   ],
 });
 
-const KidsSchema = models.KidsSchema || model("KidsSchema", kidsSchema);
+const Kids = models.KidsSchema || model("KidsSchema", KidsSchema);
+
+export default Kids;

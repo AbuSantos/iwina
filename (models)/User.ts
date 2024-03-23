@@ -29,7 +29,7 @@ const UserSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Task",
     },
-  ],
+  ]
 });
 
 const User = models.User || model("User", UserSchema);
