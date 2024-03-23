@@ -1,4 +1,5 @@
 import Link from "next/link"
+import UserForm from "./UserForm"
 
 const Nav = ({ signOut }) => {
     return (
@@ -8,6 +9,8 @@ const Nav = ({ signOut }) => {
             </button>
 
             <Link href="/profile">My Profile</Link>
+            <Link href="/addkid">Add a child</Link>
+
         </div>
     )
 }

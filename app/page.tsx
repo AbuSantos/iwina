@@ -31,8 +31,6 @@ export default function Home() {
             <Feed />
           </> :
           <div>
-
-
             < div className="flex justify-center items-center h-screen flex-col w-full">
               {
                 provider && Object.values(provider).map(prov => (
@@ -44,7 +42,6 @@ export default function Home() {
                   </button>
                 ))
               }
-              <UserForm />
             </div>
           </div>
 

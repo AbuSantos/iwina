@@ -1,7 +1,8 @@
 import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
 import bcrypt from "bcrypt";
-export const POST = async (req, res) => {
+import { NextRequest, NextResponse } from "next/server";
+export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
     await connectToDB();
 
@@ -45,9 +46,9 @@ export const POST = async (req, res) => {
     newUser.password = hashPassword;
 
     await User.create(newUser);
-    return new Response({ message: "user created" }, { status: 200 });
+    return new Response("user created", { status: 200 });
   } catch (error) {
     console.log(error);
-    return new Response({ message: "Error", error }, { status: 500 });
+    return new Response("Error", { status: 500 });
   }
 };

@@ -1,6 +1,10 @@
 import { Schema, model, models } from "mongoose";
 
 const KidsSchema = new Schema({
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   username: {
     type: String,
     unique: [true, "Username already exists"],
