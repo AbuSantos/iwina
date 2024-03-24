@@ -1,8 +1,14 @@
 import { connectToDB } from "@/utils/database";
 import Task from "@/(models)/Task";
 import { NextRequest } from "next/server";
-
-export const GET = async (req: NextRequest, { params }) => {
+type ParamsType = {
+  id: String;
+  status: string | string[];
+};
+export const GET = async (
+  req: NextRequest,
+  { params }: { params: ParamsType }
+) => {
   try {
     await connectToDB();
 
@@ -13,6 +19,9 @@ export const GET = async (req: NextRequest, { params }) => {
     return new Response(JSON.stringify(tasks), { status: 200 });
   } catch (error) {
     console.log(error);
-    return new Response("failed to fetch all prompts", { status: 500 });
+    return Response.json(
+      { message: "failed to fetch all Tasks " },
+      { status: 500 }
+    );
   }
 };

@@ -4,7 +4,13 @@ import { connectToDB } from "@/utils/database";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
 
-export const PATCH = async (req: NextRequest, { params }) => {
+type ParamsType = {
+  id: String;
+};
+export const PATCH = async (
+  req: NextRequest,
+  { params }: { params: ParamsType }
+) => {
   console.log("task id ", params.id);
 
   try {
@@ -14,11 +20,11 @@ export const PATCH = async (req: NextRequest, { params }) => {
     console.log("Task completed", completedTask);
 
     if (!completedTask) {
-      throw new Error("Task not found");
+      return Response.json({ message: "Task not found" }, { status: 500 });
     }
     //we check if the task has been completed
     if (completedTask.status !== "Completed") {
-      throw new Error("Task not completed");
+      return Response.json({ message: "Task not completed" }, { status: 500 });
     }
 
     //we find the user who did the task using the username
@@ -31,7 +37,7 @@ export const PATCH = async (req: NextRequest, { params }) => {
     // console.log("User:", user);
 
     if (!user) {
-      throw new Error("User not found");
+      return Response.json({ message: "Userr not found" }, { status: 500 });
     }
 
     // Update user's points
@@ -46,6 +52,9 @@ export const PATCH = async (req: NextRequest, { params }) => {
     return new Response("Points transferred successfully", { status: 200 });
   } catch (error) {
     console.error("Error transferring points:", error);
-    return new Response("Failed to transfer points", { status: 500 });
+    return Response.json(
+      { message: "Failed to transfer points" },
+      { status: 500 }
+    );
   }
 };

@@ -20,6 +20,9 @@ export const POST = async (req: NextRequest) => {
     await task.save();
     return new Response(JSON.stringify(task), { status: 200 });
   } catch (error) {
-    return new Response("Failed to create a new task", { status: 500 }); //status 500:server error
+    return Response.json(
+      { message: "Failed to create a new task!" },
+      { status: 500 }
+    );
   }
 };

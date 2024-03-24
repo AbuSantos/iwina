@@ -16,6 +16,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       points: 0,
       completedTasks: [],
       ongoingTasks: [],
+      kids: [],
     });
     console.log(newUser.points, "password");
 
@@ -46,9 +47,9 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     newUser.password = hashPassword;
 
     await User.create(newUser);
-    return new Response("user created", { status: 200 });
+    return Response.json({ message: "user created" }, { status: 200 });
   } catch (error) {
     console.log(error);
-    return new Response("Error", { status: 500 });
+    return Response.json({ message: "error" }, { status: 400 });
   }
 };

@@ -1,32 +1,38 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 const UserForm = () => {
     const router = useRouter()
     const [userData, setUserData] = useState({
-        email: ' ',
         password: '',
         username: '',
     })
     const [submit, setSubmit] = useState<boolean>(false)
     const [showErr, setShowErr] = useState(false)
     const [errMessage, setErrMessage] = useState('')
+    const { data: session } = useSession()
+
     const handleChange = (e) => {
         const { name, value } = e.target
-        setUserData((prevData) => ({ ...prevData, [name]: value }))
+        setUserData((prevData) =>
+        ({
+            ...prevData,
+            [name]: value
+        }))
     }
+    const userId = session?.user?.id
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await fetch("api/users", {
+            const res = await fetch("api/users/kids", {
                 method: 'POST',
                 body: JSON.stringify({
-                    email: userData.email,
+                    userId,
                     password: userData.password,
                     username: userData.username,
                 }),
-
             })
 
             if (!res.ok) {
@@ -52,12 +58,13 @@ const UserForm = () => {
             }
 
             setUserData({
-                email: '',
                 password: '',
                 username: '',
             })
         } catch (error) {
-            setErrMessage(error.message)
+            console.log(error);
+
+            // setErrMessage(error)
         }
     }
 
@@ -80,7 +87,7 @@ const UserForm = () => {
                             className="w-full flex  mt-2 p-3 text-sm text-gray-500 outline-0"
                         />
                     </div>
-                    <div className="p-2">
+                    {/* <div className="p-2">
                         <input
                             type="email"
                             name="email"
@@ -90,7 +97,7 @@ const UserForm = () => {
                             value={userData.email}
                             className="w-full flex  mt-2 p-3 text-sm text-gray-500 outline-0"
                         />
-                    </div>
+                    </div> */}
                     <div className="p-2">
                         <input
                             type="password"

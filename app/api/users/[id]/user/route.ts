@@ -12,6 +12,9 @@ export const GET = async (req: NextRequest, { params }) => {
     return new Response(JSON.stringify(user), { status: 200 });
   } catch (error) {
     console.log(error);
-    return new Response("failed to fetch all Users", { status: 500 });
+    return Response.json(
+      { message: "failed to fetch all Users" },
+      { status: 500 }
+    );
   }
 };

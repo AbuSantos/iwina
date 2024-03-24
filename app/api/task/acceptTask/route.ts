@@ -9,6 +9,9 @@ export const acceptTask = async (req: NextRequest) => {
     const tasks = await Task.find({ status: "Not Completed" });
     return new Response(JSON.stringify(tasks), { status: 200 });
   } catch (error) {
-    return new Response("failed to fetch all task", { status: 500 });
+    return Response.json(
+      { message: "failed to fetch all task" },
+      { status: 500 }
+    );
   }
 };

@@ -4,8 +4,14 @@ import { connectToDB } from "@/utils/database";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 // import { URL } from "url";
+type ParamsType = {
+  id: String;
+};
 
-export const GET = async (req, { params }) => {
+export const GET = async (
+  req: NextRequest,
+  { params }: { params: ParamsType }
+) => {
   try {
     await connectToDB();
 
@@ -17,7 +23,10 @@ export const GET = async (req, { params }) => {
   }
 };
 
-export const PATCH = async (req: NextRequest, { params }) => {
+export const PATCH = async (
+  req: NextRequest,
+  { params }: { params: ParamsType }
+) => {
   // console.log(params);
   const { status, userId } = await req.json();
   try {
@@ -32,14 +41,13 @@ export const PATCH = async (req: NextRequest, { params }) => {
     await connectToDB();
     if (status === "In Progress") {
       // console.log(userId, "UserId");
-
       // console.log(status);
 
       const existingTask = await Task.findById(params.id);
       // console.log(existingTask.user, "existingTask");
 
       if (!existingTask) {
-        return new Response("Task not found", { status: 404 });
+        return Response.json({ message: "Task not found" }, { status: 404 });
       }
       existingTask.status = status;
       // if the status is picked, it set the status to the pickedByUsername parameter
@@ -50,13 +58,16 @@ export const PATCH = async (req: NextRequest, { params }) => {
       const pickedUser = await User.findById(existingTask.user).exec();
       // console.log(pickedUser, "picked");
       if (!pickedUser) {
-        throw new Error("User not found");
+        return Response.json({ message: "User not found" }, { status: 404 });
       }
 
       if (pickedUser.ongoingTasks.length > 2) {
-        return new Response("You cannot pick more than 2 tasks", {
-          status: 500,
-        });
+        return Response.json(
+          { message: "You cannot pick more than 2 tasks" },
+          {
+            status: 500,
+          }
+        );
       }
       pickedUser.ongoingTasks.push(params.id);
 
@@ -70,7 +81,7 @@ export const PATCH = async (req: NextRequest, { params }) => {
       // console.log(existingTask.user, "existingTask");
 
       if (!existingTask) {
-        return new Response("Task not found", { status: 404 });
+        return Response.json({ message: "Task not found" }, { status: 404 });
       }
 
       existingTask.status = status;
@@ -82,15 +93,11 @@ export const PATCH = async (req: NextRequest, { params }) => {
       // console.log(pickedUser, "pickedUser");
 
       if (!pickedUser) {
-        throw new Error("User not found");
+        return Response.json({ message: "User not found" }, { status: 404 });
       }
 
       pickedUser.ongoingTasks.pop(params.id);
       pickedUser.completedTasks.push(params.id);
-
-      if (!pickedUser) {
-        throw new Error("User not found");
-      }
 
       await pickedUser.save();
       await existingTask.save();
@@ -98,7 +105,7 @@ export const PATCH = async (req: NextRequest, { params }) => {
     }
   } catch (error) {
     console.error("Error updating task:", error);
-    return new Response("Failed to update task", { status: 500 });
+    return Response.json({ message: "Failed to update task" }, { status: 404 });
   }
 };
 
@@ -112,8 +119,11 @@ export const DELETE = async (req: NextRequest) => {
     await connectToDB();
     await Task.findByIdAndDelete(taskId);
 
-    return new Response("Task deleted successfully ", { status: 200 });
+    return Response.json(
+      { message: "Task deleted successfully " },
+      { status: 200 }
+    );
   } catch (error) {
-    return new Response("Failed to delete Task", { status: 201 });
+    return Response.json({ message: "Failed to delete Task" }, { status: 201 });
   }
 };

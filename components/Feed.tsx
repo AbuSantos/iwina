@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react"
 const Feed = () => {
     const [tasks, setTasks] = useState([])
     const session = useSession()
-    const userId = session?.data.user?.id
+    const userId = session?.data?.user?.id
 
     const router = useRouter()
     useEffect(() => {
@@ -22,25 +22,24 @@ const Feed = () => {
     console.log(tasks);
 
     const handleDelete = async (id) => {
-        console.log(id);
-
-        // const  hasConfirmed = confirm('Are you sure you want to delete')
-        // if (hasConfirmed) {
-        try {
-            const res = await fetch(`api/task/${id}/etask`, {
-                method: "DELETE"
-            })
-            if (res.ok) {
-                // Remove the deleted task from the local state
-                const updatedTasks = tasks?.filter(t => t._id !== id);
-                setTasks(updatedTasks);
-                router.refresh()
-                console.log("Successfully deleted task");
+        // console.log(id);
+        const hasConfirmed = confirm('Are you sure you want to delete')
+        if (hasConfirmed) {
+            try {
+                const res = await fetch(`api/task/${id}/etask`, {
+                    method: "DELETE"
+                })
+                if (res.ok) {
+                    // Remove the deleted task from the local state
+                    const updatedTasks = tasks?.filter(t => t._id !== id);
+                    setTasks(updatedTasks);
+                    router.refresh()
+                    console.log("Successfully deleted task");
+                }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
         }
-        // }
     }
 
 
@@ -53,7 +52,6 @@ const Feed = () => {
                     const isCurrentUserCreator = creator?._id === session?.user?.id
                     return (
                         <div>
-
                             < TaskCard
                                 deadline={deadline}
                                 description={description}
@@ -62,7 +60,6 @@ const Feed = () => {
                                 pickedBy={pickedBy}
                                 key={index}
                                 createdAt={createdAt}
-                            // id={id}
                             />
                             <div className="space-x-4">
                                 {
