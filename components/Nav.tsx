@@ -6,25 +6,7 @@ import { useEffect, useState } from "react"
 
 const Nav = ({ signOut }) => {
     const { data: session } = useSession()
-    // const [kid, setKid] = useState()
-    const userId = session?.user?.id;
-    console.log(session?.user?.role);
-
-
-    // useEffect(() => {
-    //     const fetchKid = async () => {
-    //         const res = await fetch(`api/users/kids/${userId}/kid`)
-    //         if (!res.ok) {
-    //             console.log("Failed to fetch kid data");
-    //         }
-    //         const data = await res.json()
-    //         setKid(data)
-    //     }
-
-    //     fetchKid()
-    // }, [])
-    // console.log(kid);
-
+    const userRole = session?.user?.role
 
     return (
         <div className="text-gray-50">
@@ -33,7 +15,13 @@ const Nav = ({ signOut }) => {
             </button>
 
             <Link href="/profile">My Profile</Link>
-            <Link href="/addkid">Add a child</Link>
+            {
+                userRole === "parent" &&
+                <>
+                    <Link href="/createTask"> Create Task</Link>
+                    <Link href="/addkid">Add a child</Link>
+                </>
+            }
         </div>
     )
 }

@@ -8,6 +8,8 @@ const Feed = () => {
     const [tasks, setTasks] = useState([])
     const session = useSession()
     const userId = session?.data?.user?.id
+    console.log(userId);
+
 
     const router = useRouter()
     useEffect(() => {

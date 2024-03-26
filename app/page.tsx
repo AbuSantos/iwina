@@ -27,7 +27,7 @@ export default function Home() {
         session?.user ?
           <>
             <Nav signOut={signOut} />
-            <Link href="/createTask"> Create Task</Link>
+           
             <Feed />
           </> :
           <div>

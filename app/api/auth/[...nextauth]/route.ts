@@ -70,11 +70,10 @@ const handler = NextAuth({
               return {
                 id: foundKid._id,
                 name: foundKid.username,
-             
+
                 // image: "", // Add image URL if available
                 // points: foundKid.points,
               };
-              
             }
           }
         } catch (error) {
@@ -86,7 +85,7 @@ const handler = NextAuth({
   ],
 
   callbacks: {
-    async session({ session, user }) {
+    async session({ session }) {
       // console.log("sessions start", session);
       try {
         await connectToDB();
@@ -106,9 +105,10 @@ const handler = NextAuth({
         // Update the session user ID based on the user type
         if (parentUser) {
           session.user.id = parentUser._id.toString();
-          session.user.role = 'parent';
+          session.user.role = "parent";
         } else if (kidUser) {
           session.user.id = kidUser._id.toString();
+          session.user.role = "child";
         }
 
         return session;
