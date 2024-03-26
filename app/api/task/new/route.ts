@@ -1,5 +1,7 @@
 // import Prompt from "@/models/Prompt";
+import Kids from "@/(models)/Kids";
 import Task from "@/(models)/Task";
+import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
 import { NextRequest } from "next/server";
 
@@ -9,6 +11,19 @@ export const POST = async (req: NextRequest) => {
 
   try {
     await connectToDB();
+
+    //we find the parent who created the task
+    const parent = await User.findById(userId).exec();
+    console.log(parent, "the task has been created by the parent");
+
+    //we return an error if we don't find the parent
+    if (!parent) {
+      return Response.json({ message: "Parent not found!" }, { status: 404 });
+    }
+
+    const children = await Kids.find({ creator: userId }).exec();
+    console.log(children, "the task has been created by the children");
+
     const task = new Task({
       creator: userId,
       taskDesc,
@@ -16,7 +31,9 @@ export const POST = async (req: NextRequest) => {
       taskPnt,
       pickedBy: null,
       user: null,
+      children: children.map((child) => child._id),
     });
+
     await task.save();
     return new Response(JSON.stringify(task), { status: 200 });
   } catch (error) {

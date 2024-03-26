@@ -21,7 +21,7 @@ const Feed = () => {
         fetchTasks()
     }, [])
 
-    // console.log(tasks);
+    console.log(tasks);
 
     const handleDelete = async (id) => {
         // console.log(id);

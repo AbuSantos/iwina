@@ -31,6 +31,12 @@ const taskSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    children: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Kids",
+      },
+    ],
   },
   { timestamps: true }
 );
