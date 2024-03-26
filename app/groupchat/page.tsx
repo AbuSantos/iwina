@@ -1,8 +1,17 @@
+import MessageForm from '@/components/MessageForm'
+import MessageReply from '@/components/MessageReply'
 import React from 'react'
 
 const GroupChat = () => {
     return (
-        <div>GroupChat</div>
+        <div>Family Chat
+
+
+            <div>
+                <MessageForm />
+                <MessageReply />
+            </div>
+        </div>
     )
 }
 
