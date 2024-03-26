@@ -6,24 +6,24 @@ import { useEffect, useState } from "react"
 
 const Nav = ({ signOut }) => {
     const { data: session } = useSession()
-    const [kid, setKid] = useState()
+    // const [kid, setKid] = useState()
     const userId = session?.user?.id;
-    // console.log(userId);
+    console.log(session?.user?.role);
 
 
-    useEffect(() => {
-        const fetchKid = async () => {
-            const res = await fetch(`api/users/kids/${userId}/kid`)
-            if (!res.ok) {
-                console.log("Failed to fetch kid data");
-            }
-            const data = await res.json()
-            setKid(data)
-        }
+    // useEffect(() => {
+    //     const fetchKid = async () => {
+    //         const res = await fetch(`api/users/kids/${userId}/kid`)
+    //         if (!res.ok) {
+    //             console.log("Failed to fetch kid data");
+    //         }
+    //         const data = await res.json()
+    //         setKid(data)
+    //     }
 
-        fetchKid()
-    }, [])
-    console.log(kid);
+    //     fetchKid()
+    // }, [])
+    // console.log(kid);
 
 
     return (
@@ -33,12 +33,7 @@ const Nav = ({ signOut }) => {
             </button>
 
             <Link href="/profile">My Profile</Link>
-            {
-                !kid &&
-                <Link href="/addkid">Add a child</Link>
-
-            }
-
+            <Link href="/addkid">Add a child</Link>
         </div>
     )
 }

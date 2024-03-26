@@ -19,6 +19,7 @@ const handler = NextAuth({
       profile(profile) {
         const points = profile.points || 0;
         const { sub, email, name, image } = profile;
+        let userRole = "parent";
 
         return {
           id: sub,
@@ -26,6 +27,7 @@ const handler = NextAuth({
           name,
           image,
           points,
+          role: userRole,
         };
       },
       clientId: process.env.CLIENT_ID || "",
@@ -65,14 +67,14 @@ const handler = NextAuth({
               foundKid.password
             );
             if (match) {
-              // Return a profile object with necessary details
               return {
                 id: foundKid._id,
                 name: foundKid.username,
-                // email: "", // Add email if available
+             
                 // image: "", // Add image URL if available
                 // points: foundKid.points,
               };
+              
             }
           }
         } catch (error) {
@@ -104,6 +106,7 @@ const handler = NextAuth({
         // Update the session user ID based on the user type
         if (parentUser) {
           session.user.id = parentUser._id.toString();
+          session.user.role = 'parent';
         } else if (kidUser) {
           session.user.id = kidUser._id.toString();
         }
@@ -116,7 +119,7 @@ const handler = NextAuth({
     },
 
     async signIn({ profile, account }) {
-      console.log(account, "account");
+      // console.log(account, "account");
 
       try {
         await connectToDB(); // Connect to the database
