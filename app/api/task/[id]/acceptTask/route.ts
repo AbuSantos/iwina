@@ -1,3 +1,4 @@
+import Kids from "@/(models)/Kids";
 import Task from "@/(models)/Task";
 import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
@@ -31,7 +32,7 @@ export const PATCH = async (
     const pickedByUser = await completedTask.pickedBy;
     console.log("Picked by ", pickedByUser.toLowerCase());
 
-    const user = await User.findOne({
+    const user = await Kids.findOne({
       username: pickedByUser.toLowerCase(),
     }).exec();
     // console.log("User:", user);

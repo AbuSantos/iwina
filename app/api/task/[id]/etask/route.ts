@@ -1,3 +1,4 @@
+import Kids from "@/(models)/Kids";
 import Task from "@/(models)/Task";
 import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
@@ -27,8 +28,9 @@ export const PATCH = async (
   req: NextRequest,
   { params }: { params: ParamsType }
 ) => {
-  // console.log(params);
   const { status, userId } = await req.json();
+  console.log(userId, "userId");
+
   try {
     //we check if the inputed values is one of the allowed values
     if (!status || !["In Progress", "Completed"].includes(status)) {
@@ -36,6 +38,7 @@ export const PATCH = async (
     }
 
     const session = await getServerSession({ req });
+
     const pickedByUsername = session?.user?.name || null;
 
     await connectToDB();
@@ -44,6 +47,7 @@ export const PATCH = async (
       // console.log(status);
 
       const existingTask = await Task.findById(params.id);
+
       // console.log(existingTask.user, "existingTask");
 
       if (!existingTask) {
@@ -53,10 +57,13 @@ export const PATCH = async (
       // if the status is picked, it set the status to the pickedByUsername parameter
       existingTask.pickedBy =
         status === "In Progress" ? pickedByUsername : null;
+
       existingTask.user = status === "In Progress" ? userId : null;
 
-      const pickedUser = await User.findById(existingTask.user).exec();
+      const pickedUser = await Kids.findById(userId).exec();
+      console.log(existingTask, "picked by username");
       // console.log(pickedUser, "picked");
+
       if (!pickedUser) {
         return Response.json({ message: "User not found" }, { status: 404 });
       }
@@ -89,7 +96,7 @@ export const PATCH = async (
       existingTask.pickedBy = status === "Completed" ? pickedByUsername : null;
       existingTask.user = status === "Completed" ? userId : null;
 
-      const pickedUser = await User.findById(existingTask.user).exec();
+      const pickedUser = await Kids.findById(existingTask.user).exec();
       // console.log(pickedUser, "pickedUser");
 
       if (!pickedUser) {
@@ -105,7 +112,7 @@ export const PATCH = async (
     }
   } catch (error) {
     console.error("Error updating task:", error);
-    return Response.json({ message: "Failed to update task" }, { status: 404 });
+    // return Response.json({ message: "Failed to update task" }, { status: 404 });
   }
 };
 

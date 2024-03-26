@@ -42,6 +42,8 @@ const page = () => {
 
 
     const handleStatus = async () => {
+        // console.log(session?.data?.user?.id);
+
         try {
             const resp = await fetch(`api/task/${taskId}/etask`, {
                 method: 'PATCH',

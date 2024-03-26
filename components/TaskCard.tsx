@@ -1,7 +1,17 @@
 import { FormatTimeDifference, formatTime } from '@/lib/FormatTime'
 import { useRouter } from 'next/navigation'
 
-const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }) => {
+
+type TaskType = {
+    description: String,
+    deadline: Date,
+    points: number,
+    status: String,
+    pickedBy: String,
+    createdAt: Date,
+
+}
+const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }: TaskType) => {
 
     const formatedTime = formatTime(deadline)
 

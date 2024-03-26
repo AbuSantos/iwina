@@ -10,8 +10,8 @@ const Feed = () => {
     const userId = session?.data?.user?.id
     console.log(userId);
 
-
     const router = useRouter()
+    
     useEffect(() => {
         const fetchTasks = async () => {
             const res = await fetch(`api/task/${userId}/alltask`)

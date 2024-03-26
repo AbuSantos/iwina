@@ -13,6 +13,10 @@ const Nav = ({ signOut }) => {
             <button onClick={signOut}>
                 Sign out
             </button>
+            <Link href="/groupchat">Group chat</Link>
+            {
+                userRole === "child" && <Link href="/addgoal"> Add goal</Link>
+            }
 
             <Link href="/profile">My Profile</Link>
             {
