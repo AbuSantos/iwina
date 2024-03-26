@@ -23,7 +23,7 @@ const Nav = ({ signOut }) => {
 
         fetchKid()
     }, [])
-    // console.log(kid.kids);
+    console.log(kid);
 
 
     return (
@@ -33,7 +33,11 @@ const Nav = ({ signOut }) => {
             </button>
 
             <Link href="/profile">My Profile</Link>
-            <Link href="/addkid">Add a child</Link>
+            {
+                !kid &&
+                <Link href="/addkid">Add a child</Link>
+
+            }
 
         </div>
     )

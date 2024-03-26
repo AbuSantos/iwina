@@ -7,11 +7,11 @@ import User from "@/(models)/User";
 import Kids from "@/(models)/Kids";
 // import { profile } from "console";
 
-type ProfileType = {
-  email: string | undefined;
-  name: string | undefined;
-  image: string | undefined;
-};
+// type ProfileType = {
+//   email: string | undefined;
+//   name: string | undefined;
+//   image: string | undefined;
+// };
 
 const handler = NextAuth({
   providers: [
@@ -52,23 +52,27 @@ const handler = NextAuth({
             // Return null if required credentials are missing
             return null;
           }
-          const foundUser = await Kids.findOne({
+          const foundKid = await Kids.findOne({
             username: credentials.username,
           })
             .lean()
             .exec();
           // console.log(foundUser, "found user");
 
-          if (foundUser) {
-            // console.log("User Exist");
+          if (foundKid) {
             const match = await bcrypt.compare(
               credentials?.password,
-              foundUser.password
+              foundKid.password
             );
             if (match) {
-              // console.log("Good Pass");
-              delete foundUser.password;
-              return foundUser;
+              // Return a profile object with necessary details
+              return {
+                id: foundKid._id,
+                name: foundKid.username,
+                // email: "", // Add email if available
+                // image: "", // Add image URL if available
+                // points: foundKid.points,
+              };
             }
           }
         } catch (error) {
@@ -80,24 +84,22 @@ const handler = NextAuth({
   ],
 
   callbacks: {
-    async session({ session }) {
-      console.log("sessions start", session);
+    async session({ session, user }) {
+      // console.log("sessions start", session);
       try {
-        await connectToDB(); // Connect to the database
+        await connectToDB();
 
         let query = {};
         if (session.user?.email) {
           query = { email: session.user.email };
         } else if (session.user?.name) {
           query = { username: session.user.name };
-          console.log(query, "query 2");
+          // console.log(query, "query 2");
         }
-        // console.log(session.user?.name, "query 3");
-        // console.log(session.user?.email, "query 1");
-        // Check if the session user is a parent or a kid
-        // Check if the session user is a parent or a kid
+
         const parentUser = await User.findOne(query);
         const kidUser = await Kids.findOne(query);
+        // console.log(kidUser, "kidUser");
 
         // Update the session user ID based on the user type
         if (parentUser) {
@@ -113,7 +115,9 @@ const handler = NextAuth({
       }
     },
 
-    async signIn({ profile }: { profile: ProfileType }) {
+    async signIn({ profile, account }) {
+      console.log(account, "account");
+
       try {
         await connectToDB(); // Connect to the database
         const userExist = await User.findOne({
@@ -143,4 +147,3 @@ const handler = NextAuth({
 });
 
 export { handler as GET, handler as POST };
-

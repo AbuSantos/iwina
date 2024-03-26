@@ -56,7 +56,13 @@ export const POST = async (req: NextRequest) => {
     newKid.password = hashPassword;
 
     await Kids.create(newKid);
-    return Response.json({ message: "Kid created" }, { status: 200 });
+
+    const profile = {
+      id: newKid.id,
+      email: null, // Set to null if not available
+      username: newKid.username,
+    };
+    return Response.json({ message: "Kid created", profile }, { status: 200 });
   } catch (error) {
     console.log(error);
     return new Response("Error", { status: 500 });

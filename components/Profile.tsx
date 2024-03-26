@@ -8,15 +8,17 @@ import OngoingTask from "./OngoingTask"
 const Profile = () => {
     const session = useSession()
     const userId = session?.data?.user?.id
+    console.log(session.data?.user?.id, "Session");
+
 
     const [data, setData] = useState()
     useEffect(() => {
         const fetchUserTask = async () => {
             try {
-                const res = await fetch(`api/users/${userId}/user`);
+                const res = await fetch(`api/users/kids/${userId}/kid`);
                 const data = await res.json()
                 setData(data)
-                // console.log(data);
+                console.log(data);
 
             } catch (error) {
                 console.log(error);
