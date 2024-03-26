@@ -39,6 +39,7 @@ export const POST = async (req: NextRequest) => {
         { status: 409 }
       );
     }
+
     const parent = await User.findById(userId).exec();
     if (!parent) {
       return Response.json({ message: "Parent not found" }, { status: 409 });
@@ -47,6 +48,7 @@ export const POST = async (req: NextRequest) => {
     parent.kids.push(newKid.id);
     await parent.save();
 
+    newKid.id = newKid.id;
     // hashing th password hash
     const hashPassword = await bcrypt.hash(newKid.password, 10);
     // console.log(hashPassword);

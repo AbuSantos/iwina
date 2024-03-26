@@ -57,17 +57,17 @@ const handler = NextAuth({
           })
             .lean()
             .exec();
-          console.log(foundUser, "found user");
+          // console.log(foundUser, "found user");
 
           if (foundUser) {
-            console.log("User Exist");
+            // console.log("User Exist");
             const match = await bcrypt.compare(
               credentials?.password,
               foundUser.password
             );
             if (match) {
-              console.log("Good Pass");
-              // delete foundUser.password;
+              // console.log("Good Pass");
+              delete foundUser.password;
               return foundUser;
             }
           }
@@ -81,6 +81,7 @@ const handler = NextAuth({
 
   callbacks: {
     async session({ session }) {
+      console.log("sessions start", session);
       try {
         await connectToDB(); // Connect to the database
 
@@ -89,12 +90,22 @@ const handler = NextAuth({
           query = { email: session.user.email };
         } else if (session.user?.name) {
           query = { username: session.user.name };
+          console.log(query, "query 2");
+        }
+        // console.log(session.user?.name, "query 3");
+        // console.log(session.user?.email, "query 1");
+        // Check if the session user is a parent or a kid
+        // Check if the session user is a parent or a kid
+        const parentUser = await User.findOne(query);
+        const kidUser = await Kids.findOne(query);
+
+        // Update the session user ID based on the user type
+        if (parentUser) {
+          session.user.id = parentUser._id.toString();
+        } else if (kidUser) {
+          session.user.id = kidUser._id.toString();
         }
 
-        const sessionUser = await User.findOne(query);
-        if (sessionUser) {
-          session.user.id = sessionUser._id.toString();
-        }
         return session;
       } catch (error) {
         console.error("Error retrieving session:", error);
@@ -132,3 +143,4 @@ const handler = NextAuth({
 });
 
 export { handler as GET, handler as POST };
+
