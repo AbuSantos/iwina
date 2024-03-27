@@ -1,13 +1,33 @@
 "use client"
 import { useState } from "react"
 import Input from "./Input"
+import { useSession } from "next-auth/react"
 
 const MessageForm = () => {
     const [message, setMessage] = useState("")
+    const { data: session } = useSession()
+    const userId = session?.user?.id
+    console.log(userId);
+
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setMessage("")
-        console.log(message)
+
+        try {
+
+            const res = await fetch(`api/groupchat/new`, {
+                method: "POST",
+                body: JSON.stringify({ message, userId })
+            })
+            if (res.ok) {
+                console.log("message created successfully");
+                setMessage("")
+            }
+            console.log(message)
+        } catch (error) {
+            console.log(error);
+
+        }
+
     }
 
     return (

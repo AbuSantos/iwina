@@ -14,12 +14,10 @@ const OngoingTask = () => {
         const fetchTask = async () => {
             const res = await fetch(`api/tasks/${userId}/inprogress`)
             if (res.ok) {
-
                 const data = await res.json()
                 setOngoingTask(data)
             }
         }
-
         fetchTask()
     }, [])
 
