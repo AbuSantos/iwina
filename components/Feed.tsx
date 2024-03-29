@@ -8,7 +8,7 @@ const Feed = () => {
     const [tasks, setTasks] = useState([])
     const session = useSession()
     const userId = session?.data?.user?.id
-    console.log(userId);
+    // console.log(userId);
 
     const router = useRouter()
 
@@ -21,7 +21,7 @@ const Feed = () => {
         fetchTasks()
     }, [])
 
-    console.log(tasks);
+    // console.log(tasks);
 
     const handleDelete = async (id) => {
         // console.log(id);
@@ -54,7 +54,6 @@ const Feed = () => {
                     const isCurrentUserCreator = creator?._id === session?.user?.id
                     return (
                         <div className="text-gray-800">
-                            
                             < TaskCard
                                 deadline={deadline}
                                 description={description}

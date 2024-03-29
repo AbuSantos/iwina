@@ -5,16 +5,14 @@ import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import Header from "./Header"
 
-const Nav = ({ signOut }) => {
+const Nav = () => {
     const { data: session } = useSession()
     const userRole = session?.user?.role
 
     return (
-        <div className="text-gray-500">
+        <div className="text-gray-500 w-full">
             <Header />
-            <button onClick={signOut}>
-                Sign out
-            </button>
+
             <Link href="/groupchat">Group chat</Link>
             {
                 userRole === "child" && <Link href="/addgoal"> Add goal</Link>

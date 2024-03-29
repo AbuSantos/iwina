@@ -2,13 +2,14 @@
 import Form from "@/components/Form";
 import Nav from "@/components/Nav";
 import Image from "next/image";
-import { getProviders, signIn, signOut, useSession } from "next-auth/react";
+import { getProviders, signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Feed from "@/components/Feed";
 import UserForm from "@/components/UserForm";
 import display from "@/public/images/display.png";
 import { Fredoka, Montserrat } from "next/font/google";
+import KidsScroll from "@/components/KidsScroll";
 
 
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -32,7 +33,8 @@ export default function Home() {
       {
         session?.user ?
           <>
-            <Nav signOut={signOut} />
+            <KidsScroll />
+            <Nav />
             <Feed />
           </> :
           <div>
