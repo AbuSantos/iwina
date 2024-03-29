@@ -11,7 +11,7 @@ const Feed = () => {
     console.log(userId);
 
     const router = useRouter()
-    
+
     useEffect(() => {
         const fetchTasks = async () => {
             const res = await fetch(`api/task/${userId}/alltask`)
@@ -53,7 +53,8 @@ const Feed = () => {
                     const { taskDdl: deadline, taskDesc: description, taskPnt: points, status, _id: id, pickedBy, creator, createdAt } = task
                     const isCurrentUserCreator = creator?._id === session?.user?.id
                     return (
-                        <div>
+                        <div className="text-gray-800">
+                            
                             < TaskCard
                                 deadline={deadline}
                                 description={description}

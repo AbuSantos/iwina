@@ -26,24 +26,24 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                 >
 
                     <div className="flex flex-col">
-                        <h3 className=" text-gray-50 ml-4 font-bold font-satoshi">
+                        <h3 className=" text-gray-800 ml-4 font-bold font-satoshi">
                             Task:{description}
                         </h3>
-                        <p className="text-sm text-gray-50 ml-4 ">
+                        <p className="text-sm text-gray-800 ml-4 ">
                             Deadline:{formatedTime}
                         </p>
 
-                        <p className="text-sm text-gray-50 ml-4 ">
+                        <p className="text-sm text-gray-800 ml-4 ">
                             Status:{status}
                             {
                                 status === "In Progress" ? " In Progress" : ""
                             }
                         </p>
 
-                        <p className="text-sm text-gray-50 ml-4 ">
+                        <p className="text-sm text-gray-800 ml-4 ">
                             Point:{points}
                         </p>
-                        <p className="text-sm text-gray-50 ml-4 ">
+                        <p className="text-sm text-gray-800 ml-4 ">
                             Picked By: {pickedBy}
                         </p>
                         <span>Posted: {FormatTimeDifference(createdAt)}</span>

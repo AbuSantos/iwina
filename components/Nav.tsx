@@ -3,13 +3,15 @@ import Link from "next/link"
 import UserForm from "./UserForm"
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
+import Header from "./Header"
 
 const Nav = ({ signOut }) => {
     const { data: session } = useSession()
     const userRole = session?.user?.role
 
     return (
-        <div className="text-gray-50">
+        <div className="text-gray-500">
+            <Header />
             <button onClick={signOut}>
                 Sign out
             </button>
