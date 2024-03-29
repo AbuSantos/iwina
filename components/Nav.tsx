@@ -17,7 +17,6 @@ const Nav = ({ signOut }) => {
             {
                 userRole === "child" && <Link href="/addgoal"> Add goal</Link>
             }
-
             <Link href="/profile">My Profile</Link>
             {
                 userRole === "parent" &&

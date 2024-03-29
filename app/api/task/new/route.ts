@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
 
     //we find the parent who created the task
     const parent = await User.findById(userId).exec();
-    console.log(parent, "the task has been created by the parent");
+    // console.log(parent, "the task has been created by the parent");
 
     //we return an error if we don't find the parent
     if (!parent) {
@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const children = await Kids.find({ creator: userId }).exec();
-    console.log(children, "the task has been created by the children");
+    // console.log(children, "the task has been created by the children");
 
     const task = new Task({
       creator: userId,

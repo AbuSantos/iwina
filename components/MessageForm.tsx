@@ -2,32 +2,35 @@
 import { useState } from "react"
 import Input from "./Input"
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 const MessageForm = () => {
+    const router = useRouter()
+
     const [message, setMessage] = useState("")
     const { data: session } = useSession()
     const userId = session?.user?.id
-    console.log(userId);
+    const creatorType = session?.user?.role
+    // console.log(userId);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         try {
-
             const res = await fetch(`api/groupchat/new`, {
                 method: "POST",
-                body: JSON.stringify({ message, userId })
+                body: JSON.stringify({ message, userId, creatorType }),
             })
             if (res.ok) {
                 console.log("message created successfully");
                 setMessage("")
+                router.refresh()
             }
             console.log(message)
         } catch (error) {
             console.log(error);
 
         }
-
     }
 
     return (

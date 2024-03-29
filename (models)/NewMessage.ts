@@ -2,15 +2,29 @@ import { Schema, model, models } from "mongoose";
 
 const NewMessageSchema = new Schema(
   {
-    message: { type: String, required: true },
+    creator: {
+      type: Schema.Types.ObjectId,
+      refPath: "creatorType", // Reference path based on the value of creatorType
+    },
+    creatorType: {
+      type: String,
+      enum: ["parent", "child"], // Allowed values for creator type
+      required: true,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
     parent: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    child: {
-      type: Schema.Types.ObjectId,
-      ref: "Kids",
-    },
+    child: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Kids",
+      },
+    ],
   },
   { timestamps: true }
 );
