@@ -33,9 +33,9 @@ export default function Home() {
       {
         session?.user ?
           <>
-            <KidsScroll />
             <Nav />
-            <Feed />
+            <KidsScroll />
+            {/* <Feed /> */}
           </> :
           <div>
             < div className="flex justify-center flex-col ">
