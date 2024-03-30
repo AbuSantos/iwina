@@ -11,6 +11,7 @@ import display from "@/public/images/display.png";
 import { Fredoka, Montserrat } from "next/font/google";
 import KidsScroll from "@/components/KidsScroll";
 import Task from "@/components/Task";
+import BottomNav from "@/components/BottomNav";
 
 
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -37,22 +38,22 @@ export default function Home() {
             <Nav />
             <KidsScroll />
             <Task />
-            {/* <Feed /> */}
+            <BottomNav />
           </> :
           <div>
             < div className="flex justify-center flex-col ">
               <div className="flex justify-center items-center flex-col ">
                 <h2 className="text-center text-2xl font-semibold p-5 ">iwina</h2>
-                < Image src={display} width={300} className="h-96 mt-14" alt="black happy family" />
+                < Image src={display} width={300} className="h-96 mt-10" alt="black happy family" />
               </div>
               <div className="flex items-center flex-col">
                 <h2 className={`text-center text-5xl text-gray-700 font-black ${fredoka.className}`}>Welcome</h2>
-                <p className={`font-medium text-lg text-center mt-4 ${montserrat.className} w-11/12  `}>
+                <p className={`font-medium text-lg text-center mt-3 ${montserrat.className} w-11/12  `}>
                   Assign chores, Transfer Allowance, Teach Responsibility
                 </p>
               </div>
 
-              <div className="flex justify-center flex-col mt-8 w-full">
+              <div className="flex justify-center flex-col mt-5 w-full">
                 {
                   provider && Object.values(provider).map((prov: any) => (
 

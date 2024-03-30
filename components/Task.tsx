@@ -1,6 +1,9 @@
 import Link from "next/link";
 import TaskCard from "./TaskCard";
 import { useState } from "react";
+import OngoingTask from "./OngoingTask";
+import CompletedTask from "./CompletedTask";
+import Feed from "./Feed";
 
 
 
@@ -15,7 +18,7 @@ const Task = ({ }) => {
             <div className="flex space-x-2 w-full items-center text-[0.8rem]">
                 <button
                     onClick={() => handleTabChange("new")}
-                    className={`border-2 bg-[#dfd7fb] ml-2 font-medium rounded-xl py-2 px-4 ${activeTab === "new" ? "border-[#6229b3] text-[#6229b3]" : "border-[#6329b346] text-[#6329b362]"
+                    className={`border-2 bg-[#dfd7fb] ml-[0.3rem] font-medium rounded-xl py-2 px-4 ${activeTab === "new" ? "border-[#6229b3] text-[#6229b3]" : "border-[#6329b346] text-[#6329b362]"
                         }`}>New Tasks</button>
                 <button
                     onClick={() => handleTabChange("ongoing")}
@@ -27,18 +30,18 @@ const Task = ({ }) => {
                         }`}>Completed Tasks</button>
             </div>
 
-            <div className="mt-10  prompt_layout ">
+            <div className="mt-10  w-full ">
                 {
-                    activeTab === 'new' && <p>new task</p>
-
+                    activeTab === 'new' &&
+                    <div >
+                        <Feed />
+                    </div>
                 }
                 {
-                    activeTab === 'ongoing' && <p>ongoing task</p>
-
+                    activeTab === 'ongoing' && <OngoingTask />
                 }
                 {
-                    activeTab === 'completed' && <p>completed task</p>
-
+                    activeTab === 'completed' && <CompletedTask />
                 }
             </div>
         </section >

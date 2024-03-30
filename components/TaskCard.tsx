@@ -1,6 +1,6 @@
 import { FormatTimeDifference, formatTime } from '@/lib/FormatTime'
+import { Fredoka, Montserrat } from 'next/font/google'
 import { useRouter } from 'next/navigation'
-
 
 type TaskType = {
     description: String,
@@ -11,6 +11,9 @@ type TaskType = {
     createdAt: Date,
 
 }
+
+const montserrat = Montserrat({ subsets: ["latin"] });
+const fredoka = Fredoka({ subsets: ["latin"] })
 const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }: TaskType) => {
 
     const formatedTime = formatTime(deadline)
@@ -19,34 +22,38 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
     const router = useRouter()
     return (
         <div className="prompt_card">
-            <div className="flex justify-between gap-5 items-center">
+            <div className="flex justify-between gap-5 items-center ">
                 <div
                     className="flex "
                 // onClick={() => router.push(`/user?id=${prompt.creator._id}`)}
                 >
 
-                    <div className="flex flex-col">
-                        <h3 className=" text-gray-800 ml-4 font-bold font-satoshi">
-                            Task:{description}
+                    <div className="flex flex-col p-3">
+                        <h3 className={`${fredoka.className} text-gray-700 ml-4 font-medium text-lg capitalize `}>
+                            {description}
                         </h3>
-                        <p className="text-sm text-gray-800 ml-4 ">
-                            Deadline:{formatedTime}
-                        </p>
 
-                        <p className="text-sm text-gray-800 ml-4 ">
+                        <div className='flex mt-2 font-medium text-gray-600'>
+                            <p className={`${montserrat.className} text-base   font-medium `}>
+                                ⏳ {formatedTime}
+                            </p>
+
+                            {/* <p className="text-sm text-gray-800 ml-4 ">
                             Status:{status}
                             {
                                 status === "In Progress" ? " In Progress" : ""
                             }
-                        </p>
+                        </p> */}
 
-                        <p className="text-sm text-gray-800 ml-4 ">
-                            Point:{points}
-                        </p>
-                        <p className="text-sm text-gray-800 ml-4 ">
+                            <p className="text-base ml-4 ">
+                                ⭐️ {points} points
+                            </p>
+                        </div>
+
+                        {/* <p className="text-sm text-gray-800 ml-4 ">
                             Picked By: {pickedBy}
-                        </p>
-                        <span>Posted: {FormatTimeDifference(createdAt)}</span>
+                        </p> */}
+                        <span className='p-2 text-gray-500 text-sm font-medium'> {FormatTimeDifference(createdAt)}</span>
                         {/* <button className='bg-green-600 p-2 mb-3' onClick={() => router.push(`/task?id=${id}`)}>View Task</button> */}
                     </div>
                 </div>

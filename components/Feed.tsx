@@ -46,14 +46,14 @@ const Feed = () => {
 
 
     return (
-        <>
+        <div className=" flex flex-col items-center space-y-3 mb-20">
             {
                 tasks.map((task, index) => {
                     // console.log(task);
                     const { taskDdl: deadline, taskDesc: description, taskPnt: points, status, _id: id, pickedBy, creator, createdAt } = task
                     const isCurrentUserCreator = creator?._id === session?.user?.id
                     return (
-                        <div className="text-gray-800">
+                        <div className="text-gray-800 flex justify-between items-center w-11/12 bg-[#dfd7fb] rounded-xl">
                             < TaskCard
                                 deadline={deadline}
                                 description={description}
@@ -63,31 +63,29 @@ const Feed = () => {
                                 key={index}
                                 createdAt={createdAt}
                             />
-                            <div className="space-x-4">
-                                {
+                            <div className=" p-2">
+                                {/* {
                                     isCurrentUserCreator &&
                                     <div className="mb-3 space-x-3">
                                         <button className='bg-red-500 p-4' onClick={() => handleDelete(id)}>
                                             Delete task
                                         </button>
-                                        {/* <button className="bg-green-600 p-2 "
-                                            onClick={() => acceptTask(id)}>
-                                            accept
-                                        </button> */}
                                     </div>
 
-                                }
+                                } */}
 
                                 <button
-                                    className='bg-green-600 p-2 mb-3'
-                                    onClick={() => router.push(`/task?id=${id}`)}>View Task</button>
+                                    className='bg-[#ffff] px-5 py-2 rounded-xl text-base text-[#6229b3] font-medium '
+                                    onClick={() => router.push(`/task?id=${id}`)}>
+                                    View Task
+                                </button>
                             </div>
                         </div>
                     )
                 }
                 )
             }
-        </>
+        </div>
 
     )
 
