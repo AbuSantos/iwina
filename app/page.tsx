@@ -10,6 +10,7 @@ import UserForm from "@/components/UserForm";
 import display from "@/public/images/display.png";
 import { Fredoka, Montserrat } from "next/font/google";
 import KidsScroll from "@/components/KidsScroll";
+import Task from "@/components/Task";
 
 
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -35,6 +36,7 @@ export default function Home() {
           <>
             <Nav />
             <KidsScroll />
+            <Task />
             {/* <Feed /> */}
           </> :
           <div>

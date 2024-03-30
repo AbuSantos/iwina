@@ -16,7 +16,7 @@ const fredoka = Fredoka({ subsets: ["latin"] })
 const Header = () => {
     const { data: session } = useSession()
     const [searchTask, setSearchTask] = useState(" ")
-    console.log(session);
+    // console.log(session);
 
     return (
         <div className={`bg-gradient-to-b from-[#4f2190] to-[#9e0fb1] text-lg ${fredoka.className} rounded-b-xl flex justify-center items-center`}>

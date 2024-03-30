@@ -13,7 +13,7 @@ const Nav = () => {
         <div className="text-gray-500 w-full">
             <Header />
 
-            <Link href="/groupchat">Group chat</Link>
+            {/* <Link href="/groupchat">Group chat</Link>
             {
                 userRole === "child" && <Link href="/addgoal"> Add goal</Link>
             }
@@ -24,7 +24,7 @@ const Nav = () => {
                     <Link href="/createTask"> Create Task</Link>
                     <Link href="/addkid">Add a child</Link>
                 </>
-            }
+            } */}
         </div>
     )
 }
