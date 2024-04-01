@@ -51,13 +51,12 @@ const KidsScroll = () => {
                 }
                 {
                     role === "parent" &&
-                    <div className="flex flex-col items-center text-base">
-                        <Link href="/createTask" className="h-14 w-14 flex items-center justify-center font-normal bg-[#4444444d] rounded-full text-gray-100">
+                    <div className="flex flex-col items-center text-sm">
+                        <Link href="/addkid" className="h-14 w-14 flex items-center justify-center font-normal bg-[#4444444d] rounded-full text-gray-100">
                             <FaPlus />
                         </Link>
                         Add Child
                     </div>
-
                 }
 
             </div>

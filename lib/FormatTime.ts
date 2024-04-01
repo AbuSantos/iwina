@@ -6,6 +6,8 @@
 //     second: '2-digit'
 // };
 
+import { minify } from "next/dist/build/swc";
+
 // const formattedDate = new Date(createdAt).toLocaleTimeString('en-US', options);
 // const currentUTCTime = new Date().toLocaleTimeString('en-US', options);
 // console.log((currentUTCTime - formattedDate), "ago");
@@ -36,5 +38,25 @@ export const formatTime = (deadline: Date) => {
   };
 
   const formattedDate = new Date(deadline).toLocaleTimeString("en-US", options);
-  return formattedDate
+  return formattedDate;
+};
+
+export const reverseFormatTime = (timeInput: string) => {
+  // split the time into hours and mins
+  const [hoursStr, minutesStr] = timeInput.split(":");
+  const hours = parseInt(hoursStr);
+  const minutes = parseInt(minutesStr);
+
+  // get the current date in UTC format
+  const currentDate = new Date();
+  const currentYear = currentDate.getUTCFullYear();
+  const currentMonth = currentDate.getUTCMonth();
+  const currentDay = currentDate.getUTCDate();
+
+  // Create a new Date object with the current year, month, day, hours, and minutes
+  const utcDate = new Date(
+    Date.UTC(currentYear, currentMonth, currentDay, hours, minutes)
+  );
+
+  return utcDate.toISOString(); // Return the date in UTC format (ISO string)
 };
