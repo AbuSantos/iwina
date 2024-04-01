@@ -36,12 +36,15 @@ const KidsScroll = () => {
             <div className="flex overflow-x-auto space-x-5 scrollbar-hide mt-3 items-center" >
                 {
                     kids?.map((kid: any) => {
+                        // console.log(kid);
                         return (
                             <div className="flex flex-col items-center" key={kid?._id}>
-                                <div className=" bg-[#dfd7fb] p-3 rounded-full h-14 w-14 flex items-center justify-center">
-                                    <Image src={girlchild} alt="girl child" width={100} />
-                                </div>
-                                <h4 className={`${fredoka.className} font-normal capitalize text-[#444444d2]`}>{kid?.username}</h4>
+                                <Link href={`/childprofile?id=${kid._id}`}>
+                                    <div className=" bg-[#dfd7fb] p-3 rounded-full h-14 w-14 flex items-center justify-center">
+                                        <Image src={girlchild} alt="girl child" width={100} />
+                                    </div>
+                                    <h4 className={`${fredoka.className} font-normal capitalize text-[#444444d2]`}>{kid?.username}</h4>
+                                </Link>
                             </div>
                         )
                     })

@@ -25,7 +25,6 @@ const OngoingTask = ({ setActiveTab }) => {
         }
         fetchTask()
     }, [])
-
     return (
         <div className="w-full">
             {

@@ -3,9 +3,13 @@ import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import CompletedTask from "./CompletedTask"
 import OngoingTask from "./OngoingTask"
+import { useSearchParams } from "next/navigation"
 
 
 const Profile = () => {
+    const params = useSearchParams()
+    const childId = params.get('id')
+    console.log(childId, "params");
 
     const { data: session } = useSession()
     const userId = session?.user?.id
@@ -18,6 +22,9 @@ const Profile = () => {
         api = `api/users/${userId}/user`
 
     }
+    // http://localhost:3000/profile?id=6602d9497661d82338c8d4a4
+    // http://localhost:3000/profile?id=66034066030b1ee271cb722c
+
     const [data, setData] = useState()
     useEffect(() => {
         const fetchUserTask = async () => {
@@ -33,7 +40,7 @@ const Profile = () => {
         }
         fetchUserTask()
     }, [api])
-    console.log(session, "Session")
+    // console.log(session, "Session")
     return (
 
         <div>

@@ -24,14 +24,14 @@ const Header = () => {
                 <div className="w-full">
                     <div className="flex  p-2 w-full justify-between">
                         <div className="flex items-center  space-x-2">
-                            <Image src={parent} width={80} height={50} className="rounded-full" alt="parent avatar" />
+                            <Image src={parent} width={60} height={50} className="rounded-full" alt="parent avatar" />
                             <div className="text-gray-50 ">
                                 <h4 className="text-base">Hi {session?.user?.name},👋🏾</h4>
                                 <h1>WELCOME</h1>
                             </div>
                         </div>
-                        <div className="text-gray-50" onClick={signOut}>
-                            <CiLogout />
+                        <div className="text-gray-50 " onClick={signOut}>
+                            <CiLogout style={{ fontSize: "25px" }} />
                         </div>
                     </div>
 

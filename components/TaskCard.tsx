@@ -29,6 +29,9 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                 >
 
                     <div className="flex flex-col p-3">
+                        <p className="text-[0.8rem] text-gray-500 ml-4 ">
+                            {status}
+                        </p>
                         <h3 className={`${fredoka.className} text-gray-700 ml-4 font-medium text-lg capitalize `}>
                             {description}
                         </h3>
@@ -38,8 +41,7 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                                 ⏳ {formatedTime}
                             </p>
 
-                            {/* <p className="text-sm text-gray-800 ml-4 ">
-                            Status:{status}
+                            {/* 
                             {
                                 status === "In Progress" ? " In Progress" : ""
                             }

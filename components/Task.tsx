@@ -41,7 +41,7 @@ const Task = ({ }) => {
                     activeTab === 'ongoing' && <OngoingTask setActiveTab={setActiveTab} />
                 }
                 {
-                    activeTab === 'completed' && <CompletedTask />
+                    activeTab === 'completed' && <CompletedTask setActiveTab={setActiveTab} />
                 }
             </div>
         </section >
