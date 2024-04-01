@@ -15,7 +15,8 @@ const UserForm = () => {
         password: '',
         username: '',
     })
-    const [selectAvatar, setSelectedAvatar] = useState(0)
+    const [selectAvatar, setSelectedAvatar] = useState<number | string>(0)
+    const [newAvatar, setNewAvatar] = useState("")
     const [submit, setSubmit] = useState<boolean>(false)
     const [showErr, setShowErr] = useState(false)
     const [errMessage, setErrMessage] = useState('')
@@ -77,25 +78,59 @@ const UserForm = () => {
     }
 
     const avatars = [
-        sGirlChild, boychild, aGirlChild, aBoyChild
+        sGirlChild, boychild, aGirlChild, aBoyChild, newAvatar
     ]
 
     const avatarsBgColor = [
         "#a191fe", "#ffcc00", "#28cd41", "#9766db"
     ]
 
-    console.log(avatarsBgColor[selectAvatar]);
+    const handleCameraClick = () => {
+        const inputElement = document.getElementById('cameraInput');
+        inputElement?.click();
+    }
+    const handleCameraInputChange = (event) => {
+        // Handle camera input change here (e.g., upload image from camera)
+        const file = event.target.files[0];
+        console.log(file);
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                // console.log(reader.result);
+                setNewAvatar(reader.result)
+                // setSelectedAvatar(reader.result);
+            };
+
+            if (reader.readyState === FileReader.EMPTY) {
+                reader.readAsDataURL(file);
+            } else {
+                console.error('FileReader is busy reading another file.');
+            }
+        }
+        // "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAdQ
+    };
+    // console.log(avatarsBgColor[selectAvatar]);
 
     return (
         <div>
             <div className='space-y-4 py-4 w-full'>
                 <div className='flex items-center justify-center'>
                     <div className={`flex items-center justify-around bg-[${avatarsBgColor[selectAvatar]}] w-24 h-24 rounded-full mb-5 `}>
-                        < Image src={avatars[selectAvatar]} width={100} alt="A girl child" />
+                        < Image src={avatars[selectAvatar]} width={100} alt="avatar" />
                     </div>
                 </div>
                 <div className='flex items-center justify-around mt-4'>
-                    <div className='flex items-center justify-center bg-[#dfd7fb] w-14 h-14 rounded-full' >
+                    <div className='flex items-center justify-center bg-[#dfd7fb] w-14 h-14 rounded-full' onClick={handleCameraClick}>
+                        <input
+                            id="cameraInput"
+                            type="file"
+                            accept="image/*"
+                            capture="environment"
+                            style={{ display: 'none' }}
+                            onChange={handleCameraInputChange}
+                        />
                         <FaCamera style={{ fontSize: 25 }} />
                     </div>
                     {
@@ -124,17 +159,6 @@ const UserForm = () => {
                             className="w-full flex  mt-2 p-4 text-sm text-gray-500 outline-0 shadow-sm border-2 border-gray-100 rounded-lg "
                         />
                     </div>
-                    {/* <div className="p-2">
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            required
-                            onChange={handleChange}
-                            value={userData.email}
-                            className="w-full flex  mt-2 p-3 text-sm text-gray-500 outline-0"
-                        />
-                    </div> */}
                     <div className="p-2">
                         <input
                             type="password"
