@@ -4,6 +4,14 @@ import Input from "./Input"
 import clsx from "clsx"
 import { useSession } from 'next-auth/react'
 import { useRouter } from "next/navigation"
+import { Montserrat, Fredoka } from "next/font/google"
+import { IoChevronBackSharp } from "react-icons/io5"
+
+
+
+const montserrat = Montserrat({ subsets: ["latin"] });
+const fredoka = Fredoka({ subsets: ["latin"] });
+
 type PropsType = {
     type: string
 }
@@ -16,7 +24,7 @@ const Form = ({ type }: PropsType) => {
     })
     const [submit, setSubmit] = useState<boolean>(false)
     const { data: session } = useSession()
-   
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         setSubmit(true)
@@ -47,33 +55,35 @@ const Form = ({ type }: PropsType) => {
         setTask((prev) => ({ ...prev, [name]: value }))
     }
     return (
-        <div className="w-2/3">
-
-            <span>{`${type} a task`}</span>
+        <div className="w-11/12 p-3">
+            <div className='flex items-center justify-between '>
+                <IoChevronBackSharp style={{ fontSize: "25px" }} onClick={() => router.back()} />
+                <h2 className={`text-center text-lg  ${fredoka.className} font-medium text-gray-500`} >{`${type} a task`}</h2>
+                <p></p>
+            </div>
             <form action="submit">
                 <div className="flex flex-col ">
-
-                    <label htmlFor="task_description">
+                    <label htmlFor="task_description" className={`py-4 ${fredoka.className} text-base  text-gray-500`}>
                         Task Description
                         <textarea required placeholder="Description" name="description" id="task_description" cols="30" rows="10" className={clsx(
-                            "border-solid border-gray border-2 px-6 py-2 text-lg rounded-3xl w-full text-gray-950",
+                            "border-solid outline-none border-gray border-2 px-6 py-2 text-lg rounded-3xl w-full text-gray-950",
                         )} value={task.description} onChange={handleChange} />
                     </label>
-                    <label htmlFor="deadline">
+                    <label htmlFor="deadline" className={`${fredoka.className} text-base text-gray-500  `}>
                         Deadline
-                        <Input placeholder="Add the deadline for this Task is any" type="datetime" name="deadline" id="deadline" className="w-2/4 rounded-none text-gray-950" value={task.deadline} onChange={handleChange} />
+                        <Input placeholder="Deadline" type="datetime" name="deadline" id="deadline" className="w-2/4 rounded-none text-gray-950 outline-none" value={task.deadline} onChange={handleChange} />
                     </label>
-                    <label htmlFor="points">
+                    <label htmlFor="points" className={`py-2 ${fredoka.className} text-base text-gray-500 `}>
                         Points
-                        <Input required placeholder="Add Points to Earn for this task" type="number" name="points" id="number" className="w-2/4 rounded-none text-gray-950" value={task.points} onChange={handleChange} />
+                        <Input required placeholder="Task stars" type="number" name="points" id="number" className="w-2/4 rounded-none text-gray-950 outline-none" value={task.points} onChange={handleChange} />
                     </label>
-                    <button onClick={handleSubmit} type="submit" disabled={submit}>
+                    <button onClick={handleSubmit} type="submit" disabled={submit} className={`p-2 ${fredoka.className} text-base outline-none flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-3 px-5 rounded-lg `} >
                         {submit ? `${type}...` : type}
                     </button>
                 </div>
 
-            </form>
-        </div>
+            </form >
+        </div >
     )
 }
 

@@ -3,6 +3,8 @@ import Header from '@/components/ChildView/Header';
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from "next/navigation"
 import ChildOngoingTask from '@/components/ChildView/ChildOngoingTask';
+import ChildViewCompletedTask from '@/components/ChildView/ChildViewCompleted';
+import BottomNav from '@/components/BottomNav';
 
 const ChildProfileView = () => {
     const params = useSearchParams()
@@ -26,9 +28,14 @@ const ChildProfileView = () => {
             <div className=''>
                 <Header childId={childId} data={data} />
             </div>
-            <div className='flex items-center justify-center'>
+            <div className='flex items-center justify-center mb-3'>
                 < ChildOngoingTask childId={childId} data={data} />
             </div>
+            <div className='flex items-center justify-center'>
+                < ChildViewCompletedTask childId={childId} data={data} />
+            </div>
+            <BottomNav />
+
         </div>
     )
 }

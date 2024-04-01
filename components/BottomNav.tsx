@@ -24,25 +24,25 @@ const BottomNav = () => {
             <div className='flex h-[80px]  items-center justify-around border-t-2 border-gray-200 bg-slate-50 rounded-r-xl rounded-l-xl shadow-xl'
             >
                 <div className="home flex flex-col items-center ">
-                    <RiHome2Line style={{ fontSize: 27 }} />
+                    <RiHome2Line style={{ fontSize: 25, opacity: 0.7 }} />
                     <Link href="/" className={`text-[#6329b3d6] text-[0.9rem] ${fredoka.className}`}>
                         Home
                     </Link>
                 </div>
                 <div className="home flex flex-col items-center text-[0.8rem]">
-                    <LuMessageSquare style={{ fontSize: 27 }} />
+                    <LuMessageSquare style={{ fontSize: 25, opacity: 0.7 }} />
                     <Link href="/" className={`text-[#6329b3d6] text-[0.9rem] ${fredoka.className}`}>
                         Messages
                     </Link>
                 </div>
                 <div className="home flex flex-col items-center text-[0.8rem]">
-                    <RiNotification2Line style={{ fontSize: 27 }} />
+                    <RiNotification2Line style={{ fontSize: 25, opacity: 0.7 }} />
                     <Link href="/" className={`text-[#6329b3d6] text-[0.9rem] ${fredoka.className}`}>
                         Notification
                     </Link>
                 </div>
                 <div className="home flex flex-col items-center text-[0.8rem] ">
-                    <LuUser2 style={{ fontSize: 27 }} />
+                    <LuUser2 style={{ fontSize: 25, opacity: 0.7 }} />
                     <Link href="/" className={`text-[#6329b3d6] text-[0.9rem] ${fredoka.className}`}>
                         Profile
                     </Link>

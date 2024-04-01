@@ -3,9 +3,13 @@ import React from 'react'
 
 const CreateTask = () => {
     return (
-        <div>
-            <Form type="Create" />
+        <div className='flex flex-col items-center justify-center w-full '>
+            <div>
 
+
+
+            </div>
+            <Form type="Create" />
         </div>
     )
 }

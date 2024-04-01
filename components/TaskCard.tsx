@@ -3,12 +3,12 @@ import { Fredoka, Montserrat } from 'next/font/google'
 import { useRouter } from 'next/navigation'
 
 type TaskType = {
-    description: String,
+    description?: String,
     deadline: Date,
-    points: number,
-    status: String,
-    pickedBy: String,
-    createdAt: Date,
+    points?: number,
+    status?: String,
+    pickedBy?: String,
+    createdAt?: Date,
 
 }
 
@@ -27,7 +27,6 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                     className="flex "
                 // onClick={() => router.push(`/user?id=${prompt.creator._id}`)}
                 >
-
                     <div className="flex flex-col p-3">
                         <p className="text-[0.8rem] text-gray-500 ml-4 ">
                             {status}
@@ -59,7 +58,6 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                         {/* <button className='bg-green-600 p-2 mb-3' onClick={() => router.push(`/task?id=${id}`)}>View Task</button> */}
                     </div>
                 </div>
-
             </div>
 
 

@@ -150,7 +150,7 @@ const page = () => {
                     <div>
                         <button className='bg-green-500 p-4'
                             onClick={acceptTask}
-                        >Good Job
+                        >Reward
                         </button>
                         <button className='bg-red-500 p-4' onClick={handleDelete}>
                             Delete task

@@ -5,6 +5,8 @@ import TaskCard from "@/components/TaskCard"
 import { Montserrat } from "next/font/google";
 import ongoingchore from "@/public/images/ongoingchore.png"
 import Image from "next/image";
+import { AiOutlineComment } from "react-icons/ai";
+
 
 type ChildIdType = {
     childId: String
@@ -35,25 +37,44 @@ const ChildOngoingTask = ({ childId, data }) => {
     if (loading) return <p>Loading...</p>;
 
     return (
-        <div className={`border-2 bg-[#dfd7fb] font-medium rounded-xl py-2 px-4 w-11/12`}>
-            {ongoingTask?.map((task) => (
-                <TaskCard
-                    key={task._id} // Make sure to include a unique key for each TaskCard
-                    status={task.status}
-                    description={task.taskDesc}
-                    deadline={task.taskDdl}
-                    points={task.taskPnt}
-                    createdAt={task.createdAt}
-                />
-            ))}
-            {ongoingTask && ongoingTask.length === 0 && (
-                <div className="flex items-center flex-col justify-center">
-                    <Image src={ongoingchore} height={200} alt="a kid sweeping" />
-                    <p className={`${montserrat.className} text-center font-medium text-gray-400`}>
-                        {data?.username} currently has no ongoing tasks
-                    </p>
+        <div className={`border-2 bg-[#dfd7fb] font-medium rounded-xl py-2 px-3 w-11/12`}>
+            <div>
+                {ongoingTask?.map((task) => (
+                    <TaskCard
+                        key={task._id} // Make sure to include a unique key for each TaskCard
+                        status={task.status}
+                        description={task.taskDesc}
+                        deadline={task.taskDdl}
+                        points={task.taskPnt}
+                        createdAt={task.createdAt}
+                    />
+                ))}
+                <div className="flex items-center justify-around">
+                    <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
+                        <AiOutlineComment />
+                        <span className="ml-2 text-sm">
+                            Comment
+                        </span>
+                    </button>
+                    <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
+                        🕝
+                        <span className="ml-2 text-sm">
+                            Remind
+                        </span>
+                    </button>
                 </div>
-            )}
+            </div>
+
+            <div>
+                {ongoingTask && ongoingTask.length === 0 && (
+                    <div className="flex items-center flex-col justify-center">
+                        <Image src={ongoingchore} height={200} alt="a kid sweeping" />
+                        <p className={`${montserrat.className} text-center font-medium text-gray-400`}>
+                            {data?.username} currently has no ongoing tasks
+                        </p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
