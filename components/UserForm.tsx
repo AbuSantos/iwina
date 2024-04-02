@@ -16,7 +16,7 @@ const UserForm = () => {
         username: '',
     })
     const [selectAvatar, setSelectedAvatar] = useState<number | string>(0)
-    const [newAvatar, setNewAvatar] = useState("")
+    const [newAvatar, setNewAvatar] = useState<string>("")
     const [submit, setSubmit] = useState<boolean>(false)
     const [showErr, setShowErr] = useState(false)
     const [errMessage, setErrMessage] = useState('')
@@ -77,9 +77,7 @@ const UserForm = () => {
         }
     }
 
-    const avatars = [
-        sGirlChild, boychild, aGirlChild, aBoyChild, newAvatar
-    ]
+
 
     const avatarsBgColor = [
         "#a191fe", "#ffcc00", "#28cd41", "#9766db"
@@ -92,15 +90,14 @@ const UserForm = () => {
     const handleCameraInputChange = (event) => {
         // Handle camera input change here (e.g., upload image from camera)
         const file = event.target.files[0];
-        console.log(file);
+        // console.log(file);
 
         if (file) {
             const reader = new FileReader();
 
             reader.onload = () => {
-                // console.log(reader.result);
-                setNewAvatar(reader.result)
-                // setSelectedAvatar(reader.result);
+                setNewAvatar(reader.result as string);
+                console.log(selectAvatar)
             };
 
             if (reader.readyState === FileReader.EMPTY) {
@@ -109,18 +106,31 @@ const UserForm = () => {
                 console.error('FileReader is busy reading another file.');
             }
         }
-        // "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAdQ
     };
-    // console.log(avatarsBgColor[selectAvatar]);
+    const avatars = [
+        sGirlChild, boychild, aGirlChild, aBoyChild
+    ]
+
+    // console.log(newAvatar);
 
     return (
         <div>
             <div className='space-y-4 py-4 w-full'>
                 <div className='flex items-center justify-center'>
                     <div className={`flex items-center justify-around bg-[${avatarsBgColor[selectAvatar]}] w-24 h-24 rounded-full mb-5 `}>
-                        < Image src={avatars[selectAvatar]} width={100} alt="avatar" />
+                        {
+                            newAvatar ?
+                                <Image src={newAvatar} width={100} alt="Selected avatar" height={120} />
+                                :
+                                < Image src={avatars[selectAvatar]} width={100} alt="avatar" />
+                        }
+
                     </div>
                 </div>
+
+
+
+
                 <div className='flex items-center justify-around mt-4'>
                     <div className='flex items-center justify-center bg-[#dfd7fb] w-14 h-14 rounded-full' onClick={handleCameraClick}>
                         <input
