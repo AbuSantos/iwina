@@ -19,12 +19,14 @@
 body {
   color: #181816;
   background: #ffffff;
-  
 }
-
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+
+/* .range-slider {
+  margin-top: 30vh;
+} */

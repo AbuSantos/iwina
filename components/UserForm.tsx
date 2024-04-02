@@ -15,7 +15,7 @@ const UserForm = () => {
         password: '',
         username: '',
     })
-    const [selectAvatar, setSelectedAvatar] = useState<number | string>(0)
+    const [selectAvatar, setSelectedAvatar] = useState(0)
     const [newAvatar, setNewAvatar] = useState<string>("")
     const [submit, setSubmit] = useState<boolean>(false)
     const [showErr, setShowErr] = useState(false)
@@ -111,8 +111,6 @@ const UserForm = () => {
         sGirlChild, boychild, aGirlChild, aBoyChild
     ]
 
-    // console.log(newAvatar);
-
     return (
         <div>
             <div className='space-y-4 py-4 w-full'>
@@ -124,7 +122,6 @@ const UserForm = () => {
                                 :
                                 < Image src={avatars[selectAvatar]} width={100} alt="avatar" />
                         }
-
                     </div>
                 </div>
 

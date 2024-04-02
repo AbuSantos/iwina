@@ -6,6 +6,8 @@ import { Montserrat } from "next/font/google";
 import ongoingchore from "@/public/images/ongoingchore.png"
 import Image from "next/image";
 import { AiOutlineComment } from "react-icons/ai";
+import "@/styles/Ongoing.module.css"
+import InputSlider from "./InputSlider";
 
 
 type ChildIdType = {
@@ -49,6 +51,9 @@ const ChildOngoingTask = ({ childId, data }) => {
                         createdAt={task.createdAt}
                     />
                 ))}
+                <div className=" w-full p-2">
+                    <InputSlider />
+                </div>
                 <div className="flex items-center justify-around">
                     <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
                         <AiOutlineComment />
