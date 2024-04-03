@@ -16,6 +16,8 @@ const UserForm = () => {
         username: '',
     })
     const [selectAvatar, setSelectedAvatar] = useState(0)
+    const [newTryAvatar, setNewTryAvatar] = useState("")
+    const [selectImage, setSelectedImage] = useState("")
     const [newAvatar, setNewAvatar] = useState<string>("")
     const [submit, setSubmit] = useState<boolean>(false)
     const [showErr, setShowErr] = useState(false)
@@ -26,6 +28,13 @@ const UserForm = () => {
         // Retrieve selectedAvatar and newAvatar values from local storage during component initialization
         const storedSelectedAvatar = window.localStorage.getItem('user_selected_avatar_index');
         const storedNewAvatar = window.localStorage.getItem('user_selected_avatar_url');
+        console.log(storedSelectedAvatar);
+
+        if (storedSelectedAvatar === null) {
+            setSelectedImage(avatars[storedSelectedAvatar]?.src);
+        } else {
+            setSelectedImage(avatars[storedSelectedAvatar]?.src);
+        }
 
         // Set selectedAvatar state if it exists in local storage
         if (storedSelectedAvatar !== null && storedSelectedAvatar !== "") {
@@ -36,15 +45,21 @@ const UserForm = () => {
         if (storedNewAvatar !== null && storedNewAvatar !== "") {
             setNewAvatar(storedNewAvatar);
         }
-    }, []); 
+    }, []);
 
     // Function to handle changes in selectedAvatar and store it in local storage
     const handleSelectedAvatarChange = (index: number) => {
         setSelectedAvatar(index);
+        setNewTryAvatar(avatars[index].src)
+        console.log(avatars[index]);
+
         window.localStorage.setItem('user_selected_avatar_index', String(index));
     };
+
+
     useEffect(() => {
         window.localStorage.setItem('user_selected_avatar_url', newAvatar)
+
     }, [newAvatar])
 
 
@@ -60,6 +75,13 @@ const UserForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (selectImage === "") {
+            console.log(selectImage)
+        } else {
+            setSelectedImage(avatars[selectAvatar].src);
+        }
+        console.log(selectImage);
+
         try {
             const res = await fetch("api/users/kids", {
                 method: 'POST',
@@ -67,6 +89,7 @@ const UserForm = () => {
                     userId,
                     password: userData.password,
                     username: userData.username,
+                    selectImage
                 }),
             })
 
@@ -191,7 +214,7 @@ const UserForm = () => {
                     </div>
                     {
                         avatars.map((avatar, index) =>
-                            <div className={`flex items-center  bg-[${avatarsBgColor[index]}] w-16 h-16 rounded-full`} key={index} onClick={() => handleSelectedAvatarChange(index)}>
+                            <div className={`flex items-center  bg-[${avatarsBgColor[index] as string}] w-16 h-16 rounded-full`} key={index} onClick={() => handleSelectedAvatarChange(index)}>
                                 < Image src={avatar} width={60} alt="A girl child" />
                             </div>
                         )

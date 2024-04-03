@@ -7,8 +7,8 @@ import bcrypt from "bcrypt";
 export const POST = async (req: NextRequest) => {
   try {
     await connectToDB();
-    const { username, password, userId } = await req.json();
-    console.log(username, password, userId, "OK");
+    const { username, password, userId, selectImage } = await req.json();
+    console.log(selectImage, "OK");
 
     const newKid = new Kids({
       creator: userId,
@@ -19,8 +19,6 @@ export const POST = async (req: NextRequest) => {
       ongoingTasks: [],
       goal: [],
     });
-
-    // console.log(newKid, "OK kid");
 
     if (!password || !username) {
       return Response.json(
