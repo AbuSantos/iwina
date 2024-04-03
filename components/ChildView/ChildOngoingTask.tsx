@@ -17,6 +17,8 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 
 const ChildOngoingTask = ({ childId, data }) => {
     const { data: session } = useSession();
+    console.log(session);
+
     const [ongoingTask, setOngoingTask] = useState();
     const [loading, setLoading] = useState(true);
     const userRole = session?.user?.role;
@@ -42,32 +44,37 @@ const ChildOngoingTask = ({ childId, data }) => {
         <div className={`border-2 bg-[#dfd7fb] font-medium rounded-xl py-2 px-3 w-11/12`}>
             <div>
                 {ongoingTask?.map((task) => (
-                    <TaskCard
-                        key={task._id} // Make sure to include a unique key for each TaskCard
-                        status={task.status}
-                        description={task.taskDesc}
-                        deadline={task.taskDdl}
-                        points={task.taskPnt}
-                        createdAt={task.createdAt}
-                    />
+                    <>
+
+                        <TaskCard
+                            key={task._id} // Make sure to include a unique key for each TaskCard
+                            status={task.status}
+                            description={task.taskDesc}
+                            deadline={task.taskDdl}
+                            points={task.taskPnt}
+                            createdAt={task.createdAt}
+                        />
+                        <div className=" w-full ">
+                            <InputSlider />
+                        </div>
+                        <div className="flex items-center justify-around mt-6">
+                            <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
+                                <AiOutlineComment />
+                                <span className="ml-2 text-sm">
+                                    Comment
+                                </span>
+                            </button>
+                            <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
+                                🕝
+                                <span className="ml-2 text-sm">
+                                    Remind
+                                </span>
+                            </button>
+                        </div>
+                    </>
                 ))}
-                <div className=" w-full p-2">
-                    <InputSlider />
-                </div>
-                <div className="flex items-center justify-around">
-                    <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
-                        <AiOutlineComment />
-                        <span className="ml-2 text-sm">
-                            Comment
-                        </span>
-                    </button>
-                    <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
-                        🕝
-                        <span className="ml-2 text-sm">
-                            Remind
-                        </span>
-                    </button>
-                </div>
+
+
             </div>
 
             <div>

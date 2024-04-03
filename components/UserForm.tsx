@@ -31,7 +31,7 @@ const UserForm = () => {
         console.log(storedSelectedAvatar);
 
         if (storedSelectedAvatar === null) {
-            setSelectedImage(avatars[storedSelectedAvatar]?.src);
+            setSelectedImage(avatars[0]?.src);
         } else {
             setSelectedImage(avatars[storedSelectedAvatar]?.src);
         }
@@ -50,7 +50,7 @@ const UserForm = () => {
     // Function to handle changes in selectedAvatar and store it in local storage
     const handleSelectedAvatarChange = (index: number) => {
         setSelectedAvatar(index);
-        setNewTryAvatar(avatars[index].src)
+        setSelectedImage(avatars[index].src)
         console.log(avatars[index]);
 
         window.localStorage.setItem('user_selected_avatar_index', String(index));
@@ -72,11 +72,14 @@ const UserForm = () => {
         }))
     }
     const userId = session?.user?.id
+    console.log(newAvatar);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if (selectImage === "") {
-            console.log(selectImage)
+        if (newAvatar) {
+            // setSelectedImage(newAvatar);
+            console.log("yes");
+
         } else {
             setSelectedImage(avatars[selectAvatar].src);
         }
@@ -89,7 +92,7 @@ const UserForm = () => {
                     userId,
                     password: userData.password,
                     username: userData.username,
-                    selectImage
+                    image: newAvatar ? newAvatar : selectImage,
                 }),
             })
 
@@ -170,7 +173,7 @@ const UserForm = () => {
             if (res.ok) {
                 const data = await res.json()
                 setNewAvatar(data.url)
-                // console.log();
+                console.log(newAvatar);
             }
         }
         catch (error) {

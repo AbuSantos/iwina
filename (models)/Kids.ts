@@ -18,6 +18,7 @@ const KidsSchema = new Schema({
       ref: "Task",
     },
   ],
+  image: { type: String },
   completedTasks: [
     {
       type: Schema.Types.ObjectId,

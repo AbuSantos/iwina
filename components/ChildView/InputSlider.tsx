@@ -1,8 +1,18 @@
 import { useEffect, useState } from 'react';
 import "./style.scss";
+import { useSession } from 'next-auth/react';
 
 const InputSlider: React.FC = () => {
     const [sliderValue, setSliderValue] = useState<number>(0);
+    const thumbStyles = {
+        // backgroundImage: session?.image ? `url(${session.image})` : 'none',
+        backgroundColor: 'red',
+        // backgroundSize: 'cover',
+        // backgroundPosition: 'center',
+        // boxShadow: 'none',
+        // border: '0px solid #ffffff',
+        // Add other CSS properties as needed
+    };
 
     useEffect(() => {
         const rangeSlider = document.getElementById("rs-range-line");
@@ -15,14 +25,22 @@ const InputSlider: React.FC = () => {
                 rangeBullet.style.left = `${bulletPosition * 78}px`;
             }
         };
-
         rangeSlider?.addEventListener("input", showSliderValue);
-
         // Cleanup function to remove event listener
         return () => {
             rangeSlider?.removeEventListener("input", showSliderValue);
         };
-    }, []); // Empty dependency array ensures the effect runs only once
+    }, []);
+
+    const { data: session } = useSession()
+
+    useEffect(() => {
+        if (session?.user?.image) {
+            document.documentElement.style.setProperty('--session-image', `url(https://res.cloudinary.com/du5poiq3l/image/upload/v1712149065/rqmbrjnkdfiomjvl17xb.png)`);
+        } else {
+            document.documentElement.style.setProperty('--session-image', 'none');
+        }
+    }, [session?.user?.image])
 
     return (
         <div className="container">
@@ -34,6 +52,7 @@ const InputSlider: React.FC = () => {
                     value={sliderValue}
                     min={0}
                     max={100}
+                    style={thumbStyles}
                     onChange={(e) => setSliderValue(Number(e.target.value))}
                 />
             </div>

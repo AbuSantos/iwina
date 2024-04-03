@@ -70,6 +70,7 @@ const handler = NextAuth({
               return {
                 id: foundKid._id,
                 name: foundKid.username,
+                image: foundKid.image,
 
                 // image: "", // Add image URL if available
                 // points: foundKid.points,
@@ -106,9 +107,12 @@ const handler = NextAuth({
         if (parentUser) {
           session.user.id = parentUser._id.toString();
           session.user.role = "parent";
+          session.user.image = parentUser.image.toString();
+
         } else if (kidUser) {
           session.user.id = kidUser._id.toString();
           session.user.role = "child";
+          session.user.image = kidUser.image.toString();
         }
 
         return session;

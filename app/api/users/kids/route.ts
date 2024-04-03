@@ -7,12 +7,13 @@ import bcrypt from "bcrypt";
 export const POST = async (req: NextRequest) => {
   try {
     await connectToDB();
-    const { username, password, userId, selectImage } = await req.json();
-    console.log(selectImage, "OK");
+    const { username, password, userId, image } = await req.json();
+    // console.log(image, "OK");
 
     const newKid = new Kids({
       creator: userId,
       username,
+      image,
       password,
       points: 0,
       completedTasks: [],
@@ -59,6 +60,7 @@ export const POST = async (req: NextRequest) => {
       id: newKid.id,
       email: null, // Set to null if not available
       username: newKid.username,
+      image: newKid.image,
     };
     return Response.json({ message: "Kid created", profile }, { status: 200 });
   } catch (error) {
