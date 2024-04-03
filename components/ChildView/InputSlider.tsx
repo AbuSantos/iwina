@@ -27,7 +27,6 @@ const InputSlider: React.FC = () => {
     return (
         <div className="container">
             <div className="range-slider">
-                {/* <span id="rs-bullet" className="rs-label">{sliderValue}</span> */}
                 <input
                     id="rs-range-line"
                     className="rs-range"
@@ -37,9 +36,6 @@ const InputSlider: React.FC = () => {
                     max={100}
                     onChange={(e) => setSliderValue(Number(e.target.value))}
                 />
-            </div>
-            <div className="box-minmax">
-                {/* <span className='box-minmax-1'>0</span><span></span> */}
             </div>
         </div>
     );

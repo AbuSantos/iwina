@@ -22,6 +22,9 @@ const UserForm = () => {
     const [errMessage, setErrMessage] = useState('')
     const { data: session } = useSession()
 
+
+
+
     const handleChange = (e) => {
         const { name, value } = e.target
         setUserData((prevData) =>
@@ -86,27 +89,51 @@ const UserForm = () => {
     const handleCameraClick = () => {
         const inputElement = document.getElementById('cameraInput');
         inputElement?.click();
+
+        // CLOUDINARY_URL=cloudinary://138785359917965:Yv3-4opisqaEgIqQWAX4JVoODqY@du5poiq3l
+
+
     }
+
     const handleCameraInputChange = (event) => {
         // Handle camera input change here (e.g., upload image from camera)
         const file = event.target.files[0];
-        // console.log(file);
-
         if (file) {
             const reader = new FileReader();
-
             reader.onload = () => {
                 setNewAvatar(reader.result as string);
-                console.log(selectAvatar)
+                // console.log(selectAvatar)
             };
-
             if (reader.readyState === FileReader.EMPTY) {
                 reader.readAsDataURL(file);
             } else {
                 console.error('FileReader is busy reading another file.');
             }
         }
-    };
+    }
+
+    const uploadFile = async function (file) {
+        try {
+            const data = new FormData()
+            data.append('file', file)
+            data.append("upload_preset", 'images')
+
+            const res = await fetch(`api/upload`, {
+                method: 'POST',
+                body: data,
+            })
+
+            if (res.ok) {
+                console.log("hello");
+            }
+        }
+        catch (error) {
+            console.log(error);
+
+        }
+    }
+
+
     const avatars = [
         sGirlChild, boychild, aGirlChild, aBoyChild
     ]

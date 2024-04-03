@@ -40,12 +40,6 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                                 ⏳ {formatedTime}
                             </p>
 
-                            {/* 
-                            {
-                                status === "In Progress" ? " In Progress" : ""
-                            }
-                        </p> */}
-
                             <p className="text-base ml-4 ">
                                 ⭐️ {points} points
                             </p>
@@ -54,7 +48,7 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                         {/* <p className="text-sm text-gray-800 ml-4 ">
                             Picked By: {pickedBy}
                         </p> */}
-                        <span className='p-2 text-gray-500 text-sm font-medium'> {FormatTimeDifference(createdAt)}</span>
+                        <span className='p-2 text-gray-500 text-[0.7rem]'> {FormatTimeDifference(createdAt)}</span>
                         {/* <button className='bg-green-600 p-2 mb-3' onClick={() => router.push(`/task?id=${id}`)}>View Task</button> */}
                     </div>
                 </div>
