@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
@@ -22,7 +22,30 @@ const UserForm = () => {
     const [errMessage, setErrMessage] = useState('')
     const { data: session } = useSession()
 
+    useEffect(() => {
+        // Retrieve selectedAvatar and newAvatar values from local storage during component initialization
+        const storedSelectedAvatar = window.localStorage.getItem('user_selected_avatar_index');
+        const storedNewAvatar = window.localStorage.getItem('user_selected_avatar_url');
 
+        // Set selectedAvatar state if it exists in local storage
+        if (storedSelectedAvatar !== null && storedSelectedAvatar !== "") {
+            setSelectedAvatar(Number(storedSelectedAvatar)); // Convert string to number
+        }
+
+        // Set newAvatar state if it exists in local storage
+        if (storedNewAvatar !== null && storedNewAvatar !== "") {
+            setNewAvatar(storedNewAvatar);
+        }
+    }, []); 
+
+    // Function to handle changes in selectedAvatar and store it in local storage
+    const handleSelectedAvatarChange = (index: number) => {
+        setSelectedAvatar(index);
+        window.localStorage.setItem('user_selected_avatar_index', String(index));
+    };
+    useEffect(() => {
+        window.localStorage.setItem('user_selected_avatar_url', newAvatar)
+    }, [newAvatar])
 
 
     const handleChange = (e) => {
@@ -91,17 +114,15 @@ const UserForm = () => {
         inputElement?.click();
 
         // CLOUDINARY_URL=cloudinary://138785359917965:Yv3-4opisqaEgIqQWAX4JVoODqY@du5poiq3l
-
-
     }
 
-    const handleCameraInputChange = (event) => {
+    const handleCameraInputChange = async (event) => {
         // Handle camera input change here (e.g., upload image from camera)
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = () => {
-                setNewAvatar(reader.result as string);
+            reader.onload = async () => {
+                await uploadFile(file)
                 // console.log(selectAvatar)
             };
             if (reader.readyState === FileReader.EMPTY) {
@@ -112,11 +133,11 @@ const UserForm = () => {
         }
     }
 
-    const uploadFile = async function (file) {
+    const uploadFile = async function (file: any) {
         try {
             const data = new FormData()
             data.append('file', file)
-            data.append("upload_preset", 'images')
+            // data.append("upload_preset", 'images')
 
             const res = await fetch(`api/upload`, {
                 method: 'POST',
@@ -124,7 +145,9 @@ const UserForm = () => {
             })
 
             if (res.ok) {
-                console.log("hello");
+                const data = await res.json()
+                setNewAvatar(data.url)
+                // console.log();
             }
         }
         catch (error) {
@@ -132,7 +155,6 @@ const UserForm = () => {
 
         }
     }
-
 
     const avatars = [
         sGirlChild, boychild, aGirlChild, aBoyChild
@@ -145,7 +167,7 @@ const UserForm = () => {
                     <div className={`flex items-center justify-around bg-[${avatarsBgColor[selectAvatar]}] w-24 h-24 rounded-full mb-5 `}>
                         {
                             newAvatar ?
-                                <Image src={newAvatar} width={100} alt="Selected avatar" height={120} />
+                                <img src={newAvatar} width={100} alt="Selected avatar" height={120} />
                                 :
                                 < Image src={avatars[selectAvatar]} width={100} alt="avatar" />
                         }
@@ -169,7 +191,7 @@ const UserForm = () => {
                     </div>
                     {
                         avatars.map((avatar, index) =>
-                            <div className={`flex items-center  bg-[${avatarsBgColor[index]}] w-16 h-16 rounded-full`} key={index} onClick={() => setSelectedAvatar(index)}>
+                            <div className={`flex items-center  bg-[${avatarsBgColor[index]}] w-16 h-16 rounded-full`} key={index} onClick={() => handleSelectedAvatarChange(index)}>
                                 < Image src={avatar} width={60} alt="A girl child" />
                             </div>
                         )
