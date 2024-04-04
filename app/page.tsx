@@ -12,7 +12,8 @@ import { Fredoka, Montserrat } from "next/font/google";
 import KidsScroll from "@/components/KidsScroll";
 import Task from "@/components/Task";
 import BottomNav from "@/components/BottomNav";
-
+import { toast, ToastContainer } from 'react-toastify';
+  import "react-toastify/dist/ReactToastify.css";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })

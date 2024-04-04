@@ -4,6 +4,7 @@
 .box-minmax {
   margin-top: 30px;
   width: 608px;
+  border-radius: 30px;
   display: flex;
   justify-content: space-between;
   font-size: 10px;
@@ -13,28 +14,37 @@
   }
 }
 .rs-range {
-  margin-top: 29px;
+  // margin-top: 29px;
   width: 100%;
   -webkit-appearance: none;
+  border-radius: 30px;
+  height: 15px;
   &:focus {
     outline: none;
   }
   &::-webkit-slider-runnable-track {
     width: 100%;
-    height: 1px;
+    height: 10px;
     cursor: pointer;
     box-shadow: none;
     background: #ffffff;
-    border-radius: 0px;
+    border-radius: 300px;
     border: 0px solid #010101;
+
+    content: "";
+    position: absolute;
+    background-color: #43e5f7; // Initial color
+    // height: 100%;
+    width: 0;
+    // z-index: -1;
   }
   &::-moz-range-track {
     width: 100%;
-    height: 1px;
+    height: 30px;
     cursor: pointer;
     box-shadow: none;
     background: #ffffff;
-    border-radius: 0px;
+    border-radius: 700px;
     border: 0px solid #010101;
   }
 
@@ -42,13 +52,13 @@
     box-shadow: none;
     border: 0px solid #ffffff;
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
-    height: 42px;
-    width: 42px;
+    height: 30px;
+    width: 30px;
     border-radius: 22px;
+    // background: #6229b3;
     background-image: var(--session-image);
     background-size: cover;
     background-position: center;
-    // background: rgba(255, 255, 255, 1);
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -20px;

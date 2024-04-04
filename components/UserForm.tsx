@@ -8,6 +8,11 @@ import boychild from "@/public/images/boychild.png"
 import aGirlChild from "@/public/images/aGirlChild.png"
 import aBoyChild from "@/public/images/aBoyChild.png"
 import { FaCamera } from "react-icons/fa";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import Notification from './Notification'
+
+
 
 const UserForm = () => {
     const router = useRouter()
@@ -104,8 +109,10 @@ const UserForm = () => {
                     // Check if the response has a 'message' property
                     const errorMessage = response.message || 'An error occurred'
 
-                    setErrMessage(errorMessage)
-                    setShowErr(true)
+                    // setErrMessage(errorMessage)
+                    // setShowErr(true)
+                    toast.error(<Notification msg={errorMessage} />)
+
                     setTimeout(() => {
                         setShowErr(false)
                     }, 2000)
@@ -114,8 +121,11 @@ const UserForm = () => {
                     setErrMessage('An unexpected error occurred')
                 }
             } else {
-                router.push('/createTask')
+                // router.push('/createTask')
+                toast.success(<Notification msg={"Username added succesfully"} />)
+
                 router.refresh()
+                // displayMsg()
             }
 
             setUserData({
@@ -186,8 +196,11 @@ const UserForm = () => {
         sGirlChild, boychild, aGirlChild, aBoyChild
     ]
 
+
     return (
         <div>
+            {/* {showErr && <p>{errMessage}</p>} */}
+
             <div className='space-y-4 py-4 w-full'>
                 <div className='flex items-center justify-center'>
                     <div className={`flex items-center justify-around bg-[${avatarsBgColor[selectAvatar]}] w-24 h-24 rounded-full mb-5 `}>
@@ -200,6 +213,7 @@ const UserForm = () => {
                     </div>
                 </div>
 
+                {/* <button onClick={displayMsg}>Click me</button> */}
 
 
 
@@ -228,7 +242,6 @@ const UserForm = () => {
 
             <form action="submit" onSubmit={handleSubmit} method="post">
                 <div className="flex flex-col  p-2">
-                    {showErr && <p>{errMessage}</p>}
 
                     <div className="p-2 w-full">
                         <input

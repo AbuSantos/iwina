@@ -4,15 +4,7 @@ import { useSession } from 'next-auth/react';
 
 const InputSlider: React.FC = () => {
     const [sliderValue, setSliderValue] = useState<number>(0);
-    const thumbStyles = {
-        // backgroundImage: session?.image ? `url(${session.image})` : 'none',
-        backgroundColor: 'red',
-        // backgroundSize: 'cover',
-        // backgroundPosition: 'center',
-        // boxShadow: 'none',
-        // border: '0px solid #ffffff',
-        // Add other CSS properties as needed
-    };
+
 
     useEffect(() => {
         const rangeSlider = document.getElementById("rs-range-line");
@@ -52,7 +44,6 @@ const InputSlider: React.FC = () => {
                     value={sliderValue}
                     min={0}
                     max={100}
-                    style={thumbStyles}
                     onChange={(e) => setSliderValue(Number(e.target.value))}
                 />
             </div>

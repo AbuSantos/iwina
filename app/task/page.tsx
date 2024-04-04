@@ -4,6 +4,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Task from "@/components/Task"
 import TaskCard from '@/components/TaskCard'
+import Notification from '@/components/Notification'
+import { toast } from 'react-toastify'
 
 
 const page = () => {
@@ -43,7 +45,6 @@ const page = () => {
 
     const handleStatus = async () => {
         // console.log(session?.data?.user?.id);
-
         try {
             const resp = await fetch(`api/task/${taskId}/etask`, {
                 method: 'PATCH',
@@ -55,6 +56,8 @@ const page = () => {
             if (resp.ok) {
                 setPicked(true);
                 router.refresh();
+                toast.success(<Notification msg={"Status successfully changed"} />)
+
                 console.log("Status successfully changed");
             } else {
                 if (resp.status === 500) {

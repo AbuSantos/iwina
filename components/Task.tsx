@@ -30,7 +30,7 @@ const Task = ({ }) => {
                         }`}>Completed Tasks</button>
             </div>
 
-            <div className="mt-10  w-full ">
+            <div className="mt-10 w-full ">
                 {
                     activeTab === 'new' &&
                     <div >

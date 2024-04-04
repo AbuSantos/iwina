@@ -45,7 +45,6 @@ const ChildOngoingTask = ({ childId, data }) => {
             <div>
                 {ongoingTask?.map((task) => (
                     <>
-
                         <TaskCard
                             key={task._id} // Make sure to include a unique key for each TaskCard
                             status={task.status}
