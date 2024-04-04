@@ -6,6 +6,7 @@ import Task from "@/components/Task"
 import TaskCard from '@/components/TaskCard'
 import Notification from '@/components/Notification'
 import { toast } from 'react-toastify'
+import { useNotification } from '@/context/NotificationContext'
 
 
 const page = () => {
@@ -18,10 +19,15 @@ const page = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const router = useRouter()
+    const notify = useNotification()
 
     // const isCurrentUserCreator = creator._id === session?.user?.id
 
 
+    const handleAcceptTask = () => {
+        // Accept task logic
+        notify.success('Task accepted successfully!'); // Trigger notification
+    };
     useEffect(() => {
         const fetchTask = async () => {
             try {
@@ -56,8 +62,7 @@ const page = () => {
             if (resp.ok) {
                 setPicked(true);
                 router.refresh();
-                toast.success(<Notification msg={"Status successfully changed"} />)
-
+                handleAcceptTask()
                 console.log("Status successfully changed");
             } else {
                 if (resp.status === 500) {

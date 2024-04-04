@@ -13,7 +13,8 @@ import KidsScroll from "@/components/KidsScroll";
 import Task from "@/components/Task";
 import BottomNav from "@/components/BottomNav";
 import { toast, ToastContainer } from 'react-toastify';
-  import "react-toastify/dist/ReactToastify.css";
+import { useNotificationCenter } from "react-toastify/addons/use-notification-center";
+import { useNotification } from "@/context/NotificationContext";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
@@ -21,15 +22,17 @@ const fredoka = Fredoka({ subsets: ["latin"] })
 export default function Home() {
   const { data: session } = useSession()
   const [provider, setProvider] = useState(null)
+  // const { notifications } = useNotificationCenter()
+  const notify = useNotification()
 
   useEffect(() => {
     const setProviders = async () => {
       const resp = await getProviders()
       setProvider(resp)
     }
-
     setProviders()
   }, [])
+
 
   return (
     <div className="flex justify-center items-center flex-col w-full">
@@ -40,6 +43,7 @@ export default function Home() {
             <KidsScroll />
             <Task />
             <BottomNav />
+
           </> :
           <div>
             < div className="flex justify-center flex-col ">
@@ -72,10 +76,7 @@ export default function Home() {
             </div>
 
           </div>
-
-
       }
-
     </div >
   )
 }
