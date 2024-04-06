@@ -6,7 +6,8 @@ import Task from "@/components/Task"
 import TaskCard from '@/components/TaskCard'
 import Notification from '@/components/Notification'
 import { toast } from 'react-toastify'
-import { useNotification } from '@/context/NotificationContext'
+import { showNotification } from '@/context/NotificationContext'
+// import { useNotification } from '@/context/NotificationContext'
 
 
 const page = () => {
@@ -19,7 +20,7 @@ const page = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const router = useRouter()
-    const notify = useNotification()
+    // const notify = useNotification()
 
     // const isCurrentUserCreator = creator._id === session?.user?.id
 
@@ -47,7 +48,9 @@ const page = () => {
         }
         fetchTask()
     }, [taskId])
-
+    const handleClick = () => {
+        showNotification('Notification from Child Component');
+    };
 
     const handleStatus = async () => {
         // console.log(session?.data?.user?.id);
@@ -62,7 +65,7 @@ const page = () => {
             if (resp.ok) {
                 setPicked(true);
                 router.refresh();
-                handleAcceptTask()
+                // handleAcceptTask()
                 console.log("Status successfully changed");
             } else {
                 if (resp.status === 500) {

@@ -38,29 +38,31 @@ const KidsScroll = () => {
                     kids?.map((kid: any) => {
                         // console.log(kid);
                         return (
-                            <div className="flex flex-col items-center" key={kid?._id}>
-                                <Link href={`/childprofile?id=${kid._id}`}>
-                                    <div className=" bg-[#dfd7fb] p-3 rounded-full h-14 w-14 flex items-center justify-center">
+                            <div key={kid?._id}>
+                                <Link href={`/childprofile?id=${kid._id}`} className="flex flex-col items-center justify-center space-y-2">
+                                    < div className=" bg-[#dfd7fb] p-3 rounded-full h-14 w-14 flex items-center justify-center" >
                                         <Image src={girlchild} alt="girl child" width={100} />
                                     </div>
-                                    <h4 className={`${fredoka.className} font-normal capitalize text-[#444444d2]`}>{kid?.username}</h4>
+                                    <h4 className={`${fredoka.className} font-normal capitalize text-[#444444d2] text-sm`}>{kid?.username}</h4>
                                 </Link>
-                            </div>
+                            </div >
                         )
                     })
                 }
                 {
                     role === "parent" &&
-                    <div className="flex flex-col items-center text-sm">
+                    <div className="flex flex-col items-center justify-center text-sm space-y-2">
                         <Link href="/addkid" className="h-14 w-14 flex items-center justify-center font-normal bg-[#4444444d] rounded-full text-gray-100">
                             <FaPlus />
                         </Link>
-                        Add Child
+                        <span className="text-[0.75rem]">
+                            Add Child
+                        </span>
                     </div>
                 }
 
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 

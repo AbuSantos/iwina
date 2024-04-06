@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
@@ -10,7 +10,8 @@ import aBoyChild from "@/public/images/aBoyChild.png"
 import { FaCamera } from "react-icons/fa";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import Notification from './Notification'
+// import Notification from './Notification'
+// import Notification, { showNotification } from "@/context/NotificationContext";
 
 
 
@@ -67,7 +68,9 @@ const UserForm = () => {
 
     }, [newAvatar])
 
-
+    // const handleClick = () => {
+    //     showNotification('Notification from Child Component');
+    // };
     const handleChange = (e) => {
         const { name, value } = e.target
         setUserData((prevData) =>
@@ -81,14 +84,14 @@ const UserForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if (newAvatar) {
-            // setSelectedImage(newAvatar);
-            console.log("yes");
+        // if (newAvatar) {
+        //     // setSelectedImage(newAvatar);
+        //     console.log("yes");
 
-        } else {
-            setSelectedImage(avatars[selectAvatar].src);
-        }
-        console.log(selectImage);
+        // } else {
+        //     setSelectedImage(avatars[selectAvatar].src);
+        // }
+        // console.log(selectImage);
 
         try {
             const res = await fetch("api/users/kids", {
@@ -109,9 +112,9 @@ const UserForm = () => {
                     // Check if the response has a 'message' property
                     const errorMessage = response.message || 'An error occurred'
 
-                    // setErrMessage(errorMessage)
-                    // setShowErr(true)
-                    toast.error(<Notification msg={errorMessage} />)
+                    setErrMessage(errorMessage)
+                    setShowErr(true)
+                    // toast.error(<Notification msg={errorMessage} />)
 
                     setTimeout(() => {
                         setShowErr(false)
@@ -121,13 +124,14 @@ const UserForm = () => {
                     setErrMessage('An unexpected error occurred')
                 }
             } else {
+                console.log("successfully added");
                 // router.push('/createTask')
-                toast.success(<Notification msg={"Username added succesfully"} />)
+                // toast.success(<Notification msg={"Username added succesfully"} />)
+                // handleClick()
 
                 router.refresh()
                 // displayMsg()
             }
-
             setUserData({
                 password: '',
                 username: '',
@@ -135,7 +139,7 @@ const UserForm = () => {
         } catch (error) {
             console.log(error);
 
-            // setErrMessage(error)
+            setErrMessage(error)
         }
     }
 
@@ -200,6 +204,7 @@ const UserForm = () => {
     return (
         <div>
             {/* {showErr && <p>{errMessage}</p>} */}
+            {/* <Notification /> */}
 
             <div className='space-y-4 py-4 w-full'>
                 <div className='flex items-center justify-center'>
@@ -214,7 +219,6 @@ const UserForm = () => {
                 </div>
 
                 {/* <button onClick={displayMsg}>Click me</button> */}
-
 
 
                 <div className='flex items-center justify-around mt-4'>

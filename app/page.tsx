@@ -12,9 +12,10 @@ import { Fredoka, Montserrat } from "next/font/google";
 import KidsScroll from "@/components/KidsScroll";
 import Task from "@/components/Task";
 import BottomNav from "@/components/BottomNav";
-import { toast, ToastContainer } from 'react-toastify';
-import { useNotificationCenter } from "react-toastify/addons/use-notification-center";
-import { useNotification } from "@/context/NotificationContext";
+// import { toast, ToastContainer } from 'react-toastify';
+// import { useNotificationCenter } from "react-toastify/addons/use-notification-center";
+// import { useNotification } from "@/context/NotificationContext";
+import Notification from "@/context/NotificationContext";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
@@ -23,7 +24,7 @@ export default function Home() {
   const { data: session } = useSession()
   const [provider, setProvider] = useState(null)
   // const { notifications } = useNotificationCenter()
-  const notify = useNotification()
+  // const notify = useNotification()
 
   useEffect(() => {
     const setProviders = async () => {
@@ -43,7 +44,6 @@ export default function Home() {
             <KidsScroll />
             <Task />
             <BottomNav />
-
           </> :
           <div>
             < div className="flex justify-center flex-col ">
