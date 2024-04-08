@@ -1,3 +1,4 @@
+"use client"
 import React, { createContext, useContext, useReducer } from 'react'
 
 import { Action } from './types'
@@ -23,7 +24,7 @@ const reducer = (state: typeof initialState, action: Action) => {
 }
 
 //create the task context
-const taskContext = createContext<any>(null)
+const TaskContext = createContext<any>(null)
 
 // Defining the task Provider
 export const TaskProvider = ({ children }) => {
@@ -55,4 +56,12 @@ export const TaskProvider = ({ children }) => {
         }
     }
 
+
+    return (
+        <TaskContext.Provider value={{ state, fetchTasks }}>
+            {children}
+        </TaskContext.Provider>
+    )
 }
+
+export const useTaskContext = () => useContext(TaskContext);

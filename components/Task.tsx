@@ -6,34 +6,23 @@ import OngoingTask from "./OngoingTask";
 import CompletedTask from "./CompletedTask";
 import Feed from "./Feed";
 import { useSession } from "next-auth/react";
+import { useTaskContext } from "@/context/TaskContext";
 
 
 
 const Task = ({ }) => {
     const { data: session } = useSession()
     const userId = session?.user?.id
-    // console.log(userId);
+    const { state, fetchTasks } = useTaskContext()
 
     const [activeTab, setActiveTab] = useState("new");
     const handleTabChange = (tab: string) => {
         setActiveTab(tab)
     }
     useEffect(() => {
-        const fetchAllTasks = async () => {
-            try {
-                const res = await fetch(`api/task/${userId}/alltask`)
-                if (res.ok) {
-                    const data = await res.json()
-                    console.log(data);
-
-                }
-            } catch (error) {
-                console.log(error);
-
-            }
-        }
-        fetchAllTasks()
-    }, [userId])
+        fetchTasks("GET", `api/task/${userId}/alltask`)
+    }, [])
+    console.log(state.data);
     return (
         <section className="w-full flex flex-col items-center justify-center">
             <div className="flex space-x-2 w-full items-center text-[0.8rem]">
