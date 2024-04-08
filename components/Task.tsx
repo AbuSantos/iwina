@@ -22,7 +22,7 @@ const Task = ({ }) => {
     useEffect(() => {
         fetchTasks("GET", `api/task/${userId}/alltask`)
     }, [])
-    console.log(state.data);
+    // console.log(state.data);
     return (
         <section className="w-full flex flex-col items-center justify-center">
             <div className="flex space-x-2 w-full items-center text-[0.8rem]">

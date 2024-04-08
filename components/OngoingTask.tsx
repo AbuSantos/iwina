@@ -5,29 +5,27 @@ import TaskCard from "./TaskCard"
 import { Montserrat } from "next/font/google";
 import ongoingchore from "@/public/images/ongoingchore.png"
 import Image from "next/image";
+import { useTaskContext } from "@/context/TaskContext";
+
 import { UseNotificationCenter } from "react-toastify/addons/use-notification-center";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 const OngoingTask = ({ setActiveTab }) => {
     const session = useSession()
     const [ongoingTask, setOngoingTask] = useState()
+    const { state, fetchTasks } = useTaskContext()
+
     const [userTask, setUserTask] = useState()
     const userId = session?.data?.user?.id
 
     useEffect(() => {
-        const fetchTask = async () => {
-            const res = await fetch(`api/tasks/${userId}/inprogress`)
-            if (res.ok) {
-                const data = await res.json()
-                setOngoingTask(data)
-            }
-        }
-        fetchTask()
+        fetchTasks("GET", `api/tasks/${userId}/inprogress`)
     }, [])
+
     return (
         <div className="w-full">
             {
-                ongoingTask?.map(task => {
+                state.data?.map(task => {
                     const { taskDesc, taskDdl, taskPnt, status, createdAt } = task
                     return < TaskCard
                         description={taskDesc}
@@ -39,7 +37,7 @@ const OngoingTask = ({ setActiveTab }) => {
                 )
             }
             {
-                ongoingTask && ongoingTask?.length === 0 && (
+                state.data && state.data?.length === 0 && (
                     <div className="flex items-center flex-col justify-center">
                         <Image src={ongoingchore} height={200} alt="a kid sweeping" />
                         <p className={`${montserrat.className} text-center font-medium text-gray-600`}>You currently have no ongoing task, pick a task to earn some points</p>
