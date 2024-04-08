@@ -21,13 +21,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <NotificationProvider>
-        <body className={inter.className}>
-          <Provider >
-            {children}
-          </Provider>
-        </body>
-      </NotificationProvider>
+      {/* <NotificationProvider> */}
+      <body className={inter.className}>
+        <Provider >
+          {children}
+        </Provider>
+      </body>
+      {/* </NotificationProvider> */}
     </html>
   );
 }

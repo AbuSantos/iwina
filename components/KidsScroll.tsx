@@ -41,7 +41,7 @@ const KidsScroll = () => {
                             <div key={kid?._id}>
                                 <Link href={`/childprofile?id=${kid._id}`} className="flex flex-col items-center justify-center space-y-2">
                                     < div className=" bg-[#dfd7fb] p-3 rounded-full h-14 w-14 flex items-center justify-center" >
-                                        <Image src={girlchild} alt="girl child" width={100} />
+                                        <Image src={kid.image} alt="girl child" width={100} height={100} />
                                     </div>
                                     <h4 className={`${fredoka.className} font-normal capitalize text-[#444444d2] text-sm`}>{kid?.username}</h4>
                                 </Link>

@@ -1,18 +1,39 @@
+"use client"
 import Link from "next/link";
 import TaskCard from "./TaskCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import OngoingTask from "./OngoingTask";
 import CompletedTask from "./CompletedTask";
 import Feed from "./Feed";
+import { useSession } from "next-auth/react";
 
 
 
 const Task = ({ }) => {
-    // const { data: session } = useSession()
+    const { data: session } = useSession()
+    const userId = session?.user?.id
+    // console.log(userId);
+
     const [activeTab, setActiveTab] = useState("new");
     const handleTabChange = (tab: string) => {
         setActiveTab(tab)
     }
+    useEffect(() => {
+        const fetchAllTasks = async () => {
+            try {
+                const res = await fetch(`api/task/${userId}/alltask`)
+                if (res.ok) {
+                    const data = await res.json()
+                    console.log(data);
+
+                }
+            } catch (error) {
+                console.log(error);
+
+            }
+        }
+        fetchAllTasks()
+    }, [userId])
     return (
         <section className="w-full flex flex-col items-center justify-center">
             <div className="flex space-x-2 w-full items-center text-[0.8rem]">
