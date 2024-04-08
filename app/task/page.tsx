@@ -7,6 +7,8 @@ import TaskCard from '@/components/TaskCard'
 import Notification from '@/components/Notification'
 import { toast } from 'react-toastify'
 import { showNotification } from '@/context/NotificationContext'
+import { useTaskContext } from '@/context/TaskContext'
+
 // import { useNotification } from '@/context/NotificationContext'
 
 
@@ -20,6 +22,8 @@ const page = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const router = useRouter()
+    const { state, fetchTasks } = useTaskContext()
+
     // const notify = useNotification()
 
     // const isCurrentUserCreator = creator._id === session?.user?.id
@@ -30,30 +34,14 @@ const page = () => {
         notify.success('Task accepted successfully!'); // Trigger notification
     };
     useEffect(() => {
-        const fetchTask = async () => {
-            try {
-                if (taskId) {
-                    const res = await fetch(`api/task/${taskId}/etask`)
-                    if (!res.ok) {
-                        throw new Error('Failed to fetch task')
-                    }
-                    const data = await res.json()
-                    setTask(data)
-                }
-            } catch (error) {
-                setError(error.message)
-            } finally {
-                setLoading(false)
-            }
-        }
-        fetchTask()
+        fetchTasks('GET', `api/task/${taskId}/etask`);
+
     }, [taskId])
     const handleClick = () => {
         showNotification('Notification from Child Component');
     };
 
     const handleStatus = async () => {
-        // console.log(session?.data?.user?.id);
         try {
             const resp = await fetch(`api/task/${taskId}/etask`, {
                 method: 'PATCH',
@@ -96,7 +84,9 @@ const page = () => {
             console.log(error)
         }
     }
-    if (loading) {
+    // console.log(state.data);
+
+    if (state.loading) {
         return <div>Loading...</div>
     }
     // console.log(task);
@@ -123,7 +113,6 @@ const page = () => {
             }
         }
     }
-
     const acceptTask = async () => {
         try {
             const res = await fetch(`/api/task/${taskId}/acceptTask`, {
@@ -145,15 +134,18 @@ const page = () => {
         return <div>Error: {error}</div>
     }
 
-    const isCreator = task?.[0]?.creator === session?.data?.user?.id
+    const isCreator = state.data?.[0]?.creator === session?.data?.user?.id
+    console.log(isCreator);
+
 
     return (
         <div className='gap-5'>
             <TaskCard
-                description={task?.[0]?.taskDesc}
-                status={task?.[0]?.status}
-                pickedBy={task?.[0]?.pickedBy}
-                createdAt={task?.[0]?.createdAt}
+                description={state.data?.[0]?.taskDesc}
+                status={state.data?.[0]?.status}
+                pickedBy={state.data?.[0]?.pickedBy}
+                createdAt={state.data?.[0]?.createdAt}
+                deadline={state.data?.[0]?.deadline}
             />
 
             {

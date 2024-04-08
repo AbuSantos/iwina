@@ -12,10 +12,7 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 
 const OngoingTask = ({ setActiveTab }) => {
     const session = useSession()
-    const [ongoingTask, setOngoingTask] = useState()
     const { state, fetchTasks } = useTaskContext()
-
-    const [userTask, setUserTask] = useState()
     const userId = session?.data?.user?.id
 
     useEffect(() => {
