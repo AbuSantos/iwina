@@ -1,20 +1,11 @@
 import React, { createContext, useContext, useReducer } from 'react'
 
-
+import { Action } from './types'
 // defining the initial state
 const initialState = {
     data: null,
     loading: false,
     error: null
-}
-
-// defining the action types
-type ActionType = "FETCH_TASKS" | "FETCH_TASKS_SUCCESS" | "FETCH_TASKS_FAILURE"
-
-//define the reducer interface
-interface Action {
-    type: ActionType,
-    payload?: any
 }
 
 //lets define the reducr function
@@ -26,5 +17,42 @@ const reducer = (state: typeof initialState, action: Action) => {
             return { ...state, loading: false, data: action.payload, error: null };
         case "FETCH_TASKS_FAILURE":
             return { ...state, loading: false, error: action.payload }
+        default:
+            return state;
     }
+}
+
+//create the task context
+const taskContext = createContext<any>(null)
+
+// Defining the task Provider
+export const TaskProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    //fetch task
+    const fetchTasks = async (method: string, endpoint: string, body?: any) => {
+        try {
+            dispatch({ type: "FETCH_TASKS" });
+            const options: RequestInit = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: body ? JSON.stringify(body) : undefined,
+            }
+
+            const res = await fetch(endpoint, options)
+            if (res.ok) {
+                const data = await res.json()
+                dispatch({
+                    type: 'FETCH_TASKS_SUCCESS', payload: data
+                })
+            } else {
+                throw new Error('Failed to fetch tasks');
+            }
+        } catch (error) {
+            dispatch({ type: 'FETCH_TASKS_FAILURE', payload: error.message });
+        }
+    }
+
 }
