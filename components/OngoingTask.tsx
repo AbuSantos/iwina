@@ -7,7 +7,6 @@ import ongoingchore from "@/public/images/ongoingchore.png"
 import Image from "next/image";
 import { useTaskContext } from "@/context/TaskContext";
 
-import { UseNotificationCenter } from "react-toastify/addons/use-notification-center";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 const OngoingTask = ({ setActiveTab }) => {

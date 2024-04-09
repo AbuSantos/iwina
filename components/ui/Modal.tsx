@@ -1,25 +1,20 @@
-'use client'
-import { useSession } from 'next-auth/react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import Task from "@/components/Task"
-import TaskCard from '@/components/TaskCard'
-import Notification from '@/components/Notification'
-import { toast } from 'react-toastify'
+"use client"
 import { useTaskContext } from '@/context/TaskContext'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 
+const Modal = ({ taskId, key }) => {
 
-
-const page = () => {
-    const searchParams = useSearchParams()
-    const taskId = searchParams.get("id")
+    // const searchParams = useSearchParams()
+    // const taskId = searchParams.get("id")
     const session = useSession()
     const [task, setTask] = useState()
     const [picked, setPicked] = useState(false)
     const [completed, setCompleted] = useState(false)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const router = useRouter()
+    // const router = useRouter()
     const { state, fetchTasks } = useTaskContext()
 
     useEffect(() => {
@@ -71,9 +66,9 @@ const page = () => {
     }
     // console.log(state.data);
 
-    if (state.loading) {
-        return <div>Loading...</div>
-    }
+    // if (state.loading) {
+    //     return <div>Loading...</div>
+    // }
 
 
     const handleDelete = async () => {
@@ -112,16 +107,16 @@ const page = () => {
         }
     };
 
-    if (error) {
-        return <div>Error: {error}</div>
-    }
+    // if (error) {
+    //     return <div>Error: {error}</div>
+    // }
 
-    const isCreator = state.data?.[0]?.creator === session?.data?.user?.id
-    console.log(isCreator);
+    // const isCreator = state.data?.[0]?.creator === session?.data?.user?.id
+    // console.log(isCreator);
 
 
     return (
-        <div className='gap-5 bg-slate-900'>
+        <div className='gap-5 bg-slate-900' key={key}>
             <TaskCard
                 description={state.data?.[0]?.taskDesc}
                 status={state.data?.[0]?.status}
@@ -130,44 +125,46 @@ const page = () => {
                 deadline={state.data?.[0]?.deadline}
             />
 
-            {
-                isCreator ?
-                    <div>
-                        <button className='bg-green-500 p-4'
-                            onClick={acceptTask}
-                        >Reward
-                        </button>
-                        <button className='bg-red-500 p-4' onClick={handleDelete}>
-                            Delete task
-                        </button>
-                    </div> :
-
-                    <div >
-                        <button
-                            className='bg-red-500 p-4'
-                            onClick={handleStatus}
-                        // disabled={picked}
-                        >
-                            {picked ? "Task Picked!" : "Pick Task"}
-                        </button>
-
-                        {
-                            picked &&
-                            <div>
-                                <p>
-                                    If done please press completed
-                                </p>
-                                <button
-                                    // disabled={completed}
-                                    className='bg-green-500 p-4 ' onClick={handleCompleted}>
-                                    Completed
-                                </button>
-                            </div>
-                        }
-                    </div>
-            }
+            {/* {
+                    isCreator ?
+                        <div>
+                            <button className='bg-green-500 p-4'
+                                onClick={acceptTask}
+                            >Reward
+                            </button>
+                            <button className='bg-red-500 p-4' onClick={handleDelete}>
+                                Delete task
+                            </button>
+                        </div> :
+    
+                        <div >
+                            <button
+                                className='bg-red-500 p-4'
+                                onClick={handleStatus}
+                            // disabled={picked}
+                            >
+                                {picked ? "Task Picked!" : "Pick Task"}
+                            </button>
+    
+                            {
+                                picked &&
+                                <div>
+                                    <p>
+                                        If done please press completed
+                                    </p>
+                                    <button
+                                        // disabled={completed}
+                                        className='bg-green-500 p-4 ' onClick={handleCompleted}>
+                                        Completed
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                } */}
         </div>
     )
 }
 
-export default page
+
+
+export default Modal

@@ -10,6 +10,7 @@ import {
 // Required CSS import, unless you're overriding the styling
 import "@knocklabs/react/dist/index.css";
 import { useSession } from "next-auth/react";
+import NotificationToaster from "./NotificationToaster";
 
 const Notification = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -34,6 +35,8 @@ const Notification = () => {
                         isVisible={isVisible}
                         onClose={() => setIsVisible(false)}
                     />
+                    <NotificationToaster />
+
                 </>
             </KnockFeedProvider>
         </KnockProvider>

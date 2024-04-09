@@ -46,7 +46,8 @@ export const POST = async (req: NextRequest) => {
       recipients: children.map((child) => child._id),
       data: {
         newTask: {
-          value: task.value,
+          value: task.taskDesc,
+          amount: taskPnt,
         },
       },
     });

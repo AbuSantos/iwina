@@ -3,8 +3,7 @@
 import { useSession, signOut } from "next-auth/react"
 import Image from "next/image"
 import { useState } from "react"
-import { IoNotificationsOutline, IoSearchOutline } from "react-icons/io5";
-import { CiLogout } from "react-icons/ci";
+import { IoSearchOutline } from "react-icons/io5";
 import parent from "@/public/images/parent.png"
 import { Fredoka } from "next/font/google";
 import Notification from "./Notification";
@@ -33,8 +32,8 @@ const Header = () => {
                         </div>
                         <div className="text-gray-50 flex judstify-center items-center space-x-2">
                             <Notification />
-                            <span onClick={signOut}>
-                                <IoMdLogOut style={{ fontSize: "20px" }} />
+                            <span onClick={signOut} >
+                                <IoMdLogOut style={{ fontSize: "20px", cursor: "pointer" }} />
                             </span>
                         </div>
                     </div>

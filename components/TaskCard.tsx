@@ -34,7 +34,6 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                         <h3 className={`${fredoka.className} text-gray-700 ml-4 font-medium text-lg capitalize `}>
                             {description}
                         </h3>
-
                         <div className='flex mt-2 font-medium text-gray-600'>
                             <p className={`${montserrat.className} text-base   font-medium `}>
                                 ⏳ {formatedTime}
@@ -53,24 +52,6 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                     </div>
                 </div>
             </div>
-
-
-            {/* {session?.user.id === prompt.creator._id && pathName === '/profile' && (
-    <div className="mt-4 flex-center gap-4 border-t border-gray-100 p-3">
-      <p
-        className="cursor-pointer green_gradient font-inter"
-        onClick={handleEdit}
-      >
-        edit
-      </p>
-      <p
-        className="cursor-pointer orange_gradient font-inter"
-        onClick={handleDelete}
-      >
-        delete
-      </p>
-    </div>
-  )} */}
         </div>
     )
 }

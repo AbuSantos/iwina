@@ -7,7 +7,7 @@ import Header from "./Header"
 
 const Nav = () => {
     const { data: session } = useSession()
-    const userRole = session?.user?.role
+    // const userRole = session?.user?.role
 
     return (
         <div className="text-gray-500 w-full">

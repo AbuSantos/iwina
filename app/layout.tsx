@@ -19,7 +19,7 @@ export default async function RootLayout({
 }>) {
 
 
-  const knockClient = new Knock("sk_test_-qFDqPZTV0Hi1FeA5U0ZICkqgkOljy2hNNs4e_1nrcQ")
+  // const knockClient = new Knock("sk_test_-qFDqPZTV0Hi1FeA5U0ZICkqgkOljy2hNNs4e_1nrcQ")
   // const knockUser = await knockClient.users.identify()
   return (
     <html lang="en">

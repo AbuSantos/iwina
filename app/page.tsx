@@ -28,18 +28,17 @@ const Home = () => {
   }, [])
 
   // useEffect(() => {
-  const addKnockUSer = async () => {
-    const knockClient = new Knock("sk_test_-qFDqPZTV0Hi1FeA5U0ZICkqgkOljy2hNNs4e_1nrcQ")
-    const knockUser = await knockClient.users.identify(session?.user?.id, {
-      name: session?.user?.name,
-      email: session?.user?.email
+    const addKnockUSer = async () => {
+      const knockClient = new Knock("sk_test_-qFDqPZTV0Hi1FeA5U0ZICkqgkOljy2hNNs4e_1nrcQ")
+      const knockUser = await knockClient.users.identify(session?.user?.id, {
+        name: session?.user?.name,
+        email: session?.user?.email
+      }
+      )
+      // const knockUser = await knockClient.users.get(userId);
+      console.log(knockUser);
     }
-    )
-    // const knockUser = await knockClient.users.get(userId);
-
-    console.log(knockUser);
-  }
-  addKnockUSer()
+    addKnockUSer()
   // }, [])
 
   return (
