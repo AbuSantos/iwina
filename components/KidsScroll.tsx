@@ -26,13 +26,13 @@ const KidsScroll = () => {
                 setKids(data)
             }
             // console.log(kids);
-
         }
         fetchKids()
     }, [userId, role])
+    // const tagHeader = 
     return (
         <div className="w-full p-3">
-            <h2 className={`${fredoka.className} text-lg font-medium`}>Your Children</h2>
+            <h2 className={`${fredoka.className} text-lg font-medium`}>{role === "parent" ? "Your children" : "Your Siblings"}</h2>
             <div className="flex overflow-x-auto space-x-5 scrollbar-hide mt-3 items-center" >
                 {
                     kids?.map((kid: any) => {

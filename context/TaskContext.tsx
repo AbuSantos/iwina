@@ -1,7 +1,7 @@
 "use client"
 import React, { createContext, useContext, useReducer } from 'react'
-
 import { Action } from './types'
+
 // defining the initial state
 const initialState = {
     data: null,
@@ -55,7 +55,6 @@ export const TaskProvider = ({ children }) => {
             dispatch({ type: 'FETCH_TASKS_FAILURE', payload: error.message });
         }
     }
-
 
     return (
         <TaskContext.Provider value={{ state, fetchTasks }}>

@@ -3,11 +3,12 @@
 import { useSession, signOut } from "next-auth/react"
 import Image from "next/image"
 import { useState } from "react"
-import { IoSearchOutline } from "react-icons/io5";
+import { IoNotificationsOutline, IoSearchOutline } from "react-icons/io5";
 import { CiLogout } from "react-icons/ci";
 import parent from "@/public/images/parent.png"
 import { Fredoka } from "next/font/google";
-
+import Notification from "./Notification";
+import { IoMdLogOut } from "react-icons/io";
 
 
 const fredoka = Fredoka({ subsets: ["latin"] })
@@ -24,14 +25,17 @@ const Header = () => {
                 <div className="w-full">
                     <div className="flex  p-2 w-full justify-between">
                         <div className="flex items-center  space-x-2">
-                            <Image src={parent} width={60} height={50} className="rounded-full" alt="parent avatar" />
+                            <Image src={parent} width={50} height={50} className="rounded-full" alt="parent avatar" />
                             <div className="text-gray-50 ">
-                                <h4 className="text-base">Hi {session?.user?.name},👋🏾</h4>
-                                <h1>WELCOME</h1>
+                                <h4 className="text-sm">Hi {session?.user?.name},👋🏾</h4>
+                                <h3>WELCOME</h3>
                             </div>
                         </div>
-                        <div className="text-gray-50 " onClick={signOut}>
-                            <CiLogout style={{ fontSize: "25px" }} />
+                        <div className="text-gray-50 flex judstify-center items-center space-x-2">
+                            <Notification />
+                            <span onClick={signOut}>
+                                <IoMdLogOut style={{ fontSize: "20px" }} />
+                            </span>
                         </div>
                     </div>
 

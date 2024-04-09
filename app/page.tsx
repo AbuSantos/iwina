@@ -1,30 +1,23 @@
 "use client"
-import Form from "@/components/Form";
 import Nav from "@/components/Nav";
 import Image from "next/image";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import Feed from "@/components/Feed";
-import UserForm from "@/components/UserForm";
 import display from "@/public/images/display.png";
 import { Fredoka, Montserrat } from "next/font/google";
 import KidsScroll from "@/components/KidsScroll";
 import Task from "@/components/Task";
 import BottomNav from "@/components/BottomNav";
-// import { toast, ToastContainer } from 'react-toastify';
-// import { useNotificationCenter } from "react-toastify/addons/use-notification-center";
-// import { useNotification } from "@/context/NotificationContext";
-import Notification from "@/context/NotificationContext";
-
+import { Knock } from "@knocklabs/node"
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
 
-export default function Home() {
+const Home = () => {
   const { data: session } = useSession()
   const [provider, setProvider] = useState(null)
-  // const { notifications } = useNotificationCenter()
-  // const notify = useNotification()
+  const userId = session?.user?.id
+  console.log(session);
+
 
   useEffect(() => {
     const setProviders = async () => {
@@ -34,6 +27,20 @@ export default function Home() {
     setProviders()
   }, [])
 
+  // useEffect(() => {
+  const addKnockUSer = async () => {
+    const knockClient = new Knock("sk_test_-qFDqPZTV0Hi1FeA5U0ZICkqgkOljy2hNNs4e_1nrcQ")
+    const knockUser = await knockClient.users.identify(session?.user?.id, {
+      name: session?.user?.name,
+      email: session?.user?.email
+    }
+    )
+    // const knockUser = await knockClient.users.get(userId);
+
+    console.log(knockUser);
+  }
+  addKnockUSer()
+  // }, [])
 
   return (
     <div className="flex justify-center items-center flex-col w-full">
@@ -65,7 +72,10 @@ export default function Home() {
                     <button
                       key={prov.name}
                       onClick={() => signIn(prov.id)}
-                      className={`text-xl p-4 w-11/12 mb-3 ${prov.name === "Google" ? "bg-[#4f2190] text-[#faf9fb] " : "bg-[#fff] text-[#4f2190] border-2 border-[#4f2190]"} m-auto font-medium rounded-full
+                      className={`text-xl p-4 w-11/12 mb-3 
+                      ${prov.name === "Google" ? "bg-[#4f2190] text-[#faf9fb] "
+                          : "bg-[#fff] text-[#4f2190] border-2 border-[#4f2190]"}
+                           m-auto font-medium rounded-full
                     `}>
                       Sign in {prov.name}
                     </button>
@@ -80,3 +90,5 @@ export default function Home() {
     </div >
   )
 }
+
+export default Home

@@ -6,10 +6,10 @@ import Task from "@/components/Task"
 import TaskCard from '@/components/TaskCard'
 import Notification from '@/components/Notification'
 import { toast } from 'react-toastify'
-import { showNotification } from '@/context/NotificationContext'
+// import { showNotification } from '@/context/NotificationContext'
 import { useTaskContext } from '@/context/TaskContext'
 
-// import { useNotification } from '@/context/NotificationContext'
+import { useNotification } from '@/context/NotificationContext'
 
 
 const page = () => {
@@ -23,7 +23,7 @@ const page = () => {
     const [error, setError] = useState(null)
     const router = useRouter()
     const { state, fetchTasks } = useTaskContext()
-
+    // const { showNotification } = useNotification()
     // const notify = useNotification()
 
     // const isCurrentUserCreator = creator._id === session?.user?.id
@@ -53,6 +53,8 @@ const page = () => {
             if (resp.ok) {
                 setPicked(true);
                 router.refresh();
+                showNotification('Task status successfully changed');
+
                 // handleAcceptTask()
                 console.log("Status successfully changed");
             } else {

@@ -71,9 +71,6 @@ const handler = NextAuth({
                 id: foundKid._id,
                 name: foundKid.username,
                 image: foundKid.image,
-
-                // image: "", // Add image URL if available
-                // points: foundKid.points,
               };
             }
           }
@@ -98,18 +95,19 @@ const handler = NextAuth({
           query = { username: session.user.name };
           // console.log(query, "query 2");
         }
-
         const parentUser = await User.findOne(query);
         const kidUser = await Kids.findOne(query);
         // console.log(kidUser, "kidUser");
 
         // Update the session user ID based on the user type
         if (parentUser) {
+          //@ts-ignore
           session.user.id = parentUser._id.toString();
           session.user.role = "parent";
+          //@ts-ignore
           session.user.image = parentUser.image.toString();
-
         } else if (kidUser) {
+          //@ts-ignore
           session.user.id = kidUser._id.toString();
           session.user.role = "child";
           session.user.image = kidUser.image.toString();

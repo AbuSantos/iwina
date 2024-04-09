@@ -3,8 +3,12 @@ import Kids from "@/(models)/Kids";
 import Task from "@/(models)/Task";
 import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
+
+import { Knock } from "@knocklabs/node";
+import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
 
+const knock = new Knock(process.env.KNOCK_SECRET_API_KEY);
 export const POST = async (req: NextRequest) => {
   const { userId, taskDesc, taskDdl, taskPnt } = await req.json();
   console.log(userId, taskDesc, taskDdl, taskPnt);
@@ -35,6 +39,18 @@ export const POST = async (req: NextRequest) => {
     });
 
     await task.save();
+    // console.log(children.map((child) => child._id));
+
+    await knock.notify("new-task", {
+      actor: userId,
+      recipients: children.map((child) => child._id),
+      data: {
+        newTask: {
+          value: task.value,
+        },
+      },
+    });
+
     return new Response(JSON.stringify(task), { status: 200 });
   } catch (error) {
     return Response.json(

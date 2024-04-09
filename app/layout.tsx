@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Provider from "@/components/Provider";
-import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { NotificationProvider } from "@/context/NotificationContext";
-import { Session } from "inspector";
 import { TaskProvider } from "@/context/TaskContext";
-
+import { Knock } from "@knocklabs/node";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,11 +12,15 @@ export const metadata: Metadata = {
   description: "Pay your kids for work!",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
+  const knockClient = new Knock("sk_test_-qFDqPZTV0Hi1FeA5U0ZICkqgkOljy2hNNs4e_1nrcQ")
+  // const knockUser = await knockClient.users.identify()
   return (
     <html lang="en">
       <TaskProvider>
