@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import TaskCard from '../TaskCard'
+import { RiGiftLine } from 'react-icons/ri'
 
 interface ModalProps {
     taskId: string;
@@ -125,8 +126,8 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
 
 
     return (
-        <div className={`fixed bottom-20 left-0 right-0 z-50 w-full  dark:bg-gray-700 flex items-end justify-center p-4 slide-In`} data-modal-backdrop="static">
-            <div className="relative p-4 w-full max-w-2xl max-h-full text-gray-200 bg-gray-100">
+        <div className={`fixed bottom-20 left-0 right-0 z-50 w-full  dark:bg-gray-700 flex items-end justify-center p-4 slide-In rounded-tl-3xl  rounded-tr-3xl `} data-modal-backdrop="static">
+            <div className="relative p-4 w-full max-w-2xl max-h-full text-gray-200 bg-[#dfd7fb] rounded-tl-3xl  rounded-tr-3xl ">
                 <TaskCard
                     description={state.data?.[0]?.taskDesc}
                     status={state.data?.[0]?.status}
@@ -138,10 +139,14 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
 
                 {
                     isCreator ?
-                        <div className="flex flex-col">
-                            <button className='bg-green-500 p-4'
+                        <div className="flex flex-col space-y-2 ">
+                            <button className='bg-[#6229b3] p-4 flex justify-center items-center  '
                                 onClick={acceptTask}
-                            >Reward
+                            >
+                                <RiGiftLine style={{ fontSize: "20px" }} />
+                                <span className='ml-2'>
+                                    Reward
+                                </span>
                             </button>
                             <button className='bg-red-500 p-4' onClick={handleDelete}>
                                 Delete task
@@ -152,7 +157,7 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
                             <button
                                 className='bg-red-500 p-4'
                                 onClick={handleStatus}
-                            // disabled={picked}
+                                disabled={picked}
                             >
                                 {picked ? "Task Picked!" : "Pick Task"}
                             </button>
@@ -163,7 +168,7 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
                                         If done please press completed
                                     </p>
                                     <button
-                                        // disabled={completed}
+                                        disabled={completed}
                                         className='bg-green-500 p-4 ' onClick={handleCompleted}>
                                         Completed
                                     </button>

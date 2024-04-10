@@ -21,7 +21,7 @@ const OngoingTask = ({ setActiveTab }) => {
     return (
         <div className="w-full">
             {
-                state.data?.map(task => {
+                state.newData?.map(task => {
                     const { taskDesc, taskDdl, taskPnt, status, createdAt } = task
                     return < TaskCard
                         description={taskDesc}

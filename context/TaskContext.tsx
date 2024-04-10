@@ -45,8 +45,11 @@ export const TaskProvider = ({ children }) => {
             const res = await fetch(endpoint, options)
             if (res.ok) {
                 const data = await res.json()
+                const newData = [...data].reverse()
+                console.log(newData);
+
                 dispatch({
-                    type: 'FETCH_TASKS_SUCCESS', payload: data
+                    type: 'FETCH_TASKS_SUCCESS', payload: newData
                 })
             } else {
                 throw new Error('Failed to fetch tasks');

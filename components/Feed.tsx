@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import Modal from "./ui/Modal"
 import NewModal from "./ui/NewModal"
+import { useTaskContext } from "@/context/TaskContext"
 
 const Feed = () => {
     const [tasks, setTasks] = useState([])
@@ -12,25 +13,10 @@ const Feed = () => {
     const userId = session?.data?.user?.id
     const router = useRouter()
     const [openModals, setOpenModals] = useState<string[]>([])
-
-
-    const [isModalOpen, setIsModalOpen] = useState(true);
-
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+    const { state, fetchTasks } = useTaskContext()
 
     useEffect(() => {
-        const fetchTasks = async () => {
-            const res = await fetch(`api/task/${userId}/alltask`)
-            const data = await res.json()
-            setTasks(data)
-        }
-        fetchTasks()
+        fetchTasks('GET', `api/task/${userId}/alltask`)
     }, [])
 
     // Function to toggle the visibility of a modal based on its ID
@@ -47,7 +33,7 @@ const Feed = () => {
             }
         })
     }
-    // console.log(tasks);
+    // console.log(state.data);
 
     const handleDelete = async (id) => {
         // console.log(id);
@@ -74,7 +60,7 @@ const Feed = () => {
     return (
         <div className=" flex flex-col items-center space-y-3 mb-20">
             {
-                tasks.map((task, index) => {
+                state.data?.map((task, index) => {
                     // console.log(task);
                     const { taskDdl: deadline, taskDesc: description, taskPnt: points, status, _id: id, pickedBy, creator, createdAt } = task
                     //@ts-ignore
