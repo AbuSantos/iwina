@@ -1,20 +1,27 @@
 "use client"
 import { useTaskContext } from '@/context/TaskContext'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import TaskCard from '../TaskCard'
 
-const Modal = ({ taskId, key }) => {
+interface ModalProps {
+    taskId: string;
+    onClose: () => void;
+    points: number
+    deadline: string
+}
 
-    // const searchParams = useSearchParams()
-    // const taskId = searchParams.get("id")
+// const Modal = ({ taskId, deadline, points }: ModalProps) => {
+const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
+
     const session = useSession()
     const [task, setTask] = useState()
     const [picked, setPicked] = useState(false)
     const [completed, setCompleted] = useState(false)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    // const router = useRouter()
+    const router = useRouter()
     const { state, fetchTasks } = useTaskContext()
 
     useEffect(() => {
@@ -28,9 +35,11 @@ const Modal = ({ taskId, key }) => {
                 method: 'PATCH',
                 body: JSON.stringify({
                     status: "In Progress",
+                    //@ts-ignore
                     userId: session?.data?.user?.id
                 })
             })
+
             if (resp.ok) {
                 setPicked(true);
                 router.refresh();
@@ -111,23 +120,25 @@ const Modal = ({ taskId, key }) => {
     //     return <div>Error: {error}</div>
     // }
 
-    // const isCreator = state.data?.[0]?.creator === session?.data?.user?.id
-    // console.log(isCreator);
+    const isCreator = state.data?.[0]?.creator === session?.data?.user?.id
+    console.log(isCreator);
 
 
     return (
-        <div className='gap-5 bg-slate-900' key={key}>
-            <TaskCard
-                description={state.data?.[0]?.taskDesc}
-                status={state.data?.[0]?.status}
-                pickedBy={state.data?.[0]?.pickedBy}
-                createdAt={state.data?.[0]?.createdAt}
-                deadline={state.data?.[0]?.deadline}
-            />
+        <div className={`fixed bottom-20 left-0 right-0 z-50 w-full  dark:bg-gray-700 flex items-end justify-center p-4 slide-In`} data-modal-backdrop="static">
+            <div className="relative p-4 w-full max-w-2xl max-h-full text-gray-200 bg-gray-100">
+                <TaskCard
+                    description={state.data?.[0]?.taskDesc}
+                    status={state.data?.[0]?.status}
+                    pickedBy={state.data?.[0]?.pickedBy}
+                    createdAt={state.data?.[0]?.createdAt}
+                    deadline={deadline as unknown as Date}
+                    points={points}
+                />
 
-            {/* {
+                {
                     isCreator ?
-                        <div>
+                        <div className="flex flex-col">
                             <button className='bg-green-500 p-4'
                                 onClick={acceptTask}
                             >Reward
@@ -136,8 +147,8 @@ const Modal = ({ taskId, key }) => {
                                 Delete task
                             </button>
                         </div> :
-    
-                        <div >
+
+                        <div className="flex ">
                             <button
                                 className='bg-red-500 p-4'
                                 onClick={handleStatus}
@@ -145,7 +156,6 @@ const Modal = ({ taskId, key }) => {
                             >
                                 {picked ? "Task Picked!" : "Pick Task"}
                             </button>
-    
                             {
                                 picked &&
                                 <div>
@@ -160,8 +170,10 @@ const Modal = ({ taskId, key }) => {
                                 </div>
                             }
                         </div>
-                } */}
+                }
+            </div>
         </div>
+
     )
 }
 
