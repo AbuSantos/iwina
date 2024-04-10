@@ -4,7 +4,6 @@ import TaskCard from "./TaskCard"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import Modal from "./ui/Modal"
-import NewModal from "./ui/NewModal"
 import { useTaskContext } from "@/context/TaskContext"
 
 const Feed = () => {
@@ -96,13 +95,14 @@ const Feed = () => {
                                     }
                                 </div>
 
-                                <button onClick={() => toggleModal(id)}>
-                                    Open Modals
+                                <button
+                                    className='bg-[#ffff] px-5 py-2 rounded-xl text-sm text-[#6229b3] font-medium '
+                                    onClick={() => toggleModal(id)}>
+                                    View Task
                                 </button>
 
 
                                 {/* <button
-                                    className='bg-[#ffff] px-5 py-2 rounded-xl text-base text-[#6229b3] font-medium '
                                     onClick={() => router.push(`/task?id=${id}`)}>
                                     View Task
                                 </button> */}

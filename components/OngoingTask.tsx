@@ -10,10 +10,12 @@ import { useTaskContext } from "@/context/TaskContext";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 const OngoingTask = ({ setActiveTab }) => {
-    const session = useSession()
+    const { data: session } = useSession()
     const { state, fetchTasks } = useTaskContext()
-    const userId = session?.data?.user?.id
-
+    //@ts-ignore
+    const userId = session?.user?.id
+    //@ts-ignore
+    const userRole = session?.user?.role
     useEffect(() => {
         fetchTasks("GET", `api/tasks/${userId}/inprogress`)
     }, [])
@@ -36,10 +38,23 @@ const OngoingTask = ({ setActiveTab }) => {
                 state.data && state.data?.length === 0 && (
                     <div className="flex items-center flex-col justify-center">
                         <Image src={ongoingchore} height={200} alt="a kid sweeping" />
-                        <p className={`${montserrat.className} text-center font-medium text-gray-600`}>You currently have no ongoing task, pick a task to earn some points</p>
-                        < button className="bg-[#6229b3] text-white px-4 py-2 rounded mt-4" onClick={() => setActiveTab("new")}>
-                            Pick a Task
-                        </button>
+                        {
+                            userRole === "parent" ? (
+                                <p className={`${montserrat.className} text-center font-medium text-gray-600`}>
+                                    No task has been picked yet.
+                                </p>
+                            ) : (
+                                <>
+                                    <p className={`${montserrat.className} text-center font-medium text-gray-600`}>
+                                        You currently have no ongoing task, pick a task to earn some points
+                                    </p>
+                                    < button className="bg-[#6229b3] text-white px-4 py-2 rounded mt-4" onClick={() => setActiveTab("new")}>
+                                        Pick a Task
+                                    </button>
+                                </>
+                            )
+                        }
+
                     </div>
 
                 )

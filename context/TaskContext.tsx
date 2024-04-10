@@ -46,7 +46,7 @@ export const TaskProvider = ({ children }) => {
             if (res.ok) {
                 const data = await res.json()
                 const newData = [...data].reverse()
-                console.log(newData);
+                // console.log(newData);
 
                 dispatch({
                     type: 'FETCH_TASKS_SUCCESS', payload: newData
