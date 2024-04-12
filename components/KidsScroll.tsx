@@ -20,7 +20,6 @@ const KidsScroll = () => {
         const fetchKids = async () => {
             const res = await fetch(`api/users/${userId}/user/kids?role=${role}`);
             if (res.ok) {
-
                 const data = await res.json()
                 // console.log(data);
                 setKids(data)

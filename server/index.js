@@ -6,9 +6,13 @@ const server = require("socket.io")(8080, {
 
 server.on("connection", (socket) => {
   // console.log(socket.id, "socket id");
-  socket.on("send-message", (message) => {
-    socket.broadcast.emit("receive-message", message);
-    console.log(message);
+  socket.on("send-message", (message, room) => {
+    server.emit("receive-message", message);
+    if (room === "") {
+    } else {
+      server.to(room).emit("receive-message", message);
+    }
+    // console.log(room);
   });
 });
 
