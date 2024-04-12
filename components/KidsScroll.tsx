@@ -25,7 +25,6 @@ const KidsScroll = () => {
                 // console.log(data);
                 setKids(data)
             }
-            // console.log(kids);
         }
         fetchKids()
     }, [userId, role])

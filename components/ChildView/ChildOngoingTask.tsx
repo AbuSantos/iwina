@@ -6,7 +6,7 @@ import { Montserrat } from "next/font/google";
 import ongoingchore from "@/public/images/ongoingchore.png"
 import Image from "next/image";
 import { AiOutlineComment } from "react-icons/ai";
-import "@/styles/Ongoing.module.css"
+// import "@/styles/Ongoing.module.css"
 import InputSlider from "./InputSlider";
 
 

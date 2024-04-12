@@ -21,16 +21,20 @@ const OngoingTask = ({ setActiveTab }) => {
     }, [])
 
     return (
-        <div className="w-full">
+        <div className=" flex flex-col items-center space-y-3 mb-20">
             {
-                state.newData?.map(task => {
+                state.data?.map(task => {
                     const { taskDesc, taskDdl, taskPnt, status, createdAt } = task
-                    return < TaskCard
-                        description={taskDesc}
-                        deadline={taskDdl}
-                        points={taskPnt}
-                        status={status}
-                        createdAt={createdAt} />
+                    return (<div className="text-gray-800 flex justify-between items-center w-11/12 bg-[#dfd7fb] rounded-xl">
+
+                        < TaskCard
+                            description={taskDesc}
+                            deadline={taskDdl}
+                            points={taskPnt}
+                            status={status}
+                            createdAt={createdAt} />
+                    </div>
+                    )
                 }
                 )
             }

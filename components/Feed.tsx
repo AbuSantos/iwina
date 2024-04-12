@@ -76,14 +76,6 @@ const Feed = () => {
                                 createdAt={createdAt}
                             />
                             <div className=" p-2">
-                                {
-                                    isCurrentUserCreator &&
-                                    <div className="mb-3 space-x-3">
-                                        <button className='bg-red-500 p-4' onClick={() => handleDelete(id)}>
-                                            Delete task
-                                        </button>
-                                    </div>
-                                }
                                 <div>
                                     {
                                         openModals.includes(id) && (

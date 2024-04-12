@@ -39,12 +39,12 @@ const BottomNav = () => {
                         Home
                     </Link>
                 </div>
-                <div className="home flex flex-col items-center text-[0.8rem]">
-                    <LuMessageSquare style={{ fontSize: 25, opacity: 0.7 }} />
-                    <Link href="/" className={`text-[#6329b3d6] text-[0.9rem] ${fredoka.className}`}>
+                <Link href="/groupchat" className={`text-[#6329b3d6] text-[0.9rem] ${fredoka.className}`}>
+                    <div className="home flex flex-col items-center text-[0.8rem]">
+                        <LuMessageSquare style={{ fontSize: 25, opacity: 0.7 }} />
                         Messages
-                    </Link>
-                </div>
+                    </div>
+                </Link>
                 <div className="home flex flex-col items-center text-[0.8rem]">
                     <RiNotification2Line style={{ fontSize: 25, opacity: 0.7 }} />
                     <Link href="/" className={`text-[#6329b3d6] text-[0.9rem] ${fredoka.className}`}>
