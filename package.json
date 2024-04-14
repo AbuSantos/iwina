@@ -2,8 +2,9 @@
   "name": "iwina",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "start:server": "nodemon server/index.ts",
+    "start:server": "nodemon server/index.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

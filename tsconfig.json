@@ -27,7 +27,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/api/auth/[...nextauth]/route.ts",
-    "server/index.ts"
+    "server/index.js",
+    "(models)/Message.js"
   ],
   "exclude": ["node_modules"]
 }
