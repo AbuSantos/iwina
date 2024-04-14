@@ -1,5 +1,5 @@
 import Kids from "@/(models)/Kids";
-import NewMessage from "@/(models)/NewMessage";
+import NewMessage from "@/(models)/Message";
 import Task from "@/(models)/Task";
 import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";

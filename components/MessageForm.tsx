@@ -17,7 +17,9 @@ const MessageForm = () => {
     const [kids, setKids] = useState()
     // console.log(session, "sesion");
 
+    //@ts-ignore
     const userId = session?.user?.id
+    //@ts-ignore
     const role = session?.user?.role
 
     // Create a ref for the socket connection
@@ -25,19 +27,21 @@ const MessageForm = () => {
     // console.log(socketRef.current?.id);
 
     useEffect(() => {
-        const fetchKids = async () => {
-            const res = await fetch(`api/users/${userId}/user/kids?role=${role}`);
-            if (res.ok) {
-                const data = await res.json()
-                // console.log(data);
-                setKids(data)
-            }
-        }
-        fetchKids()
+        // const fetchKids = async () => {
+        //     const res = await fetch(`api/users/${userId}/user/kids?role=${role}`);
+        //     if (res.ok) {
+        //         const data = await res.json()
+        //         // console.log(data);
+        //         setKids(data)
+        //     }
+        // }
+        // fetchKids()
+        fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
 
-    const familyRoomId = role === "parent" ? userId : kids?.[0]?.creator
-    console.log(familyRoomId);
+    // console.log(state.data)
+    const familyRoomId = role === "parent" ? userId : state.data?.[0]?.creator
+    // console.log(familyRoomId);
 
     useEffect(() => {
         // Initialize the socket connection once
@@ -70,7 +74,7 @@ const MessageForm = () => {
     const sendMessage = () => {
         // Check that there is a nonempty message and socket is present
         if (socketRef.current && currentMessage && familyRoomId) {
-            socketRef.current.emit("send-message", currentMessage, familyRoomId);
+            socketRef.current.emit("send-message", currentMessage, familyRoomId, userId);
             setCurrentMessage("")
         }
     };
