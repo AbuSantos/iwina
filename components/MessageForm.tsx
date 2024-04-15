@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 // import { useRouter } from "next/navigation"
 import { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
+import MessageCard from './MessageCard';
 
 const MessageForm = () => {
     const [messages, setMessages] = useState<string[]>([]);
@@ -14,7 +15,6 @@ const MessageForm = () => {
     const inputRef = useRef(null)
     const { data: session } = useSession()
     const { state, fetchTasks } = useTaskContext()
-    const [kids, setKids] = useState()
     // console.log(session, "sesion");
 
     //@ts-ignore
@@ -27,15 +27,6 @@ const MessageForm = () => {
     // console.log(socketRef.current?.id);
 
     useEffect(() => {
-        // const fetchKids = async () => {
-        //     const res = await fetch(`api/users/${userId}/user/kids?role=${role}`);
-        //     if (res.ok) {
-        //         const data = await res.json()
-        //         // console.log(data);
-        //         setKids(data)
-        //     }
-        // }
-        // fetchKids()
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
 
@@ -71,19 +62,15 @@ const MessageForm = () => {
         }
     }
     // Function to handle sending messages
-    const sendMessage = () => {
+    const sendMessage = async () => {
         // Check that there is a nonempty message and socket is present
-        if (socketRef.current && currentMessage && familyRoomId) {
-            socketRef.current.emit("send-message", currentMessage, familyRoomId, userId);
+        if (socketRef.current && currentMessage && familyRoomId && userId) {
+            await socketRef.current.emit("send-message", currentMessage, familyRoomId, userId);
             setCurrentMessage("")
         }
     };
 
-    const joinRoom = () => {
-        if (inputRef.current) {
-            console.log(inputRef.current?.value);
-        }
-    }
+
 
     return (
         <div>
@@ -93,6 +80,8 @@ const MessageForm = () => {
 
                     <p key={index}>{message}</p>
                 ))}
+
+                <MessageCard />
             </div>
             {/* Input field for sending new messages */}
             <input

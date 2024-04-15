@@ -29,6 +29,6 @@
     "app/api/auth/[...nextauth]/route.ts",
     "server/index.js",
     "(models)/Message.js"
-  ],
+, "utils/database.js"  ],
   "exclude": ["node_modules"]
 }

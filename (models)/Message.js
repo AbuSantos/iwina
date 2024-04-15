@@ -1,5 +1,5 @@
-const { Schema, model, models } = require("mongoose");
-
+import mongoose from "mongoose";
+const { Schema, model, models } = mongoose;
 const MessageSchema = new Schema(
   {
     creator: {
@@ -19,5 +19,4 @@ const MessageSchema = new Schema(
 );
 MessageSchema.index({ creator: 1, message: 1, roomId: 1 }, { unique: true });
 
-const Message = models.Messages || model("Messages", MessageSchema);
-module.exports = Message;
+export const Messages = models.Messages || model("Messages", MessageSchema);

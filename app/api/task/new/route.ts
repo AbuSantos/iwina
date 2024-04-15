@@ -5,7 +5,6 @@ import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
 
 import { Knock } from "@knocklabs/node";
-import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
 
 const knock = new Knock(process.env.KNOCK_SECRET_API_KEY);

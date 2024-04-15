@@ -1,6 +1,8 @@
-import { Message } from "../(models)/Message.js";
-const { connectToDB } = require("../utils/database");
-const { Server } = require("socket.io");
+import { Messages } from "../(models)/Message.js";
+// import { connectToDB } from "../utils/database.js";
+import { Server } from "socket.io";
+import mongoose from "mongoose";
+
 // Initialize the server on port 8080 and set up CORS policy
 const server = new Server(8080, {
   cors: {
@@ -12,14 +14,14 @@ const server = new Server(8080, {
 const userRooms = {};
 
 server.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
+  // console.log(`User connected: ${socket.id}`);
 
   // Handle users joining a room
   socket.on("join-room", (userId, familyRoomId) => {
     if (userId && familyRoomId) {
       // Add the user to the specified room
       socket.join(familyRoomId);
-      // console.log(`User ${userId} joined room ${familyRoomId}`);
+      console.log(`User ${userId} joined room ${familyRoomId}`);
 
       // Map the user to the room
       userRooms[socket.id] = familyRoomId;
@@ -30,15 +32,30 @@ server.on("connection", (socket) => {
 
   // Handle sending messages to a room
   socket.on("send-message", async (message, roomId, userId) => {
-    console.log(`Received message: ${message} in room ${roomId}`);
+    mongoose.set("strictQuery", true);
+    try {
+      const mongoUri =
+      if (!mongoUri) {
+        console.log("Mongo uri isnt define");
+      }
 
-    await connectToDB();
-    const newMessage = new Message({
-      roomId,
-      message,
+      await mongoose.connect(`${mongoUri}`, {
+        dbName: "iwina",
+        bufferCommands: false, // Disable command buffering
+        socketTimeoutMS: 10000,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    // console.log(userId);
+
+    // await connectToDB();
+    const newMessage = new Messages({
+      roomId: roomId,
+      message: message,
       creator: userId,
     });
-
+    console.log(newMessage.roomId, "roomId");
     await newMessage.save();
 
     if (roomId && userRooms[socket.id] === roomId) {
