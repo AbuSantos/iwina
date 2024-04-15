@@ -17,6 +17,6 @@ const MessageSchema = new Schema(
   },
   { timestamps: true }
 );
-MessageSchema.index({ creator: 1, message: 1, roomId: 1 }, { unique: true });
+// MessageSchema.index({ creator: 1, message: 1, roomId: 1 }, { unique: true });
 
 export const Messages = models.Messages || model("Messages", MessageSchema);

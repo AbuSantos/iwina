@@ -1,28 +1,36 @@
 "use client"
 
+import { useTaskContext } from "@/context/TaskContext"
 import { formatTime } from "@/lib/FormatTime"
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 
-
 const MessageReply = () => {
     const [messages, setMessages] = useState()
+    const { state, fetchTasks } = useTaskContext()
     const { data: session } = useSession()
-    // console.log(session);
-
     const userName = session?.user?.name
     const userId = session?.user?.id;
+    const role = session?.user?.role
+    // console.log(session);
+    useEffect(() => {
+        fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
+    }, [userId, role])
+
+
+
+    const familyRoomId = role === "parent" ? userId : state.data?.[0]?.creator
+
+    console.log(familyRoomId, state.data?.[0]?.creator);
 
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const res = await fetch(`api/groupchat/${userId}/allmessage`);
-                console.log(res);
-
+                const res = await fetch(`api/groupchat/${familyRoomId}/allmessage`);
+                // console.log(res);
                 if (!res.ok) {
                     throw new Error("Failed to fetch messages");
                 }
-
                 const data = await res.json();
                 setMessages(data);
             } catch (error) {
@@ -31,8 +39,8 @@ const MessageReply = () => {
             }
         }
         fetchMessages()
-    }, [userId])
-    // console.log(messages);
+    }, [userId, familyRoomId])
+    console.log(messages);
 
     return (
         <div>

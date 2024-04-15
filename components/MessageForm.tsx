@@ -32,7 +32,7 @@ const MessageForm = () => {
 
     // console.log(state.data)
     const familyRoomId = role === "parent" ? userId : state.data?.[0]?.creator
-    // console.log(familyRoomId);
+    console.log(familyRoomId);
 
     useEffect(() => {
         // Initialize the socket connection once
@@ -77,11 +77,10 @@ const MessageForm = () => {
 
             <div>
                 {messages?.map((message, index) => (
-
                     <p key={index}>{message}</p>
                 ))}
 
-                <MessageCard />
+                {/* <MessageCard userId={familyRoomId} /> */}
             </div>
             {/* Input field for sending new messages */}
             <input

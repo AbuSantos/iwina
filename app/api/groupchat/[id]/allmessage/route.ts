@@ -1,12 +1,20 @@
 import { Messages } from "@/(models)/Message";
 import { connectToDB } from "@/utils/database";
 import { NextRequest } from "next/server";
+// import { parse } from "url";
 interface Params {
   id: string; // ID of the parent or child
 }
 
 export const GET = async (req: NextRequest, { params }: { params: Params }) => {
-  console.log(params, "GETs");
+  // console.log(params, "GET");
+  // const { query } = parse(req.url, true);
+  // const role = query.role;
+  // if (role === "child") {
+  //   console.log(params.id, "child params");
+  // } else if (role === "parent") {
+  //   console.log(params.id, "parent params");
+  // }
 
   try {
     await connectToDB();
