@@ -1,13 +1,8 @@
 "use client"
 import { useTaskContext } from '@/context/TaskContext';
 import { useSession } from 'next-auth/react';
-// import { useState } from "react"
-// import Input from "./Input"
-// import { useSession } from "next-auth/react"
-// import { useRouter } from "next/navigation"
 import { useState, useEffect, useRef } from 'react';
-import io from 'socket.io-client';
-import MessageCard from './MessageCard';
+import io, { Socket } from 'socket.io-client';
 
 const MessageForm = () => {
     const [messages, setMessages] = useState<string[]>([]);
@@ -16,15 +11,15 @@ const MessageForm = () => {
     const { data: session } = useSession()
     const { state, fetchTasks } = useTaskContext()
     // console.log(session, "sesion");
-
+   
     //@ts-ignore
-    const userId = session?.user?.id
+    const userId = session?.user?.id 
     //@ts-ignore
     const role = session?.user?.role
 
     // Create a ref for the socket connection
-    const socketRef = useRef<SocketIOClient.Socket | null>(null);
-    // console.log(socketRef.current?.id);
+    const socketRef = useRef<Socket | null>(null);
+    console.log(socketRef);
 
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)

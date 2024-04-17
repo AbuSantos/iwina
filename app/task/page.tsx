@@ -97,7 +97,7 @@ const page = () => {
     }
     const acceptTask = async () => {
         try {
-            const res = await fetch(`/api/task/${taskId}/acceptTask`, {
+            const res = await fetch(`/api/task/${taskId}/accepttask`, {
                 method: "PATCH",
             });
 

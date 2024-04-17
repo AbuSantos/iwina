@@ -7,20 +7,12 @@ interface Params {
 }
 
 export const GET = async (req: NextRequest, { params }: { params: Params }) => {
-  // console.log(params, "GET");
-  // const { query } = parse(req.url, true);
-  // const role = query.role;
-  // if (role === "child") {
-  //   console.log(params.id, "child params");
-  // } else if (role === "parent") {
-  //   console.log(params.id, "parent params");
-  // }
-
   try {
     await connectToDB();
-    // Fetch messages where either the parent or child field matches the user ID
+    // Fetch messages where either with the familyRoomId which is the parentID
     const messages = await Messages.find({ roomId: params.id });
-    return new Response(JSON.stringify(messages), { status: 200 });
+
+    return new Response(JSON.stringify(messages.reverse()), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ message: "Failed to fetch tasks" }), {
       status: 500,

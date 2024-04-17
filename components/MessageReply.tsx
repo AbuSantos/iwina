@@ -10,21 +10,22 @@ const MessageReply = () => {
     const { state, fetchTasks } = useTaskContext()
     const { data: session } = useSession()
     const userName = session?.user?.name
+    //@ts-ignore
     const userId = session?.user?.id;
+
+    //@ts-ignore
     const role = session?.user?.role
     // console.log(session);
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
 
-
-
     const familyRoomId = role === "parent" ? userId : state.data?.[0]?.creator
-
-    console.log(familyRoomId, state.data?.[0]?.creator);
+    // console.log(familyRoomId, state.data?.[0]?.creator);
 
     useEffect(() => {
         const fetchMessages = async () => {
+
             try {
                 const res = await fetch(`api/groupchat/${familyRoomId}/allmessage`);
                 // console.log(res);
@@ -45,17 +46,15 @@ const MessageReply = () => {
     return (
         <div>
             {
-                messages?.map(dm => {
-                    console.log(dm);
-
+                messages?.map((dm) => {
+                    // console.log(dm);
                     const { _id, message, createdAt, child, parent } = dm
                     let isCurrentUserMessage
                     if (parent || child === session?.user?.id) {
                         isCurrentUserMessage = true
                     }
-                    console.log(isCurrentUserMessage);
 
-
+                    // console.log(isCurrentUserMessage);
 
                     return (
                         <div key={_id}>

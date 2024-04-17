@@ -1,5 +1,4 @@
 import { Messages } from "../(models)/Message.js";
-// import { connectToDB } from "../utils/database.js";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
 
