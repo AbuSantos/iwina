@@ -61,7 +61,7 @@ const handler = NextAuth({
             .exec();
           // console.log(foundUser, "found user");
 
-          if (foundKid) {
+          if ('password' in foundKid) {
             const match = await bcrypt.compare(
               credentials?.password,
               foundKid.password
