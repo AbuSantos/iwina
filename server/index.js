@@ -34,6 +34,7 @@ server.on("connection", (socket) => {
     mongoose.set("strictQuery", true);
     try {
       const mongoUri =
+        "mongodb+srv://abusomwansantos:ge9px6ar1Xf9Wzb4@cluster0.ak2puyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
       if (!mongoUri) {
         console.log("Mongo uri isnt define");
       }

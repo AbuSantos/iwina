@@ -17,8 +17,6 @@ const fredoka = Fredoka({ subsets: ["latin"] })
 const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }: TaskType) => {
 
     const formatedTime = formatTime(deadline)
-
-
     const router = useRouter()
     return (
         <div className="prompt_card">
