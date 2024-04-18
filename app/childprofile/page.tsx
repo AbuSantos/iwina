@@ -5,13 +5,11 @@ import { useSearchParams } from "next/navigation"
 import ChildOngoingTask from '@/components/ChildView/ChildOngoingTask';
 import ChildViewCompletedTask from '@/components/ChildView/ChildViewCompleted';
 import BottomNav from '@/components/BottomNav';
-import { useTaskContext } from '@/context/TaskContext';
 
 const ChildProfileView = () => {
     const params = useSearchParams()
     const childId = params.get("id")
     const [data, setData] = useState()
-    const { state, fetchTasks } = useTaskContext()
 
     // console.log(childId);
     useEffect(() => {

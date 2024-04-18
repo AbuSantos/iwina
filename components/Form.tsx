@@ -28,7 +28,6 @@ const Form = ({ type }: PropsType) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        // console.log(reverseFormatTime(task.deadline));
 
         setSubmit(true)
 

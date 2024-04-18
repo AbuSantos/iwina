@@ -6,7 +6,6 @@ const page = () => {
     return (
         <div>
             <div>
-                {/* <CompletedTask /> */}
                 <Profile />
             </div>
 

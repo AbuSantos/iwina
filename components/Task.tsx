@@ -12,7 +12,7 @@ import { useTaskContext } from "@/context/TaskContext";
 
 const Task = ({ }) => {
     const { data: session } = useSession()
-    const userId = session?.user?.id
+    const userId = (session?.user as any)?.id
     const { state, fetchTasks } = useTaskContext()
 
     const [activeTab, setActiveTab] = useState("new");
@@ -22,7 +22,6 @@ const Task = ({ }) => {
     useEffect(() => {
         fetchTasks("GET", `api/task/${userId}/alltask`)
     }, [])
-    // console.log(state.data);
     return (
         <section className="w-full flex flex-col items-center justify-center">
             <div className="flex space-x-2 w-full items-center text-[0.8rem]">

@@ -36,7 +36,7 @@ const Home = () => {
     }
     )
     // const knockUser = await knockClient.users.get(userId);
-    console.log(knockUser);
+    // console.log(knockUser);
   }
   addKnockUSer()
   // }, [])

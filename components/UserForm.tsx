@@ -79,20 +79,11 @@ const UserForm = () => {
             [name]: value
         }))
     }
-    const userId = session?.user?.id
+    const userId = (session?.user as any)?.id
     console.log(newAvatar);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        // if (newAvatar) {
-        //     // setSelectedImage(newAvatar);
-        //     console.log("yes");
-
-        // } else {
-        //     setSelectedImage(avatars[selectAvatar].src);
-        // }
-        // console.log(selectImage);
-
         try {
             const res = await fetch("api/users/kids", {
                 method: 'POST',
@@ -200,7 +191,6 @@ const UserForm = () => {
         sGirlChild, boychild, aGirlChild, aBoyChild
     ]
 
-
     return (
         <div>
             {/* {showErr && <p>{errMessage}</p>} */}
@@ -288,5 +278,3 @@ const UserForm = () => {
 }
 
 export default UserForm
-
-//  text-[#faf9fb] text-[#4f2190]

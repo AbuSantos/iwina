@@ -5,8 +5,6 @@ import React from 'react'
 const GroupChat = () => {
     return (
         <div>Family Chat
-
-
             <div>
                 <MessageForm />
                 <MessageReply />

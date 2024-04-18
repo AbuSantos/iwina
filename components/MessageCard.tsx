@@ -17,9 +17,7 @@ const MessageCard = ({ familyRoomId }) => {
             }
         }
         fetchMessages()
-        // fetchTasks("GET", `api/groupchat/${familyRoomId}/allmessage`);
     }, [userId])
-    // console.log(state.data);
 
     return (
         <div>MessageCard</div>
