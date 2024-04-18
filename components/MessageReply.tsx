@@ -41,16 +41,16 @@ const MessageReply = () => {
         }
         fetchMessages()
     }, [userId, familyRoomId])
-    console.log(messages);
+    // console.log(messages);
 
     return (
         <div>
             {
-                messages?.map((dm) => {
+                (messages as [])?.map((dm) => {
                     // console.log(dm);
                     const { _id, message, createdAt, child, parent } = dm
                     let isCurrentUserMessage
-                    if (parent || child === session?.user?.id) {
+                    if (parent || child === (session?.user as any)?.id) {
                         isCurrentUserMessage = true
                     }
 
