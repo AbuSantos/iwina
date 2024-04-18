@@ -33,7 +33,7 @@ const page = () => {
                 method: 'PATCH',
                 body: JSON.stringify({
                     status: "In Progress",
-                    userId: session?.data?.user?.id
+                    userId: (session?.data?.user as any)?.id
                 })
             })
             if (resp.ok) {

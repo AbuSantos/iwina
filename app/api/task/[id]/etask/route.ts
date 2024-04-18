@@ -37,7 +37,7 @@ export const PATCH = async (
       return new Response("Invalid status", { status: 400 });
     }
 
-    const session = await getServerSession({ req });
+    const session = await getServerSession();
 
     const pickedByUsername = session?.user?.name || null;
 
