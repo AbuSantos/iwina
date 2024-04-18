@@ -54,18 +54,24 @@ const handler = NextAuth({
             // Return null if required credentials are missing
             return null;
           }
-          const foundKid = await Kids.findOne({
+          const foundKid = (await Kids.findOne({
             username: credentials.username,
           })
             .lean()
-            .exec();
+            .exec()) as {
+            password: string;
+            _id: string;
+            username: string;
+            image: string;
+          };
           // console.log(foundUser, "found user");
 
-          if ('password' in foundKid) {
+          if (foundKid && typeof foundKid.password) {
             const match = await bcrypt.compare(
-              credentials?.password,
+              credentials.password,
               foundKid.password
             );
+
             if (match) {
               return {
                 id: foundKid._id,
