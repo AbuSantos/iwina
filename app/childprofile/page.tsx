@@ -34,10 +34,9 @@ const ChildProfileView = () => {
                 < ChildOngoingTask childId={childId} data={data} />
             </div>
             <div className='flex items-center justify-center'>
-                < ChildViewCompletedTask childId={childId} data={data} />
+                < ChildViewCompletedTask childId={childId} />
             </div>
             <BottomNav />
-
         </div>
     )
 }

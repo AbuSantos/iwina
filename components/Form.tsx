@@ -39,7 +39,7 @@ const Form = ({ type }: PropsType) => {
                     taskDesc: task.description,
                     taskDdl: task.deadline,
                     taskPnt: task.points,
-                    userId: session?.user?.id
+                    userId: (session?.user as any)?.id
                 })
             })
             if (response.ok) {
@@ -68,6 +68,7 @@ const Form = ({ type }: PropsType) => {
                 <div className="flex flex-col ">
                     <label htmlFor="task_description" className={`py-4 ${fredoka.className} text-base  text-gray-500`}>
                         Task Description
+                        
                         <textarea required placeholder="Description" name="description" id="task_description" cols="30" rows="10" className={clsx(
                             "border-solid outline-none border-gray border-2 px-6 py-2 text-lg rounded-3xl w-full text-gray-700",
                         )} value={task.description} onChange={handleChange} />

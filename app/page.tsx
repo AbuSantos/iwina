@@ -15,8 +15,8 @@ const fredoka = Fredoka({ subsets: ["latin"] })
 const Home = () => {
   const { data: session } = useSession()
   const [provider, setProvider] = useState(null)
-  const userId = session?.user?.id
-  console.log(session);
+  // const userId = (session?.user as any)?.id
+  // console.log(session);
 
 
   useEffect(() => {
@@ -28,17 +28,17 @@ const Home = () => {
   }, [])
 
   // useEffect(() => {
-    const addKnockUSer = async () => {
-      const knockClient = new Knock("sk_test_-qFDqPZTV0Hi1FeA5U0ZICkqgkOljy2hNNs4e_1nrcQ")
-      const knockUser = await knockClient.users.identify(session?.user?.id, {
-        name: session?.user?.name,
-        email: session?.user?.email
-      }
-      )
-      // const knockUser = await knockClient.users.get(userId);
-      console.log(knockUser);
+  const addKnockUSer = async () => {
+    const knockClient = new Knock("sk_test_-qFDqPZTV0Hi1FeA5U0ZICkqgkOljy2hNNs4e_1nrcQ")
+    const knockUser = await knockClient.users.identify((session?.user as any)?.id, {
+      name: session?.user?.name,
+      email: session?.user?.email
     }
-    addKnockUSer()
+    )
+    // const knockUser = await knockClient.users.get(userId);
+    console.log(knockUser);
+  }
+  addKnockUSer()
   // }, [])
 
   return (

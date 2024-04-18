@@ -56,7 +56,7 @@ const page = () => {
         try {
             const resp = await fetch(`api/task/${taskId}/etask`, {
                 method: "PATCH",
-                body: JSON.stringify({ status: "Completed", userId: session?.data?.user?.id })
+                body: JSON.stringify({ status: "Completed", userId: (session?.data?.user as any)?.id })
             })
             if (resp.ok) {
                 setPicked(true)
@@ -85,8 +85,9 @@ const page = () => {
                 })
                 if (res.ok) {
                     // Remove the deleted task from the local state
-                    const updatedTasks = task?.filter(t => t._id !== taskId);
+                    const updatedTasks = state.data?.filter(t => t._id !== taskId);
                     setTask(updatedTasks);
+
                     router.push("/")
                     console.log("Successfully deleted task");
                 }
@@ -116,8 +117,8 @@ const page = () => {
         return <div>Error: {error}</div>
     }
 
-    const isCreator = state.data?.[0]?.creator === session?.data?.user?.id
-    console.log(isCreator);
+    const isCreator = state.data?.[0]?.creator === (session?.data?.user as any)?.id
+    // console.log(isCreator);
 
 
     return (

@@ -61,7 +61,7 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
         try {
             const resp = await fetch(`api/task/${taskId}/etask`, {
                 method: "PATCH",
-                body: JSON.stringify({ status: "Completed", userId: session?.data?.user?.id })
+                body: JSON.stringify({ status: "Completed", userId: (session?.data?.user as any)?.id })
             })
             if (resp.ok) {
                 setPicked(true)
@@ -90,7 +90,7 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
                 })
                 if (res.ok) {
                     // Remove the deleted task from the local state
-                    const updatedTasks = task?.filter(t => t._id !== taskId);
+                    const updatedTasks = state.data.filter((t: any) => t._id !== taskId);
                     setTask(updatedTasks);
                     router.push("/")
                     console.log("Successfully deleted task");
@@ -100,6 +100,8 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
             }
         }
     }
+    // console.log(state.data.filter(), "delete");
+
     const acceptTask = async () => {
         try {
             const res = await fetch(`/api/task/${taskId}/acceptTask`, {
@@ -121,7 +123,7 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
     //     return <div>Error: {error}</div>
     // }
 
-    const isCreator = state.data?.[0]?.creator === session?.data?.user?.id
+    const isCreator = state.data?.[0]?.creator === (session?.data?.user as any)?.id
     console.log(isCreator);
 
 
