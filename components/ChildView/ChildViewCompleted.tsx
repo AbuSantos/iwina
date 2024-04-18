@@ -17,7 +17,7 @@ const ChildViewCompletedTask = ({ childId }) => {
     const session = useSession()
     const [userTask, setUserTask] = useState()
     const [reward, setReward] = useState(true)
-    const userId = session?.data?.user?.id
+    const userId = (session?.data?.user as any)?.id
     useEffect(() => {
         const fetchTask = async () => {
             const res = await fetch(`api/tasks/${childId}/completed`)
@@ -25,14 +25,12 @@ const ChildViewCompletedTask = ({ childId }) => {
                 const data = await res.json()
                 setUserTask(data)
             }
-            // const filteredData = data.filter(task => task.user == taskId)
-            // console.log(data);
         }
 
         fetchTask()
     }, [])
 
-    const handleReward = async (taskId) => {
+    const handleReward = async (taskId: string) => {
         console.log(taskId);
 
         try {
@@ -54,8 +52,8 @@ const ChildViewCompletedTask = ({ childId }) => {
     return (
         <div className={`border-2 bg-[#a191fe] font-medium rounded-xl py-2 px-3 w-11/12`}>
             {
-                userTask?.map((task: any) => {
-                    console.log(reward);
+                (userTask as [])?.map((task: any) => {
+                    // console.log(reward);
 
                     const { taskDesc, taskDdl, taskPnt, status, updatedAt, _id } = task
 
@@ -79,6 +77,7 @@ const ChildViewCompletedTask = ({ childId }) => {
                                         <span className={`${montserrat.className} text-[0.8rem] font-medium `}>  🕝 {FormatTimeDifference(updatedAt)}</span>
                                     </div>
                                 </div>
+
                                 <div>
                                     <button className="flex items-center justify-center bg-[#dfd7fb] text-[#6229b3] py-2 px-5 rounded-lg "
                                         onClick={() => handleReward(_id)}
@@ -90,6 +89,7 @@ const ChildViewCompletedTask = ({ childId }) => {
                                         </span>
                                     </button>
                                 </div>
+
                             </div>
                         </div>
                     )
@@ -97,13 +97,10 @@ const ChildViewCompletedTask = ({ childId }) => {
                 )
             }
             {
-                userTask && userTask?.length === 0 && (
+                userTask && (userTask as [])?.length === 0 && (
                     <div className="flex items-center flex-col justify-center">
                         <Image src={ongoingchore} height={200} alt="a kid sweeping" />
                         <p className={`${montserrat.className} text-center font-medium text-gray-600`}>You currently have no completed task, pick a task to earn some points</p>
-                        < button className="bg-[#6229b3] text-white px-4 py-2 rounded mt-4" onClick={() => setActiveTab("new")}>
-                            Pick a Task
-                        </button>
                     </div>
 
                 )
