@@ -107,14 +107,12 @@ const handler = NextAuth({
 
         // Update the session user ID based on the user type
         if (parentUser) {
-          //@ts-ignore
-          session.user.id = parentUser._id.toString();
-          session.user.role = "parent";
-          //@ts-ignore
+          (session.user as any).id = parentUser._id.toString();
+          (session.user as any).role = "parent";
           session.user.image = parentUser.image.toString();
         } else if (kidUser) {
+          (session.user as any).id = kidUser._id.toString();
           //@ts-ignore
-          session.user.id = kidUser._id.toString();
           session.user.role = "child";
           session.user.image = kidUser.image.toString();
         }
@@ -140,7 +138,7 @@ const handler = NextAuth({
             email: profile?.email,
             // Ensure there's no space in the username and convert to lowercase
             username: profile?.name?.replace(" ", " ").toLowerCase(),
-            image: profile?.picture,
+            image: profile?.image,
             points: 0,
             completedTasks: [],
             ongoingTasks: [],
