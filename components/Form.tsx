@@ -68,8 +68,8 @@ const Form = ({ type }: PropsType) => {
                 <div className="flex flex-col ">
                     <label htmlFor="task_description" className={`py-4 ${fredoka.className} text-base  text-gray-500`}>
                         Task Description
-                        
-                        <textarea required placeholder="Description" name="description" id="task_description" cols="30" rows="10" className={clsx(
+
+                        <textarea required placeholder="Description" name="description" id="task_description" cols={30} rows={10} className={clsx(
                             "border-solid outline-none border-gray border-2 px-6 py-2 text-lg rounded-3xl w-full text-gray-700",
                         )} value={task.description} onChange={handleChange} />
                     </label>
