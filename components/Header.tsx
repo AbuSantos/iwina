@@ -32,7 +32,7 @@ const Header = () => {
                         </div>
                         <div className="text-gray-50 flex judstify-center items-center space-x-2">
                             <Notification />
-                            <span onClick={signOut} >
+                            <span onClick={() => signOut} >
                                 <IoMdLogOut style={{ fontSize: "20px", cursor: "pointer" }} />
                             </span>
                         </div>

@@ -9,7 +9,7 @@ import { useTaskContext } from "@/context/TaskContext"
 const Feed = () => {
     const [tasks, setTasks] = useState([])
     const session = useSession()
-    const userId = session?.data?.user?.id
+    const userId = (session?.data?.user as any)?.id
     const router = useRouter()
     const [openModals, setOpenModals] = useState<string[]>([])
     const { state, fetchTasks } = useTaskContext()

@@ -6,14 +6,15 @@ import { useEffect, useState } from "react"
 import girlchild from "@/public/images/girlchild.png"
 import { FaPlus } from "react-icons/fa6";
 import Link from "next/link"
+import { useTaskContext } from "@/context/TaskContext"
 
 const fredoka = Fredoka({ subsets: ["latin"] })
 
 const KidsScroll = () => {
     const { data: session } = useSession()
-    const userId = session?.user?.id
-    const role = session?.user?.role
-
+    const { state, fetchTasks } = useTaskContext()
+    const userId = (session?.user as any)?.id
+    const role = (session?.user as any)?.role
     const [kids, setKids] = useState()
 
     useEffect(() => {
@@ -27,13 +28,13 @@ const KidsScroll = () => {
         }
         fetchKids()
     }, [userId, role])
-    // const tagHeader = 
+
     return (
         <div className="w-full p-3">
             <h2 className={`${fredoka.className} text-lg font-medium`}>{role === "parent" ? "Your children" : "Your Siblings"}</h2>
             <div className="flex overflow-x-auto space-x-5 scrollbar-hide mt-3 items-center" >
                 {
-                    kids?.map((kid: any) => {
+                    (kids as [])?.map((kid: any) => {
                         // console.log(kid);
                         return (
                             <div key={kid?._id}>
@@ -41,6 +42,7 @@ const KidsScroll = () => {
                                     < div className=" bg-[#dfd7fb] p-3 rounded-full h-14 w-14 flex items-center justify-center" >
                                         <Image src={kid.image} alt="girl child" width={100} height={100} />
                                     </div>
+
                                     <h4 className={`${fredoka.className} font-normal capitalize text-[#444444d2] text-sm`}>{kid?.username}</h4>
                                 </Link>
                             </div >
