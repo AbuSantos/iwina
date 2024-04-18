@@ -6,8 +6,8 @@ import { Montserrat } from "next/font/google";
 import ongoingchore from "@/public/images/ongoingchore.png"
 import Image from "next/image";
 import { AiOutlineComment } from "react-icons/ai";
-// import "@/styles/Ongoing.module.css"
 import InputSlider from "./InputSlider";
+import { useTaskContext } from "@/context/TaskContext";
 
 
 type ChildIdType = {
@@ -17,33 +17,25 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 
 const ChildOngoingTask = ({ childId, data }) => {
     const { data: session } = useSession();
-    console.log(session);
-
-    const [ongoingTask, setOngoingTask] = useState();
-    const [loading, setLoading] = useState(true);
-    const userRole = session?.user?.role;
-    console.log(userRole);
+    const { state, fetchTasks } = useTaskContext()
+    const userRole = (session?.user as any)?.role;
+    // console.log(userRole);
 
 
     useEffect(() => {
-        const fetchTask = async () => {
-            const res = await fetch(`api/tasks/${childId}/inprogress`);
-            if (res.ok) {
-                const data = await res.json();
-                setOngoingTask(data);
-                setLoading(false); // Set loading to false when data fetching is complete
-            }
-        };
-        fetchTask();
-    }, []);
+
+        fetchTasks("GET", `api/tasks/${childId}/inprogress`)
+    }, [childId]);
 
     // Return loading indicator while fetching data
-    if (loading) return <p>Loading...</p>;
+    if (state.loading) return <p>Loading...</p>;
+    // console.log(state.data);
+
 
     return (
         <div className={`border-2 bg-[#dfd7fb] font-medium rounded-xl py-2 px-3 w-11/12`}>
             <div>
-                {ongoingTask?.map((task) => (
+                {state.data?.map((task) => (
                     <>
                         <TaskCard
                             key={task._id} // Make sure to include a unique key for each TaskCard
@@ -77,7 +69,7 @@ const ChildOngoingTask = ({ childId, data }) => {
             </div>
 
             <div>
-                {ongoingTask && ongoingTask.length === 0 && (
+                {state.data && state.data.length === 0 && (
                     <div className="flex items-center flex-col justify-center">
                         <Image src={ongoingchore} height={200} alt="a kid sweeping" />
                         <p className={`${montserrat.className} text-center font-medium text-gray-400`}>

@@ -13,14 +13,14 @@ const ChildProfileView = () => {
     const [data, setData] = useState()
     const { state, fetchTasks } = useTaskContext()
 
-    console.log(childId);
+    // console.log(childId);
     useEffect(() => {
         const fetchKids = async () => {
             const res = await fetch(`api/users/kids/${childId}/kid`)
             if (res.ok) {
                 const data = await res.json()
                 setData(data)
-                console.log(data)
+                // console.log(data)
             }
         }
         fetchKids()

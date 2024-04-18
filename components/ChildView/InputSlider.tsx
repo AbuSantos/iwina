@@ -12,7 +12,9 @@ const InputSlider: React.FC = () => {
 
         const showSliderValue = () => {
             if (rangeSlider && rangeBullet) {
+                //@ts-ignore
                 rangeBullet.innerHTML = rangeSlider.value;
+                //@ts-ignore
                 const bulletPosition = rangeSlider.value / rangeSlider.max;
                 rangeBullet.style.left = `${bulletPosition * 78}px`;
             }
