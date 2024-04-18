@@ -14,6 +14,7 @@ import { minify } from "next/dist/build/swc";
 export const FormatTimeDifference = (createdAt: any) => {
   const createdAtTime: Date = new Date(createdAt);
   const currentTime: Date = new Date();
+  //@ts-ignore
   const timeDifference = Math.abs(currentTime - createdAtTime); // Difference in milliseconds
 
   // Convert milliseconds to minutes
@@ -36,7 +37,7 @@ export const formatTime = (deadline: Date) => {
     hour: "2-digit",
     minute: "2-digit",
   };
-
+  //@ts-ignore
   const formattedDate = new Date(deadline).toLocaleTimeString("en-US", options);
   return formattedDate;
 };
