@@ -57,6 +57,12 @@ const BottomNav = () => {
                         Profile
                     </Link>
                 </div>
+                <div className="home flex flex-col items-center text-[0.8rem] ">
+                    <LuUser2 style={{ fontSize: 25, opacity: 0.7 }} />
+                    <Link href="/map" className={`text-[#6329b3d6] text-[0.9rem] ${fredoka.className}`}>
+                        Map
+                    </Link>
+                </div>
             </div>
         </div>
     )
