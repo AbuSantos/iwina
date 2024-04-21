@@ -1,31 +1,24 @@
 "use client"
 import Map from "@/components/maps/Map";
-import { Icon } from "leaflet";
+import { Icon, map } from "leaflet";
 import { useEffect, useState } from "react";
-import { Marker, useMap, Popup, TileLayer, useMapEvents } from "react-leaflet";
+import { Marker, useMap, Popup, TileLayer, useMapEvents, Circle, CircleMarker } from "react-leaflet";
 import L from "leaflet"
 import parent from "../../public/images/parent.png"
 
-const DEFAULT_CENTER = [52.520007, 13.404954]
+const DEFAULT_CENTER = [37.774929, -122.419416]
 const Markerwhatever = (props) => {
-    // const [position, setPosition] = useState()
-    const getLiveLocation = () => {
-        navigator.geolocation.watchPosition(success, error)
-    }
-
-    function success(pos) {
-        //latitude of the user and the longitude of the user, also the acuracy of both in 100
-        const lat = pos.coords.latitude
-        const lng = pos.coords.longitude
-        const accuracy = pos.coords.accuracy
-
-        //now we're passing the variables to the marker, the accuracy would create a circle around the marker
-
+    const fillBlueOptions = { fillColor: 'blue' }
+    function error(err) {
+        if (err.code === 1) {
+            alert("Please allow geolocation access!")
+        } else {
+            alert("Cannot get Geolocation")
+        }
     }
 
     let greenIcon = new L.Icon({
         iconUrl: "/images/girlchild.png",
-
         iconSize: [30, 30], // size of the icon
         iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
         popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
@@ -34,7 +27,7 @@ const Markerwhatever = (props) => {
 
     return (
         <div>
-            <Map width="800" height="400" center={DEFAULT_CENTER} zoom={13}>
+            <Map width="800" height="400" center={DEFAULT_CENTER} zoom={13} scrollWheelZoom={false} bounds={DEFAULT_CENTER}>
                 <>
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -49,9 +42,14 @@ const Markerwhatever = (props) => {
                         }}
                         icon={greenIcon}
                     >
-                        <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
-                        </Popup>
+                        <CircleMarker
+                            center={DEFAULT_CENTER}
+                            pathOptions={fillBlueOptions} radius={100}
+                        >
+                            <Popup>
+                                A pretty CSS3 popup. <br /> Easily customizable.
+                            </Popup>
+                        </CircleMarker>
                     </Marker>
                 </>
             </Map>

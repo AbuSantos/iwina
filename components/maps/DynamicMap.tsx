@@ -18,6 +18,7 @@ const Map = ({ children, className, width, height, ...rest }) => {
       });
     })();
   }, []);
+  
 
 
   return (
