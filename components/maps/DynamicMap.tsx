@@ -10,15 +10,15 @@ const { MapContainer } = ReactLeaflet;
 const Map = ({ children, className, width, height, ...rest }) => {
   useEffect(() => {
     (async function init() {
-      delete Leaflet.Icon.Default.prototype._getIconUrl;
+      // delete Leaflet.Icon.Default.prototype._getIconUrl;
       Leaflet.Icon.Default.mergeOptions({
-        iconRetinaUrl: '/images/parent.png',
-        iconUrl: '/images/parent.png',
-        shadowSize: [50, 50],
+        iconRetinaUrl: '/images/girlchild.png',
+        iconUrl: '/images/girlchild.png',
+        // shadowSize: [50, 50],
       });
     })();
   }, []);
-  
+
 
 
   return (

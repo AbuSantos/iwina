@@ -1,26 +1,37 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Marker, useMap, Popup, TileLayer, useMapEvents, Circle, CircleMarker } from "react-leaflet";
+import L from "leaflet"
 
 export default function MainMarker({ x, greenIcon, fillBlueOptions }) {
-    console.log(x.lat);
+    const [circle, setCircle] = useState(null)
+    const [marker, setMarker] = useState(null)
+    // console.log(x.lat);
     const map = useMap(); // Access the map instance using useMap hook
-    console.log(map);
-
-    // useEffect(() => {
-    //     if (map) {
-    //         map.setView([x.lat, x.lng]); // Center the map on the new position
-    //     }
-    // }, [x, map]);
-
-
+    // console.log(map);
     useEffect(() => {
-        if (map) {
-            map.fitBounds([
-                [x.lat - 0.01, x.lng - 0.01],
-                [x.lat + 0.01, x.lng + 0.01]
-            ]);
+        if (map && x) {
+            // Remove previous circle and marker if they exist
+
+            if (circle) {
+                map.removeLayer(circle)
+                map.removeLayer(marker)
+            }
+
+            const newCircle = (L.circle([x.lat, x.lng], {
+                radius: x.acc,
+            }).addTo(map));
+
+            const newMarker = (L.marker([x.lat, x.lng], {
+                // icon: greenIcon,
+            }).addTo(map));
+
+            setCircle(newCircle)
+            setMarker(newMarker)
+            // Fit the map's viewport to the bounds of the circle
+            map.fitBounds(newCircle.getBounds());
         }
-    }, [x])
+    }, [map, x]);
+    // console.log(L.marker);
 
     return (
         <Marker
@@ -30,18 +41,10 @@ export default function MainMarker({ x, greenIcon, fillBlueOptions }) {
                     console.log('marker clicked')
                 },
             }}
-            icon={greenIcon}
         >
-            <CircleMarker
-                center={[x.lat, x.lng]}
-                pathOptions={fillBlueOptions}
-                radius={x.acc}
-                bounds={[x.lat, x.lng]}
-            >
-                <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                </Popup>
-            </CircleMarker>
+            <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
         </Marker>
     )
 }
