@@ -22,7 +22,7 @@ const Map = ({ children, className, width, height, ...rest }) => {
 
 
   return (
-    <MapContainer  {...rest} style={{ height: "300px", width: "100%" }} zoom={13} >
+    <MapContainer  {...rest} style={{ height: "450px", width: "100%" }} zoom={15} >
       {children}
     </MapContainer>
   )
