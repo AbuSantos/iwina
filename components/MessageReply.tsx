@@ -45,12 +45,10 @@ const MessageReply = () => {
                 (messages as [])?.map((dm) => {
                     // console.log(dm);
                     const { _id, message, createdAt, child, parent } = dm
-                    let isCurrentUserMessage
+                    let isCurrentUserMessage: boolean
                     if (parent || child === (session?.user as any)?.id) {
                         isCurrentUserMessage = true
                     }
-
-                    // console.log(isCurrentUserMessage);
 
                     return (
                         <div key={_id}>

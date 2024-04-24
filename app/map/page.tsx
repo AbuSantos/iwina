@@ -5,17 +5,62 @@ import { useEffect, useState, useRef } from "react";
 import { Marker, useMap, Popup, TileLayer, useMapEvents, Circle, CircleMarker } from "react-leaflet";
 import L from "leaflet"
 import MainMarker from "@/components/maps/Marker";
+import { useSession } from "next-auth/react";
+import { useTaskContext } from "@/context/TaskContext";
+import io, { Socket } from 'socket.io-client';
 
 
 const Markerwhatever = (props) => {
-
+    const socketRef = useRef<Socket | null>(null);
     const fillBlueOptions = { fillColor: 'blue' }
     const [x, setX] = useState({
         lat: 0,
         lng: 0,
         acc: 0
     })
+
     const mapRef = useRef(null)
+    const { data: session } = useSession()
+    const { state, fetchTasks } = useTaskContext()
+    //@ts-ignore
+    const userId = session?.user?.id
+    //@ts-ignore
+    const role = session?.user?.role
+
+    useEffect(() => {
+        fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
+    }, [userId, role])
+    const shareLocation = () => {
+        if (userId && familyId) {
+            socketRef.current.emit("join-location", userId, familyId);
+
+        } else {
+            console.log("User or Room ID is missing");
+        }
+    }
+
+    // console.log(state.data)
+    const familyId = role === "parent" ? userId : state.data?.[0]?.creator
+    // console.log(familyId);
+
+    const familyLocation = {}
+    const locations = []
+
+    useEffect(() => {
+        socketRef.current = io("http://localhost:8080");
+
+        shareLocation()
+
+        // Cleanup function to remove the event listener and disconnect the socket
+        return () => {
+            if (socketRef.current) {
+                // socketRef.current.off("receive-message");
+                socketRef.current.disconnect();
+            }
+        };
+
+    }, [userId, familyId]);
+
 
 
     useEffect(() => {
@@ -41,6 +86,12 @@ const Markerwhatever = (props) => {
         }
 
     }, []);
+    if (familyId) {
+        familyLocation[userId] = familyId
+        locations.push(x)
+        // console.log(locations);
+    }
+
 
 
     let greenIcon = new L.Icon({
@@ -65,6 +116,6 @@ const Markerwhatever = (props) => {
         </div>
 
     );
-    
+
 }
 export default Markerwhatever

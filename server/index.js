@@ -13,19 +13,23 @@ const server = new Server(8080, {
 const userRooms = {};
 
 server.on("connection", (socket) => {
-  // console.log(`User connected: ${socket.id}`);
-
   // Handle users joining a room
   socket.on("join-room", (userId, familyRoomId) => {
     if (userId && familyRoomId) {
       // Add the user to the specified room
       socket.join(familyRoomId);
-      console.log(`User ${userId} joined room ${familyRoomId}`);
+      // console.log(`User ${userId} joined room ${familyRoomId}`);
 
       // Map the user to the room
       userRooms[socket.id] = familyRoomId;
     } else {
       console.log("User ID or room ID missing");
+    }
+  });
+
+  socket.on("join-location", (userId, familyId) => {
+    if (userId && familyId) {
+      console.log(userId, familyId, "family and user Id");
     }
   });
 
