@@ -11,6 +11,7 @@ const server = new Server(8080, {
 
 // Map of users to their respective rooms
 const userRooms = {};
+const userLocations = {};
 
 server.on("connection", (socket) => {
   // Handle users joining a room
@@ -29,6 +30,10 @@ server.on("connection", (socket) => {
 
   socket.on("join-location", (userId, familyId) => {
     if (userId && familyId) {
+      socket.join(familyId);
+
+      // Map the user to the location
+      userLocations[socket.id] = familyId;
       console.log(userId, familyId, "family and user Id");
     }
   });
