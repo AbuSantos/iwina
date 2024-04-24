@@ -4,7 +4,6 @@ import { Icon, map } from "leaflet";
 import { useEffect, useState, useRef } from "react";
 import { Marker, useMap, Popup, TileLayer, useMapEvents, Circle, CircleMarker } from "react-leaflet";
 import L from "leaflet"
-import parent from "../../public/images/parent.png"
 import MainMarker from "@/components/maps/Marker";
 
 
@@ -18,10 +17,11 @@ const Markerwhatever = (props) => {
     })
     const mapRef = useRef(null)
 
+
     useEffect(() => {
         try {
             if ('geolocation' in navigator) {
-                navigator.geolocation.watchPosition((pos) => {
+                navigator.geolocation.getCurrentPosition((pos) => {
                     const { longitude, latitude, accuracy } = pos.coords;
                     setX({
                         lat: latitude,
@@ -42,8 +42,6 @@ const Markerwhatever = (props) => {
 
     }, []);
 
-   
-
 
     let greenIcon = new L.Icon({
         iconUrl: "/images/girlchild.png",
@@ -51,10 +49,9 @@ const Markerwhatever = (props) => {
         iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
         popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
     });
-    // console.log(L);
-
 
     return (
+
         <div>
             <Map width="800" height="500" center={[x.lat, x.lng]} zoom={13} scrollWheelZoom={false} ref={mapRef}>
                 <>
@@ -66,6 +63,8 @@ const Markerwhatever = (props) => {
                 </>
             </Map>
         </div>
+
     );
+    
 }
 export default Markerwhatever

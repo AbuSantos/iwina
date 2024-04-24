@@ -18,6 +18,8 @@ const Feed = () => {
         fetchTasks('GET', `api/task/${userId}/alltask`)
     }, [])
 
+    console.log(session);
+
     // Function to toggle the visibility of a modal based on its ID
     // then we pass the task id to the open modal array
     // the modal is then opened if its in the modal array

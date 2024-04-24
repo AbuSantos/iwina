@@ -14,6 +14,7 @@ const Map = ({ children, className, width, height, ...rest }) => {
       Leaflet.Icon.Default.mergeOptions({
         iconRetinaUrl: '/images/girlchild.png',
         iconUrl: '/images/girlchild.png',
+
         // shadowSize: [50, 50],
       });
     })();

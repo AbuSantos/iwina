@@ -5,13 +5,6 @@ import { connectToDB } from "@/utils/database";
 import bcrypt from "bcrypt";
 import User from "@/(models)/User";
 import Kids from "@/(models)/Kids";
-// import { profile } from "console";
-
-// type ProfileType = {
-//   email: string | undefined;
-//   name: string | undefined;
-//   image: string | undefined;
-// };
 
 const handler = NextAuth({
   providers: [
@@ -29,9 +22,12 @@ const handler = NextAuth({
           points,
           role: userRole,
         };
+
       },
+
       clientId: process.env.CLIENT_ID || "",
       clientSecret: process.env.CLIENT_SECRET || "",
+      
     }),
     CredentialsProvider({
       name: "As Kids",
@@ -99,7 +95,6 @@ const handler = NextAuth({
           query = { email: session.user.email };
         } else if (session.user?.name) {
           query = { username: session.user.name };
-          // console.log(query, "query 2");
         }
         const parentUser = await User.findOne(query);
         const kidUser = await Kids.findOne(query);
@@ -109,7 +104,7 @@ const handler = NextAuth({
         if (parentUser) {
           (session.user as any).id = parentUser._id.toString();
           (session.user as any).role = "parent";
-          session.user.image = parentUser.image.toString();
+          session.user.image = parentUser.image;
         } else if (kidUser) {
           (session.user as any).id = kidUser._id.toString();
           //@ts-ignore
@@ -125,8 +120,6 @@ const handler = NextAuth({
     },
 
     async signIn({ profile, account }) {
-      // console.log(account, "account");
-
       try {
         await connectToDB(); // Connect to the database
         const userExist = await User.findOne({

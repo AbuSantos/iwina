@@ -12,20 +12,17 @@ const MessageReply = () => {
     const userName = session?.user?.name
     //@ts-ignore
     const userId = session?.user?.id;
-
     //@ts-ignore
     const role = session?.user?.role
-    // console.log(session);
+
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
 
     const familyRoomId = role === "parent" ? userId : state.data?.[0]?.creator
-    // console.log(familyRoomId, state.data?.[0]?.creator);
 
     useEffect(() => {
         const fetchMessages = async () => {
-
             try {
                 const res = await fetch(`api/groupchat/${familyRoomId}/allmessage`);
                 // console.log(res);
@@ -36,7 +33,6 @@ const MessageReply = () => {
                 setMessages(data);
             } catch (error) {
                 console.error("Error fetching messages:", error);
-                // Handle the error, e.g., show a notification to the user
             }
         }
         fetchMessages()

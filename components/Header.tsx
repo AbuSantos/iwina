@@ -12,11 +12,9 @@ import { IoMdLogOut } from "react-icons/io";
 
 const fredoka = Fredoka({ subsets: ["latin"] })
 
-
 const Header = () => {
     const { data: session } = useSession()
     const [searchTask, setSearchTask] = useState(" ")
-    // console.log(session);
 
     return (
         <div className={`bg-gradient-to-b from-[#4f2190] to-[#9e0fb1] text-lg ${fredoka.className} rounded-b-xl flex justify-center items-center`}>
@@ -32,7 +30,8 @@ const Header = () => {
                         </div>
                         <div className="text-gray-50 flex judstify-center items-center space-x-2">
                             <Notification />
-                            <span onClick={() => signOut} >
+                            {/* @ts-ignore */}
+                            <span onClick={signOut} >
                                 <IoMdLogOut style={{ fontSize: "20px", cursor: "pointer" }} />
                             </span>
                         </div>

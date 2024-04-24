@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Marker, useMap, Popup, TileLayer, useMapEvents, Circle, CircleMarker } from "react-leaflet";
 import L from "leaflet"
+import ChildDetail from "./ChildDetails";
 
 export default function MainMarker({ x, greenIcon, fillBlueOptions }) {
     const [circle, setCircle] = useState(null)
     const [marker, setMarker] = useState(null)
-    // console.log(x.lat);
+
     const map = useMap(); // Access the map instance using useMap hook
-    // console.log(map);
-    useEffect(() => {
+    function AddChildMarker(lat, lng, acc) {
         if (map && x) {
             // Remove previous circle and marker if they exist
 
@@ -17,19 +17,22 @@ export default function MainMarker({ x, greenIcon, fillBlueOptions }) {
                 map.removeLayer(marker)
             }
 
-            const newCircle = (L.circle([x.lat, x.lng], {
-                radius: x.acc,
-            }).addTo(map));
+            const newCircle = (L.circle([lat, lng], {
+                radius: acc,
+            }).addTo(map))
 
-            const newMarker = (L.marker([x.lat, x.lng], {
-                // icon: greenIcon,
-            }).addTo(map));
+            const newMarker = (L.marker([lat, lng]).addTo(map));
 
             setCircle(newCircle)
             setMarker(newMarker)
+
             // Fit the map's viewport to the bounds of the circle
             map.fitBounds(newCircle.getBounds());
         }
+    }
+    useEffect(() => {
+        AddChildMarker(x.lat, x.lng, x.acc);
+        // AddChildMarker(51.508972, -0.128794, x.acc);
     }, [map, x]);
     // console.log(L.marker);
 
@@ -42,9 +45,7 @@ export default function MainMarker({ x, greenIcon, fillBlueOptions }) {
                 },
             }}
         >
-            <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
+
         </Marker>
     )
 }
