@@ -32,7 +32,7 @@ server.on("connection", (socket) => {
 
       // Map the user to the location
       userLocations[socket.id] = familyId;
-      // console.log(userLocations[socket.id], "location");
+      console.log(userLocations[socket.id], "location");
     } else {
       console.log("User ID or location ID missing");
     }
@@ -78,8 +78,8 @@ server.on("connection", (socket) => {
   });
 
   socket.on("coordinates", async (familyId, longitude, latitude, accuracy) => {
-    // console.log(userLocations[socket.id]);
-    
+    console.log(userLocations[socket.id], "userlocatuion socket");
+
     // Process coordinates
     if (familyId && userLocations[socket.id] === familyId) {
       socket

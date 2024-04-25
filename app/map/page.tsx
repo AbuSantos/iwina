@@ -8,7 +8,7 @@ import MainMarker from "@/components/maps/Marker";
 import { useSession } from "next-auth/react";
 import { useTaskContext } from "@/context/TaskContext";
 import io, { Socket } from 'socket.io-client';
-
+import useSocket from "@/context/useSocket";
 
 const Markerwhatever = (props) => {
     const socketRef = useRef<Socket | null>(null);
@@ -26,80 +26,36 @@ const Markerwhatever = (props) => {
     const userId = session?.user?.id
     //@ts-ignore
     const role = session?.user?.role
+    const socket = useSocket('http://localhost:8080');
     const familyLocation = {}
+
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
 
-    // const sendLocation = async (coordinates: {}) => {
-    //     try {
-    //         const res = await fetch(`api/location/${userId}`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(coordinates)
-    //         })
-    //         if (!res) {
-    //             throw new Error('Failed to send coordinates to server');
-
-    //         }
-    //         console.log('Coordinates sent successfully');
-    //     }
-    //     catch (error) {
-    //         console.error('Error sending coordinates to server:', error.message);
-    //     }
-    // }
     const familyLocationId = role === "parent" ? userId : state.data?.[0]?.creator
 
+    useEffect(() => {
 
+        if (socket) {
+            if (userId && familyLocationId) {
+                socketRef.current.emit("join-location", userId, familyLocationId);
+            } else {
+                console.log("User or Room ID is missing");
+            }
+        }
+    }, [userId, familyLocationId]);
 
-    // useEffect(() => {
-    //     if ("geolocation" in navigator) {
-    //         navigator.geolocation.watchPosition((pos) => {
-    //             const { latitude, longitude, accuracy } = pos.coords
-    //             if (familyLocationId && userId) {
-    //                 sendLocation({ latitude, longitude, accuracy, userId, familyLocationId })
-    //                 // familyLocation[userId] = familyId;
-    //                 // console.log(familyLocation[userId])
-    //             }
-    //         })
-    //     }
+    useEffect(() => {
+        if (socket) {
 
-    // }, [])
-    // console.log(state.data)
+            socketRef.current.on("receive-coordinates", async (data) => {
+                const newData = await data
+                console.log(newData);
+            })
+        }
 
-    // useEffect(() => {
-    //     socketRef.current = io("http://localhost:8080");
-
-    //     if (userId && familyId) {
-    //         socketRef.current.emit("join-location", userId, familyId);
-    //     } else {
-    //         console.log("User or Room ID is missing");
-    //     }
-
-    //     // Cleanup function to remove the event listener and disconnect the socket
-    //     return () => {
-    //         if (socketRef.current) {
-    //             socketRef.current.disconnect();
-    //         }
-    //     };
-    // }, [userId, familyId]);
-
-    // useEffect(() => {
-    //     socketRef.current = io("http://localhost:8080");
-    //     socketRef.current.on("receive-coordinates", async (data) => {
-    //         const newData = await data
-    //         console.log(newData);
-    //     })
-
-    //     return () => {
-    //         if (socketRef.current) {
-    //             // socketRef.current.off("receive-message");
-    //             socketRef.current.disconnect();
-    //         }
-    //     };
-    // }, [userId, familyId])
+    }, [userId, familyLocationId])
 
     const sendLocationData = (lat, lng, acc) => {
         if (socketRef.current && familyLocationId) {
@@ -107,23 +63,15 @@ const Markerwhatever = (props) => {
         }
     }
 
-    // useEffect(() => {
-    //     socketRef.current = io("http://localhost:8080");
+    useEffect(() => {
+        if (socket) {
+            navigator.geolocation.getCurrentPosition((pos) => {
+                const { longitude, latitude, accuracy } = pos.coords;
 
-    //     navigator.geolocation.getCurrentPosition((pos) => {
-    //         const { longitude, latitude, accuracy } = pos.coords;
-
-    //         sendLocationData(longitude, latitude, accuracy)
-    //     });
-
-    //     return () => {
-    //         if (socketRef.current) {
-    //             // socketRef.current.off("receive-message");
-    //             socketRef.current.disconnect();
-    //         }
-    //     };
-
-    // }, [familyId]);
+                sendLocationData(longitude, latitude, accuracy)
+            });
+        }
+    }, [familyLocationId]);
 
 
     let greenIcon = new L.Icon({
