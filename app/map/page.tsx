@@ -30,14 +30,7 @@ const Markerwhatever = (props) => {
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
-    const shareLocation = () => {
-        if (userId && familyId) {
-            socketRef.current.emit("join-location", userId, familyId);
 
-        } else {
-            console.log("User or Room ID is missing");
-        }
-    }
 
     // console.log(state.data)
     const familyId = role === "parent" ? userId : state.data?.[0]?.creator
@@ -49,7 +42,12 @@ const Markerwhatever = (props) => {
     useEffect(() => {
         socketRef.current = io("http://localhost:8080");
 
-        shareLocation()
+        if (userId && familyId) {
+            socketRef.current.emit("join-location", userId, familyId);
+
+        } else {
+            console.log("User or Room ID is missing");
+        }
 
         // Cleanup function to remove the event listener and disconnect the socket
         return () => {
@@ -63,35 +61,50 @@ const Markerwhatever = (props) => {
 
 
 
-    useEffect(() => {
-        try {
-            if ('geolocation' in navigator) {
-                navigator.geolocation.getCurrentPosition((pos) => {
-                    const { longitude, latitude, accuracy } = pos.coords;
-                    setX({
-                        lat: latitude,
-                        lng: longitude,
-                        acc: accuracy
-                    });
-                });
-            } else {
-                console.error('Geolocation is not available.');
-            }
-        } catch (err) {
-            if (err.code === 1) {
-                alert("Please allow geolocation access!")
-            } else {
-                alert("Cannot get Geolocation")
-            }
+    const sendLocationData = (lat, lng, acc) => {
+        if (socketRef.current && familyId) {
+            socketRef.current.emit("coordinates", familyId, lat, lng, acc)
         }
-
-    }, []);
-    if (familyId) {
-        familyLocation[userId] = familyId
-        locations.push(x)
-        // console.log(locations);
     }
 
+    useEffect(() => {
+        socketRef.current = io("http://localhost:8080");
+
+        // try {
+        //     if ('geolocation' in navigator) {
+        //         navigator.geolocation.getCurrentPosition((pos) => {
+        //             const { longitude, latitude, accuracy } = pos.coords;
+        //             setX({
+        //                 lat: latitude,
+        //                 lng: longitude,
+        //                 acc: accuracy
+        //             });
+        //         });
+
+        //     } else {
+        //         console.error('Geolocation is not available.');
+        //     }
+        // } catch (err) {
+        //     if (err.code === 1) {
+        //         alert("Please allow geolocation access!")
+        //     } else {
+        //         alert("Cannot get Geolocation")
+        //     }
+        // }
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const { longitude, latitude, accuracy } = pos.coords;
+
+            sendLocationData(longitude, latitude, accuracy)
+        });
+
+        return () => {
+            if (socketRef.current) {
+                // socketRef.current.off("receive-message");
+                socketRef.current.disconnect();
+            }
+        };
+
+    }, [familyId]);
 
 
     let greenIcon = new L.Icon({

@@ -19,8 +19,6 @@ server.on("connection", (socket) => {
     if (userId && familyRoomId) {
       // Add the user to the specified room
       socket.join(familyRoomId);
-      // console.log(`User ${userId} joined room ${familyRoomId}`);
-
       // Map the user to the room
       userRooms[socket.id] = familyRoomId;
     } else {
@@ -34,7 +32,9 @@ server.on("connection", (socket) => {
 
       // Map the user to the location
       userLocations[socket.id] = familyId;
-      console.log(userId, familyId, "family and user Id");
+      // console.log(userLocations[socket.id], "location");
+    } else {
+      console.log("User ID or location ID missing");
     }
   });
 
@@ -64,7 +64,7 @@ server.on("connection", (socket) => {
       message: message,
       creator: userId,
     });
-    console.log(newMessage.roomId, "roomId");
+    // console.log(newMessage.roomId, "roomId");
     await newMessage.save();
 
     if (roomId && userRooms[socket.id] === roomId) {
@@ -84,4 +84,17 @@ server.on("connection", (socket) => {
   //   // Remove the user from the room map
   //   delete userRooms[socket.id];
   // });
+
+  socket.on("coordinates", (familyId, longitude, latitude, accuracy) => {
+    console.log(userLocations[socket.id]);
+    // Process coordinates
+    if (familyId && userLocations[socket.id] === familyId) {
+      socket
+        .to(familyId)
+        .emit("receive-coordinates", longitude, latitude, accuracy);
+    } else {
+      console.log(`User ${socket.id} not in location ${familyId}`);
+    }
+    // Store or use the coordinates as needed
+  });
 });
