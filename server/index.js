@@ -77,23 +77,16 @@ server.on("connection", (socket) => {
     }
   });
 
-  // Handle user disconnecting
-  // socket.on("disconnect", () => {
-  //   console.log(`User disconnected: ${socket.id}`);
-
-  //   // Remove the user from the room map
-  //   delete userRooms[socket.id];
-  // });
-
-  socket.on("coordinates", (familyId, longitude, latitude, accuracy) => {
-    console.log(userLocations[socket.id]);
+  socket.on("coordinates", async (familyId, longitude, latitude, accuracy) => {
+    // console.log(userLocations[socket.id]);
+    
     // Process coordinates
     if (familyId && userLocations[socket.id] === familyId) {
       socket
         .to(familyId)
         .emit("receive-coordinates", longitude, latitude, accuracy);
     } else {
-      console.log(`User ${socket.id} not in location ${familyId}`);
+      console.log(`User ${socket.id} not in location room ${familyId}`);
     }
     // Store or use the coordinates as needed
   });
