@@ -11,7 +11,7 @@ import io, { Socket } from 'socket.io-client';
 import useSocket from "@/context/useSocket";
 
 const Markerwhatever = (props) => {
-    const socketRef = useRef<Socket | null>(null);
+    // const socketRef = useRef<Socket | null>(null);
     const fillBlueOptions = { fillColor: 'blue' }
     const [x, setX] = useState({
         lat: 0,
@@ -22,6 +22,8 @@ const Markerwhatever = (props) => {
     const mapRef = useRef(null)
     const { data: session } = useSession()
     const { state, fetchTasks } = useTaskContext()
+    // console.log(session);
+
     //@ts-ignore
     const userId = session?.user?.id
     //@ts-ignore
@@ -38,41 +40,45 @@ const Markerwhatever = (props) => {
     useEffect(() => {
 
         if (socket) {
+            console.log("socket connected");
+
             if (userId && familyLocationId) {
-                socketRef.current.emit("join-location", userId, familyLocationId);
+                socket.emit("join-location", userId, familyLocationId);
             } else {
                 console.log("User or Room ID is missing");
             }
         }
-    }, [userId, familyLocationId]);
+    }, [socket, userId, familyLocationId]);
+
+
+
+
 
     useEffect(() => {
         if (socket) {
+            socket.on("receive-coordinates", ({ familyId, longitude, latitude, accuracy }) => {
+                // console.log(familyId, longitude, latitude, accuracy);
+                setX({ lat: latitude, lng: longitude, acc: accuracy });
 
-            socketRef.current.on("receive-coordinates", async (data) => {
-                const newData = await data
-                console.log(newData);
             })
         }
 
-    }, [userId, familyLocationId])
-
-    const sendLocationData = (lat, lng, acc) => {
-        if (socketRef.current && familyLocationId) {
-            socketRef.current.emit("coordinates", familyLocationId, lat, lng, acc)
-        }
-    }
+    }, [socket])
 
     useEffect(() => {
         if (socket) {
             navigator.geolocation.getCurrentPosition((pos) => {
                 const { longitude, latitude, accuracy } = pos.coords;
-
                 sendLocationData(longitude, latitude, accuracy)
             });
         }
-    }, [familyLocationId]);
+    }, [socket, familyLocationId]);
 
+    const sendLocationData = (lat, lng, acc) => {
+        if (socket && familyLocationId) {
+            socket.emit("coordinates", familyLocationId, lat, lng, acc)
+        }
+    }
 
     let greenIcon = new L.Icon({
         iconUrl: "/images/girlchild.png",
@@ -93,6 +99,21 @@ const Markerwhatever = (props) => {
                     <MainMarker x={x} greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} />
                 </>
             </Map>
+            <div className="flex justify-between p-4" >
+                {
+                    role === "parent" ? <>
+                        {
+                            state.data?.map((kid) => <button key={kid.id} className="bg-green-600 p-3 text-sm outline-none rounded-sm ">{kid.username}'s location</button>)
+                        }
+                    </> : <div>
+                        <button> {session?.user?.name}'s location</button>
+                        {
+                            state.data?.map((kid) => <button key={kid.id} className="bg-green-600 p-3 text-sm outline-none rounded-sm ">{kid.username}'s location</button>)
+                        }
+                    </div>
+                }
+
+            </div>
         </div>
 
     );

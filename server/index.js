@@ -32,7 +32,7 @@ server.on("connection", (socket) => {
 
       // Map the user to the location
       userLocations[socket.id] = familyId;
-      console.log(userLocations[socket.id], "location");
+      // console.log(userLocations[socket.id], userId, "location");
     } else {
       console.log("User ID or location ID missing");
     }
@@ -78,13 +78,21 @@ server.on("connection", (socket) => {
   });
 
   socket.on("coordinates", async (familyId, longitude, latitude, accuracy) => {
-    console.log(userLocations[socket.id], "userlocatuion socket");
+    // console.log(userLocations[socket.id], "userlocatuion socket");
 
     // Process coordinates
     if (familyId && userLocations[socket.id] === familyId) {
       socket
         .to(familyId)
-        .emit("receive-coordinates", longitude, latitude, accuracy);
+        .emit("receive-coordinates", { longitude, latitude, accuracy });
+
+      socket.emit("receive-coordinates", {
+        familyId,
+        longitude,
+        latitude,
+        accuracy,
+      });
+      console.log(longitude, latitude, "yes");
     } else {
       console.log(`User ${socket.id} not in location room ${familyId}`);
     }

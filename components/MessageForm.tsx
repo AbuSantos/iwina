@@ -33,7 +33,6 @@ const MessageForm = () => {
         // Initialize the socket connection once
         socketRef.current = io("http://localhost:8080");
         // Join the family room
-        // socketRef.current.emit('join-room', familyRoomId, userId);
 
         // Set up the event listener for receiving messages
         socketRef.current.on("receive-message", (message: string,) => {
