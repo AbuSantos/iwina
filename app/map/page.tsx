@@ -18,7 +18,7 @@ const Markerwhatever = (props) => {
         lng: 0,
         acc: 0
     })
-
+    const [position, setPosition] = useState([])
     const mapRef = useRef(null)
     const { data: session } = useSession()
     const { state, fetchTasks } = useTaskContext()
@@ -51,19 +51,61 @@ const Markerwhatever = (props) => {
     }, [socket, userId, familyLocationId]);
 
 
-
-
-
     useEffect(() => {
         if (socket) {
-            socket.on("receive-coordinates", ({ familyId, longitude, latitude, accuracy }) => {
-                // console.log(familyId, longitude, latitude, accuracy);
-                setX({ lat: latitude, lng: longitude, acc: accuracy });
+            socket.on("receive-coordinates", (data) => {
+                console.log(data);
 
+                setPosition((prevPos) => [...prevPos, data])
+                // console.log(data);
+                // setX({ lat: latitude, lng: longitude, acc: accuracy });
             })
         }
 
     }, [socket])
+
+    useEffect(() => {
+        position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
+
+    }, [position])
+
+    // console.log(x);
+      // useEffect(() => {
+    //     if ("geolocation" in navigator) {
+    //         navigator.geolocation.watchPosition((pos) => {
+    //             const { latitude, longitude, accuracy } = pos.coords
+    //             if (familyLocationId && userId) {
+    //                 sendLocation({ latitude, longitude, accuracy, userId, familyLocationId })
+    //                 // familyLocation[userId] = familyId;
+    //                 // console.log(familyLocation[userId])
+    //             }
+    //         })
+    //     }
+
+    // }, [])
+    // console.log(state.data)
+
+
+
+//  const sendLocation = async (coordinates: {}) => {
+//         try {
+//             const res = await fetch(`api/location/${userId}`, {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify(coordinates)
+//             })
+//             if (!res) {
+//                 throw new Error('Failed to send coordinates to server');
+
+//             }
+//             console.log('Coordinates sent successfully');
+//         }
+//         catch (error) {
+//             console.error('Error sending coordinates to server:', error.message);
+//         }
+//     }
 
     useEffect(() => {
         if (socket) {
@@ -76,7 +118,7 @@ const Markerwhatever = (props) => {
 
     const sendLocationData = (lat, lng, acc) => {
         if (socket && familyLocationId) {
-            socket.emit("coordinates", familyLocationId, lat, lng, acc)
+            socket.emit("coordinates", familyLocationId, lat, lng, acc, userId)
         }
     }
 
@@ -86,6 +128,8 @@ const Markerwhatever = (props) => {
         iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
         popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
     });
+    // position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
+    // console.log(pos))
 
     return (
 

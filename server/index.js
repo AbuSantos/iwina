@@ -1,6 +1,7 @@
 import { Messages } from "../(models)/Message.js";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
+import { Location } from "../(models)/Location.js";
 
 // Initialize the server on port 8080 and set up CORS policy
 const server = new Server(8080, {
@@ -9,6 +10,24 @@ const server = new Server(8080, {
   },
 });
 
+const connectDB = async () => {
+  mongoose.set("strictQuery", true);
+  try {
+    const mongoUri =
+      "mongodb+srv://abusomwansantos:ge9px6ar1Xf9Wzb4@cluster0.ak2puyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    if (!mongoUri) {
+      console.log("Mongo uri isnt define");
+    }
+
+    await mongoose.connect(`${mongoUri}`, {
+      dbName: "iwina",
+      bufferCommands: false, // Disable command buffering
+      socketTimeoutMS: 10000,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 // Map of users to their respective rooms
 const userRooms = {};
 const userLocations = {};
@@ -26,13 +45,13 @@ server.on("connection", (socket) => {
     }
   });
 
-  socket.on("join-location", (userId, familyId) => {
-    if (userId && familyId) {
-      socket.join(familyId);
+  socket.on("join-location", (userId, familyLocationId) => {
+    if (userId && familyLocationId) {
+      socket.join(familyLocationId);
 
       // Map the user to the location
-      userLocations[socket.id] = familyId;
-      // console.log(userLocations[socket.id], userId, "location");
+      userLocations[socket.id] = familyLocationId;
+      // console.log(`${socket.id} joined ${familyLocationId}`);
     } else {
       console.log("User ID or location ID missing");
     }
@@ -40,22 +59,7 @@ server.on("connection", (socket) => {
 
   // Handle sending messages to a room
   socket.on("send-message", async (message, roomId, userId) => {
-    mongoose.set("strictQuery", true);
-    try {
-      const mongoUri =
-        "mongodb+srv://abusomwansantos:ge9px6ar1Xf9Wzb4@cluster0.ak2puyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-      if (!mongoUri) {
-        console.log("Mongo uri isnt define");
-      }
-
-      await mongoose.connect(`${mongoUri}`, {
-        dbName: "iwina",
-        bufferCommands: false, // Disable command buffering
-        socketTimeoutMS: 10000,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await connectDB();
     // console.log(userId);
 
     // await connectToDB();
@@ -77,25 +81,42 @@ server.on("connection", (socket) => {
     }
   });
 
-  socket.on("coordinates", async (familyId, longitude, latitude, accuracy) => {
-    // console.log(userLocations[socket.id], "userlocatuion socket");
-
-    // Process coordinates
-    if (familyId && userLocations[socket.id] === familyId) {
-      socket
-        .to(familyId)
-        .emit("receive-coordinates", { longitude, latitude, accuracy });
-
-      socket.emit("receive-coordinates", {
-        familyId,
-        longitude,
+  socket.on(
+    "coordinates",
+    async (familyLocationId, longitude, latitude, accuracy, userId) => {
+      await connectDB();
+      // console.log(`User ${socket.id} is in room ${familyLocationId}`);
+      const newLocation = await new Location({
+        user: userId,
         latitude,
+        longitude,
         accuracy,
+        familyLocationId,
       });
-      console.log(longitude, latitude, "yes");
-    } else {
-      console.log(`User ${socket.id} not in location room ${familyId}`);
+
+      await newLocation.save();
+      // Process coordinates
+      if (familyLocationId && userLocations[socket.id] === familyLocationId) {
+        socket.to(familyLocationId).emit("receive-coordinates", {
+          longitude,
+          latitude,
+          accuracy,
+          userId,
+        });
+        console.log(longitude, latitude, "yes");
+
+        socket.emit("receive-coordinates", {
+          longitude,
+          latitude,
+          accuracy,
+          userId,
+        });
+      } else {
+        console.log(
+          `User ${socket.id} not in location room ${familyLocationId}`
+        );
+      }
+      // Store or use the coordinates as needed
     }
-    // Store or use the coordinates as needed
-  });
+  );
 });
