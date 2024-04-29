@@ -7,7 +7,6 @@ import L from "leaflet"
 import MainMarker from "@/components/maps/Marker";
 import { useSession } from "next-auth/react";
 import { useTaskContext } from "@/context/TaskContext";
-import io, { Socket } from 'socket.io-client';
 import useSocket from "@/context/useSocket";
 
 const Markerwhatever = (props) => {
@@ -22,19 +21,21 @@ const Markerwhatever = (props) => {
     const mapRef = useRef(null)
     const { data: session } = useSession()
     const { state, fetchTasks } = useTaskContext()
-    // console.log(session);
 
     //@ts-ignore
     const userId = session?.user?.id
+
     //@ts-ignore
     const role = session?.user?.role
     const socket = useSocket('http://localhost:8080');
-    const familyLocation = {}
+
 
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
+    // console.log(state.data);
 
+    //create a family room ID
     const familyLocationId = role === "parent" ? userId : state.data?.[0]?.creator
 
     useEffect(() => {
@@ -48,14 +49,13 @@ const Markerwhatever = (props) => {
                 console.log("User or Room ID is missing");
             }
         }
+
     }, [socket, userId, familyLocationId]);
 
 
     useEffect(() => {
         if (socket) {
             socket.on("receive-coordinates", (data) => {
-                console.log(data);
-
                 setPosition((prevPos) => [...prevPos, data])
                 // console.log(data);
                 // setX({ lat: latitude, lng: longitude, acc: accuracy });
@@ -63,49 +63,36 @@ const Markerwhatever = (props) => {
         }
 
     }, [socket])
+    // console.log(position);
+
 
     useEffect(() => {
         position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
 
     }, [position])
 
-    // console.log(x);
-      // useEffect(() => {
-    //     if ("geolocation" in navigator) {
-    //         navigator.geolocation.watchPosition((pos) => {
-    //             const { latitude, longitude, accuracy } = pos.coords
-    //             if (familyLocationId && userId) {
-    //                 sendLocation({ latitude, longitude, accuracy, userId, familyLocationId })
-    //                 // familyLocation[userId] = familyId;
-    //                 // console.log(familyLocation[userId])
+
+
+
+    //  const sendLocation = async (coordinates: {}) => {
+    //         try {
+    //             const res = await fetch(`api/location/${userId}`, {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 },
+    //                 body: JSON.stringify(coordinates)
+    //             })
+    //             if (!res) {
+    //                 throw new Error('Failed to send coordinates to server');
+
     //             }
-    //         })
+    //             console.log('Coordinates sent successfully');
+    //         }
+    //         catch (error) {
+    //             console.error('Error sending coordinates to server:', error.message);
+    //         }
     //     }
-
-    // }, [])
-    // console.log(state.data)
-
-
-
-//  const sendLocation = async (coordinates: {}) => {
-//         try {
-//             const res = await fetch(`api/location/${userId}`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify(coordinates)
-//             })
-//             if (!res) {
-//                 throw new Error('Failed to send coordinates to server');
-
-//             }
-//             console.log('Coordinates sent successfully');
-//         }
-//         catch (error) {
-//             console.error('Error sending coordinates to server:', error.message);
-//         }
-//     }
 
     useEffect(() => {
         if (socket) {
@@ -130,6 +117,23 @@ const Markerwhatever = (props) => {
     });
     // position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
     // console.log(pos))
+    useEffect(() => {
+        const fetchLocations = async () => {
+
+            try {
+                const res = await fetch(`api/location/${familyLocationId}/getlocation`)
+                if (!res.ok) {
+                    throw new Error("Failed to fetch locations");
+                }
+                const data = await res.json()
+                console.log(data);
+            } catch (error) {
+                console.error("Error fetching locations", error);
+            }
+        }
+        fetchLocations();
+    }, [familyLocationId])
+
 
     return (
 
@@ -143,21 +147,6 @@ const Markerwhatever = (props) => {
                     <MainMarker x={x} greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} />
                 </>
             </Map>
-            <div className="flex justify-between p-4" >
-                {
-                    role === "parent" ? <>
-                        {
-                            state.data?.map((kid) => <button key={kid.id} className="bg-green-600 p-3 text-sm outline-none rounded-sm ">{kid.username}'s location</button>)
-                        }
-                    </> : <div>
-                        <button> {session?.user?.name}'s location</button>
-                        {
-                            state.data?.map((kid) => <button key={kid.id} className="bg-green-600 p-3 text-sm outline-none rounded-sm ">{kid.username}'s location</button>)
-                        }
-                    </div>
-                }
-
-            </div>
         </div>
 
     );

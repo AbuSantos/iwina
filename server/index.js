@@ -21,7 +21,7 @@ const connectDB = async () => {
 
     await mongoose.connect(`${mongoUri}`, {
       dbName: "iwina",
-      bufferCommands: false, // Disable command buffering
+      bufferCommands: true, // Disable command buffering
       socketTimeoutMS: 10000,
     });
   } catch (error) {
@@ -32,7 +32,8 @@ const connectDB = async () => {
 const userRooms = {};
 const userLocations = {};
 
-server.on("connection", (socket) => {
+server.on("connection", async (socket) => {
+  await connectDB();
   // Handle users joining a room
   socket.on("join-room", (userId, familyRoomId) => {
     if (userId && familyRoomId) {
@@ -59,7 +60,6 @@ server.on("connection", (socket) => {
 
   // Handle sending messages to a room
   socket.on("send-message", async (message, roomId, userId) => {
-    await connectDB();
     // console.log(userId);
 
     // await connectToDB();
@@ -84,7 +84,6 @@ server.on("connection", (socket) => {
   socket.on(
     "coordinates",
     async (familyLocationId, longitude, latitude, accuracy, userId) => {
-      await connectDB();
       // console.log(`User ${socket.id} is in room ${familyLocationId}`);
       const newLocation = await new Location({
         user: userId,

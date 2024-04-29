@@ -25,12 +25,11 @@ const MessageReply = () => {
         const fetchMessages = async () => {
             try {
                 const res = await fetch(`api/groupchat/${familyRoomId}/allmessage`);
-                // console.log(res);
                 if (!res.ok) {
                     throw new Error("Failed to fetch messages");
                 }
                 const data = await res.json();
-                setMessages(data);
+                  setMessages(data);
             } catch (error) {
                 console.error("Error fetching messages:", error);
             }

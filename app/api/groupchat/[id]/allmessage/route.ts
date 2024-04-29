@@ -7,6 +7,7 @@ interface Params {
 }
 
 export const GET = async (req: NextRequest, { params }: { params: Params }) => {
+  console.log(params);
   try {
     await connectToDB();
     // Fetch messages where either with the familyRoomId which is the parentID
@@ -14,8 +15,11 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 
     return new Response(JSON.stringify(messages.reverse()), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ message: "Failed to fetch tasks" }), {
-      status: 500,
-    });
+    return (
+      Response.json({ message: "Failed to fetch tasks" }),
+      {
+        status: 500,
+      }
+    );
   }
 };

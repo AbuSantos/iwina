@@ -22,12 +22,13 @@ const handler = NextAuth({
           points,
           role: userRole,
         };
-
       },
 
       clientId: process.env.CLIENT_ID || "",
       clientSecret: process.env.CLIENT_SECRET || "",
-      
+      httpOptions: {
+        timeout: 40000,
+      },
     }),
     CredentialsProvider({
       name: "As Kids",
