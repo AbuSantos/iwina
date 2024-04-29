@@ -1,12 +1,14 @@
 
 import { useEffect, useState, useRef } from "react";
-import { Marker, useMap, Popup, TileLayer, useMapEvents, Circle, CircleMarker } from "react-leaflet";
+import { Marker, useMap, } from "react-leaflet";
 import L from "leaflet"
 import ChildDetail from "./ChildDetails";
 import { useSession } from "next-auth/react";
 
 export default function MainMarker({ greenIcon, fillBlueOptions, data }) {
     const { data: session } = useSession()
+    //@ts-ignore
+    const userId = session?.user?.id
     const [x, setX] = useState({
         lat: 0,
         lng: 0,
@@ -14,14 +16,14 @@ export default function MainMarker({ greenIcon, fillBlueOptions, data }) {
     })
     const [circle, setCircle] = useState(null)
     const [marker, setMarker] = useState(null)
-    const userName = session?.user?.name
-    // console.log(userName)
 
     const map = useMap(); // Access the map instance using useMap hook
 
     useEffect(() => {
         data && data.map((pos) => {
-            console.log(pos)
+            if (pos.user === userId) {
+                console.log(pos.latitude)
+            }
             AddChildMarker(pos.latitude, pos.longitude, pos.accuracy, pos.username);
             setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy })
         })
@@ -30,10 +32,10 @@ export default function MainMarker({ greenIcon, fillBlueOptions, data }) {
     }, [data])
 
 
-    function AddChildMarker(lat, lng, acc, username) {
+
+    function AddChildMarker(lat: number, lng: number, acc: number, username: string) {
         if (map && x) {
             // Remove previous circle and marker if they exist
-
             if (circle) {
                 map.removeLayer(circle)
                 map.removeLayer(marker)
@@ -56,13 +58,7 @@ export default function MainMarker({ greenIcon, fillBlueOptions, data }) {
     return (
         <Marker
             position={[x.lat, x.lng]}
-            eventHandlers={{
-                click: () => {
-                    console.log('marker clicked')
-                },
-            }}
         >
-
         </Marker>
     )
 }

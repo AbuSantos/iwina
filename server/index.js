@@ -102,6 +102,7 @@ server.on("connection", async (socket) => {
       });
 
       await newLocation.save();
+
       // Process coordinates
       if (familyLocationId && userLocations[socket.id] === familyLocationId) {
         socket.to(familyLocationId).emit("receive-coordinates", {
@@ -111,6 +112,7 @@ server.on("connection", async (socket) => {
           userId,
           username,
         });
+        
         console.log(longitude, latitude, "yes");
 
         socket.emit("receive-coordinates", {

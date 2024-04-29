@@ -127,7 +127,7 @@ export const DELETE = async (req: NextRequest) => {
     await Task.findByIdAndDelete(taskId);
 
     return Response.json(
-      { message: "Task deleted successfully " },
+      { message: "Task deleted successfully!" },
       { status: 200 }
     );
   } catch (error) {

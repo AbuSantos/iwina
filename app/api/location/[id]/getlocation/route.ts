@@ -11,7 +11,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
     await connectToDB();
     const location = await Location.find({ familyLocationId: params.id });
     // console.log(location);
-
+    
     return new Response(JSON.stringify(location), { status: 200 });
   } catch (error) {
     return Response.json(
