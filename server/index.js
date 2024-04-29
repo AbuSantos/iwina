@@ -83,10 +83,18 @@ server.on("connection", async (socket) => {
 
   socket.on(
     "coordinates",
-    async (familyLocationId, longitude, latitude, accuracy, userId) => {
+    async (
+      familyLocationId,
+      longitude,
+      latitude,
+      accuracy,
+      userId,
+      username
+    ) => {
       // console.log(`User ${socket.id} is in room ${familyLocationId}`);
       const newLocation = await new Location({
         user: userId,
+        username,
         latitude,
         longitude,
         accuracy,
@@ -101,6 +109,7 @@ server.on("connection", async (socket) => {
           latitude,
           accuracy,
           userId,
+          username,
         });
         console.log(longitude, latitude, "yes");
 
@@ -109,6 +118,7 @@ server.on("connection", async (socket) => {
           latitude,
           accuracy,
           userId,
+          username,
         });
       } else {
         console.log(

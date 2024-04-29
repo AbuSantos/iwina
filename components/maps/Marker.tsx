@@ -3,20 +3,34 @@ import { useEffect, useState, useRef } from "react";
 import { Marker, useMap, Popup, TileLayer, useMapEvents, Circle, CircleMarker } from "react-leaflet";
 import L from "leaflet"
 import ChildDetail from "./ChildDetails";
-import useSocket from "@/context/useSocket";
 import { useSession } from "next-auth/react";
 
-export default function MainMarker({ x, greenIcon, fillBlueOptions }) {
+export default function MainMarker({ greenIcon, fillBlueOptions, data }) {
     const { data: session } = useSession()
-
+    const [x, setX] = useState({
+        lat: 0,
+        lng: 0,
+        acc: 0
+    })
     const [circle, setCircle] = useState(null)
     const [marker, setMarker] = useState(null)
+    const userName = session?.user?.name
+    // console.log(userName)
 
     const map = useMap(); // Access the map instance using useMap hook
 
-  
+    useEffect(() => {
+        data && data.map((pos) => {
+            console.log(pos)
+            AddChildMarker(pos.latitude, pos.longitude, pos.accuracy, pos.username);
+            setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy })
+        })
+        // position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
 
-    function AddChildMarker(lat, lng, acc) {
+    }, [data])
+
+
+    function AddChildMarker(lat, lng, acc, username) {
         if (map && x) {
             // Remove previous circle and marker if they exist
 
@@ -29,7 +43,7 @@ export default function MainMarker({ x, greenIcon, fillBlueOptions }) {
                 radius: acc,
             }).addTo(map))
 
-            const newMarker = (L.marker([lat, lng]).addTo(map));
+            const newMarker = (L.marker([lat, lng]).addTo(map)).bindPopup(`${username} is currently here`);
 
             setCircle(newCircle)
             setMarker(newMarker)
@@ -38,14 +52,6 @@ export default function MainMarker({ x, greenIcon, fillBlueOptions }) {
             map.fitBounds(newCircle.getBounds());
         }
     }
-    useEffect(() => {
-        AddChildMarker(x.lat, x.lng, x.acc);
-
-        // AddChildMarker(51.508972, -0.128794, x.acc);
-    }, [map, x]);
-
-
-    // console.log(L.marker);
 
     return (
         <Marker

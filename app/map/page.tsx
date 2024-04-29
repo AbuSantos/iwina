@@ -12,6 +12,7 @@ import useSocket from "@/context/useSocket";
 const Markerwhatever = (props) => {
     // const socketRef = useRef<Socket | null>(null);
     const fillBlueOptions = { fillColor: 'blue' }
+    const [data, setData] = useState([])
     const [x, setX] = useState({
         lat: 0,
         lng: 0,
@@ -24,6 +25,7 @@ const Markerwhatever = (props) => {
 
     //@ts-ignore
     const userId = session?.user?.id
+    const username = session?.user?.name
 
     //@ts-ignore
     const role = session?.user?.role
@@ -66,10 +68,7 @@ const Markerwhatever = (props) => {
     // console.log(position);
 
 
-    useEffect(() => {
-        position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
 
-    }, [position])
 
 
 
@@ -105,7 +104,7 @@ const Markerwhatever = (props) => {
 
     const sendLocationData = (lat, lng, acc) => {
         if (socket && familyLocationId) {
-            socket.emit("coordinates", familyLocationId, lat, lng, acc, userId)
+            socket.emit("coordinates", familyLocationId, lat, lng, acc, userId, username)
         }
     }
 
@@ -126,13 +125,23 @@ const Markerwhatever = (props) => {
                     throw new Error("Failed to fetch locations");
                 }
                 const data = await res.json()
-                console.log(data);
+                setData(data)
+                // console.log(data);
             } catch (error) {
                 console.error("Error fetching locations", error);
             }
         }
         fetchLocations();
     }, [familyLocationId])
+
+    useEffect(() => {
+        data && data.map((pos) => {
+            setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy })
+
+        })
+        // position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
+
+    }, [data])
 
 
     return (
@@ -144,7 +153,7 @@ const Markerwhatever = (props) => {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                     />
-                    <MainMarker x={x} greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} />
+                    <MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={data} />
                 </>
             </Map>
         </div>
