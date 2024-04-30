@@ -19,10 +19,11 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
       {
         $group: {
           _id: "$user", // Group by user
-          latitude: { $first: "$latitude" }, // Select latitude of latest location
-          longitude: { $first: "$longitude" }, // Select longitude of latest location
-          accuracy: { $first: "$accuracy" }, // Select accuracy of latest location
-          timestamp: { $first: "$timestamp" }, // Select timestamp of latest location
+          username: { $first: "$username" },
+          latitude: { $last: "$latitude" }, // Select latitude of latest location
+          longitude: { $last: "$longitude" }, // Select longitude of latest location
+          accuracy: { $last: "$accuracy" }, // Select accuracy of latest location
+          timestamp: { $last: "$timestamp" }, // Select timestamp of latest location
         },
       },
     ]);

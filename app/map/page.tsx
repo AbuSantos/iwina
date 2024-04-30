@@ -67,6 +67,7 @@ const Markerwhatever = (props) => {
     }, [socket])
     // console.log(position);
 
+    console.log(data);
 
 
 

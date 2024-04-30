@@ -21,9 +21,11 @@ export default function MainMarker({ greenIcon, fillBlueOptions, data }) {
 
     useEffect(() => {
         data && data.map((pos) => {
-            if (pos.user === userId) {
-                console.log(pos.latitude)
-            }
+            // if (pos.user === userId) {
+            //     console.log(pos.latitude)
+            // }
+            console.log(pos);
+
             AddChildMarker(pos.latitude, pos.longitude, pos.accuracy, pos.username);
             setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy })
         })
