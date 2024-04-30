@@ -1,66 +1,35 @@
-
 import { useEffect, useState, useRef } from "react";
 import { Marker, useMap, } from "react-leaflet";
 import L from "leaflet"
 import ChildDetail from "./ChildDetails";
-import { useSession } from "next-auth/react";
 
 export default function MainMarker({ greenIcon, fillBlueOptions, data }) {
-    const { data: session } = useSession()
-    //@ts-ignore
-    const userId = session?.user?.id
-    const [x, setX] = useState({
-        lat: 0,
-        lng: 0,
-        acc: 0
-    })
-    const [circle, setCircle] = useState(null)
-    const [marker, setMarker] = useState(null)
-
     const map = useMap(); // Access the map instance using useMap hook
 
     useEffect(() => {
-        data && data.map((pos) => {
-            // if (pos.user === userId) {
-            //     console.log(pos.latitude)
-            // }
-            console.log(pos);
+        // Check if data exists and it's an array
+        if (data && Array.isArray(data)) {
+            // Iterate over each position in the data array
+            data.forEach(pos => {
+                // Destructure position data
+                const { latitude, longitude, accuracy, username } = pos;
 
-            AddChildMarker(pos.latitude, pos.longitude, pos.accuracy, pos.username);
-            setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy })
-        })
-        // position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
+                // Add marker for each position
+                AddChildMarker(latitude, longitude, accuracy, username);
+            });
+        }
+    }, [data]);
 
-    }, [data])
-
-
-
-    function AddChildMarker(lat: number, lng: number, acc: number, username: string) {
-        if (map && x) {
-            // Remove previous circle and marker if they exist
-            if (circle) {
-                map.removeLayer(circle)
-                map.removeLayer(marker)
-            }
-
-            const newCircle = (L.circle([lat, lng], {
-                radius: acc,
-            }).addTo(map))
-
-            const newMarker = (L.marker([lat, lng]).addTo(map)).bindPopup(`${username} is currently here`);
-
-            setCircle(newCircle)
-            setMarker(newMarker)
+    function AddChildMarker(lat, lng, acc, username) {
+        if (map) {
+            // Create circle and marker for the position
+            const circle = L.circle([lat, lng], { radius: acc }).addTo(map);
+            const marker = L.marker([lat, lng]).addTo(map).bindPopup(`${username} is currently here`);
 
             // Fit the map's viewport to the bounds of the circle
-            map.fitBounds(newCircle.getBounds());
+            map.fitBounds(circle.getBounds());
         }
     }
 
-    return (
-        <Marker
-            position={[x.lat, x.lng]}
-        >
-        </Marker>
-    )
+    return null; // Return null because markers are added directly to the map
 }

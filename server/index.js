@@ -2,6 +2,8 @@ import { Messages } from "../(models)/Message.js";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
 import { Location } from "../(models)/Location.js";
+import User from "../(models)/User.js";
+import Kids from "../(models)/Kids.js";
 
 // Initialize the server on port 8080 and set up CORS policy
 const server = new Server(8080, {
@@ -92,16 +94,38 @@ server.on("connection", async (socket) => {
       username
     ) => {
       // console.log(`User ${socket.id} is in room ${familyLocationId}`);
-      const newLocation = await new Location({
-        user: userId,
-        username,
-        latitude,
-        longitude,
-        accuracy,
-        familyLocationId,
-      });
+      let user;
 
-      await newLocation.save();
+      if (familyLocationId === userId) {
+        user = await User.findById(familyLocationId);
+      } else {
+        user = await Kids.findById(userId);
+      }
+
+      // console.log(user, "usern amer");
+      // const newLocation = await new Location({
+      //   user: userId,
+      //   username,
+      //   latitude,
+      //   longitude,
+      //   accuracy,
+      //   familyLocationId,
+      // });
+      // Create or update the location for the user
+      await Location.findOneAndUpdate(
+        { user },
+        {
+          familyLocationId,
+          username,
+          latitude,
+          longitude,
+          accuracy,
+          timestamp: Date.now(),
+        },
+        { upsert: true, new: true }
+      );
+
+      // await newLocation.save();
 
       // Process coordinates
       if (familyLocationId && userLocations[socket.id] === familyLocationId) {
@@ -112,7 +136,7 @@ server.on("connection", async (socket) => {
           userId,
           username,
         });
-        
+
         console.log(longitude, latitude, "yes");
 
         socket.emit("receive-coordinates", {

@@ -67,13 +67,6 @@ const Markerwhatever = (props) => {
     }, [socket])
     // console.log(position);
 
-    console.log(data);
-
-
-
-
-
-
     //  const sendLocation = async (coordinates: {}) => {
     //         try {
     //             const res = await fetch(`api/location/${userId}`, {
@@ -119,7 +112,6 @@ const Markerwhatever = (props) => {
     // console.log(pos))
     useEffect(() => {
         const fetchLocations = async () => {
-
             try {
                 const res = await fetch(`api/location/${familyLocationId}/getlocation`)
                 if (!res.ok) {
@@ -127,18 +119,17 @@ const Markerwhatever = (props) => {
                 }
                 const data = await res.json()
                 setData(data)
-                // console.log(data);
             } catch (error) {
                 console.error("Error fetching locations", error);
             }
         }
         fetchLocations();
     }, [familyLocationId])
+    // console.log(data);
 
     useEffect(() => {
         data && data.map((pos) => {
             setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy })
-
         })
         // position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
 

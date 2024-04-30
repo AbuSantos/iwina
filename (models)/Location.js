@@ -3,6 +3,7 @@ const { Schema, model, models } = mongoose;
 const LocationSchema = new Schema(
   {
     user: {
+      type: mongoose.Schema.Types.ObjectId,
       type: String,
       required: true,
     },
