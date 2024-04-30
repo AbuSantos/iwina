@@ -16,7 +16,8 @@ const Markerwhatever = (props) => {
     const [x, setX] = useState({
         lat: 0,
         lng: 0,
-        acc: 0
+        acc: 0,
+        key: 0
     })
     const [position, setPosition] = useState([])
     const mapRef = useRef(null)
@@ -129,7 +130,9 @@ const Markerwhatever = (props) => {
 
     useEffect(() => {
         data && data.map((pos) => {
-            setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy })
+            // console.log(pos);
+
+            setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy, key: pos._id })
         })
         // position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
 
@@ -145,7 +148,15 @@ const Markerwhatever = (props) => {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                     />
-                    <MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={data} />
+                    {
+                        data && data.map((pos) =>
+                        (
+                            < MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={pos} key={pos._id} />
+
+                        )
+
+                        )
+                    }
                 </>
             </Map>
         </div>
