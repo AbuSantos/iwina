@@ -15,16 +15,16 @@ const BottomNav = () => {
     const role = (session?.user as any)?.role
     const navLinks = [
         {
-            link: '/', icon: <RiHome2Line style={{ fontSize: 24, opacity: 0.7, color: "000" }} />, title: "Home"
+            link: '/', icon: <RiHome2Line style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Home"
         },
         {
-            link: '/groupchat', icon: <LuMessageSquare style={{ fontSize: 24, opacity: 0.7, color: "000" }} />, title: "Messages"
+            link: '/groupchat', icon: <LuMessageSquare style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Messages"
         },
         {
-            link: '/map', icon: <GrLocation style={{ fontSize: 24, opacity: 0.7, color: "000" }} />, title: "Location"
+            link: '/map', icon: <GrLocation style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Location"
         },
         {
-            link: '/', icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "000" }} />, title: "Profile"
+            link: '/', icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Profile"
         },
 
 
@@ -47,15 +47,14 @@ const BottomNav = () => {
             }
             <div className='flex h-[80px]  items-center justify-around border-t-2 border-gray-200 bg-slate-50 rounded-r-xl rounded-l-xl shadow-xl'
             >
-
                 {
-                    navLinks.map((menu) => (
-                        <div className="home flex flex-col items-center ">
-                            {menu.icon}
-                            < Link href={menu.link} className={`text-[#6329b3d6] text-[0.8rem] ${fredoka.className}`}>
+                    navLinks.map((menu, index) => (
+                        < Link href={menu.link} className={`text-[#6329b3d6] text-[0.8rem] ${fredoka.className}`}>
+                            <div className="home flex flex-col items-center " key={index}>
+                                {menu.icon}
                                 {menu.title}
-                            </Link>
-                        </div>
+                            </div>
+                        </Link>
                     ))
                 }
             </div >
