@@ -13,6 +13,7 @@ const fredoka = Fredoka({ subsets: ["latin"] })
 const BottomNav = () => {
     const { data: session } = useSession()
     const role = (session?.user as any)?.role
+    
     const navLinks = [
         {
             link: '/', icon: <RiHome2Line style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Home"

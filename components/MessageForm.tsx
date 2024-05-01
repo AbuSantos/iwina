@@ -1,5 +1,6 @@
 "use client"
 import { useTaskContext } from '@/context/TaskContext';
+import useSocket from '@/context/useSocket';
 import { useSession } from 'next-auth/react';
 import { useState, useEffect, useRef } from 'react';
 import io, { Socket } from 'socket.io-client';
@@ -19,20 +20,29 @@ const MessageForm = () => {
 
     // Create a ref for the socket connection
     const socketRef = useRef<Socket | null>(null);
-    console.log(socketRef);
+    // console.log(socketRef);
+    const socket = useSocket("http://localhost:8080")
+    const familyRoomId = role === "parent" ? userId : state.data?.[0]?.creator
+
+    useEffect(() => {
+        if (socket) {
+            console.log("socket connected");
+            if (familyRoomId && userId) {
+                socketRef.current.emit("join-room", userId, familyRoomId);
+            } else {
+                console.log("User or Room ID is missing");
+            }
+        }
+    }, [socket, userId, familyRoomId])
 
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
 
-    // console.log(state.data)
-    const familyRoomId = role === "parent" ? userId : state.data?.[0]?.creator
-    console.log(familyRoomId);
 
     useEffect(() => {
         // Initialize the socket connection once
         socketRef.current = io("http://localhost:8080");
-        // Join the family room
 
         // Set up the event listener for receiving messages
         socketRef.current.on("receive-message", (message: string,) => {
@@ -48,7 +58,7 @@ const MessageForm = () => {
             }
         };
     }, []);
-    
+
     const joinRoomR = () => {
         if (userId && familyRoomId) {
             socketRef.current.emit("join-room", userId, familyRoomId);
@@ -56,6 +66,7 @@ const MessageForm = () => {
             console.log("User or Room ID is missing");
         }
     }
+
     // Function to handle sending messages
     const sendMessage = async () => {
         // Check that there is a nonempty message and socket is present
@@ -65,38 +76,27 @@ const MessageForm = () => {
         }
     };
 
-
-
     return (
         <div>
-
             <div>
                 {messages?.map((message, index) => (
                     <p key={index}>{message}</p>
                 ))}
-
-                {/* <MessageCard userId={familyRoomId} /> */}
             </div>
-            {/* Input field for sending new messages */}
-            <input
-                type="text"
-                value={currentMessage}
-                placeholder='messages'
-                onChange={(e) => setCurrentMessage(e.target.value)}
-                className='border border-gray-800 '
-            />
-            <input
-                className='border border-gray-800 '
-                type="text" ref={inputRef}
-                placeholder='room name'
-                //@ts-ignore
-                value={inputRef.current?.value ? inputRef.current.value : ""}
-            />
+            <div>
 
-            {/* Button to submit the new message */}
-            <div className='flex justify-around items-center'>
-                <button onClick={sendMessage}>Send</button>
-                <button onClick={joinRoomR}>Join Room</button>
+                <input
+                    type="text"
+                    value={currentMessage}
+                    placeholder='messages'
+                    onChange={(e) => setCurrentMessage(e.target.value)}
+                    className='block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 outline-none placeholder-gray-400'
+                />
+                {/* <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required /> */}
+
+                <div className='flex justify-around items-end'>
+                    <button onClick={sendMessage}>Send</button>
+                </div>
             </div>
         </div>
     );

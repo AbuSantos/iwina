@@ -42,7 +42,6 @@ const Markerwhatever = (props) => {
     const familyLocationId = role === "parent" ? userId : state.data?.[0]?.creator
 
     useEffect(() => {
-
         if (socket) {
             console.log("socket connected");
 
@@ -52,7 +51,6 @@ const Markerwhatever = (props) => {
                 console.log("User or Room ID is missing");
             }
         }
-
     }, [socket, userId, familyLocationId]);
 
 
@@ -60,11 +58,8 @@ const Markerwhatever = (props) => {
         if (socket) {
             socket.on("receive-coordinates", (data) => {
                 setPosition((prevPos) => [...prevPos, data])
-                // console.log(data);
-                // setX({ lat: latitude, lng: longitude, acc: accuracy });
             })
         }
-
     }, [socket])
     // console.log(position);
 
