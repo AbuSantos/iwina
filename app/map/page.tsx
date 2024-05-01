@@ -68,25 +68,6 @@ const Markerwhatever = (props) => {
     }, [socket])
     // console.log(position);
 
-    //  const sendLocation = async (coordinates: {}) => {
-    //         try {
-    //             const res = await fetch(`api/location/${userId}`, {
-    //                 method: 'POST',
-    //                 headers: {
-    //                     'Content-Type': 'application/json'
-    //                 },
-    //                 body: JSON.stringify(coordinates)
-    //             })
-    //             if (!res) {
-    //                 throw new Error('Failed to send coordinates to server');
-
-    //             }
-    //             console.log('Coordinates sent successfully');
-    //         }
-    //         catch (error) {
-    //             console.error('Error sending coordinates to server:', error.message);
-    //         }
-    //     }
 
     useEffect(() => {
         if (socket) {
@@ -109,7 +90,6 @@ const Markerwhatever = (props) => {
         iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
         popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
     });
-    // position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
     // console.log(pos))
     useEffect(() => {
         const fetchLocations = async () => {
@@ -131,11 +111,8 @@ const Markerwhatever = (props) => {
     useEffect(() => {
         data && data.map((pos) => {
             // console.log(pos);
-
             setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy, key: pos._id })
         })
-        // position.map((pos) => setX({ lat: pos.latitude, lng: pos.longitude, acc: pos.accuracy }))
-
     }, [data])
 
 
@@ -152,9 +129,7 @@ const Markerwhatever = (props) => {
                         data && data.map((pos) =>
                         (
                             < MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={pos} key={pos._id} />
-
                         )
-
                         )
                     }
                 </>
