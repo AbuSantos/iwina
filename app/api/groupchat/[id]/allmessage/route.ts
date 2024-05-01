@@ -13,7 +13,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
     // Fetch messages where either with the familyRoomId which is the parentID
     const messages = await Messages.find({ roomId: params.id });
 
-    return new Response(JSON.stringify(messages.reverse()), { status: 200 });
+    return new Response(JSON.stringify(messages), { status: 200 });
   } catch (error) {
     return (
       Response.json({ message: "Failed to fetch tasks" }),

@@ -36,7 +36,6 @@ const Markerwhatever = (props) => {
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
-    // console.log(state.data);
 
     //create a family room ID
     const familyLocationId = role === "parent" ? userId : state.data?.[0]?.creator

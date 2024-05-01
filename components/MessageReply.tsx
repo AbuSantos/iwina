@@ -6,14 +6,13 @@ import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 
 const MessageReply = () => {
-    const [messages, setMessages] = useState()
+    const [messages, setMessages] = useState([])
     const { state, fetchTasks } = useTaskContext()
     const { data: session } = useSession()
-    const userName = session?.user?.name
-    //@ts-ignore
-    const userId = session?.user?.id;
-    //@ts-ignore
-    const role = session?.user?.role
+
+    const userName = (session?.user as any)?.name
+    const userId = (session?.user as any)?.id;
+    const role = (session?.user as any)?.role
 
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
@@ -29,7 +28,7 @@ const MessageReply = () => {
                     throw new Error("Failed to fetch messages");
                 }
                 const data = await res.json();
-                  setMessages(data);
+                setMessages(data);
             } catch (error) {
                 console.error("Error fetching messages:", error);
             }
@@ -39,25 +38,31 @@ const MessageReply = () => {
     // console.log(messages);
 
     return (
-        <div>
+        <div className="p-2">
             {
-                (messages as [])?.map((dm) => {
-                    // console.log(dm);
-                    const { _id, message, createdAt, child, parent } = dm
+                messages?.map((dm) => {
+                    console.log(dm)
+                    const { _id, message, createdAt, child, parent, creator } = dm
                     let isCurrentUserMessage: boolean
-                    if (parent || child === (session?.user as any)?.id) {
+                    if (creator === userId) {
                         isCurrentUserMessage = true
                     }
 
                     return (
-                        <div key={_id}>
+                        <div key={_id} className="bg-[#dfd7fb] pb-3 mb-2 rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl" >
                             <p
-                                className={`text-${isCurrentUserMessage ? "right" : "left"} ${isCurrentUserMessage ? "text-blue-600" : "text-gray-600"
-                                    }`}
+                                className={`p-4
+                                 text-${isCurrentUserMessage ? "right" : "left"} 
+                                    ${isCurrentUserMessage ? "text-blue-600 " : "text-gray-600 "
+                                    }`
+                                }
                             >
                                 {message} from
-                                <span className="text-[0.8rem] text-gray-600"> {userName} at {formatTime(createdAt)}</span>
+                                <span className="text-[0.8rem text-gray-600">
+                                    {userName} at {formatTime(createdAt)}
+                                </span>
                             </p>
+
                         </div>
                     )
 
