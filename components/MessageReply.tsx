@@ -3,16 +3,17 @@
 import { useTaskContext } from "@/context/TaskContext"
 import { formatTime } from "@/lib/FormatTime"
 import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 
 const MessageReply = () => {
     const [messages, setMessages] = useState([])
     const { state, fetchTasks } = useTaskContext()
     const { data: session } = useSession()
 
-    const userName = (session?.user as any)?.name
     const userId = (session?.user as any)?.id;
     const role = (session?.user as any)?.role
+
+    const messageContainerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
@@ -36,6 +37,17 @@ const MessageReply = () => {
         fetchMessages()
     }, [userId, familyRoomId])
     // console.log(messages);
+    useEffect(() => {
+        // Scroll to bottom when messages change
+        scrollToBottom();
+    }, [messages]);
+
+    const scrollToBottom = () => {
+        if (messageContainerRef.current) {
+            messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+        }
+    };
+
 
     return (
         <div className="p-2   mx-auto ">
@@ -48,7 +60,7 @@ const MessageReply = () => {
                     }
 
                     return (
-                        <div key={_id} className={`mb-2 ${isCurrentUserMessage ? "text-right" : "text-left"}`}>
+                        <div key={_id} className={`mb-2 ${isCurrentUserMessage ? "text-right" : "text-left"}`} ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '80vh' }}>
                             <div className={`flex ${isCurrentUserMessage ? "justify-end" : "justify-start"}`}>
                                 <div className={`overflow-hidden 
                                 ${isCurrentUserMessage ? "rounded-tr-3xl rounded-tl-3xl rounded-bl-3xl text-[#dfd7fb] bg-[#6229b3]" : "rounded-3xl bg-[#dfd7fb] text-[#6229b3]"
