@@ -5,11 +5,16 @@ import React from 'react'
 
 const GroupChat = () => {
     return (
-        <div>
-            <div>
+        <div >
+            <div style={{
+                position: 'fixed',
+                top: 0, left: 0, right: 0, zIndex: 999,
+                cursor: 'pointer',
+                backgroundColor: "#fff"
+            }}>
                 <KidsScroll />
             </div>
-            <div>
+            <div className='mt-36 '>
                 <MessageReply />
                 <MessageForm />
             </div>

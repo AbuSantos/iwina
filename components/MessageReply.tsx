@@ -38,34 +38,30 @@ const MessageReply = () => {
     // console.log(messages);
 
     return (
-        <div className="p-2">
+        <div className="p-2   mx-auto ">
             {
                 messages?.map((dm) => {
-                    console.log(dm)
-                    const { _id, message, createdAt, child, parent, creator } = dm
+                    const { _id, message, createdAt, creator } = dm
                     let isCurrentUserMessage: boolean
                     if (creator === userId) {
                         isCurrentUserMessage = true
                     }
 
                     return (
-                        <div key={_id} className="bg-[#dfd7fb] pb-3 mb-2 rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl" >
-                            <p
-                                className={`p-4
-                                 text-${isCurrentUserMessage ? "right" : "left"} 
-                                    ${isCurrentUserMessage ? "text-blue-600 " : "text-gray-600 "
-                                    }`
-                                }
-                            >
-                                {message} from
-                                <span className="text-[0.8rem text-gray-600">
-                                    {userName} at {formatTime(createdAt)}
-                                </span>
-                            </p>
-
+                        <div key={_id} className={`mb-2 ${isCurrentUserMessage ? "text-right" : "text-left"}`}>
+                            <div className={`flex ${isCurrentUserMessage ? "justify-end" : "justify-start"}`}>
+                                <div className={`overflow-hidden 
+                                ${isCurrentUserMessage ? "rounded-tr-3xl rounded-tl-3xl rounded-bl-3xl text-[#dfd7fb] bg-[#6229b3]" : "rounded-3xl bg-gray-200 text-gray-900"
+                                    }`}
+                                    style={{ maxWidth: '80%' }}>
+                                    <p className="p-2 text-[0.85rem]">
+                                        {message}
+                                    </p>
+                                    {/* <span className="text-[0.6rem] text-gray-600">{formatTime(createdAt)}</span> */}
+                                </div>
+                            </div>
                         </div>
                     )
-
                 })
             }
         </div>

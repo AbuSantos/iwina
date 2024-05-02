@@ -72,19 +72,22 @@ const MessageForm = () => {
     };
 
     return (
-        <div>
-            <div className='pb-16'>
+        <div >
+            <div className='pb-16 '>
                 {messages?.map((message, index) => (
-                    <p key={index} className=' px-2'>{message}</p>
+                    <div>
+                        <p key={index} className='rounded-tr-[2rem] rounded-tl-[2rem] rounded-bl-[2rem] text-[#dfd7fb] bg-[#6229b3] text-sm w-[95%] m-auto  px-2'>{message}</p>
+                    </div>
                 ))}
             </div>
+
             <div style={{
                 position: 'fixed',
                 bottom: 0, left: 0, right: 0, zIndex: 999,
                 cursor: 'pointer',
             }}>
+
                 <form onSubmit={(e) => sendMessage(e)}>
-                    {/* <label for="chat" className="sr-only">Your message</label> */}
                     <div className="flex items-center px-3 py-2  bg-gray-50 dark:bg-gray-700">
                         <button type="button" className="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                             <IoImagesOutline />
@@ -103,6 +106,7 @@ const MessageForm = () => {
                         </button>
                     </div>
                 </form>
+
             </div>
         </div>
     );
