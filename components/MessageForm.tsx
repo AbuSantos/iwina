@@ -3,34 +3,28 @@ import { useTaskContext } from '@/context/TaskContext';
 import useSocket from '@/context/useSocket';
 import { useSession } from 'next-auth/react';
 import { useState, useEffect, useRef } from 'react';
-import io, { Socket } from 'socket.io-client';
 import { IoImagesOutline } from "react-icons/io5";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 
 const MessageForm = () => {
-    const [messages, setMessages] = useState<string[]>([]);
+    const [messages, setMessages] = useState([]);
+    const [isSender, setIsSender] = useState<boolean>(false);
     const [currentMessage, setCurrentMessage] = useState('');
-    const inputRef = useRef(null)
     const { data: session } = useSession()
     const { state, fetchTasks } = useTaskContext()
-    // console.log(session, "sesion");
+    const messageContainerRef = useRef<HTMLDivElement>(null)
 
-    //@ts-ignore
-    const userId = session?.user?.id
-    //@ts-ignore
-    const role = session?.user?.role
+    const userId = (session?.user as any)?.id
+    const role = (session?.user as any)?.role
 
     // Create a ref for the socket connection
-    const socketRef = useRef<Socket | null>(null);
-    // console.log(socketRef);
     const socket = useSocket("http://localhost:8080")
     const familyRoomId = role === "parent" ? userId : state.data?.[0]?.creator
 
     useEffect(() => {
         if (socket) {
-            console.log("socket connected");
             if (familyRoomId && userId) {
-                socketRef.current.emit("join-room", userId, familyRoomId);
+                socket.emit("join-room", userId, familyRoomId);
             } else {
                 console.log("User or Room ID is missing");
             }
@@ -44,41 +38,55 @@ const MessageForm = () => {
 
     useEffect(() => {
         // Initialize the socket connection once
-        socketRef.current = io("http://localhost:8080");
-
-        // Set up the event listener for receiving messages
-        socketRef.current.on("receive-message", (message: string,) => {
-            console.log("message", message);
-            setMessages((prevMessages) => [...prevMessages, message]);
-        });
-
-        // Cleanup function to remove the event listener and disconnect the socket
-        return () => {
-            if (socketRef.current) {
-                // socketRef.current.off("receive-message");
-                socketRef.current.disconnect();
-            }
-        };
-    }, []);
+        if (socket) {
+            // Set up the event listener for receiving messages
+            socket.on("receive-message", (message: string, senderID: number) => {
+                console.log("message", message, senderID);
+                setIsSender(userId === senderID)
+                setMessages((prevMessages) => [...prevMessages, { message, senderID }]);
+            });
+        }
+    }, [socket]);
 
     // Function to handle sending messages
     const sendMessage = async (e) => {
         e.preventDefault()
         // Check that there is a nonempty message and socket is present
-        if (socketRef.current && currentMessage && familyRoomId && userId) {
-            await socketRef.current.emit("send-message", currentMessage, familyRoomId, userId);
+        if (socket && currentMessage && familyRoomId && userId) {
+            await socket.emit("send-message", currentMessage, familyRoomId, userId);
             setCurrentMessage("")
+        }
+    };
+    useEffect(() => {
+        // Scroll to bottom when messages change
+        scrollToBottom();
+    }, [messages]);
+
+    const scrollToBottom = () => {
+        if (messageContainerRef.current) {
+            messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
         }
     };
 
     return (
         <div >
-            <div className='pb-16 '>
-                {messages?.map((message, index) => (
-                    <div>
-                        <p key={index} className='rounded-tr-[2rem] rounded-tl-[2rem] rounded-bl-[2rem] text-[#dfd7fb] bg-[#6229b3] text-sm w-[95%] m-auto  px-2'>{message}</p>
-                    </div>
-                ))}
+            <div className='pb-16 p-2' ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '80vh' }}>
+                {messages?.map(({ message, senderID }, index) => {
+                    return (
+                        <div key={index} className={`mb-2 ${senderID === userId ? "text-right" : "text-left"}`}>
+                            <div className={`flex ${senderID === userId ? "justify-end" : "justify-start"}`}>
+                                <div className={`overflow-hidden 
+                                ${senderID === userId ? "rounded-tr-3xl rounded-tl-3xl rounded-bl-3xl text-[#dfd7fb] bg-[#6229b3]" : "rounded-3xl bg-[#dfd7fb] text-[#6229b3]"
+                                    }`}
+                                    style={{ maxWidth: '80%' }}>
+                                    <p className="p-2 text-[0.85rem]">
+                                        {message}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })}
             </div>
 
             <div style={{
@@ -88,7 +96,7 @@ const MessageForm = () => {
             }}>
 
                 <form onSubmit={(e) => sendMessage(e)}>
-                    <div className="flex items-center px-3 py-2  bg-gray-50 dark:bg-gray-700">
+                    <div className="flex items-center px-3 py-2  bg-gray-50 dark:bg-gray-600">
                         <button type="button" className="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                             <IoImagesOutline />
                             <span className="sr-only">Upload image</span>
@@ -98,7 +106,7 @@ const MessageForm = () => {
                             <span className="sr-only">Add emoji</span>
                         </button>
                         <textarea id="chat" onChange={(e) => setCurrentMessage(e.target.value)} value={currentMessage} rows={1} className="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border   dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none" placeholder="Your message..."></textarea>
-                        <button type="submit" className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                        <button type="submit" className="inline-flex justify-center p-2 text-[#9a78c9] rounded-full cursor-pointer hover:bg-blue-100 dark:text-[#dfd7fb] dark:hover:bg-gray-600">
                             <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                                 <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
                             </svg>

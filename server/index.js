@@ -75,9 +75,9 @@ server.on("connection", async (socket) => {
 
     if (roomId && userRooms[socket.id] === roomId) {
       // Broadcast the message to the specified room
-      socket.to(roomId).emit("receive-message", message);
-
-      socket.emit("receive-message", message);
+      socket.to(roomId).emit("receive-message", message, userId);
+      console.log(userId, "userId");
+      socket.emit("receive-message", message, userId);
     } else {
       console.log(`User ${socket.id} not in room ${roomId}`);
     }
