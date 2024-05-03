@@ -9,6 +9,7 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 const MessageForm = () => {
     const [messages, setMessages] = useState([]);
     const [isSender, setIsSender] = useState<boolean>(false);
+
     const [currentMessage, setCurrentMessage] = useState('');
     const { data: session } = useSession()
     const { state, fetchTasks } = useTaskContext()
@@ -55,23 +56,34 @@ const MessageForm = () => {
         if (socket && currentMessage && familyRoomId && userId) {
             await socket.emit("send-message", currentMessage, familyRoomId, userId);
             setCurrentMessage("")
-            scrollToBottom();
         }
     };
-    useEffect(() => {
-        // Scroll to bottom when messages change
-        scrollToBottom();
-    }, [messages]);
+    const [scrollIntoViewBool, setScrollIntoViewBool] = useState<boolean>(false)
 
-    const scrollToBottom = () => {
-        if (messageContainerRef.current) {
-            messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+    useEffect(() => {
+        if (messages.length > 0) {
+            const isLastMessage = messages[messages.length - 1].senderID === userId;
+            setScrollIntoViewBool(isLastMessage);
         }
-    };
+
+        if (!scrollIntoViewBool) return;
+        const messageElement = messageContainerRef.current;
+        
+        messageElement.scrollIntoView({ behavior: "smooth", block: "end" });
+    }, [messages, scrollIntoViewBool, userId]);
+
+
+
+    // useEffect(() => {
+    //     const messageElement = messageContainerRef.current;
+    //     if (messageElement) {
+    //         messageElement.scrollTo({ top: messageElement.scrollHeight, behavior: "smooth" });
+    //     }
+    // }, [messages]); // Trigger the effect whenever the messages array changes
 
     return (
         <div >
-            <div className='pb-16 p-2' ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '80vh' }}>
+            <div className='pb-16 p-2  ' ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '80vh' }}>
                 {messages?.map(({ message, senderID }, index) => {
                     return (
                         <div key={index} className={`mb-2 ${senderID === userId ? "text-right" : "text-left"}`}>
