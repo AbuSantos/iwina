@@ -5,6 +5,8 @@ import { useSession } from 'next-auth/react';
 import { useState, useEffect, useRef } from 'react';
 import { IoImagesOutline } from "react-icons/io5";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
+import parent from "@/public/images/parent.png";
+import Image from 'next/image';
 
 const MessageForm = () => {
     const [messages, setMessages] = useState([]);
@@ -80,11 +82,10 @@ const MessageForm = () => {
         const secondMessage = messages[messages.length - 2];
 
         if (scrollIntoViewBool && secondMessage) {
-            console.log(secondMessage, scrollIntoViewBool)
             if (scrollIntoViewBool?.senderID === secondMessage?.senderID) {
-                console.log("true");
+                setIsPreviousMessage(true)
             } else {
-                console.log("false");
+                setIsPreviousMessage(false)
             }
 
         }
@@ -103,9 +104,12 @@ const MessageForm = () => {
                                 ${senderID === userId ? "rounded-tr-3xl rounded-tl-3xl rounded-bl-3xl text-[#dfd7fb] bg-[#6229b3]" : "rounded-3xl bg-[#dfd7fb] text-[#6229b3]"
                                     }`}
                                     style={{ maxWidth: '80%' }}>
-                                    <p className="p-2 text-[0.85rem]">
-                                        {message}
-                                    </p>
+                                    <div className=' flex space-x-3 justify-center'>
+                                        <Image src={parent} height={50} width={50} alt="parent" />
+                                        <p className="p-2 text-[0.85rem] bg-red-500 flex-grow">
+                                            {message}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
