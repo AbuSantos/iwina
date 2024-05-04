@@ -64,12 +64,7 @@ const MessageForm = () => {
     useEffect(() => {
         if (messages.length > 0) {
             const isLastMessage = messages[messages.length - 1];
-            // if (isLastMessage?.senderID === messages[messages.length - 2].senderID) {
-
-            //     // console.log(isLastMessage.senderID);
-            // }
             setScrollIntoViewBool(isLastMessage);
-            // setIsPreviousMessage(true)
         }
     }, [messages]);
 
@@ -78,19 +73,22 @@ const MessageForm = () => {
             const messageElement = messageContainerRef.current;
             messageElement.scrollIntoView({ behavior: "smooth", block: "end" });
 
-            const secondMessage = messages[messages.length - 2];
-            console.log(secondMessage, scrollIntoViewBool);
 
-            // if (
-            //     //checking if the second message and the recent message are the same sender
-            //     scrollIntoViewBool?.senderID === secondMessage?.senderID
-            // ) {
-            //     setIsPreviousMessage(true);
-            // }
         }
-        console.log(isPreviousMessage);
     }, [scrollIntoViewBool]);
+    useEffect(() => {
+        const secondMessage = messages[messages.length - 2];
 
+        if (scrollIntoViewBool && secondMessage) {
+            console.log(secondMessage, scrollIntoViewBool)
+            if (scrollIntoViewBool?.senderID === secondMessage?.senderID) {
+                console.log("true");
+            } else {
+                console.log("false");
+            }
+
+        }
+    }, [messages, scrollIntoViewBool])
 
 
     return (
