@@ -9,6 +9,7 @@ const MessageReply = () => {
     const [messages, setMessages] = useState([])
     const { state, fetchTasks } = useTaskContext()
     const { data: session } = useSession()
+    const [scrollIntoViewBool, setScrollIntoViewBool] = useState<boolean>(false)
 
     const userId = (session?.user as any)?.id;
     const role = (session?.user as any)?.role
@@ -38,15 +39,16 @@ const MessageReply = () => {
     }, [userId, familyRoomId])
     // console.log(messages);
     useEffect(() => {
-        // Scroll to bottom when messages change
-        scrollToBottom();
-    }, [messages]);
-
-    const scrollToBottom = () => {
-        if (messageContainerRef.current) {
-            messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+        if (messages.length > 0) {
+            const isLastMessage = messages[messages.length - 1]
+            setScrollIntoViewBool(isLastMessage)
         }
-    };
+        if (!scrollIntoViewBool) return;
+        const messageElement = messageContainerRef.current;
+        messageElement.scrollIntoView({ behavior: "smooth", block: "end" });
+    }, [messages, scrollIntoViewBool]);
+
+   
 
 
     return (

@@ -9,6 +9,8 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 const MessageForm = () => {
     const [messages, setMessages] = useState([]);
     const [isSender, setIsSender] = useState<boolean>(false);
+    const [isPreviousMessage, setIsPreviousMessage] = useState<boolean>(false);
+    const [scrollIntoViewBool, setScrollIntoViewBool] = useState(null)
 
     const [currentMessage, setCurrentMessage] = useState('');
     const { data: session } = useSession()
@@ -42,7 +44,7 @@ const MessageForm = () => {
         if (socket) {
             // Set up the event listener for receiving messages
             socket.on("receive-message", (message: string, senderID: number) => {
-                console.log("message", message, senderID);
+                // console.log("message", message, senderID);
                 setIsSender(userId === senderID)
                 setMessages((prevMessages) => [...prevMessages, { message, senderID }]);
             });
@@ -58,33 +60,44 @@ const MessageForm = () => {
             setCurrentMessage("")
         }
     };
-    const [scrollIntoViewBool, setScrollIntoViewBool] = useState<boolean>(false)
 
     useEffect(() => {
         if (messages.length > 0) {
-            const isLastMessage = messages[messages.length - 1].senderID === userId;
+            const isLastMessage = messages[messages.length - 1];
+            // if (isLastMessage?.senderID === messages[messages.length - 2].senderID) {
+
+            //     // console.log(isLastMessage.senderID);
+            // }
             setScrollIntoViewBool(isLastMessage);
+            // setIsPreviousMessage(true)
         }
+    }, [messages]);
 
-        if (!scrollIntoViewBool) return;
-        const messageElement = messageContainerRef.current;
-        
-        messageElement.scrollIntoView({ behavior: "smooth", block: "end" });
-    }, [messages, scrollIntoViewBool, userId]);
+    useEffect(() => {
+        if (scrollIntoViewBool) {
+            const messageElement = messageContainerRef.current;
+            messageElement.scrollIntoView({ behavior: "smooth", block: "end" });
+
+            const secondMessage = messages[messages.length - 2];
+            console.log(secondMessage, scrollIntoViewBool);
+
+            // if (
+            //     //checking if the second message and the recent message are the same sender
+            //     scrollIntoViewBool?.senderID === secondMessage?.senderID
+            // ) {
+            //     setIsPreviousMessage(true);
+            // }
+        }
+        console.log(isPreviousMessage);
+    }, [scrollIntoViewBool]);
 
 
-
-    // useEffect(() => {
-    //     const messageElement = messageContainerRef.current;
-    //     if (messageElement) {
-    //         messageElement.scrollTo({ top: messageElement.scrollHeight, behavior: "smooth" });
-    //     }
-    // }, [messages]); // Trigger the effect whenever the messages array changes
 
     return (
         <div >
             <div className='pb-16 p-2  ' ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '80vh' }}>
-                {messages?.map(({ message, senderID }, index) => {
+                {messages?.map(({ message, senderID }, index, messaged) => {
+
                     return (
                         <div key={index} className={`mb-2 ${senderID === userId ? "text-right" : "text-left"}`}>
                             <div className={`flex ${senderID === userId ? "justify-end" : "justify-start"}`}>
@@ -129,7 +142,6 @@ const MessageForm = () => {
                             </svg>
                             <span className="sr-only">Send message</span>
                         </button>
-
                     </div>
                 </form>
 
