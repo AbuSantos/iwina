@@ -24,7 +24,7 @@ const taskSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["Not Started", "In Progress", "Completed"],
+      enum: ["Not Started", "In Progress", "Completed", "Rewarded"],
       default: "Not Started",
     },
     user: {

@@ -44,6 +44,7 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
             if (resp.ok) {
                 setPicked(true);
                 router.refresh();
+                // onClose();
                 console.log("Status successfully changed");
             } else {
                 if (resp.status === 500) {
@@ -66,6 +67,7 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
             if (resp.ok) {
                 setPicked(true)
                 setCompleted(true)
+                onClose();
                 console.log("Status successfully completed");
             } else {
                 throw new Error('Failed to update task status')
@@ -87,6 +89,7 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
                     // Remove the deleted task from the local state
                     const updatedTasks = state.data.filter((t: any) => t._id !== taskId);
                     setTask(updatedTasks);
+                    onClose();
                     router.refresh()
                     console.log("Successfully deleted task");
                 }
@@ -98,24 +101,26 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
 
     const acceptTask = async () => {
         try {
-            const res = await fetch(`/api/task/${taskId}/acceptTask`, {
+            const res = await fetch(`/api/task/${taskId}/accepttask`, {
                 method: "PATCH",
             });
 
             if (res.ok) {
+                onClose();
                 router.refresh()
                 console.log("Point successfully sent");
             } else {
                 throw new Error('Failed to update task status');
             }
         } catch (error) {
-            console.error("Error accepting task:", error);
+            console.error("Error accepting task", error);
         }
     };
 
 
     const isCreator = state.data?.[0]?.creator === (session?.data?.user as any)?.id
-    console.log(isCreator);
+    const isCompleted = state.data?.[0]?.status === "Completed"
+    console.log(state.data);
 
 
     return (
@@ -141,9 +146,11 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
                                     Reward
                                 </span>
                             </button>
-                            <button className='bg-red-500 p-4' onClick={handleDelete}>
-                                Delete task
-                            </button>
+                            {
+                                !isCompleted && <button className='bg-red-500 p-4' onClick={handleDelete}>
+                                    Delete task
+                                </button>
+                            }
                         </div> :
 
                         <div className="flex ">

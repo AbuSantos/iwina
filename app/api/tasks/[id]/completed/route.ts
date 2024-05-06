@@ -1,5 +1,4 @@
 import Task from "@/(models)/Task";
-import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
 import { NextRequest } from "next/server";
 import { parse } from "url";

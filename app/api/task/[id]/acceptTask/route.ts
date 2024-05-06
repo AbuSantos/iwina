@@ -36,16 +36,20 @@ export const PATCH = async (
     // console.log("User:", user);
 
     if (!user) {
-      return Response.json({ message: "Userr not found" }, { status: 500 });
+      return Response.json({ message: "User not found" }, { status: 500 });
     }
 
+    //update the task status
+    completedTask.status = "Rewarded";
     // Update user's points
+
     const taskPoints = completedTask.taskPnt;
     console.log("taskpoint", taskPoints);
 
     user.points += taskPoints;
 
-    // Save changes to the user
+    // Save changes to the user'
+    completedTask.save();
     await user.save();
 
     return new Response("Points transferred successfully", { status: 200 });
