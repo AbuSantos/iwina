@@ -74,11 +74,6 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
             console.log(error)
         }
     }
-    // console.log(state.data);
-
-    // if (state.loading) {
-    //     return <div>Loading...</div>
-    // }
 
 
     const handleDelete = async () => {
@@ -92,7 +87,7 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
                     // Remove the deleted task from the local state
                     const updatedTasks = state.data.filter((t: any) => t._id !== taskId);
                     setTask(updatedTasks);
-                    router.push("/")
+                    router.refresh()
                     console.log("Successfully deleted task");
                 }
             } catch (error) {
@@ -100,7 +95,6 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
             }
         }
     }
-    // console.log(state.data.filter(), "delete");
 
     const acceptTask = async () => {
         try {
@@ -119,9 +113,6 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
         }
     };
 
-    // if (error) {
-    //     return <div>Error: {error}</div>
-    // }
 
     const isCreator = state.data?.[0]?.creator === (session?.data?.user as any)?.id
     console.log(isCreator);

@@ -87,8 +87,7 @@ const page = () => {
                     // Remove the deleted task from the local state
                     const updatedTasks = state.data?.filter(t => t._id !== taskId);
                     setTask(updatedTasks);
-
-                    router.push("/")
+                    router.refresh()
                     console.log("Successfully deleted task");
                 }
             } catch (error) {

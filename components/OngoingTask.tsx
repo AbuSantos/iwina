@@ -12,12 +12,11 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 const OngoingTask = ({ setActiveTab }) => {
     const { data: session } = useSession()
     const { state, fetchTasks } = useTaskContext()
-    //@ts-ignore
-    const userId = session?.user?.id
-    //@ts-ignore
-    const userRole = session?.user?.role
+    const userId = (session?.user as any)?.id
+    const userRole = (session?.user as any)?.role
+
     useEffect(() => {
-        fetchTasks("GET", `api/tasks/${userId}/inprogress`)
+        fetchTasks("GET", `api/tasks/${userId}/inprogress?role=${userRole}`)
     }, [])
 
     return (
