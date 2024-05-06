@@ -12,36 +12,38 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 const CompletedTask = ({ setActiveTab }) => {
     const { data: session, status } = useSession()
     const { state, fetchTasks } = useTaskContext()
-    //@ts-ignore
-    const userId = session?.user?.id
-    //@ts-ignore
-    const userRole = session?.user?.role
+    const userId = (session?.user as any)?.id
+    const userRole = (session?.user as any)?.role
+
+    interface TaskType {
+        taskDesc: string,
+        taskDdl: Date,
+        taskPnt: number,
+        status: string,
+        createdAt: Date,
+    }
 
     useEffect(() => {
-        fetchTasks("GET", `api/tasks/${userId}/completed`)
+        fetchTasks("GET", `api/tasks/${userId}/completed?role=${userRole}`)
     }, [])
-
-    console.log(status);
 
     return (
         <div className=" flex flex-col items-center space-y-3 mb-20">
             {
-                state.data?.map(task => {
-                    // console.log(task);
+                state.data?.map((task: TaskType) => {
+                    console.log(task);
                     const { taskDesc, taskDdl, taskPnt, status, createdAt } = task
-                    return (<div className="text-gray-800 flex justify-between items-center w-11/12 bg-[#dfd7fb] rounded-xl">
-
-                        < TaskCard
-                            description={taskDesc}
-                            deadline={taskDdl}
-                            points={taskPnt}
-                            status={status}
-                            createdAt={createdAt}
-                        />
-                    </div>)
-                }
-                )
-            }
+                    return (
+                        <div className="text-gray-800 flex justify-between items-center w-11/12 bg-[#dfd7fb] rounded-xl">
+                            < TaskCard
+                                description={taskDesc}
+                                deadline={taskDdl}
+                                points={taskPnt}
+                                status={status}
+                                createdAt={createdAt}
+                            />
+                        </div>)
+                })}
             {
                 state.data && state.data?.length === 0 && (
                     <div className="flex items-center flex-col justify-center">

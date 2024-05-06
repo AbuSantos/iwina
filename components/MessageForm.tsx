@@ -101,12 +101,19 @@ const MessageForm = () => {
                         <div key={index} className={`mb-2 ${senderID === userId ? "text-right" : "text-left"}`}>
                             <div className={`flex ${senderID === userId ? "justify-end" : "justify-start"}`}>
                                 <div className={`overflow-hidden 
-                                ${senderID === userId ? "rounded-tr-3xl rounded-tl-3xl rounded-bl-3xl text-[#dfd7fb] bg-[#6229b3]" : "rounded-3xl bg-[#dfd7fb] text-[#6229b3]"
-                                    }`}
-                                    style={{ maxWidth: '80%' }}>
-                                    <div className=' flex space-x-3 justify-center'>
-                                        <Image src={parent} height={50} width={50} alt="parent" />
-                                        <p className="p-2 text-[0.85rem] bg-red-500 flex-grow">
+                                ${senderID === userId ? "rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl text-[#dfd7fb] bg-[#6229b3]"
+                                        : "rounded-3xl bg-[#dfd7fb] text-[#6229b3]"
+                                    }
+                                    ${isPreviousMessage ? "rounded-tr-none rounded-tl-none " : ""}
+                                    `
+                                }
+                                    // rounded-bl-3xl
+                                    style={{ maxWidth: '80%' }} >
+                                    <div className=' flex '>
+                                        {/* <div style={{ height: '50px', width: '50px' }} className='flex place-items-end '>
+                                            <Image src={parent} height={50} width={50} alt="parent" />
+                                        </div> */}
+                                        <p className="p-2 text-[0.85rem]  flex-grow">
                                             {message}
                                         </p>
                                     </div>

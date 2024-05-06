@@ -84,9 +84,11 @@ const Markerwhatever = (props) => {
         iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
         popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
     });
+
     // console.log(pos))
     useEffect(() => {
         const fetchLocations = async () => {
+
             try {
                 const res = await fetch(`api/location/${familyLocationId}/getlocation`)
                 if (!res.ok) {
@@ -98,6 +100,7 @@ const Markerwhatever = (props) => {
                 console.error("Error fetching locations", error);
             }
         }
+
         fetchLocations();
     }, [familyLocationId])
     // console.log(data);
@@ -111,7 +114,6 @@ const Markerwhatever = (props) => {
 
 
     return (
-
         <div>
             <Map width="800" height="500" center={[x.lat, x.lng]} zoom={13} scrollWheelZoom={false} ref={mapRef}>
                 <>
@@ -119,18 +121,12 @@ const Markerwhatever = (props) => {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                     />
-                    {
-                        data && data.map((pos) =>
-                        (
-                            < MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={pos} key={pos._id} />
-                        )
-                        )
-                    }
+                    {data && data.map((pos) => (
+                        < MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={pos} key={pos._id} />
+                    ))}
                 </>
             </Map>
         </div>
-
     );
-
 }
 export default Markerwhatever

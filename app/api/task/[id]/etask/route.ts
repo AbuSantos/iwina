@@ -4,7 +4,7 @@ import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-// import { URL } from "url";
+
 type ParamsType = {
   id: String;
 };
@@ -38,14 +38,10 @@ export const PATCH = async (
     }
 
     const session = await getServerSession();
-
     const pickedByUsername = session?.user?.name || null;
 
     await connectToDB();
     if (status === "In Progress") {
-      // console.log(userId, "UserId");
-      // console.log(status);
-
       const existingTask = await Task.findById(params.id);
 
       // console.log(existingTask.user, "existingTask");

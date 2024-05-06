@@ -1,8 +1,6 @@
 import Kids from "@/(models)/Kids";
 import Task from "@/(models)/Task";
-import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
-import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
 
 type ParamsType = {
@@ -18,7 +16,7 @@ export const PATCH = async (
     await connectToDB();
 
     const completedTask = await Task.findById(params.id);
-    console.log("Task completed", completedTask);
+    // console.log("Task completed", completedTask);
 
     if (!completedTask) {
       return Response.json({ message: "Task not found" }, { status: 500 });
@@ -30,7 +28,7 @@ export const PATCH = async (
 
     //we find the user who did the task using the username
     const pickedByUser = await completedTask.pickedBy;
-    console.log("Picked by ", pickedByUser.toLowerCase());
+    // console.log("Picked by ", pickedByUser.toLowerCase());
 
     const user = await Kids.findOne({
       username: pickedByUser.toLowerCase(),
