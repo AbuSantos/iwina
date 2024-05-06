@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import TaskCard from '../TaskCard'
 import { RiGiftLine } from 'react-icons/ri'
+import { IoClose } from "react-icons/io5";
 
 interface ModalProps {
     taskId: string;
@@ -119,13 +120,18 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
 
 
     const isCreator = state.data?.[0]?.creator === (session?.data?.user as any)?.id
-    const isCompleted = state.data?.[0]?.status === "Completed"
+    const isCompleted = state.data?.[0]?.status === "Completed" || "Rewarded"
+    const isRewarded = state.data?.[0]?.status === "Rewarded"
     console.log(state.data);
 
 
     return (
         <div className={`fixed bottom-20 left-0 right-0 z-50 w-full  dark:bg-gray-700 flex items-end justify-center p-4 slide-In rounded-tl-3xl  rounded-tr-3xl `} data-modal-backdrop="static">
+
             <div className="relative p-4 w-full max-w-2xl max-h-full text-gray-200 bg-[#dfd7fb] rounded-tl-3xl  rounded-tr-3xl ">
+                <span className='text-gray-900 flex justify-end text-lg cursor-pointer' onClick={onClose}>
+                    <IoClose />
+                </span>
                 <TaskCard
                     description={state.data?.[0]?.taskDesc}
                     status={state.data?.[0]?.status}
@@ -140,11 +146,15 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
                         <div className="flex flex-col space-y-2 ">
                             <button className='bg-[#6229b3] p-4 flex justify-center items-center  '
                                 onClick={acceptTask}
+                                disabled={isRewarded}
                             >
-                                <RiGiftLine style={{ fontSize: "20px" }} />
-                                <span className='ml-2'>
-                                    Reward
-                                </span>
+                                {
+                                    isRewarded ? "Rewarded" :
+                                        <div>
+                                            <RiGiftLine style={{ fontSize: "20px" }} />
+                                            <span className='ml-2'>Reward</span>
+                                        </div>
+                                }
                             </button>
                             {
                                 !isCompleted && <button className='bg-red-500 p-4' onClick={handleDelete}>
@@ -176,8 +186,10 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
                             }
                         </div>
                 }
+
             </div>
-        </div>
+
+        </div >
 
     )
 }
