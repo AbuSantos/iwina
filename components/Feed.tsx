@@ -94,12 +94,6 @@ const Feed = () => {
                                     onClick={() => toggleModal(id)}>
                                     View Task
                                 </button>
-
-
-                                {/* <button
-                                    onClick={() => router.push(`/task?id=${id}`)}>
-                                    View Task
-                                </button> */}
                             </div>
                         </div>
                     )

@@ -122,7 +122,9 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
     const isCreator = state.data?.[0]?.creator === (session?.data?.user as any)?.id
     const isCompleted = state.data?.[0]?.status === "Completed" || "Rewarded"
     const isRewarded = state.data?.[0]?.status === "Rewarded"
-    console.log(state.data);
+    const isNotStarted = state.data?.[0]?.status === "Not Started"
+    const isInProgress = state.data?.[0]?.status === "In Progress"
+    // console.log(state.data);
 
 
     return (
@@ -144,53 +146,46 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
                 {
                     isCreator ?
                         <div className="flex flex-col space-y-2 ">
-                            <button className='bg-[#6229b3] p-4 flex justify-center items-center  '
+                            <button className='bg-[#6229b3] p-4 '
                                 onClick={acceptTask}
                                 disabled={isRewarded}
                             >
                                 {
                                     isRewarded ? "Rewarded" :
-                                        <div>
+                                        <div className='flex justify-center items-center  '>
                                             <RiGiftLine style={{ fontSize: "20px" }} />
                                             <span className='ml-2'>Reward</span>
                                         </div>
                                 }
                             </button>
                             {
-                                !isCompleted && <button className='bg-red-500 p-4' onClick={handleDelete}>
+                                isNotStarted && <button className='bg-red-500 p-4' onClick={handleDelete}>
                                     Delete task
                                 </button>
                             }
                         </div> :
 
-                        <div className="flex ">
-                            <button
-                                className='bg-red-500 p-4'
-                                onClick={handleStatus}
-                                disabled={picked}
-                            >
-                                {picked ? "Task Picked!" : "Pick Task"}
-                            </button>
-                            {
-                                picked &&
-                                <div>
-                                    <p>
-                                        If done please press completed
-                                    </p>
-                                    <button
-                                        disabled={completed}
-                                        className='bg-green-500 p-4 ' onClick={handleCompleted}>
-                                        Completed
-                                    </button>
-                                </div>
-                            }
+                        <div className="flex mb-3 justify-around">
+                            <div>
+                                {
+                                    isInProgress ?
+                                        <button
+                                            disabled={completed}
+                                            className='bg-green-300 p-4 w-44 text-green-900' onClick={handleCompleted}>
+                                            Completed
+                                        </button> : <button
+                                            className='bg-red-500 p-4 text-sm'
+                                            onClick={handleStatus}
+                                            disabled={picked}
+                                        >
+                                            {picked ? "Task Picked!" : "Pick Task"}
+                                        </button>
+                                }
+                            </div>
                         </div>
                 }
-
             </div>
-
         </div >
-
     )
 }
 

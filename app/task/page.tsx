@@ -154,9 +154,6 @@ const page = () => {
                         {
                             picked &&
                             <div>
-                                <p>
-                                    If done please press completed
-                                </p>
                                 <button
                                     // disabled={completed}
                                     className='bg-green-500 p-4 ' onClick={handleCompleted}>
