@@ -66,9 +66,7 @@ const CompletedTask = ({ setActiveTab }) => {
                         }
 
                     </div>
-
-                )
-            }
+                )}
         </div>
     )
 }

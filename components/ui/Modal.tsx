@@ -1,4 +1,3 @@
-"use client"
 import { useTaskContext } from '@/context/TaskContext'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -12,10 +11,15 @@ interface ModalProps {
     onClose: () => void;
     points: number
     deadline: string
+    description: string
+    status: string
+    pickedBy: string
+    createdAt: Date
+    creator: {}
 }
 
 // const Modal = ({ taskId, deadline, points }: ModalProps) => {
-const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
+const Modal = ({ taskId, onClose, points, deadline, description, status, pickedBy, createdAt, creator }: ModalProps) => {
 
     const session = useSession()
     const [task, setTask] = useState()
@@ -25,11 +29,6 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
     const [error, setError] = useState(null)
     const router = useRouter()
     const { state, fetchTasks } = useTaskContext()
-
-    useEffect(() => {
-        fetchTasks('GET', `api/task/${taskId}/etask`);
-    }, [taskId])
-
 
     const handleStatus = async () => {
         try {
@@ -78,7 +77,6 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
         }
     }
 
-
     const handleDelete = async () => {
         const hasConfirmed = confirm('Are you sure you want to delete')
         if (hasConfirmed) {
@@ -91,6 +89,8 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
                     const updatedTasks = state.data.filter((t: any) => t._id !== taskId);
                     setTask(updatedTasks);
                     onClose();
+
+                    // window.location.reload()
                     router.refresh()
                     console.log("Successfully deleted task");
                 }
@@ -118,27 +118,28 @@ const Modal = ({ taskId, onClose, points, deadline }: ModalProps) => {
         }
     };
 
+    //@ts-ignore
+    const isCreator = creator._id === (session?.data?.user as any)?.id
+    console.log(isCreator, creator);
 
-    const isCreator = state.data?.[0]?.creator === (session?.data?.user as any)?.id
-    const isCompleted = state.data?.[0]?.status === "Completed" || "Rewarded"
-    const isRewarded = state.data?.[0]?.status === "Rewarded"
-    const isNotStarted = state.data?.[0]?.status === "Not Started"
-    const isInProgress = state.data?.[0]?.status === "In Progress"
-    // console.log(state.data);
-
+    const isCompleted = status === "Completed" || "Rewarded"
+    const isRewarded = status === "Rewarded"
+    const isNotStarted = status === "Not Started"
+    const isInProgress = status === "In Progress"
 
     return (
         <div className={`fixed bottom-20 left-0 right-0 z-50 w-full  dark:bg-gray-700 flex items-end justify-center p-4 slide-In rounded-tl-3xl  rounded-tr-3xl `} data-modal-backdrop="static">
-
             <div className="relative p-4 w-full max-w-2xl max-h-full text-gray-200 bg-[#dfd7fb] rounded-tl-3xl  rounded-tr-3xl ">
+
                 <span className='text-gray-900 flex justify-end text-lg cursor-pointer' onClick={onClose}>
                     <IoClose />
                 </span>
+
                 <TaskCard
-                    description={state.data?.[0]?.taskDesc}
-                    status={state.data?.[0]?.status}
-                    pickedBy={state.data?.[0]?.pickedBy}
-                    createdAt={state.data?.[0]?.createdAt}
+                    description={description}
+                    status={status}
+                    pickedBy={pickedBy}
+                    createdAt={createdAt}
                     deadline={deadline as unknown as Date}
                     points={points}
                 />
