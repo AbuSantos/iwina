@@ -7,13 +7,14 @@ import { FaPlus } from 'react-icons/fa6';
 import { LuMessageSquare, LuUser2 } from "react-icons/lu";
 import { RiHome2Line } from "react-icons/ri";
 import { GrLocation } from "react-icons/gr";
+import { GrSchedules } from "react-icons/gr";
 
 const fredoka = Fredoka({ subsets: ["latin"] })
 
 const BottomNav = () => {
     const { data: session } = useSession()
     const role = (session?.user as any)?.role
-    
+
     const navLinks = [
         {
             link: '/', icon: <RiHome2Line style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Home"
@@ -26,6 +27,10 @@ const BottomNav = () => {
         },
         {
             link: '/', icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Profile"
+        },
+        {
+            link: '/calendar', icon: <GrSchedules
+                style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "schedules"
         },
 
 
