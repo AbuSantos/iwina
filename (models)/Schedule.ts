@@ -18,10 +18,10 @@ const ScheduleSchema = new Schema(
       type: Boolean,
       required: false,
     },
-    // familyId: {
-    //   type: String,
-    //   required: true,
-    // },
+    familyId: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

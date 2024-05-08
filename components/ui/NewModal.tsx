@@ -10,6 +10,7 @@ interface ModalProps {
     showModal: boolean
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
     newEvent: any
+    setNewEvent: any
     isScheduleReply: boolean
     setScheduleReply: Dispatch<SetStateAction<boolean>>
 }
@@ -23,6 +24,7 @@ const NewModal: React.FC<ModalProps> = ({ setNewEvent, handleCloseModal, handleC
                 setScheduleReply(false)
                 setShowModal(false)
                 setNewEvent({
+                    //@ts-ignore
                     title: '',
                     start: '',
                     allDay: false,

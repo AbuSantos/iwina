@@ -5,8 +5,8 @@ import { NextRequest } from "next/server";
 export const POST = async (req: NextRequest) => {
   await connectToDB();
   try {
-    const { title, userId, start, allDay } = await req.json();
-    console.log(title, userId, start, allDay, "schdeule");
+    const { familyId, title, userId, start, allDay } = await req.json();
+    console.log(title, userId, start, allDay, familyId, "schdeule");
 
     const newSchedule = new Schedule({
       user: userId,

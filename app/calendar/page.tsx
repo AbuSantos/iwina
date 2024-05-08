@@ -9,7 +9,7 @@ import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 import { EventSourceInput } from '@fullcalendar/core/index.js'
 import NewModal from '@/components/ui/NewModal'
 import { useSession } from 'next-auth/react'
-
+import { useTaskContext } from '@/context/TaskContext'
 interface Event {
     title: string;
     start: Date | string;
@@ -38,7 +38,17 @@ const Calendar = () => {
         allDay: false,
         id: 0
     })
+    const { fetchTasks, state } = useTaskContext()
     const userId = (session?.user as any)?.id
+    const role = (session?.user as any)?.role
+
+    useEffect(() => {
+        fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
+    }, [userId, role])
+
+    const familyId = role === "parent" ? userId : state.data?.[0]?.creator
+
+    console.log(familyId);
 
     useEffect(() => {
         let draggableEl = document.getElementById('draggable-el')
@@ -61,6 +71,11 @@ const Calendar = () => {
         }
     }, [])
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await fetch(`api/schedule/${familyId}`)
+        }
+    }, [])
     function handleDateClick(arg: { date: Date, allDay: boolean }) {
         setNewEvent({ ...newEvent, start: arg.date, allDay: arg.allDay, id: new Date().getTime() })
         setShowModal(true)
