@@ -1,4 +1,4 @@
-import React, { Dispatch, Fragment, SetStateAction } from 'react';
+import React, { Dispatch, Fragment, SetStateAction, useEffect } from 'react';
 import "@/styles/styles.css"
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react"
 import { CheckIcon } from '@heroicons/react/20/solid';
@@ -10,9 +10,14 @@ interface ModalProps {
     showModal: boolean
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
     newEvent: any
+    isScheduleReply: boolean
+    setScheduleReply: Dispatch<SetStateAction<boolean>>
 }
 
-const NewModal: React.FC<ModalProps> = ({ handleCloseModal, handleChange, setShowModal, showModal, handleSubmit, newEvent }) => {
+const NewModal: React.FC<ModalProps> = ({  handleCloseModal, handleChange, setShowModal, showModal, handleSubmit, newEvent, isScheduleReply, setScheduleReply }) => {
+    
+
+
     return (
         <div>
             <Transition show={showModal} as={Fragment}>
@@ -47,9 +52,11 @@ const NewModal: React.FC<ModalProps> = ({ handleCloseModal, handleChange, setSho
                                         </div>
                                         <div className="mt-3 text-center sm:mt-5">
                                             <DialogTitle as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                                Add Event
+                                                {
+                                                    isScheduleReply ? "Event successfully scheduled" :
+                                                        "Add Event"}
                                             </DialogTitle>
-                                            <form action="submit" onSubmit={handleSubmit}>
+                                            {!isScheduleReply && <form action="submit" onSubmit={handleSubmit}>
                                                 <div className="mt-2">
                                                     <input type="text" name="title" className="block w-full rounded-md border-0 py-1.5 text-gray-900 
                                                         shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
@@ -74,7 +81,7 @@ focus:ring-2
                                                         Cancel
                                                     </button>
                                                 </div>
-                                            </form>
+                                            </form>}
                                         </div>
                                     </div>
                                 </DialogPanel>

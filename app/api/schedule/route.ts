@@ -5,16 +5,18 @@ import { NextRequest } from "next/server";
 export const POST = async (req: NextRequest) => {
   await connectToDB();
   try {
-    const { schedule, userId, familyId } = await req.json();
-    console.log(schedule, "schdeule");
+    const { title, userId, start, allDay } = await req.json();
+    console.log(title, userId, start, allDay, "schdeule");
 
-    const schdeule = new Schedule({
+    const newSchedule = new Schedule({
       user: userId,
-      schedule,
-      familyId,
+      title,
+      start,
+      allDay,
     });
 
-    return new Response(JSON.stringify(schdeule), { status: 200 });
+    await newSchedule.save();
+    return Response.json({ message: "New task created successfully" });
   } catch (error) {
     return Response.json(
       { message: "Failed to create a new task!" },

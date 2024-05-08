@@ -6,14 +6,22 @@ const ScheduleSchema = new Schema(
       type: String,
       required: true, // Reference path based on the value of creatorType
     },
-    schedule: {
+    title: {
       type: String,
       required: true,
     },
-    familyId: {
+    start: {
       type: String,
       required: true,
     },
+    allDay: {
+      type: Boolean,
+      required: false,
+    },
+    // familyId: {
+    //   type: String,
+    //   required: true,
+    // },
   },
   { timestamps: true }
 );

@@ -8,6 +8,7 @@ import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@
 import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 import { EventSourceInput } from '@fullcalendar/core/index.js'
 import NewModal from '@/components/ui/NewModal'
+import { useSession } from 'next-auth/react'
 
 interface Event {
     title: string;
@@ -24,9 +25,11 @@ const Calendar = () => {
         { title: 'event 4', id: '4' },
         { title: 'event 5', id: '5' },
     ])
+    const { data: session } = useSession()
     const draggableContainer = useRef(null)
     const [allEvents, setAllEvents] = useState<Event[]>([])
     const [showModal, setShowModal] = useState(false)
+    const [isScheduleReply, setScheduleReply] = useState<boolean>(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [idToDelete, setIdToDelete] = useState<number | null>(null)
     const [newEvent, setNewEvent] = useState<Event>({
@@ -35,6 +38,7 @@ const Calendar = () => {
         allDay: false,
         id: 0
     })
+    const userId = (session?.user as any)?.id
 
     useEffect(() => {
         let draggableEl = document.getElementById('draggable-el')
@@ -107,24 +111,36 @@ const Calendar = () => {
             title: e.target.value
         })
     }
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setAllEvents([...allEvents, newEvent])
-        setShowModal(false)
-        setNewEvent({
-            title: '',
-            start: '',
-            allDay: false,
-            id: 0
-        })
-    }
+        try {
+            const res = await fetch(`api/schedule`, {
+                method: "POST",
+                body: JSON.stringify({
+                    userId,
+                    title: newEvent.title,
+                    start: newEvent.start,
+                    allDay: newEvent.allDay,
+                }),
 
-    const Create = {
-        title: 'Create',
-        icon: <CheckIcon />,
-        buttonLabel: 'Create',
-
-
+            })
+            const data = await res.json()
+            setScheduleReply(
+                true
+            )
+            if (res.ok) {
+                setShowModal(false)
+                setNewEvent({
+                    title: '',
+                    start: '',
+                    allDay: false,
+                    id: 0
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -236,7 +252,11 @@ const Calendar = () => {
                 handleCloseModal={handleCloseModal}
                 handleChange={handleChange} setShowModal={setShowModal}
                 showModal={showModal} handleSubmit={handleSubmit}
-                newEvent={newEvent} />
+                newEvent={newEvent}
+                isScheduleReply={isScheduleReply}
+                setScheduleReply={setScheduleReply}
+                setNewEvent={setNewEvent}
+            />
         </main >
     );
 }
