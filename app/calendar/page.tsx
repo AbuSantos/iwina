@@ -64,6 +64,9 @@ const Calendar = () => {
     function handleDateClick(arg: { date: Date, allDay: boolean }) {
         setNewEvent({ ...newEvent, start: arg.date, allDay: arg.allDay, id: new Date().getTime() })
         setShowModal(true)
+        setScheduleReply(
+            false
+        )
     }
 
     function addEvent(data: DropArg) {
