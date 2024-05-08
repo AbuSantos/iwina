@@ -4,8 +4,10 @@ import interactionPlugin, { Draggable, DropArg } from "@fullcalendar/interaction
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid' // a plugin!
 import { Fragment, useState, useEffect, useRef } from 'react'
-import { Dialog, Transition } from "@headlessui/react"
+import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react"
 import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
+import { EventSourceInput } from '@fullcalendar/core/index.js'
+import NewModal from '@/components/ui/NewModal'
 
 interface Event {
     title: string;
@@ -35,13 +37,20 @@ const Calendar = () => {
     })
 
     useEffect(() => {
-        if (draggableContainer.current) {
-            new Draggable(draggableContainer.current, {
+        let draggableEl = document.getElementById('draggable-el')
+        // console.log(draggableContainer);
+        // console.log(draggableEl);
+
+        if (draggableEl) {
+            new Draggable(draggableEl, {
                 itemSelector: ".fc-event",
                 eventData: function (eventEl) {
+                    console.log(eventEl);
+
                     let title = eventEl.getAttribute("title")
                     let id = eventEl.getAttribute("data")
                     let start = eventEl.getAttribute("start")
+                    console.log(id);
                     return { title, id, start }
                 }
             })
@@ -54,7 +63,6 @@ const Calendar = () => {
     }
 
     function addEvent(data: DropArg) {
-        console.log("data", data)
         const event = {
             ...newEvent, start: data.date.toISOString(),
             title: data.draggedEl.innerText,
@@ -62,18 +70,26 @@ const Calendar = () => {
             id: new Date().getTime()
         }
         setAllEvents([...allEvents, event])
+        // console.log("data", data)
+
     }
 
     function handleDeleteModal(data: { event: { id: string } }) {
         setShowDeleteModal(true)
         setIdToDelete(Number(data.event.id))
+
     }
 
     function handleDelete() {
+        console.log(allEvents);
+
         setAllEvents(allEvents.filter(event => Number(event.id) !== Number(idToDelete)))
         setShowDeleteModal(false)
         setIdToDelete(null)
+
+
     }
+    // console.log(allEvents);
 
     function handleCloseModal() {
         setShowModal(false)
@@ -93,6 +109,25 @@ const Calendar = () => {
             title: e.target.value
         })
     }
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+        setAllEvents([...allEvents, newEvent])
+        setShowModal(false)
+        setNewEvent({
+            title: '',
+            start: '',
+            allDay: false,
+            id: 0
+        })
+    }
+
+    const Create = {
+        title: 'Create',
+        icon: <CheckIcon />,
+        buttonLabel: 'Create',
+
+
+    }
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between">
@@ -109,7 +144,7 @@ const Calendar = () => {
                             center: 'title',
                             right: 'resourceTimelineWook, dayGridMonth,timeGridWeek'
                         }}
-                        // events={allEvents as EventSourceInput}
+                        events={allEvents as EventSourceInput}
                         nowIndicator={true}
                         editable={true}
                         droppable={true}
@@ -134,9 +169,9 @@ const Calendar = () => {
                 </div>
             </div>
 
-            <Transition.Root show={showDeleteModal} as={Fragment}>
+            <Transition show={showDeleteModal} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={setShowDeleteModal}>
-                    <Transition.Child
+                    <TransitionChild
                         as={Fragment} enter="ease-out duration-300"
                         enterFrom='opacity-0' enterTo='opacity-100'
                         leave="ease-in duration-200"
@@ -144,11 +179,11 @@ const Calendar = () => {
                         leaveTo="opacity-0"
                     >
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-                    </Transition.Child>
+                    </TransitionChild>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
                         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                            <Transition.Child
+                            <Transition
                                 as={Fragment}
                                 enter="ease-out duration-300"
                                 enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -157,7 +192,7 @@ const Calendar = () => {
                                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
-                                <Dialog.Panel className="relative transform overflow-hidden rounded-lg
+                                <DialogPanel className="relative transform overflow-hidden rounded-lg
                    bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
                                 >
                                     <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
@@ -167,9 +202,9 @@ const Calendar = () => {
                                                 <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
                                             </div>
                                             <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                                <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                                                <DialogTitle as="h3" className="text-base font-semibold leading-6 text-gray-900">
                                                     Delete Event
-                                                </Dialog.Title>
+                                                </DialogTitle>
                                                 <div className="mt-2">
                                                     <p className="text-sm text-gray-500">
                                                         Are you sure you want to delete this event?
@@ -190,12 +225,17 @@ const Calendar = () => {
                                             Cancel
                                         </button>
                                     </div>
-                                </Dialog.Panel>
-                            </Transition.Child>
+                                </DialogPanel>
+                            </Transition>
                         </div>
                     </div>
                 </Dialog>
-            </Transition.Root>
+            </Transition>
+            <NewModal
+                handleCloseModal={handleCloseModal}
+                handleChange={handleChange} setShowModal={setShowModal}
+                showModal={showModal} handleSubmit={handleSubmit}
+                newEvent={newEvent} />
         </main >
     );
 }
