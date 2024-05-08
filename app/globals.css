@@ -27,6 +27,47 @@ body {
   }
 }
 
-/* .range-slider {
-  margin-top: 30vh;
-} */
+.fc-header-toolbar {
+  display: inline-block;
+  padding: 2px 2px;
+
+  @apply space-x-2 text-[0.7rem];
+}
+
+.fc-day {
+  @apply m-4 text-sm border-transparent;
+}
+
+.fc-scrollgrid-sync-table {
+  @apply w-full;
+}
+
+.fc-view {
+  @apply w-full h-full lg:h-3/4 xl:h-2/3;
+}
+.fc-button {
+  /* @apply ; */
+}
+
+.fc-h-event {
+  @apply bg-violet-500 border border-violet-600;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  @apply bg-violet-400 border-none;
+}
+
+.fc .fc-button {
+  @apply bg-violet-800 hover:bg-violet-900;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  @apply bg-violet-600;
+}
+
+.fc .fc-button-primary:disabled {
+  @apply bg-violet-600;
+}
+.fc-v-event {
+  @apply bg-violet-500 border border-violet-600;
+}

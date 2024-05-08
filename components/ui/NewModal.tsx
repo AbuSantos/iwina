@@ -9,7 +9,7 @@ interface ModalProps {
     setShowModal: Dispatch<SetStateAction<boolean>>
     showModal: boolean
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
-    newEvent
+    newEvent: any
 }
 
 const NewModal: React.FC<ModalProps> = ({ handleCloseModal, handleChange, setShowModal, showModal, handleSubmit, newEvent }) => {

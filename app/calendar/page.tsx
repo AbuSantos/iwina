@@ -44,9 +44,9 @@ const Calendar = () => {
         if (draggableEl) {
             new Draggable(draggableEl, {
                 itemSelector: ".fc-event",
-                eventData: function (eventEl) {
-                    console.log(eventEl);
 
+                eventData: function (eventEl) {
+                    console.log(".fc-event");
                     let title = eventEl.getAttribute("title")
                     let id = eventEl.getAttribute("data")
                     let start = eventEl.getAttribute("start")
@@ -86,8 +86,6 @@ const Calendar = () => {
         setAllEvents(allEvents.filter(event => Number(event.id) !== Number(idToDelete)))
         setShowDeleteModal(false)
         setIdToDelete(null)
-
-
     }
     // console.log(allEvents);
 
@@ -134,6 +132,7 @@ const Calendar = () => {
             <div className=" ">
                 <div className="w-full">
                     <FullCalendar
+
                         plugins={[
                             dayGridPlugin,
                             interactionPlugin,
@@ -144,6 +143,7 @@ const Calendar = () => {
                             center: 'title',
                             right: 'resourceTimelineWook, dayGridMonth,timeGridWeek'
                         }}
+
                         events={allEvents as EventSourceInput}
                         nowIndicator={true}
                         editable={true}
@@ -153,6 +153,7 @@ const Calendar = () => {
                         dateClick={handleDateClick}
                         drop={(data) => addEvent(data)}
                         eventClick={(data) => handleDeleteModal(data)}
+
                     />
                 </div>
                 <div ref={draggableContainer} id="draggable-el" className=" w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-violet-50">
