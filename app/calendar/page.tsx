@@ -10,10 +10,11 @@ import { EventSourceInput } from '@fullcalendar/core/index.js'
 import NewModal from '@/components/ui/NewModal'
 import { useSession } from 'next-auth/react'
 import { useTaskContext } from '@/context/TaskContext'
+import TestModal from '@/components/ui/TestModal'
 interface Event {
     title: string;
     start: Date | string;
-    allDay: boolean;
+    end: Date | string;
     id: number;
 }
 
@@ -42,8 +43,8 @@ const Calendar = () => {
 
     const [newEvent, setNewEvent] = useState<Event>({
         title: '',
-        start: '',
-        allDay: false,
+        start: new Date(),
+        end: new Date(),
         id: 0
     })
 
@@ -156,42 +157,25 @@ const Calendar = () => {
             title: e.target.value
         })
     }
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        setAllEvents([...allEvents, newEvent])
-        try {
-            const res = await fetch(`api/schedule`, {
-                method: "POST",
-                body: JSON.stringify({
-                    userId,
-                    title: newEvent.title,
-                    start: newEvent.start,
-                    allDay: newEvent.allDay,
-                    familyId: familyId
-                }),
 
-            })
-            console.log(res);
-            // console.log(newEvent.userId);
 
-            const data = await res.json()
 
-            if (res.ok) {
-                setShowModal(false)
-                setNewEvent({
-                    title: '',
-                    start: '',
-                    allDay: false,
-                    id: 0
-                })
-                setScheduleReply(
-                    true
-                )
-            }
-        } catch (error) {
-            console.log(error);
-        }
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    function openModal() {
+        setIsOpen(true);
     }
+
+    function afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        // subtitle.style.color = '#f00';
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
+
+
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between">
@@ -216,13 +200,11 @@ const Calendar = () => {
                         droppable={true}
                         selectable={true}
                         selectMirror={true}
-                        dateClick={handleDateClick}
+                        dateClick={openModal}
                         drop={(data) => addEvent(data)}
                         eventClick={(data) => handleDeleteModal(data)}
                     />
-                    <DemoItem label="Mobile variant">
-                        <MobileDateTimePicker defaultValue={dayjs('2022-04-17T15:30')} />
-                    </DemoItem>
+
                 </div>
 
                 <div ref={draggableContainer} id="draggable-el" className=" w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-violet-50">
@@ -304,12 +286,14 @@ const Calendar = () => {
             <NewModal
                 handleCloseModal={handleCloseModal}
                 handleChange={handleChange} setShowModal={setShowModal}
-                showModal={showModal} handleSubmit={handleSubmit}
+                showModal={showModal}
+                //  handleSubmit={handleSubmit}
                 newEvent={newEvent}
                 isScheduleReply={isScheduleReply}
                 setScheduleReply={setScheduleReply}
                 setNewEvent={setNewEvent}
             />
+            <TestModal setIsOpen={setIsOpen} closeModal={closeModal} openModal={openModal} modalIsOpen={modalIsOpen} />
         </main >
     );
 }

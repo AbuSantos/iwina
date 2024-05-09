@@ -1,40 +1,91 @@
-import React, { Dispatch, Fragment, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
 import "@/styles/styles.css"
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react"
 import { CheckIcon } from '@heroicons/react/20/solid';
-
+// Import the library
+import Datetime from 'react-datetime';
+import "react-datetime/css/react-datetime.css";
 interface ModalProps {
     handleCloseModal: () => void;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     setShowModal: Dispatch<SetStateAction<boolean>>
     showModal: boolean
-    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+    // handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
     newEvent: any
     setNewEvent: any
     isScheduleReply: boolean
     setScheduleReply: Dispatch<SetStateAction<boolean>>
 }
 
-const NewModal: React.FC<ModalProps> = ({ setNewEvent, handleCloseModal, handleChange, setShowModal, showModal, handleSubmit, newEvent, isScheduleReply, setScheduleReply }) => {
-    console.log(isScheduleReply)
 
-    useEffect(() => {
-        if (isScheduleReply) {
-            setTimeout(() => {
-                setScheduleReply(false)
-                setShowModal(false)
-                setNewEvent({
-                    //@ts-ignore
-                    title: '',
-                    start: '',
-                    allDay: false,
-                    id: 0
-                })
-            }, 5000)
-        }
-    }, [])
 
-    console.log(isScheduleReply)
+
+const NewModal: React.FC<ModalProps> = ({ setNewEvent, handleCloseModal, handleChange, setShowModal, showModal, newEvent, isScheduleReply, setScheduleReply, }) => {
+    const [start, setStart] = useState<Date>(new Date())
+    const [end, setEnd] = useState<Date>(new Date())
+
+    // useEffect(() => {
+    //     if (isScheduleReply) {
+    //         setTimeout(() => {
+    //             setScheduleReply(false)
+    //             setShowModal(false)
+    //             setNewEvent({
+    //                 //@ts-ignore
+    //                 title: '',
+    //                 start: '',
+    //                 allDay: false,
+    //                 id: 0
+    //             })
+    //         }, 5000)
+    //     }
+    // }, [])
+
+    // console.log(isScheduleReply)
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        onEventAdded({
+            title: newEvent.title,
+            start: newEvent.start,
+            end: newEvent.end,
+            id: newEvent.id
+        })
+        handleCloseModal()
+
+        // setAllEvents([...allEvents, newEvent])
+        // try {
+        //     const res = await fetch(`api/schedule`, {
+        //         method: "POST",
+        //         body: JSON.stringify({
+        //             userId,
+        //             title: newEvent.title,
+        //             start: newEvent.start,
+        //             allDay: newEvent.allDay,
+        //             familyId: familyId
+        //         }),
+
+        //     })
+        //     console.log(res);
+        //     // console.log(newEvent.userId);
+
+        //     const data = await res.json()
+
+        //     if (res.ok) {
+        //         setShowModal(false)
+        //         setNewEvent({
+        //             title: '',
+        //             start: '',
+        //             allDay: false,
+        //             id: 0
+        //         })
+        //         setScheduleReply(
+        //             true
+        //         )
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
+    }
 
     return (
         <div>
@@ -65,42 +116,57 @@ const NewModal: React.FC<ModalProps> = ({ setNewEvent, handleCloseModal, handleC
                             >
                                 <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                                     <div>
-                                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                                        {/* <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                                             <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
-                                        </div>
+                                        </div> */}
                                         <div className="mt-3 text-center sm:mt-5">
                                             <DialogTitle as="h3" className="text-base font-semibold leading-6 text-gray-900">
                                                 {
                                                     isScheduleReply ? "Event successfully scheduled" : "Add Event"
                                                 }
                                             </DialogTitle>
-                                            {!isScheduleReply &&
-                                                <form action="submit" onSubmit={handleSubmit}>
-                                                    <div className="mt-2">
-                                                        <input type="text" name="title" className="block w-full rounded-md border-0 py-1.5 text-gray-900 
+
+                                            <form action="submit" onSubmit={handleSubmit}>
+                                                <div className="mt-2">
+                                                    <input type="text" name="title" className="block w-full rounded-md border-0 py-1.5 text-gray-900 
                                                         shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
                                                         focus:ring-inset focus:ring-violet-600 
                                                         sm:text-sm sm:leading-6 outline-none"
-                                                            value={newEvent.title} onChange={(e) => handleChange(e)} placeholder="Title" />
+                                                        value={newEvent.title} onChange={(e) => handleChange(e)} placeholder="Title" />
+                                                </div>
+                                                <div>
+                                                    <div>
+                                                        <label>
+                                                            Start Date
+                                                        </label>
+                                                        <Datetime value={start} onChange={(date) => setStart(date)} />
                                                     </div>
-                                                    <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                                                        <button
-                                                            type="submit"
-                                                            className="inline-flex w-full justify-center rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:col-start-2 disabled:opacity-25"
-                                                            disabled={newEvent.title === ''}
-                                                        >
-                                                            Create
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
-                                                            onClick={handleCloseModal}
-                                                        >
-                                                            Cancel
-                                                        </button>
+                                                    <div>
+                                                        <label>
+                                                            End Date
+                                                        </label>
+                                                        <Datetime value={end} onChange={(date) => setEnd(date)} />
+
                                                     </div>
-                                                </form>
-                                            }
+                                                </div>
+                                                <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                                                    <button
+                                                        type="submit"
+                                                        className="inline-flex w-full justify-center rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:col-start-2 disabled:opacity-25"
+                                                        disabled={newEvent.title === ''}
+                                                    >
+                                                        Create
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+                                                        onClick={handleCloseModal}
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </form>
+
                                         </div>
                                     </div>
                                 </DialogPanel>
