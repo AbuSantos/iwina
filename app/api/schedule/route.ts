@@ -13,6 +13,7 @@ export const POST = async (req: NextRequest) => {
       title,
       start,
       allDay,
+      familyId,
     });
 
     await newSchedule.save();

@@ -32,23 +32,26 @@ const Calendar = () => {
     const [isScheduleReply, setScheduleReply] = useState<boolean>(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [idToDelete, setIdToDelete] = useState<number | null>(null)
+    const [dateData, setDateData] = useState()
+    const { fetchTasks, state } = useTaskContext()
+    const userId = (session?.user as any)?.id
+    const role = (session?.user as any)?.role
+
+    const familyId = role === "parent" ? userId : state.data?.[0]?.creator
+    console.log(familyId, "role");
+
     const [newEvent, setNewEvent] = useState<Event>({
         title: '',
         start: '',
         allDay: false,
         id: 0
     })
-    const { fetchTasks, state } = useTaskContext()
-    const userId = (session?.user as any)?.id
-    const role = (session?.user as any)?.role
 
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
 
-    const familyId = role === "parent" ? userId : state.data?.[0]?.creator
 
-    console.log(familyId);
 
     useEffect(() => {
         let draggableEl = document.getElementById('draggable-el')
@@ -73,10 +76,37 @@ const Calendar = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await fetch(`api/schedule/${familyId}`)
+            try {
+                const res = await fetch(`api/schedule/${familyId}`)
+                const data = await res.json()
+                setDateData(data)
+                console.log(data);
+
+                data.map((date) => {
+                    setNewEvent({
+                        title: date.title,
+                        start: date.date,
+                        allDay: date.allDay,
+                        id: date._id
+                    })
+                })
+                console.log(dateData);
+
+            } catch (error) {
+                console.log(error);
+            }
         }
-    }, [])
+        fetchData();
+    }, [familyId]);
+    console.log(newEvent);
+
+
     function handleDateClick(arg: { date: Date, allDay: boolean }) {
+        // (dateData as [])?.map((data) => {
+        //     const { date, allDay, familyId, title, _id } = data
+        //     setNewEvent({ ...newEvent, start: arg.date, allDay: allDay, id: _id })
+        // })
+
         setNewEvent({ ...newEvent, start: arg.date, allDay: arg.allDay, id: new Date().getTime() })
         setShowModal(true)
         setScheduleReply(
@@ -85,8 +115,9 @@ const Calendar = () => {
     }
 
     function addEvent(data: DropArg) {
+
         const event = {
-            ...newEvent, start: data.date.toISOString(),
+            ...newEvent, start: data.date,
             title: data.draggedEl.innerText,
             allDay: data.allDay,
             id: new Date().getTime()
@@ -99,17 +130,13 @@ const Calendar = () => {
     function handleDeleteModal(data: { event: { id: string } }) {
         setShowDeleteModal(true)
         setIdToDelete(Number(data.event.id))
-
     }
 
     function handleDelete() {
-        console.log(allEvents);
-
         setAllEvents(allEvents.filter(event => Number(event.id) !== Number(idToDelete)))
         setShowDeleteModal(false)
         setIdToDelete(null)
     }
-    // console.log(allEvents);
 
     function handleCloseModal() {
         setShowModal(false)
@@ -140,13 +167,15 @@ const Calendar = () => {
                     title: newEvent.title,
                     start: newEvent.start,
                     allDay: newEvent.allDay,
+                    familyId: familyId
                 }),
 
             })
+            console.log(res);
+            // console.log(newEvent.userId);
+
             const data = await res.json()
-            setScheduleReply(
-                true
-            )
+
             if (res.ok) {
                 setShowModal(false)
                 setNewEvent({
@@ -155,6 +184,9 @@ const Calendar = () => {
                     allDay: false,
                     id: 0
                 })
+                setScheduleReply(
+                    true
+                )
             }
         } catch (error) {
             console.log(error);
@@ -187,9 +219,12 @@ const Calendar = () => {
                         dateClick={handleDateClick}
                         drop={(data) => addEvent(data)}
                         eventClick={(data) => handleDeleteModal(data)}
-
                     />
+                    <DemoItem label="Mobile variant">
+                        <MobileDateTimePicker defaultValue={dayjs('2022-04-17T15:30')} />
+                    </DemoItem>
                 </div>
+
                 <div ref={draggableContainer} id="draggable-el" className=" w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-violet-50">
                     <h1 className="font-bold text-lg text-center">Drag Event</h1>
                     {events.map(event => (

@@ -1,7 +1,8 @@
 import { Schedule } from "@/(models)/Schedule";
 import { connectToDB } from "@/utils/database";
+import { NextRequest } from "next/server";
 
-export const GET = async (req, { params }) => {
+export const GET = async (req: NextRequest, { params }) => {
   try {
     await connectToDB();
 
