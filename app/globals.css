@@ -31,7 +31,7 @@ body {
   display: inline-block;
   padding: 2px 2px;
 
-  @apply space-x-2 text-[0.5rem];
+  @apply space-x-2 text-[0.6rem];
 }
 
 .fc-day {
@@ -45,7 +45,6 @@ body {
 .fc-view {
   @apply w-full h-full lg:h-3/4 xl:h-2/3;
 }
-
 
 .fc-h-event {
   @apply bg-violet-500 border border-violet-600;
@@ -62,9 +61,8 @@ body {
 .fc .fc-button-primary:not(:disabled).fc-button-active {
   @apply bg-violet-600;
 }
-.fc-col-header-cell-cushion{
-  @apply  text-[0.7rem];
-
+.fc-col-header-cell-cushion {
+  @apply text-[0.7rem];
 }
 .fc .fc-button-primary:disabled {
   @apply bg-violet-600;

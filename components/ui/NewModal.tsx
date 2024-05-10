@@ -5,12 +5,13 @@ import { CheckIcon } from '@heroicons/react/20/solid';
 // Import the library
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
+
 interface ModalProps {
     handleCloseModal: () => void;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     setShowModal: Dispatch<SetStateAction<boolean>>
     showModal: boolean
-    // handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
     newEvent: any
     setNewEvent: any
     isScheduleReply: boolean
@@ -18,9 +19,7 @@ interface ModalProps {
 }
 
 
-
-
-const NewModal: React.FC<ModalProps> = ({ setNewEvent, handleCloseModal, handleChange, setShowModal, showModal, newEvent, isScheduleReply, setScheduleReply, }) => {
+const NewModal: React.FC<ModalProps> = ({ setNewEvent, handleCloseModal, handleChange, setShowModal, showModal, newEvent, isScheduleReply, setScheduleReply, handleSubmit }) => {
     const [start, setStart] = useState<Date>(new Date())
     const [end, setEnd] = useState<Date>(new Date())
 
@@ -42,50 +41,7 @@ const NewModal: React.FC<ModalProps> = ({ setNewEvent, handleCloseModal, handleC
 
     // console.log(isScheduleReply)
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        onEventAdded({
-            title: newEvent.title,
-            start: newEvent.start,
-            end: newEvent.end,
-            id: newEvent.id
-        })
-        handleCloseModal()
 
-        // setAllEvents([...allEvents, newEvent])
-        // try {
-        //     const res = await fetch(`api/schedule`, {
-        //         method: "POST",
-        //         body: JSON.stringify({
-        //             userId,
-        //             title: newEvent.title,
-        //             start: newEvent.start,
-        //             allDay: newEvent.allDay,
-        //             familyId: familyId
-        //         }),
-
-        //     })
-        //     console.log(res);
-        //     // console.log(newEvent.userId);
-
-        //     const data = await res.json()
-
-        //     if (res.ok) {
-        //         setShowModal(false)
-        //         setNewEvent({
-        //             title: '',
-        //             start: '',
-        //             allDay: false,
-        //             id: 0
-        //         })
-        //         setScheduleReply(
-        //             true
-        //         )
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        // }
-    }
 
     return (
         <div>

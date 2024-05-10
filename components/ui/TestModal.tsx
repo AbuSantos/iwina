@@ -21,7 +21,6 @@ function TestModal({ closeModal, openModal, modalIsOpen, setIsOpen, OnEventAdded
         },
     };
 
-
     const handleSubmit = (e) => {
         e.preventDefault()
         OnEventAdded({
@@ -29,6 +28,7 @@ function TestModal({ closeModal, openModal, modalIsOpen, setIsOpen, OnEventAdded
         })
         closeModal()
     }
+
     return (
         <div >
             <Modal
@@ -42,28 +42,28 @@ function TestModal({ closeModal, openModal, modalIsOpen, setIsOpen, OnEventAdded
                         Add Event
                     </h2>
                     <form className='w-full' >
-                        <input type="text" name="title" className="block w-full rounded-md border-0 p-2 text-gray-900 
-                                                        shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
-                                                        focus:ring-inset focus:ring-violet-500 
-                                                        sm:text-sm sm:leading-6 outline-none"
-                            onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
+                        <input type="text" name="title"
+                            className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-500 sm:text-sm sm:leading-6 outline-none"
+                            onChange={(e) => setTitle(e.target.value)} placeholder="Title"
+                        />
+                        <div>
+
+                            {/* <div className='space-y-2 mt-2'>
+                                <label className='text-sm font-semibold'>
+                                    Select start Date
+                                </label>
+                                <Datetime value={start} onChange={(date) => setStart(date)} />
+                            </div>
+                            <div className='space-y-2'>
+                                <label className='text-sm font-semibold'>
+                                    End Date
+                                </label>
+                                <Datetime value={end} onChange={(date) => setEnd(date)} />
+
+                            </div> */}
+                        </div>
                     </form>
-                    <div>
 
-                        <div className='space-y-2 mt-2'>
-                            <label className='text-sm font-semibold'>
-                                Select start Date
-                            </label>
-                            <Datetime value={start} onChange={(date) => setStart(date)} />
-                        </div>
-                        <div className='space-y-2'>
-                            <label className='text-sm font-semibold'>
-                                End Date
-                            </label>
-                            <Datetime value={end} onChange={(date) => setEnd(date)} />
-
-                        </div>
-                    </div>
 
                     <div style={{
                         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999, paddingTop: 0, padding: "10px"
