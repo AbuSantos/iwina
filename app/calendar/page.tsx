@@ -15,8 +15,9 @@ import EventDetails from '@/components/EventDetails'
 interface Event {
     title: string;
     end: Date | string;
+    start?: Date | string;
     id: number;
-    allDay: Boolean;
+    allDay: boolean;
 }
 
 const Calendar = () => {
@@ -47,7 +48,8 @@ const Calendar = () => {
     const [newEvent, setNewEvent] = useState<Event>({
         title: '',
         end: new Date(),
-        allDay: Boolean,
+        start: new Date(),
+        allDay: false,
         id: 0
     })
 
@@ -82,14 +84,16 @@ const Calendar = () => {
                 const res = await fetch(`api/schedule/${familyId}`)
                 const data = await res.json()
                 setDateData(data)
-                // console.log(data);
+                console.log(data);
 
                 data.map((date) => {
+                    console.log(date);
+
                     setNewEvent({
                         title: date.title,
                         start: date.date,
                         allDay: date.allDay,
-                        username: date.username,
+                        end: date.start,
                         id: date._id
                     })
                 })
