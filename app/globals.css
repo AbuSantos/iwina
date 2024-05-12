@@ -26,6 +26,7 @@ body {
     text-wrap: balance;
   }
 }
+/* bg-[#a191fe] */
 
 .fc-header-toolbar {
   display: inline-block;
@@ -69,4 +70,33 @@ body {
 }
 .fc-v-event {
   @apply bg-violet-500 border border-violet-600;
+}
+.eventTab {
+  font-size: 14px;
+  position: relative;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+  margin: 15px;
+}
+
+.eventTab::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  background-color: #a191fe;
+  width: 0;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) all;
+}
+
+.eventTab:hover {
+  color: red;
+}
+
+.eventTab.active::after {
+  width: 100%;
+  color: green;
 }
