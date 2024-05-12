@@ -11,11 +11,12 @@ import NewModal from '@/components/ui/NewModal'
 import { useSession } from 'next-auth/react'
 import { useTaskContext } from '@/context/TaskContext'
 import TestModal from '@/components/ui/TestModal'
+import EventDetails from '@/components/EventDetails'
 interface Event {
     title: string;
-    start: Date | string;
     end: Date | string;
     id: number;
+    allDay: Boolean;
 }
 
 const Calendar = () => {
@@ -36,23 +37,23 @@ const Calendar = () => {
     const [dateData, setDateData] = useState()
     const { fetchTasks, state } = useTaskContext()
     const userId = (session?.user as any)?.id
+    const usrname = (session?.user as string)?.name
+    const image = (session?.user as string)?.image
     const role = (session?.user as any)?.role
-
+    const [checkDate, setCheckedDate] = useState(new Date())
     const familyId = role === "parent" ? userId : state.data?.[0]?.creator
-    console.log(familyId, "role");
+    // console.log(image, "role");
 
     const [newEvent, setNewEvent] = useState<Event>({
         title: '',
-        start: new Date(),
         end: new Date(),
+        allDay: Boolean,
         id: 0
     })
 
     useEffect(() => {
         fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`)
     }, [userId, role])
-
-
 
     useEffect(() => {
         let draggableEl = document.getElementById('draggable-el')
@@ -81,13 +82,14 @@ const Calendar = () => {
                 const res = await fetch(`api/schedule/${familyId}`)
                 const data = await res.json()
                 setDateData(data)
-                console.log(data);
+                // console.log(data);
 
                 data.map((date) => {
                     setNewEvent({
                         title: date.title,
                         start: date.date,
                         allDay: date.allDay,
+                        username: date.username,
                         id: date._id
                     })
                 })
@@ -99,7 +101,7 @@ const Calendar = () => {
         }
         fetchData();
     }, [familyId]);
-    console.log(newEvent);
+    // console.log(newEvent);
 
 
     function handleDateClick(arg: { date: Date, allDay: boolean }) {
@@ -107,13 +109,17 @@ const Calendar = () => {
         //     const { date, allDay, familyId, title, _id } = data
         //     setNewEvent({ ...newEvent, start: arg.date, allDay: allDay, id: _id })
         // })
-
-        setNewEvent({ ...newEvent, start: arg.date, allDay: arg.allDay, id: new Date().getTime() })
+        console.log(arg);
+        setCheckedDate(arg.dateStr)
+        // setNewEvent({ ...newEvent, start: arg.date, allDay: arg.allDay, id: new Date().getTime() })
         setShowModal(true)
-        setScheduleReply(
-            false
-        )
+        // setScheduleReply(
+        //     false
+        // )
     }
+
+    // console.log(checkDate);
+
 
     function addEvent(data: DropArg) {
 
@@ -129,8 +135,10 @@ const Calendar = () => {
     }
 
     function handleDeleteModal(data: { event: { id: string } }) {
-        setShowDeleteModal(true)
-        setIdToDelete(Number(data.event.id))
+        // setShowDeleteModal(true)
+        // setIdToDelete(Number(data.event.id))
+        console.log(data)
+
     }
 
     function handleDelete() {
@@ -150,41 +158,31 @@ const Calendar = () => {
         setShowDeleteModal(false)
         setIdToDelete(null)
     }
+    // console.log(checkDate.split('-').slice(1, 3));
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        // onEventAdded({
-        //     title: newEvent.title,
-        //     start: newEvent.start,
-        //     end: newEvent.end,
-        //     id: newEvent.id
-        // })
-        // handleCloseModal()
-
-        setAllEvents([...allEvents, newEvent])
         try {
             const res = await fetch(`api/schedule`, {
                 method: "POST",
                 body: JSON.stringify({
                     userId,
                     title: newEvent.title,
-                    start: newEvent.start,
+                    start: checkDate,
                     allDay: newEvent.allDay,
+                    username: usrname,
+                    image: image,
                     familyId: familyId
                 }),
-
             })
             console.log(res);
-            // console.log(newEvent.userId);
-
-            const data = await res.json()
 
             if (res.ok) {
                 setShowModal(false)
                 setNewEvent({
                     title: '',
-                    start: '',
                     allDay: false,
-                    id: 0
+                    id: 0,
+                    end: ''
                 })
                 setScheduleReply(
                     true
@@ -194,6 +192,9 @@ const Calendar = () => {
             console.log(error);
         }
     }
+
+    console.log(userId);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setNewEvent({
             ...newEvent,
@@ -244,13 +245,18 @@ const Calendar = () => {
                         selectable={true}
                         selectMirror={true}
                         dateClick={handleDateClick}
+                        // dateClick={handleDateClick}
                         drop={(data) => addEvent(data)}
-                        eventClick={(data) => handleDeleteModal(data)}
+                    // dateClick={(data) => handleDeleteModal(data)}
+                    // eventClick={(data) => handleDeleteModal(data)}
                     />
 
                 </div>
+                <div>
+                    <EventDetails dateData={dateData} />
+                </div>
 
-                <div ref={draggableContainer} id="draggable-el" className=" w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-violet-50">
+                {/* <div ref={draggableContainer} id="draggable-el" className=" w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-violet-50">
                     <h1 className="font-bold text-lg text-center">Drag Event</h1>
                     {events.map(event => (
                         <div
@@ -261,7 +267,7 @@ const Calendar = () => {
                             {event.title}
                         </div>
                     ))}
-                </div>
+                </div> */}
             </div>
 
             <Transition show={showDeleteModal} as={Fragment}>
@@ -335,6 +341,7 @@ const Calendar = () => {
                 isScheduleReply={isScheduleReply}
                 setScheduleReply={setScheduleReply}
                 setNewEvent={setNewEvent}
+            // dateData={dateData}
             />
             {/* <TestModal setIsOpen={setIsOpen} closeModal={closeModal} openModal={openModal} modalIsOpen={modalIsOpen} /> */}
         </main >

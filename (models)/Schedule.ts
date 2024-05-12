@@ -6,6 +6,17 @@ const ScheduleSchema = new Schema(
       type: String,
       required: true, // Reference path based on the value of creatorType
     },
+    // user: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Task",
+    //   },
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Kids",
+    //   },
+    // ],
+
     title: {
       type: String,
       required: true,
@@ -22,6 +33,11 @@ const ScheduleSchema = new Schema(
       type: String,
       required: true,
     },
+    username: {
+      type: String,
+      required: true,
+    },
+    image: { type: String, required: false },
   },
   { timestamps: true }
 );
