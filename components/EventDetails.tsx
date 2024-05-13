@@ -19,29 +19,24 @@ export const EventDetails = ({ dateData }) => {
     }
     useEffect(() => {
         const currentDate = new Date()
-        dateData?.map((scheduleDate) => {
-            if (scheduleDate) {
-                const newData = scheduleDate.filter((date) => eventDate(date.timeLine) < currentDate)
-                console.log(newData);
+        if (dateData) {
+            const futureEvents = []
+            const archiveEvents = []
 
-                setarchiveData(newData)
-            }
+            dateData.forEach((scheduleDate) => {
+                const eventTime = new Date(scheduleDate.timeLine);
+                if (eventTime > currentDate) {
+                    futureEvents.push(scheduleDate);
+                } else {
+                    archiveEvents.push(scheduleDate);
+                }
+            })
+            setarchiveData(archiveEvents);
+            setIsUpcomingData(futureEvents);
 
-        })
+        }
     }, [dateData])
 
-    const eventDate = (arg: Date) => {
-        const givenDate = new Date(arg);
-        return givenDate
-    }
-
-
-    // // Compare the current date with the given date
-    // if (currentDate > givenDate) {
-    //     console.log('Today has passed the given date.');
-    // } else {
-    //     console.log('Today has not passed the given date.');
-    // }
 
 
     return (
@@ -62,7 +57,7 @@ export const EventDetails = ({ dateData }) => {
             </nav>
             {
                 activeTab === "upcoming" && (
-                    dateData && dateData.map((data) => {
+                    upcomingData && upcomingData.map((data) => {
                         const { title, username, image, start, timeLine } = data;
                         // console.log(timeLine, "timel");
 

@@ -40,7 +40,9 @@ const Calendar = () => {
     const [dateData, setDateData] = useState()
     const { fetchTasks, state } = useTaskContext()
     const userId = (session?.user as any)?.id
+    //@ts-ignore
     const usrname = (session?.user as string)?.name
+    //@ts-ignore
     const image = (session?.user as string)?.image
     const role = (session?.user as any)?.role
     const [checkDate, setCheckedDate] = useState(new Date())
@@ -87,8 +89,6 @@ const Calendar = () => {
                 const res = await fetch(`api/schedule/${familyId}`)
                 const data = await res.json()
                 setDateData(data)
-                console.log(data);
-
                 data.map((date) => {
                     // console.log(date);
 
@@ -101,7 +101,6 @@ const Calendar = () => {
                         timeLine: date.timeLine
                     })
                 })
-                console.log(dateData);
 
             } catch (error) {
                 console.log(error);
@@ -197,7 +196,7 @@ const Calendar = () => {
                     allDay: false,
                     id: 0,
                     end: '',
-                    timeLine: ''
+                    timeLine: new Date()
                 })
                 setScheduleReply(
                     true
