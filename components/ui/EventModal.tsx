@@ -23,26 +23,6 @@ const NewModal: React.FC<ModalProps> = ({ setNewEvent, handleCloseModal, handleC
     const [start, setStart] = useState<Date>(new Date())
     const [end, setEnd] = useState<Date>(new Date())
 
-    // useEffect(() => {
-    //     if (isScheduleReply) {
-    //         setTimeout(() => {
-    //             setScheduleReply(false)
-    //             setShowModal(false)
-    //             setNewEvent({
-    //                 //@ts-ignore
-    //                 title: '',
-    //                 start: '',
-    //                 allDay: false,
-    //                 id: 0
-    //             })
-    //         }, 5000)
-    //     }
-    // }, [])
-
-    // console.log(isScheduleReply)
-
-
-
     return (
         <div>
             <Transition show={showModal} as={Fragment}>
@@ -90,21 +70,6 @@ const NewModal: React.FC<ModalProps> = ({ setNewEvent, handleCloseModal, handleC
                                                         sm:text-sm sm:leading-6 outline-none"
                                                         value={newEvent.title} onChange={(e) => handleChange(e)} placeholder="Title" />
                                                 </div>
-                                                {/* <div>
-                                                    <div>
-                                                        <label>
-                                                            Start Date
-                                                        </label>
-                                                        <Datetime value={start} onChange={(date) => setStart(date)} />
-                                                    </div>
-                                                    <div>
-                                                        <label>
-                                                            End Date
-                                                        </label>
-                                                        <Datetime value={end} onChange={(date) => setEnd(date)} />
-
-                                                    </div>
-                                                </div> */}
                                                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                                                     <button
                                                         type="submit"

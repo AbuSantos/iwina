@@ -5,13 +5,13 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid' // a plugin!
 import { Fragment, useState, useEffect, useRef } from 'react'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react"
-import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
+import { BackspaceIcon, BackwardIcon, CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 import { EventSourceInput } from '@fullcalendar/core/index.js'
-import NewModal from '@/components/ui/NewModal'
+import NewModal from '@/components/ui/EventModal'
 import { useSession } from 'next-auth/react'
 import { useTaskContext } from '@/context/TaskContext'
-import TestModal from '@/components/ui/TestModal'
 import EventDetails from '@/components/EventDetails'
+import { useRouter } from 'next/navigation'
 interface Event {
     title: string;
     end: Date | string;
@@ -48,6 +48,7 @@ const Calendar = () => {
     const [checkDate, setCheckedDate] = useState(new Date())
     const familyId = role === "parent" ? userId : state.data?.[0]?.creator
     // console.log(image, "role");
+    const router = useRouter()
 
     const [newEvent, setNewEvent] = useState<Event>({
         title: '',
@@ -112,11 +113,6 @@ const Calendar = () => {
 
 
     function handleDateClick(arg: { date: Date, allDay: boolean }) {
-        // (dateData as [])?.map((data) => {
-        //     const { date, allDay, familyId, title, _id } = data
-        //     setNewEvent({ ...newEvent, start: arg.date, allDay: allDay, id: _id })
-        // })
-        console.log(arg);
         //@ts-ignore
         setNewEvent({ ...newEvent, start: arg.dateStr, allDay: arg.allDay, id: new Date().getTime(), timeLine: arg.date })
         setShowModal(true)
@@ -163,7 +159,7 @@ const Calendar = () => {
             end: '',
             allDay: false,
             id: 0,
-
+            timeLine: new Date()
         })
         setShowDeleteModal(false)
         setIdToDelete(null)
@@ -215,29 +211,21 @@ const Calendar = () => {
     }
 
 
-
-    const [modalIsOpen, setIsOpen] = useState(false);
-
-    function openModal() {
-        setIsOpen(true);
-    }
-
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        // subtitle.style.color = '#f00';
-    }
-
-    function closeModal() {
-        setIsOpen(false);
-    }
-
-
-
-
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between">
-            <div className=" ">
-                <div className="w-full">
+        <main className="flex min-h-screen flex-col items-center justify-between w-full">
+            <div className=" w-full ">
+
+                <div className='flex items-center justify-between w-full p-2'>
+                    <p onClick={() => router.back()} className='cursor-pointer'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                        </svg>
+                    </p>
+                    <h1 className="font-bold text-lg justify-center p-3">Scheduled Events</h1>
+                    <p></p>
+                </div>
+
+                <div className="w-full ">
                     <FullCalendar
                         plugins={[
                             dayGridPlugin,
@@ -264,22 +252,11 @@ const Calendar = () => {
                     />
 
                 </div>
-                <div>
+                <div className='w-11/12 flex m-auto  '>
                     <EventDetails dateData={dateData} />
                 </div>
 
-                {/* <div ref={draggableContainer} id="draggable-el" className=" w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-violet-50">
-                    <h1 className="font-bold text-lg text-center">Drag Event</h1>
-                    {events.map(event => (
-                        <div
-                            className="fc-event border-2 p-1 m-2 w-full rounded-md ml-auto text-center bg-white"
-                            title={event.title}
-                            key={event.id}
-                        >
-                            {event.title}
-                        </div>
-                    ))}
-                </div> */}
+
             </div>
 
             <Transition show={showDeleteModal} as={Fragment}>
@@ -355,7 +332,6 @@ const Calendar = () => {
                 setNewEvent={setNewEvent}
             // dateData={dateData}
             />
-            {/* <TestModal setIsOpen={setIsOpen} closeModal={closeModal} openModal={openModal} modalIsOpen={modalIsOpen} /> */}
         </main >
     );
 }

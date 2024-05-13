@@ -72,6 +72,7 @@ body {
 .fc-v-event {
   @apply bg-violet-500 border border-violet-600;
 }
+
 .eventTab {
   font-size: 14px;
   position: relative;

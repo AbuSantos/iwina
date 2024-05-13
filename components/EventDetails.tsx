@@ -13,7 +13,7 @@ export const EventDetails = ({ dateData }) => {
     const role = (session?.user as any)?.role
     const [activeTab, setActiveTab] = useState("upcoming");
     const [upcomingData, setIsUpcomingData] = useState([])
-    const [archiveData, setarchiveData] = useState([])
+    const [archiveData, setArchiveData] = useState([])
     const handleTab = (tab: string) => {
         setActiveTab(tab)
     }
@@ -31,7 +31,7 @@ export const EventDetails = ({ dateData }) => {
                     archiveEvents.push(scheduleDate);
                 }
             })
-            setarchiveData(archiveEvents);
+            setArchiveData(archiveEvents);
             setIsUpcomingData(futureEvents);
 
         }
@@ -41,36 +41,59 @@ export const EventDetails = ({ dateData }) => {
 
     return (
         <div className="overflow-y-scroll w-full">
-            <h1 className="font-bold text-lg text-center p-3">Scheduled Events</h1>
 
-            <nav className="flex items-center justify-center space-x-3 p-2 text-sm text-slate-500 ">
+            <nav className="flex items-center justify-center space-x-3  text-sm text-slate-500 ">
                 <p
                     onClick={() => handleTab("upcoming")}
                     className={`cursor-pointer p-2 eventTab ${activeTab === "upcoming" && "text-slate-900  active"}`}
                 >
                     upcoming
                 </p>
-
-                <p
-
-                    onClick={() => handleTab("archived")} className={`cursor-pointer p-2 eventTab ${activeTab === "archived" && "text-slate-900 active"}`} >archived</p>
+                <p onClick={() => handleTab("archived")} className={`cursor-pointer p-2 eventTab ${activeTab === "archived" && "text-slate-900 active"}`} >archived</p>
             </nav>
             {
                 activeTab === "upcoming" && (
-                    upcomingData && upcomingData.map((data) => {
-                        const { title, username, image, start, timeLine } = data;
-                        // console.log(timeLine, "timel");
+                    upcomingData && upcomingData.length === 0 ?
+                        <div>
+                            <p>You currently have no scheduled Event</p>
+                        </div> : upcomingData.map((data) => {
+                            const { title, username, image, start, timeLine } = data;
+                            // console.log(timeLine, "timel");
 
+                            const startDate = start.split('-').slice(1, 3).join('/');
+                            return (
+                                <section className={`flex mb-2 justify-between items-center h-14 ${selectedSchedule ? "bg-red-100" : " bg-green-100"} p-2 rounded-lg`} >
+                                    <div className="flex space-x-4">
+                                        <div className="">
+                                            <Image src={image ? image : parent} alt={"User "} width={50} height={50} />
+                                        </div>
+                                        <div className="flex flex-col  text-green-900">
+                                            <p className="text-sm" >{title}</p>
+                                            <span className="text-slate-500 text-[0.6rem]" >{username}</span>
+                                        </div>
+                                    </div>
+                                    <span className="text-slate-500 text-[0.6rem]" >{startDate}</span>
+                                </section>
+                            );
+                        }))
+            }
+            {
+                activeTab === "archived" && (
+                    archiveData && archiveData.map((data) => {
+                        const { title, username, image, start, timeLine } = data;
                         const startDate = start.split('-').slice(1, 3).join('/');
                         return (
-                            <section className={`flex mb-2  space-x-5 items-center h-14 ${selectedSchedule ? "bg-red-100" : " bg-green-100"} p-2 rounded-lg`} >
-                                <div className="">
-                                    <Image src={image ? image : parent} alt={"User "} width={50} height={50} />
+                            <section className={`flex mb-2 justify-between items-center h-14 ${selectedSchedule ? "bg-red-100" : " bg-red-100"} p-2 rounded-lg`} >
+                                <div className="flex space-x-4">
+                                    <div className="">
+                                        <Image src={image ? image : parent} alt={"User "} width={50} height={50} />
+                                    </div>
+                                    <div className="flex flex-col  text-green-900">
+                                        <p className="text-sm" >{title}</p>
+                                        <span className="text-slate-500 text-[0.6rem]" >{username}</span>
+                                    </div>
                                 </div>
-                                <div className="flex flex-col  text-green-900">
-                                    <p className="text-sm" >{title}</p>
-                                    <span className="text-slate-500 text-[0.6rem]" >{startDate}</span>
-                                </div>
+                                <span className="text-slate-500 text-[0.6rem]" >{startDate}</span>
                             </section>
                         );
                     }))
