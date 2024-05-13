@@ -7,9 +7,17 @@ export const POST = async (req: NextRequest) => {
     await connectToDB();
 
     // Parse incoming request body
-    const { familyId, title, userId, start, allDay, image, username } =
-      await req.json();
-    console.log("user", userId);
+    const {
+      familyId,
+      title,
+      userId,
+      start,
+      allDay,
+      image,
+      username,
+      timeLine,
+    } = await req.json();
+    console.log(timeLine, "timeline");
 
     // Validate required fields
     if (!familyId || !title || !userId || !start) {
@@ -25,6 +33,7 @@ export const POST = async (req: NextRequest) => {
       familyId,
       image,
       username,
+      timeLine,
     });
 
     // Save the new schedule to the database

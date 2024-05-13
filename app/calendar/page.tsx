@@ -18,6 +18,8 @@ interface Event {
     start?: Date | string;
     id: number;
     allDay: boolean;
+    timeLine: Date
+
 }
 
 const Calendar = () => {
@@ -50,7 +52,8 @@ const Calendar = () => {
         end: new Date(),
         start: new Date(),
         allDay: false,
-        id: 0
+        id: 0,
+        timeLine: new Date()
     })
 
     useEffect(() => {
@@ -87,14 +90,15 @@ const Calendar = () => {
                 console.log(data);
 
                 data.map((date) => {
-                    console.log(date);
+                    // console.log(date);
 
                     setNewEvent({
                         title: date.title,
                         start: date.date,
                         allDay: date.allDay,
                         end: date.start,
-                        id: date._id
+                        id: date._id,
+                        timeLine: date.timeLine
                     })
                 })
                 console.log(dateData);
@@ -114,8 +118,8 @@ const Calendar = () => {
         //     setNewEvent({ ...newEvent, start: arg.date, allDay: allDay, id: _id })
         // })
         console.log(arg);
-        setCheckedDate(arg.dateStr)
-        // setNewEvent({ ...newEvent, start: arg.date, allDay: arg.allDay, id: new Date().getTime() })
+        //@ts-ignore
+        setNewEvent({ ...newEvent, start: arg.dateStr, allDay: arg.allDay, id: new Date().getTime(), timeLine: arg.date })
         setShowModal(true)
         // setScheduleReply(
         //     false
@@ -128,7 +132,8 @@ const Calendar = () => {
     function addEvent(data: DropArg) {
 
         const event = {
-            ...newEvent, start: data.date,
+            ...newEvent,
+            start: data.date,
             title: data.draggedEl.innerText,
             allDay: data.allDay,
             id: new Date().getTime()
@@ -156,14 +161,18 @@ const Calendar = () => {
         setNewEvent({
             title: '',
             start: '',
+            end: '',
             allDay: false,
-            id: 0
+            id: 0,
+
         })
         setShowDeleteModal(false)
         setIdToDelete(null)
     }
     // console.log(checkDate.split('-').slice(1, 3));
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        console.log(newEvent.start);
+
         e.preventDefault()
         try {
             const res = await fetch(`api/schedule`, {
@@ -171,11 +180,12 @@ const Calendar = () => {
                 body: JSON.stringify({
                     userId,
                     title: newEvent.title,
-                    start: checkDate,
+                    start: newEvent.start,
                     allDay: newEvent.allDay,
                     username: usrname,
                     image: image,
-                    familyId: familyId
+                    familyId: familyId,
+                    timeLine: newEvent.timeLine
                 }),
             })
             console.log(res);
@@ -186,7 +196,8 @@ const Calendar = () => {
                     title: '',
                     allDay: false,
                     id: 0,
-                    end: ''
+                    end: '',
+                    timeLine: ''
                 })
                 setScheduleReply(
                     true
@@ -196,8 +207,6 @@ const Calendar = () => {
             console.log(error);
         }
     }
-
-    console.log(userId);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setNewEvent({

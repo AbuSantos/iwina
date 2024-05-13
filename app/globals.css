@@ -27,6 +27,7 @@ body {
   }
 }
 /* bg-[#a191fe] */
+/* bg-[#ee82ee] */
 
 .fc-header-toolbar {
   display: inline-block;
@@ -78,6 +79,7 @@ body {
   text-transform: uppercase;
   transition: all 0.4s ease;
   margin: 15px;
+  font-weight: 700;
 }
 
 .eventTab::after {
@@ -93,7 +95,7 @@ body {
 }
 
 .eventTab:hover {
-  color: red;
+  color: #ee82ee;
 }
 
 .eventTab.active::after {
