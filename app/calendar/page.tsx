@@ -212,8 +212,8 @@ const Calendar = () => {
 
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between w-full">
-            <div className=" w-full ">
+        <main className="flex  flex-col items-center justify-between w-full">
+            <div className=" w-full h-screen">
 
                 <div className='flex items-center justify-between w-full p-2'>
                     <p onClick={() => router.back()} className='cursor-pointer'>
@@ -225,7 +225,7 @@ const Calendar = () => {
                     <p></p>
                 </div>
 
-                <div className="w-full ">
+                <div className="w-full">
                     <FullCalendar
                         plugins={[
                             dayGridPlugin,
@@ -252,7 +252,7 @@ const Calendar = () => {
                     />
 
                 </div>
-                <div className='w-11/12 flex m-auto  '>
+                <div className='w-11/12 flex  ml-5 fixed  h-screen'>
                     <EventDetails dateData={dateData} />
                 </div>
 

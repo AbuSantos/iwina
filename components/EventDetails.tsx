@@ -40,9 +40,9 @@ export const EventDetails = ({ dateData }) => {
 
 
     return (
-        <div className=" w-full fixed h-full overflow-hidden mb-16">
 
-            <nav className="flex items-center justify-center space-x-3  text-sm text-slate-500 ">
+        <div className=" w-full overflow-y-scroll mb-40 ">
+            <nav className="flex w-full bg-white items-center fixed justify-center space-x-3  text-sm text-slate-500 ">
                 <p
                     onClick={() => handleTab("upcoming")}
                     className={`cursor-pointer p-2 eventTab ${activeTab === "upcoming" && "text-slate-900  active"}`}
@@ -51,34 +51,39 @@ export const EventDetails = ({ dateData }) => {
                 </p>
                 <p onClick={() => handleTab("archived")} className={`cursor-pointer p-2 eventTab ${activeTab === "archived" && "text-slate-900 active"}`} >archived</p>
             </nav>
-            <div className="h-full overflow-y-scroll ">
-                {
-                    activeTab === "upcoming" && (
-                        upcomingData && upcomingData.length === 0 ?
-                            <div>
-                                <p>You currently have no scheduled Event</p>
-                            </div>
-                            : upcomingData.map((data) => {
-                                const { title, username, image, start, timeLine } = data;
-                                const startDate = start.split('-').slice(1, 3).join('/');
-                                return (
-                                    <section className={`flex mb-2 justify-between items-center h-32  ${selectedSchedule ? "bg-red-100" : " bg-green-100"} p-2 rounded-lg`} >
-                                        <div className="flex space-x-4">
-                                            <div className="">
-                                                <Image src={image ? image : parent} alt={"User "} width={50} height={50} />
-                                            </div>
-                                            <div className="flex flex-col  text-green-900">
-                                                <p className="text-sm" >{title}</p>
-                                                <span className="text-slate-500 text-[0.6rem]" >{username}</span>
-                                            </div>
+            <div className="h-screen  overflow-y-scroll mt-20">
+
+                {activeTab === "upcoming" && (
+                    (upcomingData && upcomingData.length === 0) ? (
+                        <div>
+                            <p>You currently have no scheduled Event</p>
+                        </div>
+                    ) : (
+                        upcomingData.map((data, index) => {
+                            const { title, username, image, start, timeLine } = data;
+                            const startDate = start.split('-').slice(1, 3).join('/');
+                            return (
+                                <section
+                                    key={index}
+                                    className={`flex mb-2 justify-between items-center h-14 ${selectedSchedule ? "bg-red-100" : " bg-green-100"} p-2 rounded-lg`}
+                                >
+                                    <div className="flex space-x-4">
+                                        <div>
+                                            <Image src={image || parent} alt="User" width={50} height={50} />
                                         </div>
-                                        <span className="text-slate-500 text-[0.6rem]" >{startDate}</span>
-                                    </section>
-                                );
-                            })
+                                        <div className="flex flex-col text-green-900">
+                                            <p className="text-sm">{title}</p>
+                                            <span className="text-slate-500 text-[0.6rem]">{username}</span>
+                                        </div>
+                                    </div>
+                                    <span className="text-slate-500 text-[0.6rem]">{startDate}</span>
+                                </section>
+                            );
+                        })
                     )
-                }
+                )}
             </div>
+
 
             {
                 activeTab === "archived" && (
