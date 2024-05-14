@@ -1,6 +1,11 @@
 import { Schedule } from "@/(models)/Schedule";
 import { connectToDB } from "@/utils/database";
 import { NextRequest } from "next/server";
+import { Knock } from "@knocklabs/node";
+import User from "@/(models)/User";
+import Kids from "@/(models)/Kids";
+
+const knock = new Knock(process.env.KNOCK_SECRET_API_KEY);
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -17,7 +22,7 @@ export const POST = async (req: NextRequest) => {
       username,
       timeLine,
     } = await req.json();
-    console.log(timeLine, "timeline");
+    // console.log(timeLine, "timeline");
 
     // Validate required fields
     if (!familyId || !title || !userId || !start) {
@@ -38,6 +43,17 @@ export const POST = async (req: NextRequest) => {
 
     // Save the new schedule to the database
     await newSchedule.save();
+    const family = await Kids.find({ creator: familyId });
+    await knock.notify("new-event", {
+      actor: userId,
+      recipients: family.map((child) => child._id),
+      data: {
+        newEvent: {
+          date: start,
+          title: title,
+        },
+      },
+    });
 
     // Return success message
     return Response.json({ message: "New task created successfully" });
