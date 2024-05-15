@@ -30,24 +30,24 @@ const ChildProfileView = () => {
     console.log(data);
 
     return (
-        <div >
-            <div className=''>
-                <Header childId={childId} data={data} role={role} />
-
-            </div>
-
+        <div className='' >
             {role === "parent" && <header className="p-4">
+                {/* <div className=''>
+                    <Header childId={childId} data={data} role={role} />
+                </div> */}
+
                 <ProfileHeader
                     username={(data)?.username}
                     image={data?.image}
                     taskCount={data?.
                         ongoingTasks?.length}
+                    points={data?.points}
                 />
             </header>}
 
 
 
-            <div className='flex items-center justify-center mb-3'>
+            <div className='flex items-center justify-center mb-3 '>
                 < ChildOngoingTask childId={childId} data={data} role={role} />
             </div>
             <div className='flex items-center justify-center'>

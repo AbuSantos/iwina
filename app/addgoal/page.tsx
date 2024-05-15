@@ -1,8 +1,14 @@
+import Header from '@/components/Goals/Header'
 import React from 'react'
 
 const AddGoal = () => {
     return (
-        <div>AddGoal</div>
+        <main>
+
+            <div>
+                <Header />
+            </div>
+        </main>
     )
 }
 

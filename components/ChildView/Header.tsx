@@ -13,16 +13,16 @@ const Header = ({ childId, data, role }) => {
     const router = useRouter()
     return (
         <div>
-            <div className='flex items-center justify-between py-6 px-2'>
+            <div className='flex items-center justify-between py-2 px-2'>
                 <IoChevronBackSharp style={{ fontSize: "30px" }} onClick={() => router.back()} />
                 <h2 className={`text-center text-xl  ${fredoka.className} font-medium text-gray-500`} >{`${data?.username}'s ${role === "parent" ? "Tasks" : "Profile"}`}</h2>
-                <div className="">
+                <div className="flex">
                     <Image src={data?.image} alt={data?.username} width={50} height={50} />
-                    <div className='flex space-x-1'>
-                        <p className='text-[1.1rem]'>
+                    <div className=' space-x-1'>
+                        <p className='flex items-center justify-center text-[1.1rem]'>
                             {`${data?.points}`}
+                            <span> ⭐️</span>
                         </p>
-                        <span> ⭐️</span>
                     </div>
                 </div>
             </div>
