@@ -15,7 +15,7 @@ type ChildIdType = {
 }
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-const ChildOngoingTask = ({ childId, data }) => {
+const ChildOngoingTask = ({ childId, data, role }) => {
     const { data: session } = useSession();
     const { state, fetchTasks } = useTaskContext()
     const userRole = (session?.user as any)?.role;
@@ -73,7 +73,7 @@ const ChildOngoingTask = ({ childId, data }) => {
                     <div className="flex items-center flex-col justify-center">
                         <Image src={ongoingchore} height={200} alt="a kid sweeping" />
                         <p className={`${montserrat.className} text-center font-medium text-gray-400`}>
-                            {data?.username} currently has no ongoing tasks
+                            {`${role === "parent" ? `${data?.username} currently has no ongoing task` : "you currently have no ongoing task"} `}
                         </p>
                     </div>
                 )}
