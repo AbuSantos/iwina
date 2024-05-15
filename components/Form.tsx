@@ -83,7 +83,7 @@ const Form = ({ type }: PropsType) => {
                             <Input required placeholder="Task stars" type="number" name="points" id="number" className="w-2/4 rounded-none text-gray-950 outline-none" value={task.points} onChange={handleChange} />
                         </label>
                     </div>
-                    <button onClick={handleSubmit} type="submit" disabled={submit} className={`p-2 ${fredoka.className} text-base outline-none flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-3 px-5 rounded-lg `} >
+                    <button onClick={handleSubmit} type="submit" disabled={submit} className={`p-2 ${fredoka.className} text-base outline-none flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-3 px-5 rounded-lg bottom-7 absolute w-10/12  shadow-xl`} >
                         {submit ? `${type}...` : type}
                     </button>
                 </div>

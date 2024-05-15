@@ -268,7 +268,7 @@ const UserForm = () => {
                             Back
                         </button>
                         <input type="submit" value="Create User"
-                            className={`text-base px-7 py-2 g-[#4f2190] bg-[#4f2190] m-auto  rounded-full  text-[#faf9fb]`}
+                            className={`text-base px-7 py-2 g-[#4f2190] bg-[#4f2190]  m-auto  rounded-full  text-[#faf9fb]`}
                         />
                     </div>
                 </div>
