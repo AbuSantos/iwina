@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation"
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] });
 
-const ChildViewCompletedTask = ({ childId }) => {
+const ChildViewCompletedTask = ({ childId, role }) => {
     const router = useRouter()
     const session = useSession()
     const [userTask, setUserTask] = useState()
@@ -29,6 +29,7 @@ const ChildViewCompletedTask = ({ childId }) => {
 
         fetchTask()
     }, [])
+    console.log(userTask);
 
     const handleReward = async (taskId: string) => {
         console.log(taskId);
@@ -100,7 +101,12 @@ const ChildViewCompletedTask = ({ childId }) => {
                 userTask && (userTask as [])?.length === 0 && (
                     <div className="flex items-center flex-col justify-center">
                         <Image src={ongoingchore} height={200} alt="a kid sweeping" />
-                        <p className={`${montserrat.className} text-center font-medium text-gray-600`}>You currently have no completed task, pick a task to earn some points</p>
+                        <p className={`${montserrat.className} text-center font-medium text-gray-600`}>
+                            {`
+                            ${role === "parent" ? `${userTask[0]?.username} currently have no completed task` :
+                                    "You currently have no completed task, pick a task to earn some points"}
+                            `}
+                        </p>
                     </div>
 
                 )

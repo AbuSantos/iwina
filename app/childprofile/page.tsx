@@ -30,16 +30,16 @@ const ChildProfileView = () => {
     console.log(data);
 
     return (
-        <div>
+        <div >
             <div className=''>
                 <Header childId={childId} data={data} role={role} />
+
             </div>
 
             {role === "parent" && <header className="p-4">
                 <ProfileHeader
                     username={(data)?.username}
                     image={data?.image}
-
                     taskCount={data?.
                         ongoingTasks?.length}
                 />
