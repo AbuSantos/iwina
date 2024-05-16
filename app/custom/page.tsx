@@ -1,9 +1,14 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Input from '@/components/Input'
 import AddCustomGoal from '@/components/Goals/Custom/AddCustomGoal'
+import StepTwo from '@/components/Goals/Custom/StepTwo'
+import Footer from '@/components/Goals/Custom/Footer'
 
 const page = () => {
+    const [isActive, setIsActive] = useState()
+
     return (
         <main>
             <section className="flex items-center justify-center m-auto space-x-5 w-10/12 p-4 ">
@@ -27,8 +32,14 @@ const page = () => {
             </section>
 
             <section>
-                <AddCustomGoal />
+                {/* <AddCustomGoal /> */}
             </section>
+            <section>
+                <StepTwo />
+            </section>
+            <div>
+                <Footer />
+            </div>
         </main>
     )
 }
