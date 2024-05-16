@@ -1,31 +1,9 @@
-import React from 'react'
-import bggoal from "@/public/images/bggoal.png"
 import Image from 'next/image'
-import Input from '@/components/Input'
+import React from 'react'
 
-const page = () => {
+const AddCustomGoal = () => {
     return (
-        <main>
-            <section className="flex items-center justify-center m-auto space-x-5 w-10/12 p-4 ">
-                <div className="flex items-center w-full">
-                    <p className="h-10 w-10 bg-violet-700 rounded-full flex justify-center items-center text-violet-100 mx-2">
-                        1
-                    </p>
-                    <hr className="bg-slate-600  flex-1" />
-                </div>
-                <div className="flex items-center w-full">
-                    <p className="h-10 w-10 bg-violet-700 rounded-full flex justify-center items-center text-violet-100 mx-2">
-                        2
-                    </p>
-                    <hr className="bg-slate-600  flex-grow " />
-                </div>
-                <div className="flex items-center ">
-                    <p className="h-10 w-10 bg-violet-700 rounded-full flex justify-center items-center text-violet-100">
-                        3
-                    </p>
-                </div>
-            </section>
-
+        <div>
             <section>
                 <figure className='flex items-center justify-center p-4'>
                     <Image src={bggoal} width={100} height={100} alt="bggoal" />
@@ -62,8 +40,8 @@ const page = () => {
                     </button>
                 </div>
             </footer>
-        </main>
+        </div >
     )
 }
 
-export default page
+export default AddCustomGoal
