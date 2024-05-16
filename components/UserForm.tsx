@@ -68,9 +68,7 @@ const UserForm = () => {
 
     }, [newAvatar])
 
-    // const handleClick = () => {
-    //     showNotification('Notification from Child Component');
-    // };
+
     const handleChange = (e) => {
         const { name, value } = e.target
         setUserData((prevData) =>

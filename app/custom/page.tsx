@@ -5,9 +5,25 @@ import Input from '@/components/Input'
 import AddCustomGoal from '@/components/Goals/Custom/AddCustomGoal'
 import StepTwo from '@/components/Goals/Custom/StepTwo'
 import Footer from '@/components/Goals/Custom/Footer'
+import StepThree from '@/components/Goals/Custom/StepThree'
 
 const page = () => {
-    const [isActive, setIsActive] = useState()
+    const [currentStep, setCurrentStep] = useState("one")
+    const [goals, setGoals] = useState({ title: "", amount: "", percent: "" })
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setGoals((prevGoal) => ({
+            ...prevGoal, [name]: value
+        }))
+
+    }
+
+    const handleGoalSubmit = (e) => {
+        e.preventDefault()
+        console.log(goals);
+
+    }
 
     return (
         <main>
@@ -32,14 +48,24 @@ const page = () => {
             </section>
 
             <section>
-                {/* <AddCustomGoal /> */}
+                {
+                    currentStep === "one" &&
+                    <AddCustomGoal handleChange={handleChange} goals={goals} handleSubmit={handleGoalSubmit} />
+                }
             </section>
             <section>
-                <StepTwo />
+                {
+                    currentStep === "two" &&
+                    <StepTwo />
+                }
             </section>
-            <div>
-                <Footer />
-            </div>
+            <section>
+                {
+                    currentStep === "three" &&
+                    <StepThree />
+                }
+            </section>
+
         </main>
     )
 }

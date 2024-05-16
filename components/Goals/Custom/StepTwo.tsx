@@ -3,11 +3,16 @@ import { useState } from "react";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 const fredoka = Fredoka({ subsets: ["latin"] })
+import interactionPlugin, { Draggable, DropArg } from "@fullcalendar/interaction" // needed for dayClick
+
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Fredoka } from "next/font/google";
 const StepTwo = () => {
     const [startDate, setStartDate] = useState(new Date());
+    const handleDateClick = (data) => {
+        console.log(data)
+    }
 
     return (
         <div className="bg-gray-50 p-4 w-[95%] flex flex-col m-auto rounded-2xl mt-10 shadow-2xl ">
@@ -18,9 +23,11 @@ const StepTwo = () => {
 
             <div className="w-11/12 flex m-auto flex-col p-4 ">
                 <FullCalendar
-                    plugins={[dayGridPlugin]}
+                    plugins={[dayGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
+                    dateClick={(data) => handleDateClick(data)}
                 />
+
             </div>
         </div>
     )

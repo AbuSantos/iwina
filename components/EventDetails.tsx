@@ -36,11 +36,7 @@ export const EventDetails = ({ dateData }) => {
         }
     }, [dateData]);
 
-    useEffect(() => {
-        console.log('Active Tab:', activeTab);
-        console.log('Upcoming Data:', upcomingData);
-        console.log('Archive Data:', archiveData);
-    }, [activeTab, upcomingData, archiveData]);
+
 
     return (
         <div className="w-full overflow-y-scroll mb-40">

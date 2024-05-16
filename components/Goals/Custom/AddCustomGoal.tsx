@@ -1,9 +1,13 @@
+"use client"
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import bggoal from "@/public/images/bggoal.png"
+import Footer from './Footer'
 
 
-const AddCustomGoal = () => {
+const AddCustomGoal = ({ goals, handleSubmit, handleChange }) => {
+
+
     return (
         <div>
             <section>
@@ -11,12 +15,14 @@ const AddCustomGoal = () => {
                     <Image src={bggoal} width={100} height={100} alt="bggoal" />
                 </figure>
                 <div className='flex flex-col gap-2 justify-center items-center  p-3 mt-12 bg-violet-400 h-96 w-[95%] m-auto rounded-b-2xl'>
-                    <form action="" className='w-full'>
+                    <form action="" className='w-full' onSubmit={handleSubmit}>
                         <div className='w-full p-2' >
                             <label htmlFor="title" className='block text-center text-slate-700 text-sm'>Goal title</label>
                             <input
                                 type="text"
-                                placeholder=""
+                                name="title"
+                                value={goals.title}
+                                onChange={handleChange}
                                 className="rounded-none border-0 border-b-[0.5px] border-violet-300 w-full outline-none p-2 text-center bg-transparent text-violet-100 text-2xl font-medium"
                                 id="title"
                             />
@@ -25,6 +31,9 @@ const AddCustomGoal = () => {
                             <label htmlFor="amount" className='block text-center text-slate-700 w-full text-sm'>Goal Amount</label>
                             <input
                                 type="number"
+                                name="amount"
+
+                                value={goals.number}
                                 placeholder=""
                                 className="rounded-none border-0 border-b-[0.5px] border-violet-300 w-full outline-none p-2 text-center bg-transparent text-violet-100 text-2xl font-medium"
                                 id="amount"
@@ -34,15 +43,20 @@ const AddCustomGoal = () => {
                             <label htmlFor="amount" className='block text-center text-slate-700 w-full text-sm'>% of points earned to be saved</label>
                             <input
                                 type="number"
+                                name="percent"
+                                value={goals.percent}
                                 placeholder=""
                                 className="rounded-none border-0 border-b-[0.5px] border-violet-300 w-full outline-none p-2 text-center bg-transparent text-violet-100 text-2xl font-medium"
-                                id="amount"
+                                id="percent"
                             />
                         </div>
                     </form>
                 </div>
 
             </section>
+            <div>
+                <Footer handleSubmit={handleSubmit} />
+            </div>
 
         </div >
     )
