@@ -5,9 +5,23 @@ import bggoal from "@/public/images/bggoal.png"
 import Footer from './Footer'
 
 
-const AddCustomGoal = ({ goals, handleSubmit, handleChange }) => {
+const AddCustomGoal = ({ setCurrentStep, setIsActive }) => {
+    const [goals, setGoals] = useState({ title: "", amount: "", percent: "" })
 
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setGoals((prevGoal) => ({
+            ...prevGoal, [name]: value
+        }))
 
+    }
+
+    const handleGoalSubmit = (e) => {
+        e.preventDefault()
+        setCurrentStep("two")
+        console.log(goals);
+
+    }
     return (
         <div>
             <section>
@@ -15,9 +29,9 @@ const AddCustomGoal = ({ goals, handleSubmit, handleChange }) => {
                     <Image src={bggoal} width={100} height={100} alt="bggoal" />
                 </figure>
                 <div className='flex flex-col gap-2 justify-center items-center  p-3 mt-12 bg-violet-400 h-96 w-[95%] m-auto rounded-b-2xl'>
-                    <form action="" className='w-full' onSubmit={handleSubmit}>
+                    <form action="" className='w-full' onSubmit={handleGoalSubmit}>
                         <div className='w-full p-2' >
-                            <label htmlFor="title" className='block text-center text-slate-700 text-sm'>Goal title</label>
+                            <label htmlFor="title" className='block text-center text-slate-700 text-lg'>Goal title</label>
                             <input
                                 type="text"
                                 name="title"
@@ -28,12 +42,12 @@ const AddCustomGoal = ({ goals, handleSubmit, handleChange }) => {
                             />
                         </div>
                         <div className='w-full p-2 mt-5 ' >
-                            <label htmlFor="amount" className='block text-center text-slate-700 w-full text-sm'>Goal Amount</label>
+                            <label htmlFor="amount" className='block text-center text-slate-700 w-full text-lg'>Goal Amount</label>
                             <input
                                 type="number"
                                 name="amount"
-
-                                value={goals.number}
+                                value={goals.amount}
+                                onChange={handleChange}
                                 placeholder=""
                                 className="rounded-none border-0 border-b-[0.5px] border-violet-300 w-full outline-none p-2 text-center bg-transparent text-violet-100 text-2xl font-medium"
                                 id="amount"
@@ -45,6 +59,7 @@ const AddCustomGoal = ({ goals, handleSubmit, handleChange }) => {
                                 type="number"
                                 name="percent"
                                 value={goals.percent}
+                                onChange={handleChange}
                                 placeholder=""
                                 className="rounded-none border-0 border-b-[0.5px] border-violet-300 w-full outline-none p-2 text-center bg-transparent text-violet-100 text-2xl font-medium"
                                 id="percent"
@@ -55,7 +70,7 @@ const AddCustomGoal = ({ goals, handleSubmit, handleChange }) => {
 
             </section>
             <div>
-                <Footer handleSubmit={handleSubmit} />
+                <Footer handleSubmit={handleGoalSubmit} />
             </div>
 
         </div >

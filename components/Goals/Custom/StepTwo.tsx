@@ -8,10 +8,15 @@ import interactionPlugin, { Draggable, DropArg } from "@fullcalendar/interaction
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Fredoka } from "next/font/google";
-const StepTwo = () => {
+import Footer from "./Footer";
+const StepTwo = ({ setCurrentStep, setIsActive }) => {
     const [startDate, setStartDate] = useState(new Date());
     const handleDateClick = (data) => {
         console.log(data)
+    }
+
+    const handleSubmit = async () => {
+        setCurrentStep("three")
     }
 
     return (
@@ -28,6 +33,9 @@ const StepTwo = () => {
                     dateClick={(data) => handleDateClick(data)}
                 />
 
+            </div>
+            <div>
+                <Footer handleSubmit={handleSubmit} />
             </div>
         </div>
     )
