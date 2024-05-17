@@ -17,6 +17,7 @@ const GoalSchema = new Schema(
     },
     DueDate: {
       type: Date,
+      required: false,
     },
     creator: {
       type: Schema.Types.ObjectId,

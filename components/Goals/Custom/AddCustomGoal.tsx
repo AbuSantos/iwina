@@ -10,11 +10,6 @@ const AddCustomGoal = ({ setCurrentStep, handleChange, goals }) => {
 
     const handleGoalSubmit = (e) => {
         e.preventDefault()
-        // if (!goals.title && !goals.amount && !goals.percent) {
-        //     console.log("Please all fields are required!");
-        // } else {
-        //     console.log(goals);
-        // }
         setCurrentStep("two")
     }
     return (

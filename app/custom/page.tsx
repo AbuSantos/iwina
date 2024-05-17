@@ -6,12 +6,14 @@ import AddCustomGoal from '@/components/Goals/Custom/AddCustomGoal'
 import StepTwo from '@/components/Goals/Custom/StepTwo'
 import Footer from '@/components/Goals/Custom/Footer'
 import StepThree from '@/components/Goals/Custom/StepThree'
+import { useSession } from 'next-auth/react'
 
 const page = () => {
     const [currentStep, setCurrentStep] = useState("one")
     const [isActive, setIsActive] = useState(false)
     const [startDate, setStartDate] = useState(new Date());
-
+    const { data: session } = useSession()
+    const userId = (session?.user as any)?.id
 
     const [goals, setGoals] = useState({ title: "", amount: "", percent: "" })
 
@@ -20,6 +22,21 @@ const page = () => {
         setGoals((prevGoal) => ({
             ...prevGoal, [name]: value
         }))
+
+    }
+
+    const handleSubmit = async () => {
+        const res = await fetch(`api/goal`, {
+            method: "POST",
+            body: JSON.stringify({
+                creator: userId,
+                title: goals.title,
+                amount: goals.amount,
+                rate: goals.percent,
+                DueDate: startDate
+
+            })
+        })
 
     }
 
@@ -60,7 +77,7 @@ const page = () => {
             <section>
                 {
                     currentStep === "three" &&
-                    <StepThree  setCurrentStep={setCurrentStep} setIsActive={setIsActive} />
+                    <StepThree handleSubmit={handleSubmit} />
                 }
             </section>
 
