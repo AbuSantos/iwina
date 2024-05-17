@@ -1,22 +1,50 @@
 "use client"
-import { useState } from "react";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
-const fredoka = Fredoka({ subsets: ["latin"] })
 import interactionPlugin, { Draggable, DropArg } from "@fullcalendar/interaction" // needed for dayClick
-
-
 import "react-datepicker/dist/react-datepicker.css";
 import { Fredoka } from "next/font/google";
 import Footer from "./Footer";
-const StepTwo = ({ setCurrentStep, setIsActive }) => {
-    const [startDate, setStartDate] = useState(new Date());
+import { useRef } from 'react';
+
+
+const fredoka = Fredoka({ subsets: ["latin"] })
+const StepTwo = ({ setCurrentStep, startDate, setStartDate }) => {
+    const calendarApiRef = useRef(null);
+
     const handleDateClick = (data) => {
-        console.log(data)
+        // const calendarApi = calendarApiRef.current; // Access the API object
+
+        // const clickedDate = data.date
+
+        // const view = calendarApi.currentView
+        // const startDate = view.visibleRange.start;
+        // const endDate = clickedDate;
+
+
+        // // Remove existing highlighting (optional)
+        // calendarApi.getEvents().forEach(event => event.remove());
+
+        // calendarApi.addEvent({ // Create a temporary highlighting event
+        //     title: 'Highlight Range', // Optional title
+        //     start: startDate,
+        //     end: endDate,
+        //     allDay: true,
+        //     className: 'bg-violet-400'
+        // });
+
+        const clickedElement = data.dayEl;
+        clickedElement.classList.toggle('bg-violet-400');
+        setStartDate(data.date)
     }
 
     const handleSubmit = async () => {
-        setCurrentStep("three")
+        if (!startDate) {
+            console.log("Please select a date");
+        }
+        else {
+            setCurrentStep("three")
+        }
     }
 
     return (
@@ -31,6 +59,8 @@ const StepTwo = ({ setCurrentStep, setIsActive }) => {
                     plugins={[dayGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
                     dateClick={(data) => handleDateClick(data)}
+                    ref={calendarApiRef}
+
                 />
 
             </div>

@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid' // a plugin!
 import { Fragment, useState, useEffect, useRef } from 'react'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react"
-import { BackspaceIcon, BackwardIcon, CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
+import {  ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 import { EventSourceInput } from '@fullcalendar/core/index.js'
 import NewModal from '@/components/ui/EventModal'
 import { useSession } from 'next-auth/react'

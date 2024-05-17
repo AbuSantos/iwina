@@ -10,6 +10,8 @@ import StepThree from '@/components/Goals/Custom/StepThree'
 const page = () => {
     const [currentStep, setCurrentStep] = useState("one")
     const [isActive, setIsActive] = useState(false)
+    const [startDate, setStartDate] = useState(new Date());
+
 
     const [goals, setGoals] = useState({ title: "", amount: "", percent: "" })
 
@@ -52,13 +54,13 @@ const page = () => {
             <section>
                 {
                     currentStep === "two" &&
-                    <StepTwo isActive={isActive} setCurrentStep={setCurrentStep} setIsActive={setIsActive} />
+                    <StepTwo setCurrentStep={setCurrentStep} setStartDate={setStartDate} startDate={startDate} />
                 }
             </section>
             <section>
                 {
                     currentStep === "three" &&
-                    <StepThree isActive={isActive} setCurrentStep={setCurrentStep} setIsActive={setIsActive} />
+                    <StepThree  setCurrentStep={setCurrentStep} setIsActive={setIsActive} />
                 }
             </section>
 
