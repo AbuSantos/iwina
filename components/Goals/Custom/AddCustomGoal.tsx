@@ -5,21 +5,17 @@ import bggoal from "@/public/images/bggoal.png"
 import Footer from './Footer'
 
 
-const AddCustomGoal = ({ setCurrentStep, setIsActive }) => {
-    const [goals, setGoals] = useState({ title: "", amount: "", percent: "" })
+const AddCustomGoal = ({ setCurrentStep, handleChange, goals }) => {
 
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setGoals((prevGoal) => ({
-            ...prevGoal, [name]: value
-        }))
-
-    }
 
     const handleGoalSubmit = (e) => {
         e.preventDefault()
-        setCurrentStep("two")
-        console.log(goals);
+        if (!goals.title && !goals.amount && !goals.percent) {
+            console.log("Please all fields are required!");
+        } else {
+            setCurrentStep("two")
+            console.log(goals);
+        }
 
     }
     return (
@@ -35,6 +31,7 @@ const AddCustomGoal = ({ setCurrentStep, setIsActive }) => {
                             <input
                                 type="text"
                                 name="title"
+                                required
                                 value={goals.title}
                                 onChange={handleChange}
                                 className="rounded-none border-0 border-b-[0.5px] border-violet-300 w-full outline-none p-2 text-center bg-transparent text-violet-100 text-2xl font-medium"
@@ -46,6 +43,7 @@ const AddCustomGoal = ({ setCurrentStep, setIsActive }) => {
                             <input
                                 type="number"
                                 name="amount"
+                                required
                                 value={goals.amount}
                                 onChange={handleChange}
                                 placeholder=""
@@ -58,6 +56,7 @@ const AddCustomGoal = ({ setCurrentStep, setIsActive }) => {
                             <input
                                 type="number"
                                 name="percent"
+                                required
                                 value={goals.percent}
                                 onChange={handleChange}
                                 placeholder=""

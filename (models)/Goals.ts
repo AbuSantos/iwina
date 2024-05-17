@@ -1,24 +1,30 @@
 import { Schema, model, models } from "mongoose";
 
-const GoalSchema = new Schema({
-  kids: {
-    type: Schema.Types.ObjectId,
-    ref: "Kids",
-    required: true,
+const GoalSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+
+    Amount: {
+      type: Number,
+      required: true,
+    },
+    Rate: {
+      type: String,
+      required: true,
+    },
+    DueDate: {
+      type: Date,
+    },
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: "Kids",
+    },
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  pointsRequired: {
-    type: Number,
-    required: true,
-  },
-  completed: {
-    type: Boolean,
-    default: false,
-  },
-});
+  { timestamps: true }
+);
 
 const Goal = models.Goal || model("Goal", GoalSchema);
 

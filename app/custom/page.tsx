@@ -11,7 +11,15 @@ const page = () => {
     const [currentStep, setCurrentStep] = useState("one")
     const [isActive, setIsActive] = useState(false)
 
+    const [goals, setGoals] = useState({ title: "", amount: "", percent: "" })
 
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setGoals((prevGoal) => ({
+            ...prevGoal, [name]: value
+        }))
+
+    }
 
     return (
         <main>
@@ -38,7 +46,7 @@ const page = () => {
             <section>
                 {
                     currentStep === "one" &&
-                    <AddCustomGoal isActive={isActive} setCurrentStep={setCurrentStep} setIsActive={setIsActive} />
+                    <AddCustomGoal setCurrentStep={setCurrentStep} goals={goals} handleChange={handleChange} />
                 }
             </section>
             <section>
