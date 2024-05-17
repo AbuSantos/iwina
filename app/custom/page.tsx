@@ -28,12 +28,10 @@ const page = () => {
 
     }
     useEffect(() => {
-
         // fetchTasks("GET", `api/users/${userId}/user/kids?role=${role}`)
         fetchTasks("GET", `api/users/kids${userId}/user/kid`)
     }, [userId]);
 
-    console.log(state.data);
 
     const handleSubmit = async () => {
         const res = await fetch(`api/goal`, {
@@ -43,12 +41,14 @@ const page = () => {
                 title: goals.title,
                 amount: goals.amount,
                 rate: goals.percent,
-                DueDate: startDate,
-                AmountSaved: 0
+                dueDate: startDate,
+                amountSaved: 0
 
             })
         })
-
+        if (res.ok) {
+            console.log("Successfully created goal");
+        }
     }
 
     return (

@@ -7,14 +7,22 @@ export const POST = async (req: NextRequest) => {
     await connectToDB();
     const data = await req.json();
     const kid = await Kids.findById(data.creator);
-    const kidPoint = kid.points;
 
-    console.log(kidPoint);
+    const newGoal = new Goal({
+      creator: data.creator,
+      title: data.title,
+      amount: data.amount,
+      rate: data.rate,
+      dueDate: data.dueDate,
+      amountSaved: 0,
+    });
 
-    // const newGoal = new Goal(data);
+    await kid.goal.push(newGoal.id);
 
-    // await newGoal.save();
-    // return Response.json({ message: "New task created successfully" });
+    await kid.save();
+
+    await newGoal.save();
+    return Response.json({ message: "New Goal created successfully" });
   } catch (error) {
     console.error("Error creating new Goal:", error);
 

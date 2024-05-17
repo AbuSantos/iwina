@@ -7,19 +7,19 @@ const GoalSchema = new Schema(
       required: true,
     },
 
-    Amount: {
+    amount: {
       type: Number,
       required: true,
     },
-    AmountSaved: {
+    amountSaved: {
       type: Number,
       required: false,
     },
-    Rate: {
+    rate: {
       type: String,
       required: true,
     },
-    DueDate: {
+    dueDate: {
       type: Date,
       required: false,
     },
