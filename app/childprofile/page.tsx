@@ -31,7 +31,7 @@ const ChildProfileView = () => {
 
     return (
         <div className='' >
-            {role === "parent" && <header className="p-4">
+            {role === "child" && <header className="p-4">
                 {/* <div className=''>
                     <Header childId={childId} data={data} role={role} />
                 </div> */}

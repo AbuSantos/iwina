@@ -29,7 +29,7 @@ const KidsSchema = new Schema({
   goal: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Goal",
+      ref: "Goals",
     },
   ],
 });

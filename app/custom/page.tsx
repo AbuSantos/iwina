@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Input from '@/components/Input'
 import AddCustomGoal from '@/components/Goals/Custom/AddCustomGoal'
@@ -7,6 +7,7 @@ import StepTwo from '@/components/Goals/Custom/StepTwo'
 import Footer from '@/components/Goals/Custom/Footer'
 import StepThree from '@/components/Goals/Custom/StepThree'
 import { useSession } from 'next-auth/react'
+import { useTaskContext } from '@/context/TaskContext'
 
 const page = () => {
     const [currentStep, setCurrentStep] = useState("one")
@@ -14,6 +15,8 @@ const page = () => {
     const [startDate, setStartDate] = useState(new Date());
     const { data: session } = useSession()
     const userId = (session?.user as any)?.id
+    const role = (session?.user as any)?.role
+    const { state, fetchTasks } = useTaskContext()
 
     const [goals, setGoals] = useState({ title: "", amount: "", percent: "" })
 
@@ -24,6 +27,13 @@ const page = () => {
         }))
 
     }
+    useEffect(() => {
+
+        // fetchTasks("GET", `api/users/${userId}/user/kids?role=${role}`)
+        fetchTasks("GET", `api/users/kids${userId}/user/kid`)
+    }, [userId]);
+
+    console.log(state.data);
 
     const handleSubmit = async () => {
         const res = await fetch(`api/goal`, {
@@ -33,7 +43,8 @@ const page = () => {
                 title: goals.title,
                 amount: goals.amount,
                 rate: goals.percent,
-                DueDate: startDate
+                DueDate: startDate,
+                AmountSaved: 0
 
             })
         })

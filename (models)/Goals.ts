@@ -11,6 +11,10 @@ const GoalSchema = new Schema(
       type: Number,
       required: true,
     },
+    AmountSaved: {
+      type: Number,
+      required: false,
+    },
     Rate: {
       type: String,
       required: true,
