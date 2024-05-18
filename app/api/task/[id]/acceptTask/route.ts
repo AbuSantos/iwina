@@ -51,6 +51,13 @@ export const PATCH = async (
         // console.log("Goal:", userGoal.amount, userGoal.rate);
         if (userGoal) {
           userSavings = (userGoal?.amount * userGoal?.rate) / 100;
+          console.log(userSavings);
+
+          userGoal.amountSaved += userSavings;
+
+          console.log(userGoal);
+
+          // userGoal.save();
           // console.log(userSavings);
         }
       }
@@ -69,7 +76,8 @@ export const PATCH = async (
 
     // Save changes to the user'
     completedTask.save();
-    await user.save();
+
+    // await user.save();
 
     console.log(user.points, "user poitnts");
     return new Response("Points transferred successfully", { status: 200 });
