@@ -44,25 +44,34 @@ export const PATCH = async (
 
     //update the task status
     // completedTask.status = "Rewarded";
-    if (!user.goal || user.goal.length === 0) {
-      console.log("User Has no goals");
-    } else {
+    let userSavings: number;
+    if (user.goal && user.goal.length > 0) {
       for (const goalId of user.goal) {
         const userGoal = await Goal.findById(goalId);
-        console.log(userGoal, "goal");
+        // console.log("Goal:", userGoal.amount, userGoal.rate);
+        if (userGoal) {
+          userSavings = (userGoal?.amount * userGoal?.rate) / 100;
+          // console.log(userSavings);
+        }
       }
+    } else {
+      console.log("User Has no goals");
     }
 
     // Update user's points
     const taskPoints = completedTask.taskPnt;
+
     console.log("taskpoint", user.goal);
 
     user.points += taskPoints;
+
+    user.points -= userSavings;
 
     // Save changes to the user'
     completedTask.save();
     await user.save();
 
+    console.log(user.points, "user poitnts");
     return new Response("Points transferred successfully", { status: 200 });
   } catch (error) {
     console.error("Error transferring points:", error);
