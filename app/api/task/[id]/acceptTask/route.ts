@@ -1,3 +1,4 @@
+import Goal from "@/(models)/Goals";
 import Kids from "@/(models)/Kids";
 import Task from "@/(models)/Task";
 import { connectToDB } from "@/utils/database";
@@ -10,7 +11,7 @@ export const PATCH = async (
   req: NextRequest,
   { params }: { params: ParamsType }
 ) => {
-  console.log("task id ", params.id);
+  // console.log("task id ", params.id);
 
   try {
     await connectToDB();
@@ -21,6 +22,7 @@ export const PATCH = async (
     if (!completedTask) {
       return Response.json({ message: "Task not found" }, { status: 500 });
     }
+
     //we check if the task has been completed
     if (completedTask.status !== "Completed") {
       return Response.json({ message: "Task not completed" }, { status: 500 });
@@ -34,6 +36,7 @@ export const PATCH = async (
       username: pickedByUser.toLowerCase(),
     }).exec();
     // console.log("User:", user);
+    // if()
 
     if (!user) {
       return Response.json({ message: "User not found" }, { status: 500 });
@@ -41,10 +44,20 @@ export const PATCH = async (
 
     //update the task status
     completedTask.status = "Rewarded";
-    // Update user's points
+    if (!user.goal || user.goal.length === 0) {
+      console.log("User Has no goals");
+    } else {
+      user.goal.forEach((goal, index) => {
+        const userGoal = Goal.findById(goal.id);
 
+        console.log(userGoal, "goals");
+      });
+      console.log(user.goal, "goal");
+    }
+
+    // Update user's points
     const taskPoints = completedTask.taskPnt;
-    console.log("taskpoint", taskPoints);
+    console.log("taskpoint", user.goal);
 
     user.points += taskPoints;
 

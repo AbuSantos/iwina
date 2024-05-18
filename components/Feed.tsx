@@ -71,7 +71,7 @@ const Feed = () => {
                                 <button
                                     className='bg-[#ffff] px-5 py-2 rounded-xl text-sm text-[#6229b3] font-medium'
                                     onClick={() => toggleModal(id)}
-                                    disabled={task.status === "Completed"}
+                                // disabled={task.status === "Completed"}
                                 >
                                     View Task
                                 </button>
