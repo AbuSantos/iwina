@@ -43,16 +43,14 @@ export const PATCH = async (
     }
 
     //update the task status
-    completedTask.status = "Rewarded";
+    // completedTask.status = "Rewarded";
     if (!user.goal || user.goal.length === 0) {
       console.log("User Has no goals");
     } else {
-      user.goal.forEach((goal, index) => {
-        const userGoal = Goal.findById(goal.id);
-
-        console.log(userGoal, "goals");
-      });
-      console.log(user.goal, "goal");
+      for (const goalId of user.goal) {
+        const userGoal = await Goal.findById(goalId);
+        console.log(userGoal, "goal");
+      }
     }
 
     // Update user's points
