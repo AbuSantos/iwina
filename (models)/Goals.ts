@@ -16,7 +16,7 @@ const GoalSchema = new Schema(
       required: false,
     },
     rate: {
-      type: String,
+      type: Number,
       required: true,
     },
     dueDate: {
@@ -27,6 +27,10 @@ const GoalSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Kids",
     },
+    // isWithdrawn:{
+    //   type: Boolean,
+    //   required: true,
+    // }
   },
   { timestamps: true }
 );
