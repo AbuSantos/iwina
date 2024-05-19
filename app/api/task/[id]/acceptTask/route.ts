@@ -56,10 +56,10 @@ export const PATCH = async (
       for (const goalId of user.goal) {
         const userGoal = await Goal.findById(goalId);
         // console.log("Goal:", userGoal.amount, userGoal.rate);
-        if (userGoal && userGoal.amount> userGoal.amountSaved) {
+        if (userGoal && userGoal.amount > userGoal.amountSaved) {
           const remainingAmount = userGoal.amount - userGoal.amountSaved;
           //we check for the smallest value to make sure we dont oversave
-         
+
           userSavings = Math.min(
             (userGoal.amount * userGoal.rate) / 100,
             remainingAmount
@@ -69,7 +69,7 @@ export const PATCH = async (
           totalSavingPoints += userSavings;
           userGoal.amountSaved += userSavings;
 
-          // userGoal.save();
+          userGoal.save();
         }
       }
     } else {
@@ -90,7 +90,7 @@ export const PATCH = async (
     // Save changes to the user'
     completedTask.save();
 
-    // await user.save();
+    await user.save();
 
     return new Response("Points transferred successfully", { status: 200 });
   } catch (error) {

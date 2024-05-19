@@ -7,13 +7,15 @@ import ChildViewCompletedTask from '@/components/ChildView/ChildViewCompleted';
 import BottomNav from '@/components/BottomNav';
 import ProfileHeader from '@/components/ChildView/childprofile/ProfileHeader';
 import { useSession } from 'next-auth/react';
+import Goals from '@/components/Goals/Goaltab/Goals';
 
 const ChildProfileView = () => {
     const params = useSearchParams()
     const childId = params.get("id")
-    const [data, setData] = useState()
+    const [data, setData] = useState([])
     const { data: session } = useSession()
     const role = (session?.user as any)?.role
+    const [isActiveTab, setIsActiveTab] = useState("goals")
     console.log(session);
 
     useEffect(() => {
@@ -27,7 +29,7 @@ const ChildProfileView = () => {
         }
         fetchKids()
     }, [childId])
-    console.log(data);
+    // console.log(data);
 
     return (
         <div className='' >
@@ -40,20 +42,27 @@ const ChildProfileView = () => {
                     username={(data)?.username}
                     image={data?.image}
                     taskCount={data?.
-                        ongoingTasks?.length}
+                        completedTasks?.length}
                     points={data?.points}
                 />
             </header>}
+            {
+                isActiveTab === ("goals") && <Goals />
+            }
+            {
+                isActiveTab === ("home") && <div>
+                    <div className='flex items-center justify-center mb-3 '>
+                        < ChildOngoingTask childId={childId} data={data} role={role} />
+                    </div>
+                    <div className='flex items-center justify-center'>
+                        < ChildViewCompletedTask childId={childId} role={role} />
+                    </div>
+                </div>
+            }
 
 
 
-            <div className='flex items-center justify-center mb-3 '>
-                < ChildOngoingTask childId={childId} data={data} role={role} />
-            </div>
-            <div className='flex items-center justify-center'>
-                < ChildViewCompletedTask childId={childId} role={role} />
-            </div>
-            <BottomNav />
+            {/* <BottomNav /> */}
         </div>
     )
 }

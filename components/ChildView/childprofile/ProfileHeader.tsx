@@ -15,15 +15,15 @@ const ProfileHeader = ({ username, taskCount, image, points }) => {
                         Hi, {username}
                     </h2>
                 </div>
-                <p className={`${fredoka.className} bg-gray-900 rounded-3xl text-center flex items-center justify-center px-4 text-gray-100  `}>
+                <p className={`${fredoka.className} bg-gray-900 rounded-3xl text-center flex items-center justify-center px-4 text-gray-100 text-sm `}>
                     Tasks done: {taskCount}
                 </p>
             </section>
-            <section>
+            <section> 
 
-                <div className={`flex flex-col items-center justify-center p-16 `}>
+                <div className={`flex flex-col items-center justify-center p-16 text-center `}>
                     <span className={`${montserrat.className} text-slate-500`}>Total Earnings</span>
-                    <h2 className={`flex ${fredoka.className} text-3xl`}>Earnings: {points} ⭐️</h2>
+                    <h2 className={`flex ${fredoka.className} text-3xl text-center`}>Points: {points} ⭐️</h2>
                 </div>
 
                 <div className="flex items-center justify-center space-x-10">
