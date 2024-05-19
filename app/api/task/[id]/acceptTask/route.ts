@@ -56,7 +56,7 @@ export const PATCH = async (
       for (const goalId of user.goal) {
         const userGoal = await Goal.findById(goalId);
         // console.log("Goal:", userGoal.amount, userGoal.rate);
-        if (userGoal && userGoal.amount !== userGoal.amountSaved) {
+        if (userGoal && userGoal.amount> userGoal.amountSaved) {
           const remainingAmount = userGoal.amount - userGoal.amountSaved;
           //we check for the smallest value to make sure we dont oversave
          
