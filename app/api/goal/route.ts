@@ -15,6 +15,7 @@ export const POST = async (req: NextRequest) => {
       rate: data.rate,
       dueDate: data.dueDate,
       amountSaved: 0,
+      depositCount: 0,
     });
 
     await kid.goal.push(newGoal.id);

@@ -68,7 +68,8 @@ export const PATCH = async (
 
           totalSavingPoints += userSavings;
           userGoal.amountSaved += userSavings;
-
+          userGoal.depositCount += 1;
+          
           userGoal.save();
         }
       }
