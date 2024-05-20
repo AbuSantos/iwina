@@ -69,3 +69,19 @@ export const formatDate = (date): string => {
 
   return `${month}/${day}`;
 };
+
+export const monthsToDueDate = (date: Date): Number => {
+  const dueDate = new Date(date);
+  const currentDate = new Date();
+
+  const dueYear = dueDate.getFullYear();
+  const currentYear = currentDate.getFullYear();
+  console.log(dueYear, currentYear);
+
+  const dueMonth = dueDate.getMonth();
+  const currentMonth = currentDate.getMonth();
+
+  const totalMonthsDifference =
+    (dueYear - currentYear) * 12 + (dueMonth - currentMonth);
+  return totalMonthsDifference; // Return the number of months until the goal is due
+};
