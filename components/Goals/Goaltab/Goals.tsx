@@ -1,5 +1,7 @@
 "use client"
 import { useTaskContext } from '@/context/TaskContext'
+import { formatTime, formatDate } from '@/lib/FormatTime'
+import { } from '@fullcalendar/core/index.js'
 import { useSession } from 'next-auth/react'
 import { Fredoka } from 'next/font/google'
 import Image from 'next/image'
@@ -27,6 +29,8 @@ const Goals = () => {
         fetchKids()
     }, [userId])
 
+    // console.log(formatDate(new Date()))
+
     const golDueDate = (value) => {
         return new Date(value)
     }
@@ -38,27 +42,24 @@ const Goals = () => {
 
                 {
                     data?.map((gol) => (
-                        <div key={gol.id} className="w-32  p-4 bg-violet-400 ml-2 rounded-lg ">
+                        <div key={gol.id} className="  p-4 bg-violet-400 ml-2 rounded-lg  ">
                             {/* <Image src={gol.image} alt={gol.goal} width={100} height={100} /> */}
-                            <h4 className={`${fredoka.className} text-lg text-slate-100 capitalize`}>{gol.title}</h4>
-                            <div>
+                            <h4 className={`${fredoka.className} text-xl text-slate-100 capitalize p-2 `}>{gol.title}</h4>
+                            <div className='flex space-x-3 items-center p-2  '>
 
-                                <h2>{gol.amount}</h2>
-                                <span>{golDueDate(gol.dueDate).toLocaleDateString()}</span>
+                                <h2 className='text-2xl font-medium text-gray-200'>{gol.amount}</h2>
+                                <span className='text-[0.7rem] text-slate-800'> {formatDate(gol.dueDate)}</span>
                             </div>
                             <div>
 
                                 <input
                                     type="range"
                                     id={`goal-${gol.id}`}
-                                    className="w-full"
+                                    className="w-full h-1 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm dark:bg-violet-500"
                                     max={gol.amount}
                                     min={0}
-                                    value={(gol.amountSaved / gol.amount) * 100}
-                                    onChange={(e) => {
-                                        const newAmountSaved = (e.target.value / 100) * gol.amount;
-                                        // handle change, possibly update state or make an API call
-                                    }}
+                                    value={(gol.amountSaved)}
+                                    readOnly
                                 />
                             </div>
                         </div>

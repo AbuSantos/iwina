@@ -61,3 +61,11 @@ export const reverseFormatTime = (timeInput: string) => {
 
   return utcDate.toISOString(); // Return the date in UTC format (ISO string)
 };
+
+export const formatDate = (date): string => {
+  const dueDate = new Date(date);
+  const month = dueDate.getMonth() + 1;
+  const day = dueDate.getDate();
+
+  return `${month}/${day}`;
+};
