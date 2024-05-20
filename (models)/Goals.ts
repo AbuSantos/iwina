@@ -27,6 +27,8 @@ const GoalSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Kids",
     },
+    depositCount: { type: Number, default: 0 },
+
     // isWithdrawn:{
     //   type: Boolean,
     //   required: true,
