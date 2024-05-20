@@ -5,7 +5,7 @@ export const GET = async (req, { params }) => {
     await connectToDB();
     const { id } = params;
 
-    const goals = await Goal.find({ creator: id });
+    const goals = await Goal.find({ $or: [{ creator: id }, { _id: id }] });
     return new Response(JSON.stringify(goals), { status: 200 });
   } catch (err) {
     return Response.json(
