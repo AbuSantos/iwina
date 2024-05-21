@@ -46,8 +46,8 @@ const ChildProfileView = () => {
                 <ProfileHeader
                     username={(data)?.username}
                     image={data?.image}
-                    taskCount={data?.
-                        completedTasks?.length}
+                    taskCount={(data?.
+                        completedTasks)?.length}
                     points={data?.points}
                 />
             </header>}
@@ -67,8 +67,6 @@ const ChildProfileView = () => {
                     </div>
                 </div>
             }
-
-
 
             <BottomNav />
         </div>

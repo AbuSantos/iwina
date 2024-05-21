@@ -21,8 +21,8 @@ const Goals = () => {
     const userId = (session?.user as any)?.id
     const [data, setData] = useState([])
 
-    useEffect(() => {
 
+    useEffect(() => {
         const fetchKids = async () => {
             const res = await fetch(`api/goal/${userId}`)
             if (res.ok) {
@@ -33,6 +33,8 @@ const Goals = () => {
         }
         fetchKids()
     }, [userId])
+    console.log(userId);
+    console.log(data);
 
     return (
         <main className=''>

@@ -9,11 +9,13 @@ import { RiHome2Line } from "react-icons/ri";
 import { GrLocation } from "react-icons/gr";
 import { GrSchedules } from "react-icons/gr";
 
+
 const fredoka = Fredoka({ subsets: ["latin"] })
 
 const BottomNav = () => {
     const { data: session } = useSession()
     const role = (session?.user as any)?.role
+    const userId = (session?.user as any)?.id
 
     const navLinks = [
         {
@@ -30,7 +32,7 @@ const BottomNav = () => {
                 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "schedules"
         },
         {
-            link: '/profile', icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Profile"
+            link: `/childprofile?id=${userId}`, icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Profile"
         },
 
 
