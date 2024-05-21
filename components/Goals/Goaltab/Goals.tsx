@@ -3,10 +3,13 @@ import { useTaskContext } from '@/context/TaskContext'
 import { formatTime, formatDate } from '@/lib/FormatTime'
 import { } from '@fullcalendar/core/index.js'
 import { useSession } from 'next-auth/react'
-import { Fredoka } from 'next/font/google'
+import { Fredoka, Montserrat } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { FaPlus } from "react-icons/fa6";
+const montserrat = Montserrat({ subsets: ["latin"] });
+
 
 const fredoka = Fredoka({ subsets: ["latin"] })
 
@@ -33,7 +36,16 @@ const Goals = () => {
 
     return (
         <main className=''>
-            <h4 className={`${fredoka.className} text-xl text-slate-700 capitalize p-2 `}>Goals</h4>
+            <div className='flex justify-between items-center p-3'>
+                <h4 className={`${fredoka.className} text-2xl text-slate-700 capitalize p-2 `}>Goals</h4>
+                <div className=''>
+                    <Link href="/addgoal" className=" text-3xl">
+                        <FaPlus />
+                    </Link>
+                    {/* <span className={`${montserrat.className} text-sm font-medium `}>Create Goal</span> */}
+
+                </div>
+            </div>
             <div className="flex w-full overflow-x-auto no-scrollbar">
                 {
                     data?.map((gol) => (
@@ -59,7 +71,7 @@ const Goals = () => {
                                         value={(gol.amountSaved)}
                                         readOnly
                                     />
-                                    
+
                                 </div>
                             </Link>
                         </div>
