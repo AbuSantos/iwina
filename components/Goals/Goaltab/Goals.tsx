@@ -14,7 +14,7 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
 
 
-const Goals = () => {
+const Goals = ({ childId }) => {
 
     const { state, fetchTasks } = useTaskContext()
     const { data: session } = useSession()
@@ -24,7 +24,7 @@ const Goals = () => {
 
     useEffect(() => {
         const fetchKids = async () => {
-            const res = await fetch(`api/goal/${userId}`)
+            const res = await fetch(`api/goal/${childId}`)
             if (res.ok) {
                 const data = await res.json()
                 setData(data)
@@ -33,8 +33,6 @@ const Goals = () => {
         }
         fetchKids()
     }, [userId])
-    console.log(userId);
-    console.log(data);
 
     return (
         <main className=''>

@@ -16,8 +16,7 @@ const ChildProfileView = () => {
     const [data, setData] = useState([])
     const { data: session } = useSession()
     const role = (session?.user as any)?.role
-    const [activeTab, setActiveTab] = useState("goals")
-    console.log(session);
+    const [activeTab, setActiveTab] = useState("home")
 
     useEffect(() => {
         const fetchKids = async () => {
@@ -25,7 +24,6 @@ const ChildProfileView = () => {
             if (res.ok) {
                 const data = await res.json()
                 setData(data)
-                // console.log(data)
             }
         }
         fetchKids()
@@ -38,24 +36,24 @@ const ChildProfileView = () => {
 
     return (
         <div className='' >
-            {role === "child" && <header className="p-4">
-                {/* <div className=''>
-                    <Header childId={childId} data={data} role={role} />
-                </div> */}
-
-                <ProfileHeader
-                    username={(data)?.username}
-                    image={data?.image}
-                    taskCount={(data?.
-                        completedTasks)?.length}
-                    points={data?.points}
-                />
-            </header>}
+            {role === "parent" ? <div className=''>
+                <Header childId={childId} data={data} role={role} />
+            </div> :
+                <header className="p-4">
+                    <ProfileHeader
+                        username={(data)?.username}
+                        image={data?.image}
+                        taskCount={(data?.
+                            completedTasks)?.length}
+                        points={data?.points}
+                    />
+                </header>
+            }
             <div>
                 <Tab tab1={"Goals"} tab2={"Home"} activeTab={activeTab} handleTab={handleTab} />
             </div>
             {
-                activeTab === ("goals") && <Goals />
+                activeTab === ("goals") && <Goals childId={childId} />
             }
             {
                 activeTab === ("home") && <div>

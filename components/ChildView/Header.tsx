@@ -15,13 +15,16 @@ const Header = ({ childId, data, role }) => {
         <div>
             <div className='flex items-center justify-between py-2 px-2'>
                 <IoChevronBackSharp style={{ fontSize: "30px" }} onClick={() => router.back()} />
-                <h2 className={`text-center text-xl  ${fredoka.className} font-medium text-gray-500`} >{`${data?.username}'s ${role === "parent" ? "Tasks" : "Profile"}`}</h2>
-                <div className="flex">
-                    <Image src={data?.image} alt={data?.username} width={50} height={50} />
-                    <div className=' space-x-1'>
-                        <p className='flex items-center justify-center text-[1.1rem]'>
+
+
+                <div className={` bg-gray-900 rounded-3xl text-center flex items-center justify-between space-x-2 text-gray-100 text-sm p-2`}>
+                    <div className="w-8 h-8">
+                        <Image src={data?.image} alt={data?.username} width={50} height={50} />
+                    </div>
+                    <div className=''>
+                        <p className='flex items-center justify-center text-[1rem]'>
+                            <span className="text-[1rem] mr-1"> ⭐️ </span>
                             {`${data?.points}`}
-                            <span> ⭐️</span>
                         </p>
                     </div>
                 </div>

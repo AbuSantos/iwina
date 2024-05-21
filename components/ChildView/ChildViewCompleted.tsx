@@ -29,11 +29,7 @@ const ChildViewCompletedTask = ({ childId, role }) => {
 
         fetchTask()
     }, [])
-    console.log(userTask);
-
     const handleReward = async (taskId: string) => {
-        console.log(taskId);
-
         try {
             const res = await fetch(`/api/task/${taskId}/acceptTask`, {
                 method: "PATCH",
