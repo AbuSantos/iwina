@@ -26,11 +26,11 @@ const BottomNav = () => {
             link: '/map', icon: <GrLocation style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Location"
         },
         {
-            link: '/profile', icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Profile"
-        },
-        {
             link: '/calendar', icon: <GrSchedules
                 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "schedules"
+        },
+        {
+            link: '/profile', icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Profile"
         },
 
 
