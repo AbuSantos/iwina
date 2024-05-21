@@ -30,10 +30,9 @@ const Goals = () => {
         }
         fetchKids()
     }, [userId])
-    console.log(data);
 
     return (
-        <main>
+        <main className=''>
             <h4 className={`${fredoka.className} text-xl text-slate-700 capitalize p-2 `}>Goals</h4>
             <div className="flex w-full overflow-x-auto no-scrollbar">
                 {
@@ -60,6 +59,7 @@ const Goals = () => {
                                         value={(gol.amountSaved)}
                                         readOnly
                                     />
+                                    
                                 </div>
                             </Link>
                         </div>

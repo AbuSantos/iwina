@@ -19,14 +19,14 @@ const ProfileHeader = ({ username, taskCount, image, points }) => {
                     Tasks done: {taskCount}
                 </p>
             </section>
-            <section> 
+            <section>
 
                 <div className={`flex flex-col items-center justify-center p-16 text-center `}>
                     <span className={`${montserrat.className} text-slate-500`}>Total Earnings</span>
                     <h2 className={`flex ${fredoka.className} text-3xl text-center`}>Points: {points} ⭐️</h2>
                 </div>
 
-                <div className="flex items-center justify-center space-x-10">
+                {/* <div className="flex items-center justify-center space-x-10">
 
                     <div className=' flex flex-col justify-center items-center space-y-2'>
                         <Link href="/" className=" w-12 h-12 bg-gray-200 text-gray-900 text-xl  p-4 rounded-full flex items-center justify-center  shadow-lg">
@@ -43,7 +43,7 @@ const ProfileHeader = ({ username, taskCount, image, points }) => {
 
                     </div>
 
-                </div>
+                </div> */}
             </section>
         </div>
     )

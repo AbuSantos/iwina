@@ -8,6 +8,7 @@ import BottomNav from '@/components/BottomNav';
 import ProfileHeader from '@/components/ChildView/childprofile/ProfileHeader';
 import { useSession } from 'next-auth/react';
 import Goals from '@/components/Goals/Goaltab/Goals';
+import Tab from '@/components/ui/Tab';
 
 const ChildProfileView = () => {
     const params = useSearchParams()
@@ -15,7 +16,7 @@ const ChildProfileView = () => {
     const [data, setData] = useState([])
     const { data: session } = useSession()
     const role = (session?.user as any)?.role
-    const [isActiveTab, setIsActiveTab] = useState("goals")
+    const [activeTab, setActiveTab] = useState("goals")
     console.log(session);
 
     useEffect(() => {
@@ -30,6 +31,10 @@ const ChildProfileView = () => {
         fetchKids()
     }, [childId])
     // console.log(data);
+
+    const handleTab = (tab: string) => {
+        setActiveTab(tab)
+    }
 
     return (
         <div className='' >
@@ -46,12 +51,15 @@ const ChildProfileView = () => {
                     points={data?.points}
                 />
             </header>}
+            <div>
+                <Tab tab1={"Goals"} tab2={"Home"} activeTab={activeTab} handleTab={handleTab} />
+            </div>
             {
-                isActiveTab === ("goals") && <Goals />
+                activeTab === ("goals") && <Goals />
             }
             {
-                isActiveTab === ("home") && <div>
-                    <div className='flex items-center justify-center mb-3 '>
+                activeTab === ("home") && <div>
+                    <div className='flex items-center justify-center mb-3 mt-16'>
                         < ChildOngoingTask childId={childId} data={data} role={role} />
                     </div>
                     <div className='flex items-center justify-center'>

@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid' // a plugin!
 import { Fragment, useState, useEffect, useRef } from 'react'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react"
-import {  ExclamationTriangleIcon } from '@heroicons/react/20/solid'
+import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 import { EventSourceInput } from '@fullcalendar/core/index.js'
 import NewModal from '@/components/ui/EventModal'
 import { useSession } from 'next-auth/react'
@@ -47,7 +47,6 @@ const Calendar = () => {
     const role = (session?.user as any)?.role
     const [checkDate, setCheckedDate] = useState(new Date())
     const familyId = role === "parent" ? userId : state.data?.[0]?.creator
-    // console.log(image, "role");
     const router = useRouter()
 
     const [newEvent, setNewEvent] = useState<Event>({
