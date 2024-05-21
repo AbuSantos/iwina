@@ -62,7 +62,7 @@ const ChildProfileView = () => {
 
 
 
-            {/* <BottomNav /> */}
+            <BottomNav />
         </div>
     )
 }

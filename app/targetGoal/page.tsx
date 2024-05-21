@@ -1,5 +1,5 @@
 "use client"
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import withdraw from "@/public/images/withdraw.png"
 import invest from "@/public/images/invest.png"
@@ -9,11 +9,13 @@ import { Fredoka } from "next/font/google"
 import { monthsToDueDate } from '@/lib/FormatTime'
 const fredoka = Fredoka({ subsets: ["latin"] })
 import { FaPiggyBank } from "react-icons/fa6";
+import Back from '@/components/ui/Back'
 
 const page = () => {
     const [data, setData] = useState([])
     const searchParams = useSearchParams()
     const id = searchParams.get('id')
+    const router = useRouter()
 
     console.log(id);
 
@@ -32,6 +34,7 @@ const page = () => {
 
     return (
         <div className='bg-violet-500'>
+            <Back />
             <div>
 
                 {
@@ -123,7 +126,7 @@ const page = () => {
                                         <h2 className={`${fredoka.className} text-xl text-gray-800`}>Progress towards your savings goal</h2>
                                     </div>
                                     <div className='p-4'>
-                                        <p>You've made <span>10</span> deposits so far</p>
+                                        <p>You've made <span>{gol.depositCount}</span> deposits so far</p>
                                         <div className='px-4'>
                                             <span className='text-[0.7rem] text-gray-500'>You just deposited ⭐️ 100 to this goal</span>
                                         </div>

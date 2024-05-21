@@ -16,6 +16,7 @@ const KidsScroll = () => {
     const userId = (session?.user as any)?.id
     const role = (session?.user as any)?.role
     const [kids, setKids] = useState()
+    console.log(userId);
 
     useEffect(() => {
         const fetchKids = async () => {
@@ -34,10 +35,10 @@ const KidsScroll = () => {
             <div className="flex overflow-x-auto space-x-5 scrollbar-hide mt-3 items-center" >
                 {
                     (kids as [])?.map((kid: any) => {
-                        // console.log(kid);
+                        console.log(kid);
                         return (
                             <div key={kid?._id}>
-                                <Link href={`/childprofile?id=${kid._id}`} className="flex flex-col items-center justify-center space-y-2">
+                                <Link href={`/childprofile?id=${kid._id}`} className={`${kid._id === userId && "hidden "} flex flex-col items-center justify-center space-y-2 `} >
                                     < div className=" bg-[#dfd7fb] p-3 rounded-full h-14 w-14 flex items-center justify-center" >
                                         <Image src={kid.image} alt="girl child" width={100} height={100} />
                                     </div>

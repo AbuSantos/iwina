@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 
 const fredoka = Fredoka({ subsets: ["latin"] })
 
+
 const Goals = () => {
 
     const { state, fetchTasks } = useTaskContext()
@@ -34,7 +35,7 @@ const Goals = () => {
     return (
         <main>
             <h4 className={`${fredoka.className} text-xl text-slate-700 capitalize p-2 `}>Goals</h4>
-            <div className="flex w-full overflow-x-auto">
+            <div className="flex w-full overflow-x-auto no-scrollbar">
                 {
                     data?.map((gol) => (
                         <div key={gol.id} className="  p-4 bg-violet-400 ml-2 rounded-lg cursor-pointer  ">
