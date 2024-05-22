@@ -43,7 +43,8 @@ const CompletedTask = ({ setActiveTab }) => {
                                 createdAt={createdAt}
                             />
                         </div>)
-                })}
+                })
+            }
             {
                 state.data && state.data?.length === 0 && (
                     <div className="flex items-center flex-col justify-center">
@@ -64,7 +65,6 @@ const CompletedTask = ({ setActiveTab }) => {
                                 </>
                             )
                         }
-
                     </div>
                 )}
         </div>

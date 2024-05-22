@@ -40,7 +40,7 @@ const Header = () => {
 
                 </div>
                 <div className=" bal-image relative flex flex-col items-center justify-center">
-                    <h3 className={`${fredoka.className} text-gray-300 text-center`}> Balance</h3>
+                    <h3 className={`${fredoka.className} text-gray-300 text-center text-sm`}> Balance</h3>
                     <h1 className="text-3xl text-gray-100">⭐️ 30,000,000</h1>
                     <Link href="/createTask" className="absolute -bottom-2 text-gray-100 text-xl ">
                         <FaPlus />
