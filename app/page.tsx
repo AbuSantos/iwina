@@ -9,6 +9,7 @@ import KidsScroll from "@/components/KidsScroll";
 import Task from "@/components/Task";
 import BottomNav from "@/components/BottomNav";
 import { Knock } from "@knocklabs/node"
+import ParentEvent from "@/components/ui/ParentEvent";
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
 
@@ -49,6 +50,7 @@ const Home = () => {
             <Nav />
             <KidsScroll />
             <Task />
+            <ParentEvent />
             <BottomNav />
           </> :
           <div>
