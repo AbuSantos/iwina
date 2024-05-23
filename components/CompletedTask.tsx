@@ -31,7 +31,7 @@ const CompletedTask = ({ setActiveTab }) => {
         <div className=" flex flex-col items-center space-y-3 mb-20">
             {
                 state.data?.map((task: TaskType) => {
-                    console.log(task);
+                    // console.log(task);
                     const { taskDesc, taskDdl, taskPnt, status, createdAt } = task
                     return (
                         <div className="text-gray-800 flex justify-between items-center w-11/12 bg-[#dfd7fb] rounded-xl">

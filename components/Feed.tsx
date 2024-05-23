@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import Modal from "./ui/Modal"
 import { useTaskContext } from "@/context/TaskContext"
+import SingleCard from "./ui/SingleCard"
 
 const Feed = () => {
     const session = useSession()
@@ -41,9 +42,9 @@ const Feed = () => {
                     //@ts-ignore
                     const isCurrentUserCreator = creator?._id === (session?.user)?.id
                     return (
-                        <div className="text-gray-800 flex justify-between items-center w-11/12 bg-[#dfd7fb] rounded-xl">
+                        <div className="text-gray-800 justify-between items-center w-11/12  rounded-xl">
 
-                            < TaskCard
+                            < SingleCard
                                 deadline={deadline}
                                 description={description}
                                 points={points}
@@ -51,6 +52,7 @@ const Feed = () => {
                                 pickedBy={pickedBy}
                                 key={index}
                                 createdAt={createdAt}
+                                onOpen={() => toggleModal(id)}
                             />
 
                             <div className=" p-2">
@@ -59,7 +61,8 @@ const Feed = () => {
                                         openModals.includes(id) && (
                                             <div className="">
                                                 <Modal taskId={id}
-                                                    onClose={() => toggleModal(id)} deadline={deadline} points={points} description={description} status={status}
+                                                    onClose={() => toggleModal(id)}
+                                                    deadline={deadline} points={points} description={description} status={status}
                                                     pickedBy={pickedBy} createdAt={createdAt} creator={creator}
 
                                                 />
@@ -68,13 +71,13 @@ const Feed = () => {
                                     }
                                 </div>
 
-                                <button
+                                {/* <button
                                     className='bg-[#ffff] px-5 py-2 rounded-xl text-sm text-[#6229b3] font-medium'
                                     onClick={() => toggleModal(id)}
                                 // disabled={task.status === "Completed"}
                                 >
                                     View Task
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     )

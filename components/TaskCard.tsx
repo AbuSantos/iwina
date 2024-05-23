@@ -20,7 +20,13 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
     const formatedTime = formatTime(deadline)
     return (
         <div>
-            <SingleCard />
+            <SingleCard
+                description={description}
+                deadline={deadline}
+                points={points}
+                status={status}
+                createdAt={createdAt}
+            />
         </div>
         // <div className="prompt_card">
         //     <div className="flex justify-between gap-5 items-center ">
