@@ -35,14 +35,14 @@ const Feed = () => {
     }
 
     return (
-        <div className=" flex flex-col items-center space-y-3 mb-20">
+        <div className=" flex items-center  space-y-3 mb-20 overflow-x-auto no-scrollbar">
             {
                 state.data?.map((task, index) => {
                     const { taskDdl: deadline, taskDesc: description, taskPnt: points, status, _id: id, pickedBy, creator, createdAt } = task
                     //@ts-ignore
                     const isCurrentUserCreator = creator?._id === (session?.user)?.id
                     return (
-                        <div className="text-gray-800 justify-between items-center w-11/12  rounded-xl">
+                        <div className="text-gray-800  rounded-xl">
 
                             < SingleCard
                                 deadline={deadline}
@@ -82,6 +82,7 @@ const Feed = () => {
                         </div>
                     )
                 })}
+
         </div >
     )
 }
