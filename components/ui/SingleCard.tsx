@@ -18,7 +18,7 @@ type TaskType = {
   createdAt?: Date,
   onOpen: () => void
 }
-const newDezcription = "Lorem ipsum, dolor sit amet consectetur adipisicing elit.Consectetur a aliquid hic nemo assumenda rem iste recusandae magnam voluptate, blanditiis doloremque rerum enim, quod aperiam numquam quidem corporis nam vero velit dolorum?Praesentium mollitia ad nisi blanditiis! Ad, veritatis porro."
+const desc = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati natus laboriosam libero saepe culpa quae ullam sapiente vel expedita? Et cumque vitae ducimus soluta beatae nemo aspernatur quis placeat at saepe optio, accusantium consequuntur ex repudiandae provident modi quod quos."
 const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt, onOpen }: TaskType) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -39,18 +39,15 @@ const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt
         </div>
 
         <div className="p-2">
-          <div className='flex justify-between'>
-            <p className={`text-lg tracking-tight text-gray-900 `}>
+          <div className=''>
+            <p className={`text-lg tracking-tight text-gray-900`}>
               {
-                isExpanded ? newDezcription : `${newDezcription.slice(0, 50)}...`
+                isExpanded ? desc : `${desc.slice(0, 50)} ...`
               }
-
-              {/* {description}*/}
             </p>
             {
-              newDezcription && newDezcription.length > 50 && (
-                <button onClick={toggleExpanded} className="text-blue-500 text-sm">
-
+              desc && desc.length > 50 && (
+                <button onClick={toggleExpanded} className="text-blue-500 text-sm ">
                   {isExpanded ? "view less" : "view more"}
                 </button>
               )
