@@ -16,6 +16,7 @@ const fredoka = Fredoka({ subsets: ["latin"] })
 
 const Header = () => {
     const { data: session } = useSession()
+    const role = (session?.user as any)?.role
     const [searchTask, setSearchTask] = useState(" ")
 
     return (
@@ -39,18 +40,22 @@ const Header = () => {
                     </div>
 
                 </div>
-                <div className=" bal-image relative flex flex-col items-center justify-center">
-                    <h3 className={`${fredoka.className} text-gray-300 text-center text-sm`}> Balance</h3>
-                    <h1 className="text-3xl text-gray-100">⭐️ 30,000,000</h1>
-                    <Link href="/createTask" className="absolute -bottom-2 text-gray-100 text-xl ">
-                        <FaPlus />
-                    </Link>
-                </div>
+                {
+                    role === "parent" ? <div className=" bal-image relative flex flex-col items-center justify-center">
+                        <h3 className={`${fredoka.className} text-gray-300 text-center text-sm`}> Balance</h3>
+                        <h1 className="text-3xl text-gray-100">⭐️ 30,000,000</h1>
+                        <Link href="/createTask" className="absolute -bottom-2 text-gray-100 text-xl ">
+                            <FaPlus />
+                        </Link>
+                    </div> :
+                        <div className="flex items-center bg-gray-50 w-full p-2 rounded-md space-x-2">
+                            <IoSearchOutline />
+                            <input type="text" placeholder="Search for task" className="outline-none p2" />
+                        </div>
+                }
 
-                {/* <div className="flex items-center bg-gray-50 w-full p-2 rounded-md space-x-2">
-                    <IoSearchOutline />
-                    <input type="text" placeholder="Search for task" className="outline-none p2" />
-                </div> */}
+
+
             </div>
         </div>
     )

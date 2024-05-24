@@ -1,8 +1,13 @@
 "use client"
 
 import { useSession } from "next-auth/react"
+import { Fredoka } from "next/font/google"
 import Image from "next/image"
+import Link from "next/link"
 import { useEffect, useState } from "react"
+import line from "@/public/images/line.svg"
+import lineB from "@/public/images/lineB.svg"
+const fredoka = Fredoka({ subsets: ["latin"] })
 
 const ParentEvent = () => {
     const { data: session } = useSession()
@@ -45,12 +50,14 @@ const ParentEvent = () => {
     }, [dateData]);
 
     return (
-        <div className="">
-            <div>
-                <h3>Events</h3>
-            </div>
-            <section className="flex ">
-
+        <div className=" w-full mb-20">
+            <header className="flex justify-between p-2">
+                <h2 className={`${fredoka.className} text-lg text-gray-800`}>Events</h2>
+                <Link href={"/calendar"} className={`${fredoka.className} text-lg text-violet-600`} >
+                    See all
+                </Link>
+            </header>
+            <section className="flex p-2 overflow-y-auto no-scrollbar gap-2">
                 {
                     isUpcomingData.length === 0 ? (
                         <div>
@@ -61,25 +68,28 @@ const ParentEvent = () => {
                             const { title, username, image, start } = data;
                             const startDate = start.split('-').slice(1, 3).join('/');
                             return (
-                                <section
+                                <div
                                     key={index}
-                                    className={`flex mb-2 justify-between items-center h-14 `}
+                                    className="flex bg-white border border-gray-200 rounded-lg shadow-lg w-[15rem] h-28 p-2 space-x-1"
                                 >
-                                    <div className="flex space-x-4">
-                                        <div>
-                                            <Image src={image || parent} alt="parent" width={50} height={50} />
-                                        </div>
-                                        <div className="flex flex-col text-green-900 ">
-                                            <p className="text-sm">{title}</p>
+                                    <div className="flex items-center space-x-3">
+                                        <Image src={line} alt="line" width={20} height={20} />
+                                        <span className="text-slate-500 text-[0.8rem]">{startDate}</span>
+                                    </div>
+
+                                    <div className="flex w-80 bg-violet-100 rounded-lg p-2 space-x-2">
+                                        <div className="flex flex-col ">
+                                            <p className="text-lg font-semibold text-gray-900 capitalize">{title}</p>
                                             <span className="text-slate-500 text-[0.6rem]">{username}</span>
                                         </div>
+                                        {/* <Image src={image || parent} alt="parent" width={50} height={50} className="rounded-full" /> */}
                                     </div>
-                                    <span className="text-slate-500 text-[0.6rem]">{startDate}</span>
-                                </section>
+                                </div>
                             );
                         })
                     )
                 }
+
             </section>
 
         </div>
