@@ -46,26 +46,34 @@ const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt
             className=" rounded-t-lg"
             src={selectImage || clean}
             alt="product image"
-            width={500}
+            width={250}
             height={50}
           />
         </div>
 
-        <div className="  p-2">
-          <div className=''>
-            <p className={`text-[1rem] tracking-tight text-gray-700 ${montserrat.className}`}>
-              {
-                isExpanded ? description : `${description.slice(0, 50)} ...`
-              }
-            </p>
+        <div className="p-2">
+          <div>
             {
-              description && description.length > 50 && (
-                <button onClick={toggleExpanded} className="text-blue-500 text-sm ">
-                  {isExpanded ? "view less" : "view more"}
-                </button>
-              )
+              mode === "feed" ? <div className=''>
+                <p className={`text-[1rem] tracking-tight text-gray-700 ${montserrat.className}`}>
+                  {
+                    isExpanded ? description : `${description.slice(0, 50)} ...`
+                  }
+                </p>
+                {
+                  description && description.length > 50 && (
+                    <button onClick={toggleExpanded} className="text-blue-500 text-sm ">
+                      {isExpanded ? "view less" : "view more"}
+                    </button>
+                  )
+                }
+              </div> :
+                <p className={`text-[1rem] tracking-tight text-gray-700 ${montserrat.className}`}>
+                  {description}
+                </p>
             }
           </div>
+
 
           <div className="flex items-center p-2 justify-between ">
             <div className="flex items-center space-x-1 rtl:space-x-reverse">
