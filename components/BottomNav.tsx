@@ -31,12 +31,19 @@ const BottomNav = () => {
             link: '/calendar', icon: <GrSchedules
                 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "schedules"
         },
-        {
-            link: `/childprofile?id=${userId}`, icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Profile"
-        },
+        // {
+        //     role ==="parent"?{
+        //         link: `/childprofile?id=${userId}`, icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Profile"
+        //     }
 
-
+        // {
+        //     link: `/profile`, icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "myProfile"
+        // },}
     ]
+    const profileLink = role === "parent"
+        ? { link: `/profile`, title: "My Profile" }
+        : { link: `/childprofile?id=${userId}`, title: "Profile" };
+
 
     return (
         <div className='w-full  h-[130px]' style={{
@@ -65,6 +72,13 @@ const BottomNav = () => {
                         </Link>
                     ))
                 }
+                <Link href={profileLink.link} className={`text-[#6329b3d6] text-[0.8rem] ${fredoka.className}`}>
+                    <div className="home flex flex-col items-center">
+                        <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />
+                        {profileLink.title}
+                    </div>
+                </Link>
+
             </div >
         </div >
     )

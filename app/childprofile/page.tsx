@@ -28,7 +28,7 @@ const ChildProfileView = () => {
         }
         fetchKids()
     }, [childId])
-    // console.log(data);
+    console.log(childId);
 
     const handleTab = (tab: string) => {
         setActiveTab(tab)
