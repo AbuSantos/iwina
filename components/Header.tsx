@@ -53,9 +53,6 @@ const Header = () => {
                             <input type="text" placeholder="Search for task" className="outline-none p2" />
                         </div>
                 }
-
-
-
             </div>
         </div>
     )

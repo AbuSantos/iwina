@@ -17,9 +17,10 @@ type TaskType = {
   status?: String,
   pickedBy?: String,
   createdAt?: Date,
-  onOpen: () => void
+  mode: string,
+  onOpen?: () => void
 }
-const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt, onOpen }: TaskType) => {
+const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt, onOpen, mode }: TaskType) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [selectImage, setSelectedImage] = useState()
   const toggleExpanded = () => {
@@ -39,13 +40,13 @@ const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt
 
   return (
     <div className='p-2'>
-      <div className="w-[12rem] border border-gray-200 rounded-lg shadow">
+      <div className={`${mode === "feed" ? "w-[12rem] border border-gray-200 rounded-lg shadow" : "w-full"}  `}>
         <div className='flex items-center justify-center '>
           <Image
             className=" rounded-t-lg"
             src={selectImage || clean}
             alt="product image"
-            width={150}
+            width={500}
             height={50}
           />
         </div>
@@ -79,9 +80,12 @@ const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt
             </p>
           </div>
           <div className="flex items-center justify-between">
-            <button onClick={onOpen} className=' px-3 py-2 rounded-lg text-sm bg-[#6229b3] text-[#fdfcff] font-medium '>
-              view task
-            </button>
+            {
+              mode === "feed" && <button onClick={onOpen} className=' px-3 py-2 rounded-lg text-sm bg-[#6229b3] text-[#fdfcff] font-medium '>
+                view task
+              </button>
+            }
+
             <span className={`text-[0.7rem] text-gray-700 ${fredoka.className}`}>
               {status}
             </span>

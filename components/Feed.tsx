@@ -52,6 +52,7 @@ const Feed = () => {
                                 pickedBy={pickedBy}
                                 key={index}
                                 createdAt={createdAt}
+                                mode="feed"
                                 onOpen={() => toggleModal(id)}
                             />
 

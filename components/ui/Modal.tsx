@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import TaskCard from '../TaskCard'
 import { RiGiftLine } from 'react-icons/ri'
 import { IoClose } from "react-icons/io5";
+import SingleCard from './SingleCard'
 
 interface ModalProps {
     taskId: string;
@@ -135,13 +136,14 @@ const Modal = ({ taskId, onClose, points, deadline, description, status, pickedB
                     <IoClose />
                 </span>
 
-                <TaskCard
+                <SingleCard
                     description={description}
                     status={status}
                     pickedBy={pickedBy}
                     createdAt={createdAt}
                     deadline={deadline as unknown as Date}
                     points={points}
+                    mode="modal"
                 />
 
                 {
