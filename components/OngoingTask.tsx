@@ -14,15 +14,42 @@ const OngoingTask = ({ setActiveTab }) => {
     const { state, fetchTasks } = useTaskContext()
     const userId = (session?.user as any)?.id
     const userRole = (session?.user as any)?.role
+    const [data, setData] = useState([])
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchTasks("GET", `api/tasks/${userId}/inprogress?role=${userRole}`)
-    }, [])
+        const fetchOngoing = async () => {
+            try {
+                // fetchTasks("GET", `api/tasks/${userId}/inprogress?role=${userRole}`)
+                const res = await fetch(`api/tasks/${userId}/inprogress?role=${userRole}`);
+                if (!res.ok) {
+                    throw new Error('Failed to fetch tasks');
+                }
+                const newData = await res.json();
+                setData(newData);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchOngoing();
+
+    }, [userId, userRole])
+
+    if (loading) {
+        return <div className="flex justify-center items-center p-2 ">Loading...</div>;
+    }
+
+    if (error) {
+        return <div className="flex justify-center items-center p-2 ">Error: {error}</div>;
+    }
 
     return (
-        <div className=" flex flex-col items-center space-y-3 mb-20">
+        <div className=" flex flex-col items-center space-y-3 p-3">
             {
-                state.data?.map(task => {
+                data.map(task => {
                     const { taskDesc, taskDdl, taskPnt, status, createdAt } = task
                     return (<div className="text-gray-800 flex justify-between items-center w-11/12 bg-[#dfd7fb] rounded-xl">
 
@@ -38,7 +65,7 @@ const OngoingTask = ({ setActiveTab }) => {
                 )
             }
             {
-                state.data && state.data?.length === 0 && (
+                data && data?.length === 0 && (
                     <div className="flex items-center flex-col justify-center">
                         <Image src={ongoingchore} height={200} alt="a kid sweeping" />
                         {

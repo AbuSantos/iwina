@@ -20,13 +20,13 @@ export const GET = async (
     if (role === "parent") {
       tasks = await Task.find({
         creator: params.id,
-        status: "Completed",
-      });
+        status: { $in: ["Completed", "Rewarded"] },
+      }).sort({ status: 1 });
     } else {
       tasks = await Task.find({
         user: params.id,
-        status: "Completed",
-      });
+        status: { $in: ["Completed", "Rewarded"] },
+      }).sort({ status: 1 });
     }
     return new Response(JSON.stringify(tasks), { status: 200 });
   } catch (error) {
