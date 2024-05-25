@@ -79,8 +79,8 @@ const ProfileBody = () => {
     }
 
     return (
-        <div>
-            <section className="flex items-center justify-center space-x-4">
+        <div className=" p-2">
+            <section className="grid grid-cols-2 items-center justify-center space-x-4 w-full">
                 {
                     (kids as [])?.map((kid: any, index) => {
                         const color = colors[index]
@@ -106,11 +106,11 @@ const ProfileBody = () => {
                 }
             </section>
 
-            <section>
+            <section className="w-full">
                 {
                     (profileLinks as [])?.map((profile: ProfileType, index) => {
                         return (
-                            <div key={index} className={`flex justify-between items-center py-3 px-4 cursor-pointer`}
+                            <div key={index} className={`flex justify-between items-center px-4 cursor-pointer mt-3`}
                             >
                                 <Link href={`/childprofile?id=${index}`} className={` flex flex-col items-center justify-center space-y-2 `} >
                                     < div className="p-3 flex items-center justify-center space-x-2" >

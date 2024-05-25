@@ -22,7 +22,7 @@ const ProfileFooter = () => {
             <div className="flex items-center justify-center">
 
                 <span>
-                    @copyright iwina 2024
+                    &copy; iwina 2024
                 </span>
             </div>
         </section>
