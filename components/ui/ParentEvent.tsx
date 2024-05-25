@@ -14,7 +14,8 @@ const ParentEvent = () => {
     const userId = (session?.user as any)?.id
     const [dateData, setDateData] = useState([])
     const [isUpcomingData, setIsUpcomingData] = useState([])
-
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -26,7 +27,9 @@ const ParentEvent = () => {
                 })
 
             } catch (error) {
-                console.log(error);
+                setError(error.message)
+            } finally {
+                setLoading(false)
             }
         }
         fetchData();
@@ -49,6 +52,13 @@ const ParentEvent = () => {
         }
     }, [dateData]);
 
+    if (loading) {
+        return <div className="flex justify-center items-center p-2 ">Loading Events...</div>;
+    }
+
+    if (error) {
+        return <div className="flex justify-center items-center p-2 ">Error: {error}</div>;
+    }
     return (
         <div className=" w-full mb-20">
             <header className="flex justify-between p-2">
