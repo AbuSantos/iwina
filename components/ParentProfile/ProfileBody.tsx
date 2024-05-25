@@ -11,30 +11,30 @@ import profile from "@/public/images/profile.svg"
 import privacy from "@/public/images/shield.svg"
 import settings from "@/public/images/setting.svg"
 import help from "@/public/images/help.svg"
+import location from "@/public/images/location.svg"
 import arrow from "@/public/images/arrow.svg"
 import chevron from "@/public/images/chevron.svg"
 import { RiHome2Line } from "react-icons/ri"
+import ProfileNav from "./ProfileNav"
 const fredoka = Fredoka({ subsets: ["latin"] })
-type ProfileType = {
-    link: string,
-    icon: string,
-    title: string,
-}
+
 const profileLinks = [
 
     {
-        link: '/groupchat', icon: profile, title: "My Profile"
+        link: '/details', icon: profile, title: "My Profile"
     },
     {
-        link: '/map', icon: privacy, title: "Privacy"
+        link: '/map', icon: privacy, title: "Privacy & Settings"
     },
     {
-        link: '/calendar', icon: settings, title: "Settings"
+        link: '/calendar', icon: location, title: "Geofencing"
+    },
+    {
+        link: '/calendar', icon: settings, title: "Point Settings"
     },
     {
         link: '/calendar', icon: help, title: "About Iwina"
     },
-
 ]
 const colors = [
     '#D9DAA5', '#94D9E0', '#5B7D6C', '#6E9155', '#788770', '#D9DAA5'
@@ -107,23 +107,7 @@ const ProfileBody = () => {
             </section>
 
             <section className="w-full">
-                {
-                    (profileLinks as [])?.map((profile: ProfileType, index) => {
-                        return (
-                            <div key={index} className={`flex justify-between items-center px-4 cursor-pointer mt-3`}
-                            >
-                                <Link href={`/childprofile?id=${index}`} className={` flex flex-col items-center justify-center space-y-2 `} >
-                                    < div className="p-3 flex items-center justify-center space-x-2" >
-                                        <Image src={profile.icon} alt="girl child" width={20} height={20} />
-                                        <p className="text-gray-700">{profile.title}</p>
-                                    </div>
-                                </Link>
-                                <Image src={chevron} alt="girl child" width={20} height={20} />
-
-                            </div >
-                        )
-                    })
-                }
+                <ProfileNav profileLinks={profileLinks} />
             </section>
         </div>
     )
