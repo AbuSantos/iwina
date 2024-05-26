@@ -33,7 +33,7 @@ const profileLinks = [
         link: '/calendar', icon: settings, title: "Point Settings"
     },
     {
-        link: '/calendar', icon: help, title: "About Iwina"
+        link: '/about', icon: help, title: "About Iwina"
     },
 ]
 const colors = [

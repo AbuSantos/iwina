@@ -21,7 +21,7 @@ const ProfileFooter = () => {
             <hr />
             <div className="flex items-center justify-center">
 
-                <span>
+                <span className="p-2">
                     &copy; iwina 2024
                 </span>
             </div>
