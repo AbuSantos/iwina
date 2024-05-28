@@ -10,13 +10,19 @@ import { useSession } from 'next-auth/react';
 import Goals from '@/components/Goals/Goaltab/Goals';
 import Tab from '@/components/ui/Tab';
 
+interface KidData {
+    username: string;
+    image: string;
+    completedTasks: any[]; // Adjust the type based on the actual data structure
+    points: number;
+}
 const ChildProfileView = () => {
     const params = useSearchParams()
     const childId = params.get("id")
-    const [data, setData] = useState([])
     const { data: session } = useSession()
     const role = (session?.user as any)?.role
-    const [activeTab, setActiveTab] = useState("home")
+    const [data, setData] = useState<KidData | null>(null);
+    const [activeTab, setActiveTab] = useState<string>("home");
 
     useEffect(() => {
         const fetchKids = async () => {
@@ -28,7 +34,7 @@ const ChildProfileView = () => {
         }
         fetchKids()
     }, [childId])
-    console.log(childId);
+    // console.log(data);
 
     const handleTab = (tab: string) => {
         setActiveTab(tab)
