@@ -15,7 +15,7 @@ const fredoka = Fredoka({ subsets: ["latin"] });
 const ChildViewCompletedTask = ({ childId, role }) => {
     const router = useRouter()
     const session = useSession()
-    const [userTask, setUserTask] = useState()
+    const [userTask, setUserTask] = useState([])
     const [reward, setReward] = useState(true)
     const userId = (session?.data?.user as any)?.id
     useEffect(() => {
