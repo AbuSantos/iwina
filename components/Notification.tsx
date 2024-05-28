@@ -16,8 +16,14 @@ const Notification = () => {
     const [isVisible, setIsVisible] = useState(false);
     const notifButtonRef = useRef(null);
     const { data: session, status } = useSession()
-    //@ts-ignore
-    const userId = session?.user?.id
+
+    if (status === 'loading') {
+        return <div>Loading...</div>; // Or a loading spinner
+    }
+    if (!session || !session.user || !(session.user as any).id) {
+        return <div>User not authenticated</div>; // Or redirect to login
+    }
+    const userId = (session?.user as any)?.id
 
     return (
         <KnockProvider
@@ -36,7 +42,6 @@ const Notification = () => {
                         onClose={() => setIsVisible(false)}
                     />
                     <NotificationToaster />
-
                 </>
             </KnockFeedProvider>
         </KnockProvider>
