@@ -34,7 +34,7 @@ const page = () => {
 
     return (
         <div className='bg-violet-500'>
-            <Back />
+            <Back className={"#000"} />
             <div>
 
                 {
