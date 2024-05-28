@@ -173,4 +173,4 @@ const TasksWrapper: React.FC = () => (
     </Suspense>
 );
 
-export default Tasks
+export default TasksWrapper

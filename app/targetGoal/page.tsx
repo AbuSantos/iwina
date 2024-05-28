@@ -1,6 +1,6 @@
 "use client"
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import withdraw from "@/public/images/withdraw.png"
 import invest from "@/public/images/invest.png"
 import piggy from "@/public/images/piggy.png"
@@ -11,7 +11,7 @@ const fredoka = Fredoka({ subsets: ["latin"] })
 import { FaPiggyBank } from "react-icons/fa6";
 import Back from '@/components/ui/Back'
 
-const page = () => {
+const TargetGoal = () => {
     const [data, setData] = useState([])
     const searchParams = useSearchParams()
     const id = searchParams.get('id')
@@ -142,5 +142,10 @@ const page = () => {
         </div>
     )
 }
+const TargetGoalWrapper: React.FC = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <TargetGoal />
+    </Suspense>
+);
 
-export default page
+export default TargetGoalWrapper
