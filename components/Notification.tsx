@@ -12,6 +12,12 @@ import "@knocklabs/react/dist/index.css";
 import { useSession } from "next-auth/react";
 import NotificationToaster from "./NotificationToaster";
 
+interface SessionUser {
+    id: string;
+    name?: string;
+    email?: string;
+    image?: string;
+}
 const Notification = () => {
     const [isVisible, setIsVisible] = useState(false);
     const notifButtonRef = useRef(null);
@@ -23,7 +29,7 @@ const Notification = () => {
     if (!session || !session.user || !(session.user as any).id) {
         return <div>User not authenticated</div>; // Or redirect to login
     }
-    const userId = (session?.user as any)?.id
+    const userId = (session.user as SessionUser).id;
 
     return (
         <KnockProvider
