@@ -1,7 +1,7 @@
 'use client';
 import Map from "@/components/maps/Map";
 import { Icon } from "leaflet";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { TileLayer } from "react-leaflet";
 import L from "leaflet";
 import MainMarker from "@/components/maps/Marker";
@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import { useTaskContext } from "@/context/TaskContext";
 import useSocket from "@/context/useSocket";
 
-const Markerwhatever = (props) => {
+const Markerwhatever = () => {
     const fillBlueOptions = { fillColor: 'blue' };
     const [data, setData] = useState([]);
     const [x, setX] = useState({
@@ -122,5 +122,11 @@ const Markerwhatever = (props) => {
         </div>
     );
 };
+const MarkerwhateverlWrapper: React.FC = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <Markerwhatever />
+    </Suspense>
+);
 
-export default Markerwhatever;
+
+export default MarkerwhateverlWrapper;

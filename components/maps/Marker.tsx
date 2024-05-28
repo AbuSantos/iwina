@@ -1,13 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { Marker, useMap, } from "react-leaflet";
 import L from "leaflet"
-import ChildDetail from "./ChildDetails";
 
 export default function MainMarker({ greenIcon, fillBlueOptions, data }) {
     const map = useMap(); // Access the map instance using useMap hook
     const [circle, setCircle] = useState(null)
     const [marker, setMarker] = useState(null)
-    // console.log(data);
 
     useEffect(() => {
         const { latitude, longitude, accuracy, username } = data;
