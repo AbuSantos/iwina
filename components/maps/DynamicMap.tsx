@@ -1,32 +1,30 @@
 "use client";
 import { useEffect } from "react";
+import dynamic from 'next/dynamic';
 import Leaflet from "leaflet";
-import * as ReactLeaflet from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
-import parent from "../../public/images/parent.png"
-const { MapContainer } = ReactLeaflet;
+
+// Dynamic import to prevent SSR
+const MapContainer = dynamic(() => import("react-leaflet").then(mod => mod.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import("react-leaflet").then(mod => mod.TileLayer), { ssr: false });
+const Marker = dynamic(() => import("react-leaflet").then(mod => mod.Marker), { ssr: false });
 
 const Map = ({ children, className, width, height, ...rest }) => {
   useEffect(() => {
-    (async function init() {
-      // delete Leaflet.Icon.Default.prototype._getIconUrl;
-      Leaflet.Icon.Default.mergeOptions({
-        iconRetinaUrl: '/images/girlchild.png',
-        iconUrl: '/images/girlchild.png',
-
-        // shadowSize: [50, 50],
-      });
-    })();
+    // Set up Leaflet default icon paths
+    Leaflet.Icon.Default.mergeOptions({
+      iconRetinaUrl: '/images/girlchild.png',
+      iconUrl: '/images/girlchild.png',
+      shadowUrl: '/images/marker-shadow.png', // Ensure you have this file or remove this line
+    });
   }, []);
 
-
-
   return (
-    <MapContainer  {...rest} style={{ height: "450px", width: "100%" }} zoom={15} >
+    <MapContainer {...rest} style={{ height: "450px", width: "100%" }} zoom={15}>
       {children}
     </MapContainer>
-  )
+  );
 };
 
-export default Map
+export default Map;
