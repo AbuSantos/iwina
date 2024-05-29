@@ -22,7 +22,7 @@ const Markerwhatever = () => {
     const mapRef = useRef(null);
     const { data: session } = useSession();
     const { state, fetchTasks } = useTaskContext();
-
+    const [kidsData, setKidsData] = useState([])
     const userId = (session?.user as any)?.id;
     const username = (session?.user as any)?.name;
     const role = (session?.user as any)?.role;
@@ -30,11 +30,26 @@ const Markerwhatever = () => {
 
     useEffect(() => {
         if (userId && role) {
-            fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`);
+            const fetchkids = async () => {
+                try {
+                    const res = await fetch(`api/users/${userId}/user/kids?role=${role}`)
+                    if (!res.ok) {
+                        throw new Error('Failed to fetch kids')
+                    }
+                    const data = await res.json();
+                    setKidsData(data)
+                } catch (error) {
+                    console.log(error.message);
+
+                }
+
+            }
+            fetchkids()
+            // fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`);
         }
     }, [userId, role, fetchTasks]);
 
-    const familyLocationId = role === "parent" ? userId : state.data?.[0]?.creator;
+    const familyLocationId = role === "parent" ? userId : kidsData?.[0]?.creator;
 
     useEffect(() => {
         if (socket) {
@@ -107,6 +122,7 @@ const Markerwhatever = () => {
     }, [data]);
 
     return (
+        // <Suspense fallback={<div>Loading...</div>}>
         <div>
             <Map width="800" height="500" center={[x.lat, x.lng]} zoom={13} scrollWheelZoom={false} ref={mapRef}>
                 <>
@@ -120,13 +136,11 @@ const Markerwhatever = () => {
                 </>
             </Map>
         </div>
+        // </Suspense>
+
     );
 };
-const MarkerwhateverlWrapper: React.FC = () => (
-    <Suspense fallback={<div>Loading...</div>}>
-        <Markerwhatever />
-    </Suspense>
-);
 
 
-export default MarkerwhateverlWrapper;
+
+export default Markerwhatever;
