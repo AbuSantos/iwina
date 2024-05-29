@@ -16,7 +16,6 @@ const Header = ({ childId, data, role }) => {
             <div className='flex items-center justify-between py-2 px-2'>
                 <IoChevronBackSharp style={{ fontSize: "30px" }} onClick={() => router.back()} />
 
-
                 <div className={` bg-gray-900 rounded-3xl text-center flex items-center justify-between space-x-2 text-gray-100 text-sm p-2`}>
                     <div className="w-8 h-8">
                         <Image src={data?.image} alt={data?.username} width={50} height={50} />

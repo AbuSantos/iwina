@@ -6,9 +6,15 @@ import Back from "../ui/Back"
 import Notification from "../Notification"
 import { Fredoka } from "next/font/google"
 const fredoka = Fredoka({ subsets: ["latin"] })
-
+interface SessionUser {
+    id: string;
+    name?: string;
+    email?: string;
+    image?: string;
+}
 const Header = () => {
     const { data: session } = useSession()
+    const userId = (session.user as SessionUser).id
 
     return (
         <div className="  parent-header w-full">

@@ -11,12 +11,22 @@ import { IoMdLogOut } from "react-icons/io";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 
+
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
 
+interface SessionUser {
+    id: string;
+    name?: string;
+    email?: string;
+    image?: string;
+    role?: string;
+}
 const Header = () => {
     const { data: session } = useSession()
-    const role = (session?.user as any)?.role
+    const role = (session?.user as SessionUser)?.role
+    const id = (session?.user as SessionUser)?.id
+
     const [searchTask, setSearchTask] = useState(" ")
 
     return (

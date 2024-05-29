@@ -13,12 +13,16 @@ import ParentEvent from "@/components/ui/ParentEvent";
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
 
+interface SessionUser {
+  id: string;
+  name?: string;
+  email?: string;
+  image?: string;
+}
 const Home = () => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [provider, setProvider] = useState(null)
-  // const userId = (session?.user as any)?.id
-  // console.log(session);
-
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     const setProviders = async () => {
@@ -28,19 +32,35 @@ const Home = () => {
     setProviders()
   }, [])
 
-  // useEffect(() => {
-  const addKnockUSer = async () => {
-    const knockClient = new Knock("sk_test_-qFDqPZTV0Hi1FeA5U0ZICkqgkOljy2hNNs4e_1nrcQ")
-    const knockUser = await knockClient.users.identify((session?.user as any)?.id, {
-      name: session?.user?.name,
-      email: session?.user?.email
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      const user = session.user as SessionUser;
+      setUserId(user.id);
+    } else {
+      console.log("Session or user data is not available yet.");
     }
-    )
-    // const knockUser = await knockClient.users.get(userId);
-    // console.log(knockUser);
-  }
-  addKnockUSer()
-  // }, [])
+  }, [session, status]);
+
+  // if (status === "loading" || userId === null) {
+  //   return <div>Loading...</div>;
+
+  // }
+
+  useEffect(() => {
+    if (userId) {
+      const addKnockUser = async () => {
+        const knockClient = new Knock(
+          "sk_test_-qFDqPZTV0Hi1FeA5U0ZICkqgkOljy2hNNs4e_1nrcQ"
+        );
+        const knockUser = await knockClient.users.identify(userId, {
+          name: session?.user?.name,
+          email: session?.user?.email,
+        });
+        // console.log(knockUser);
+      };
+      addKnockUser();
+    }
+  }, [userId, session]);
 
   return (
     <div className="flex justify-center items-center flex-col w-full">
