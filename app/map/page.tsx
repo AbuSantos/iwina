@@ -83,6 +83,8 @@ const Markerwhatever = () => {
                     sendLocationData(latitude, longitude, accuracy);
                 });
             }
+        } else {
+            return null
         }
     }, [socket, familyLocationId]);
 
