@@ -122,21 +122,21 @@ const Markerwhatever = () => {
     }, [data]);
 
     return (
-        // <Suspense fallback={<div>Loading...</div>}>
-        <div>
-            <Map width="800" height="500" center={[x.lat, x.lng]} zoom={13} scrollWheelZoom={false} ref={mapRef}>
-                <>
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
-                    />
-                    {data.map((pos) => (
-                        <MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={pos} key={pos._id} />
-                    ))}
-                </>
-            </Map>
-        </div>
-        // </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+            <div>
+                <Map width="800" height="500" center={[x.lat, x.lng]} zoom={13} scrollWheelZoom={false} ref={mapRef}>
+                    <>
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+                        />
+                        {data.map((pos) => (
+                            <MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={pos} key={pos._id} />
+                        ))}
+                    </>
+                </Map>
+            </div>
+        </Suspense>
 
     );
 };

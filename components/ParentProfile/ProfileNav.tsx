@@ -2,11 +2,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import chevron from "@/public/images/chevron.svg"
+
 type ProfileType = {
     link: string,
     icon: string,
     title: string,
 }
+
 const ProfileNav = ({ profileLinks }) => {
     return (
         <div>
