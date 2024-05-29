@@ -72,8 +72,8 @@ const Markerwhatever = () => {
     }, [socket]);
 
     useEffect(() => {
-        if (socket) {
-            if (typeof navigator !== 'undefined' && navigator.geolocation) {
+        if (typeof window !== "undefined" && socket) {
+            if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
                     const { longitude, latitude, accuracy } = pos.coords;
                     sendLocationData(latitude, longitude, accuracy);
