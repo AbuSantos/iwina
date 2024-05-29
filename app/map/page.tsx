@@ -1,7 +1,7 @@
 'use client';
+import dynamic from 'next/dynamic';
 // import Map from "@/components/maps/Map";
 import { Icon } from "leaflet";
-import dynamic from 'next/dynamic';
 import { useEffect, useState, useRef, Suspense } from "react";
 import { TileLayer } from "react-leaflet";
 import L from "leaflet";
