@@ -5,7 +5,7 @@ import ProfileFooter from "@/components/ParentProfile/ProfileFooter"
 const fredoka = Fredoka({ subsets: ["latin"] })
 const poppins = Poppins({ subsets: ["latin"], weight: "400" })
 
-const Iwina = () => {
+const page = () => {
     return (
         <>
             <Header />
@@ -25,4 +25,4 @@ const Iwina = () => {
     )
 }
 
-export default Iwina
+export default page
