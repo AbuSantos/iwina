@@ -1,21 +1,11 @@
-"use client"
-import { useSession } from "next-auth/react"
 import parent from "@/public/images/parent.png"
 import Image from "next/image"
 import Back from "../ui/Back"
 import Notification from "../Notification"
 import { Fredoka } from "next/font/google"
 const fredoka = Fredoka({ subsets: ["latin"] })
-interface SessionUser {
-    id: string;
-    name?: string;
-    email?: string;
-    image?: string;
-}
-const Header = () => {
-    const { data: session } = useSession()
-    const userId = (session.user as SessionUser).id
 
+const Header = () => {
     return (
         <div className="  parent-header w-full">
             <div className="flex justify-between items-center p-2">
