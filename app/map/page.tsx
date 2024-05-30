@@ -10,8 +10,8 @@ import { useSession } from "next-auth/react";
 import { useTaskContext } from "@/context/TaskContext";
 import useSocket from "@/context/useSocket";
 
-const MainMarker = dynamic(() => import('@/components/maps/Marker'), { ssr: false });
-const Map = dynamic(() => import('../../components/maps/Map'), { ssr: false });
+const MainMarker = dynamic(() => import('@/components/maps/Marker').then(mod => mod.default), { ssr: false });
+const Map = dynamic(() => import('@/components/maps/Map').then(mod => mod.default), { ssr: false });
 
 const Markerwhatever = () => {
     const fillBlueOptions = { fillColor: 'blue' };
