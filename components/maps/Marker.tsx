@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState, useRef } from "react";
 import { Marker, useMap, } from "react-leaflet";
 import L from "leaflet"
