@@ -76,12 +76,16 @@ const Markerwhatever = () => {
     }, [socket]);
 
     useEffect(() => {
-        if (typeof window !== null && socket) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((pos) => {
-                    const { longitude, latitude, accuracy } = pos.coords;
-                    sendLocationData(latitude, longitude, accuracy);
-                });
+        if (typeof window !== "undefined" && socket) {
+            try {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        const { longitude, latitude, accuracy } = pos.coords;
+                        sendLocationData(latitude, longitude, accuracy);
+                    });
+                }
+            } catch (error) {
+                console.log(error.message);
             }
         }
         //     return null
