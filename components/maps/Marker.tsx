@@ -18,22 +18,26 @@ export default function MainMarker({ greenIcon, fillBlueOptions, data }) {
     }, [data]);
 
     function AddChildMarker(lat, lng, acc, username) {
-        if (map) {
-            // Remove previous circle and marker if they exist
-            if (circle) {
-                map.removeLayer(circle)
-                map.removeLayer(marker)
+        if (typeof window !== "undefined") {
+
+            if (map) {
+                // Remove previous circle and marker if they exist
+                if (circle) {
+                    map.removeLayer(circle)
+                    map.removeLayer(marker)
+                }
+                // Create circle and marker for the position
+                const newCircle = L.circle([lat, lng], { radius: acc }).addTo(map);
+                const newMarker = L.marker([lat, lng]).addTo(map).bindPopup(`${username} is currently here`);
+
+                setCircle(newCircle)
+                setMarker(newMarker)
+
+                // Fit the map's viewport to the bounds of the circle
+                map.fitBounds(newCircle.getBounds());
             }
-            // Create circle and marker for the position
-            const newCircle = L.circle([lat, lng], { radius: acc }).addTo(map);
-            const newMarker = L.marker([lat, lng]).addTo(map).bindPopup(`${username} is currently here`);
-
-            setCircle(newCircle)
-            setMarker(newMarker)
-
-            // Fit the map's viewport to the bounds of the circle
-            map.fitBounds(newCircle.getBounds());
         }
+
     }
 
     return null; // Return null because markers are added directly to the map
