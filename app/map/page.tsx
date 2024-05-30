@@ -1,6 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
-// import Map from "@/components/maps/Map";
+import Map from "@/components/maps/Map";
 import { Icon } from "leaflet";
 import { useEffect, useState, useRef, Suspense } from "react";
 import { TileLayer } from "react-leaflet";
@@ -11,7 +11,7 @@ import { useTaskContext } from "@/context/TaskContext";
 import useSocket from "@/context/useSocket";
 
 const MainMarker = dynamic(() => import('@/components/maps/Marker'), { ssr: false });
-const Map = dynamic(() => import('@/components/maps/Map'), { ssr: false });
+// const Map = dynamic(() => import('@/components/maps/Map'), { ssr: false });
 
 const Markerwhatever = () => {
     const fillBlueOptions = { fillColor: 'blue' };
@@ -76,16 +76,16 @@ const Markerwhatever = () => {
     }, [socket]);
 
     useEffect(() => {
-        if (typeof window !== "undefined" && socket) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((pos) => {
-                    const { longitude, latitude, accuracy } = pos.coords;
-                    sendLocationData(latitude, longitude, accuracy);
-                });
-            }
-        } else {
-            return null
+        // if (typeof window !== "undefined" && socket) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((pos) => {
+                const { longitude, latitude, accuracy } = pos.coords;
+                sendLocationData(latitude, longitude, accuracy);
+            });
         }
+        // } else {
+        //     return null
+        // }
     }, [socket, familyLocationId]);
 
     const sendLocationData = (lat, lng, acc) => {
@@ -128,21 +128,19 @@ const Markerwhatever = () => {
     }, [data]);
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <div>
-                <Map width="800" height="500" center={[x.lat, x.lng]} zoom={13} scrollWheelZoom={false} ref={mapRef}>
-                    <>
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
-                        />
-                        {data.map((pos) => (
-                            <MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={pos} key={pos._id} />
-                        ))}
-                    </>
-                </Map>
-            </div>
-        </Suspense>
+        <div>
+            <Map center={[x.lat, x.lng]} zoom={13} scrollWheelZoom={false} ref={mapRef}>
+                <>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+                    />
+                    {data.map((pos) => (
+                        <MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={pos} key={pos._id} />
+                    ))}
+                </>
+            </Map>
+        </div>
 
     );
 };

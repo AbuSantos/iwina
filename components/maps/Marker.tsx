@@ -8,12 +8,10 @@ export default function MainMarker({ greenIcon, fillBlueOptions, data }) {
     const [marker, setMarker] = useState(null)
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const { latitude, longitude, accuracy, username } = data;
+        const { latitude, longitude, accuracy, username } = data;
 
-            // Add marker for each position
-            AddChildMarker(latitude, longitude, accuracy, username);
-        }
+        // Add marker for each position
+        AddChildMarker(latitude, longitude, accuracy, username);
     }, [data]);
 
     function AddChildMarker(lat, lng, acc, username) {
