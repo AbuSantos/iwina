@@ -1,4 +1,4 @@
-import Maps from "@/components/maps/locattion"
+import Maps from "@/components/maps/location"
 
 const page = () => {
     return (

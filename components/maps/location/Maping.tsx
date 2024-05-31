@@ -1,12 +1,9 @@
 'use client';
 import dynamic from 'next/dynamic';
-// import Map from "@/components/maps/Map";
-import { Icon } from "leaflet";
 import { useEffect, useState, useRef, Suspense } from "react";
 // import { TileLayer } from "react-leaflet";
 const TileLayer = dynamic(() => import("react-leaflet").then(mod => mod.TileLayer), { ssr: false });
 import L from "leaflet";
-// import MainMarker from "@/components/maps/Marker";
 import { useSession } from "next-auth/react";
 import { useTaskContext } from "@/context/TaskContext";
 import useSocket from "@/context/useSocket";
@@ -24,7 +21,6 @@ const Location = () => {
         acc: 0,
         key: 0
     });
-
     const [position, setPosition] = useState([]);
     const mapRef = useRef(null);
     const { data: session } = useSession();
@@ -138,15 +134,15 @@ const Location = () => {
     return (
         <div>
             <Map center={[x.lat, x.lng]} zoom={13} scrollWheelZoom={false} ref={mapRef}>
-                {/* <> */}
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
-                />
-                {data.map((pos) => (
-                    <MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={pos} key={pos._id} />
-                ))}
-                {/* </> */}
+                <>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+                    />
+                    {data.map((pos) => (
+                        <MainMarker greenIcon={greenIcon} fillBlueOptions={fillBlueOptions} data={pos} key={pos._id} />
+                    ))}
+                </>
             </Map>
         </div>
 
