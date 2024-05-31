@@ -1,5 +1,5 @@
 import ServerComponent from '@/components/maps/FetchLocation';
-import Markerwhatever from '@/components/maps/Maping';
+import Markerwhatever from '@/components/maps/locattion/Maping';
 import { getServerSession } from 'next-auth';
 import { useSession } from 'next-auth/react';
 // import { getSession } from 'next-auth/react';
