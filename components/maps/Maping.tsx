@@ -1,63 +1,31 @@
 'use client';
 import dynamic from 'next/dynamic';
-// import Map from "@/components/maps/Map";
-import { Icon } from "leaflet";
-import { useEffect, useState, useRef, Suspense } from "react";
-// import { TileLayer } from "react-leaflet";
-const TileLayer = dynamic(() => import("react-leaflet").then(mod => mod.TileLayer), { ssr: false });
+import { useEffect, useState, useRef } from "react";
+import { TileLayer } from "react-leaflet";
 import L from "leaflet";
-// import MainMarker from "@/components/maps/Marker";
 import { useSession } from "next-auth/react";
-import { useTaskContext } from "@/context/TaskContext";
 import useSocket from "@/context/useSocket";
 
-const MainMarker = dynamic(() => import('../../components/maps/Marker').then(mod => mod.default), { ssr: false });
-const Map = dynamic(() => import('../../components/maps/Map').then(mod => mod.default), { ssr: false });
+const MainMarker = dynamic(() => import('@/components/maps/Marker').then(mod => mod.default), { ssr: false });
+const Map = dynamic(() => import('@/components/maps/Map').then(mod => mod.default), { ssr: false });
 
-const Markerwhatever = () => {
+const Markerwhatever = ({ initialData, userId, username, role, familyLocationId }) => {
     const fillBlueOptions = { fillColor: 'blue' };
-    const [data, setData] = useState([]);
-
+    const [data, setData] = useState(initialData);
     const [x, setX] = useState({
         lat: 0,
         lng: 0,
         acc: 0,
         key: 0
     });
-
     const [position, setPosition] = useState([]);
     const mapRef = useRef(null);
-    const { data: session } = useSession();
-    const { state, fetchTasks } = useTaskContext();
-    const [kidsData, setKidsData] = useState([])
-    const userId = (session?.user as any)?.id;
-    const username = (session?.user as any)?.name;
-    const role = (session?.user as any)?.role;
     const socket = useSocket('http://localhost:8080');
 
     useEffect(() => {
-        if (userId && role) {
-            const fetchkids = async () => {
-                try {
-                    const res = await fetch(`api/users/${userId}/user/kids?role=${role}`)
-                    if (!res.ok) {
-                        throw new Error('Failed to fetch kids')
-                    }
-                    const data = await res.json();
-                    setKidsData(data)
-                } catch (error) {
-                    console.log(error.message);
-                }
-            }
-            fetchkids()
-            // fetchTasks('GET', `api/users/${userId}/user/kids?role=${role}`);
-        }
-    }, [userId, role, fetchTasks]);
-
-    const familyLocationId = role === "parent" ? userId : kidsData?.[0]?.creator;
-
-    useEffect(() => {
         if (socket) {
+            console.log("socket connected");
+
             if (userId && familyLocationId) {
                 socket.emit("join-location", userId, familyLocationId);
             } else {
@@ -103,35 +71,9 @@ const Markerwhatever = () => {
     });
 
     useEffect(() => {
-        const fetchLocations = async () => {
-            try {
-                const res = await fetch(`api/location/${familyLocationId}/getlocation`);
-                if (!res.ok) {
-                    throw new Error("Failed to fetch locations");
-                }
-                const data = await res.json();
-                setData(data);
-            } catch (error) {
-                console.error("Error fetching locations", error);
-            }
-        };
-
-        if (familyLocationId) {
-            fetchLocations();
-        }
-    }, [familyLocationId]);
-
-    useEffect(() => {
         if (data.length > 0) {
             const lastPos = data[data.length - 1];
-            setX(
-                {
-                    lat: lastPos.latitude,
-                    lng: lastPos.longitude,
-                    acc: lastPos.accuracy,
-                    key: lastPos._id
-                }
-            );
+            setX({ lat: lastPos.latitude, lng: lastPos.longitude, acc: lastPos.accuracy, key: lastPos._id });
         }
     }, [data]);
 
@@ -149,10 +91,7 @@ const Markerwhatever = () => {
                 </>
             </Map>
         </div>
-
     );
 };
-
-
 
 export default Markerwhatever;

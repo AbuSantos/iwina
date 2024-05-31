@@ -12,12 +12,14 @@ const Marker = dynamic(() => import("react-leaflet").then(mod => mod.Marker), { 
 
 const Map = ({ children, className, width, height, ...rest }) => {
   useEffect(() => {
-    // Set up Leaflet default icon paths
-    Leaflet.Icon.Default.mergeOptions({
-      iconRetinaUrl: '/images/girlchild.png',
-      iconUrl: '/images/girlchild.png',
-      shadowUrl: '/images/marker-shadow.png',
-    });
+    if (typeof window !== 'undefined') {
+      // Set up Leaflet default icon paths
+      Leaflet.Icon.Default.mergeOptions({
+        iconRetinaUrl: '/images/girlchild.png',
+        iconUrl: '/images/girlchild.png',
+        shadowUrl: '/images/marker-shadow.png',
+      });
+    }
   }, []);
 
   return (
