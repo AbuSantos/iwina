@@ -39,7 +39,7 @@ const Notification = () => {
     if (!session || !session.user || !(session.user as any).id) {
         return <div>User not authenticated</div>; // Or redirect to login
     }
-    console.log(userId)
+    // console.log(userId)
 
     return (
         <Suspense fallback={<div>Loading notifications...</div>} >

@@ -56,10 +56,13 @@ const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt
             {
               mode === "feed" ? <div className=''>
                 <p className={`text-[1rem] tracking-tight text-gray-700 ${montserrat.className}`}>
-                  {
-                    isExpanded ? description : `${description.slice(0, 50)} ...`
-                  }
+                  {description ? (
+                    isExpanded ? description : `${description.slice(0, 50)}${description.length > 50 ? ' ...' : ''}`
+                  ) : (
+                    'No description available.'
+                  )}
                 </p>
+
                 {
                   description && description.length > 50 && (
                     <button onClick={toggleExpanded} className="text-blue-500 text-sm ">
