@@ -8,6 +8,11 @@ import { LuMessageSquare, LuUser2 } from "react-icons/lu";
 import { RiHome2Line } from "react-icons/ri";
 import { GrLocation } from "react-icons/gr";
 import { GrSchedules } from "react-icons/gr";
+import home from "@/public/images/home.svg"
+import msg from "@/public/images/msg.svg"
+import location from "@/public/images/location.svg"
+import calendar from "@/public/images/calendar.svg"
+import Image from 'next/image';
 
 
 const fredoka = Fredoka({ subsets: ["latin"] })
@@ -19,26 +24,17 @@ const BottomNav = () => {
 
     const navLinks = [
         {
-            link: '/', icon: <RiHome2Line style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Home"
+            link: '/', icon: home, title: "Home"
         },
         {
-            link: '/groupchat', icon: <LuMessageSquare style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Messages"
+            link: '/groupchat', icon: msg, title: "Messages"
         },
         {
-            link: '/map', icon: <GrLocation style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Location"
+            link: '/map', icon: location, title: "Location"
         },
         {
-            link: '/calendar', icon: <GrSchedules
-                style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "schedules"
+            link: '/calendar', icon: calendar, title: "schedules"
         },
-        // {
-        //     role ==="parent"?{
-        //         link: `/childprofile?id=${userId}`, icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "Profile"
-        //     }
-
-        // {
-        //     link: `/profile`, icon: <LuUser2 style={{ fontSize: 24, opacity: 0.7, color: "#000" }} />, title: "myProfile"
-        // },}
     ]
     const profileLink = role === "parent"
         ? { link: `/profile`, title: "My Profile" }
@@ -66,7 +62,8 @@ const BottomNav = () => {
                     navLinks.map((menu, index) => (
                         < Link href={menu.link} className={`text-[#6329b3d6] text-[0.8rem] ${fredoka.className}`}>
                             <div className="home flex flex-col items-center " key={index}>
-                                {menu.icon}
+                                <Image src={menu.icon} alt={menu.title} />
+                                {/* {menu.icon} */}
                                 {menu.title}
                             </div>
                         </Link>
