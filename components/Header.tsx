@@ -10,6 +10,7 @@ import Notification from "./Notification";
 import { IoMdLogOut } from "react-icons/io";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
+import Balance from "./ParentProfile/Balance";
 
 
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -51,13 +52,7 @@ const Header = () => {
 
                 </div>
                 {
-                    role === "parent" ? <div className=" bal-image relative flex flex-col items-center justify-center">
-                        <h3 className={`${fredoka.className} text-gray-300 text-center text-sm`}> Balance</h3>
-                        <h1 className="text-3xl text-gray-100">⭐️ 30,000,000</h1>
-                        <Link href="/createTask" className="absolute -bottom-2 text-gray-100 text-xl ">
-                            <FaPlus />
-                        </Link>
-                    </div> :
+                    role === "parent" ? <Balance /> :
                         <div className="flex items-center bg-gray-50 w-full p-2 rounded-md space-x-2">
                             <IoSearchOutline />
                             <input type="text" placeholder="Search for task" className="outline-none p2" />
