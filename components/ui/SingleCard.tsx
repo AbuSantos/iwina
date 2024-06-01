@@ -28,12 +28,14 @@ const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt
   };
 
   useEffect(() => {
-    if (description.includes("wash") || description.includes("plate") || description.includes("clean")) {
-      setSelectedImage(wash);
-    } else if (description.includes("room") || description.includes("dress") || description.includes("bed")) {
-      setSelectedImage(clean);
-    } else if (description.includes("food") || description.includes("fridge") || description.includes("Defrost") || description.includes("warm") || description.includes("cook")) {
-      setSelectedImage(food);
+    if (description) {
+      if (description.includes("wash") || description.includes("plate") || description.includes("clean")) {
+        setSelectedImage(wash);
+      } else if (description.includes("room") || description.includes("dress") || description.includes("bed")) {
+        setSelectedImage(clean);
+      } else if (description.includes("food") || description.includes("fridge") || description.includes("Defrost") || description.includes("warm") || description.includes("cook")) {
+        setSelectedImage(food);
+      }
     }
   }, [description]);
 
