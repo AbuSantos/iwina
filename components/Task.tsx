@@ -1,6 +1,4 @@
 "use client"
-import Link from "next/link";
-import TaskCard from "./TaskCard";
 import { useState, useEffect } from "react";
 import OngoingTask from "./OngoingTask";
 import CompletedTask from "./CompletedTask";

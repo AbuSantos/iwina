@@ -58,11 +58,8 @@ const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt
             {
               mode === "feed" ? <div className=''>
                 <p className={`text-[1rem] tracking-tight text-gray-700 ${montserrat.className}`}>
-                  {description ? (
-                    isExpanded ? description : `${description.slice(0, 50)}${description.length > 50 ? ' ...' : ''}`
-                  ) : (
-                    'No description available.'
-                  )}
+                  {isExpanded ? description :
+                    `${description.slice(0, 50)}${description.length > 50 ? ' ...' : ''}`}
                 </p>
 
                 {

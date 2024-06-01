@@ -43,7 +43,6 @@ const Feed = () => {
                     const isCurrentUserCreator = creator?._id === (session?.user)?.id
                     return (
                         <div className="text-gray-800 rounded-xl">
-
                             < SingleCard
                                 deadline={deadline}
                                 description={description}
