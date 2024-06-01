@@ -1,9 +1,10 @@
-"use client"
-import React, { useEffect, useState } from 'react'
+import AddFunds from '@/components/funds/AddFunds'
 
 const Point = () => {
     return (
-        <div></div>
+        <div>
+            <AddFunds />
+        </div>
     )
 }
 

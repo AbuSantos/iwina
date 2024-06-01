@@ -9,7 +9,7 @@ export const POST = async (req: NextRequest) => {
 
     // Validate required fields
     if (!userId || !amount) {
-      return new NextResponse(
+      return new Response(
         JSON.stringify({
           message: "Missing required fields for Adding new Funds",
         }),
@@ -18,7 +18,7 @@ export const POST = async (req: NextRequest) => {
     }
     const user = await User.findById(userId);
     if (!user) {
-      return new NextResponse(JSON.stringify({ message: "User not found" }), {
+      return new Response(JSON.stringify({ message: "User not found" }), {
         status: 404,
       });
     }
