@@ -70,7 +70,7 @@ const Home = () => {
             <Nav />
             <KidsScroll />
             <Task />
-            <ParentEvent />
+            <ParentEvent mode={"parent"} />
             <BottomNav />
           </> :
           <div>

@@ -9,13 +9,14 @@ import line from "@/public/images/line.svg"
 import lineB from "@/public/images/lineB.svg"
 const fredoka = Fredoka({ subsets: ["latin"] })
 
-const ParentEvent = () => {
+const ParentEvent = ({ mode }) => {
     const { data: session } = useSession()
     const userId = (session?.user as any)?.id
     const [dateData, setDateData] = useState([])
     const [isUpcomingData, setIsUpcomingData] = useState([])
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -50,7 +51,6 @@ const ParentEvent = () => {
             setIsUpcomingData(futureEvents);
         }
     }, [dateData]);
-    console.log(isUpcomingData.length);
 
     if (loading) {
         return <div className="flex justify-center items-center p-2 ">Loading Events...</div>;
@@ -67,7 +67,7 @@ const ParentEvent = () => {
                     See all
                 </Link>
             </header>
-            <section className="flex p-2 overflow-y-auto no-scrollbar gap-2">
+            <section className={`${mode === "child" ? " flex flex-col items-center" : "flex"} p-2 overflow-y-auto no-scrollbar gap-2`}>
                 {
                     isUpcomingData.length === 0 ? (
                         <div>
@@ -80,16 +80,16 @@ const ParentEvent = () => {
                             return (
                                 <div
                                     key={index}
-                                    className="flex bg-white border border-gray-200 rounded-lg shadow-lg w-[15rem] h-28 p-2 space-x-1"
+                                    className={`flex bg-white border border-gray-200 rounded-lg shadow-lg ${mode === "child" ? "w-full" : "w-[15rem]"} h-28 p-2 space-x-1`}
                                 >
                                     <div className="flex items-center space-x-3">
-                                        <Image src={line} alt="line" width={20} height={20} />
+                                        <Image src={line} alt="line" width={mode === "child" ? 5 : 20} height={20} />
                                         <span className="text-slate-500 text-[0.8rem]">{startDate}</span>
                                     </div>
 
                                     <div className="flex w-80 bg-violet-100 rounded-lg p-2 space-x-2">
                                         <div className="flex flex-col ">
-                                            <p className="text-lg font-semibold text-gray-900 capitalize">{title}</p>
+                                            <p className="text-sm font-semibold text-gray-900 capitalize ">{title}</p>
                                             <span className="text-slate-500 text-[0.6rem]">{username}</span>
                                         </div>
                                         {/* <Image src={image || parent} alt="parent" width={50} height={50} className="rounded-full" /> */}

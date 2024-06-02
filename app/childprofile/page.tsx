@@ -9,13 +9,9 @@ import ProfileHeader from '@/components/ChildView/childprofile/ProfileHeader';
 import { useSession } from 'next-auth/react';
 import Goals from '@/components/Goals/Goaltab/Goals';
 import Tab from '@/components/ui/Tab';
+import { KidData } from '@/types/types';
+import ChildEvent from '@/components/Events/ChildEvent';
 
-interface KidData {
-    username: string;
-    image: string;
-    completedTasks: any[]; // Adjust the type based on the actual data structure
-    points: number;
-}
 const ChildProfileView = () => {
     const params = useSearchParams()
     const childId = params.get("id")
@@ -42,21 +38,22 @@ const ChildProfileView = () => {
 
     return (
         <div className='' >
-            {role === "parent" ? <div className=''>
-                <Header childId={childId} data={data} role={role} />
-            </div> :
-                <header className="p-4">
-                    <ProfileHeader
-                        username={(data)?.username}
-                        image={data?.image}
-                        taskCount={(data?.
-                            completedTasks)?.length}
-                        points={data?.points}
-                    />
-                </header>
+            {
+                role === "parent" ? <div className=''>
+                    <Header childId={childId} data={data} role={role} />
+                </div> :
+                    <header className="p-4">
+                        <ProfileHeader
+                            username={(data)?.username}
+                            image={data?.image}
+                            taskCount={(data?.
+                                completedTasks)?.length}
+                            points={data?.points}
+                        />
+                    </header>
             }
             <div>
-                <Tab tab1={"Goals"} tab2={"Home"} activeTab={activeTab} handleTab={handleTab} />
+                <Tab tab1={"Goals"} tab2={"Home"} tab3={"About"} tab4={"Events"} activeTab={activeTab} handleTab={handleTab} />
             </div>
             {
                 activeTab === ("goals") && <Goals childId={childId} />
@@ -70,6 +67,14 @@ const ChildProfileView = () => {
                         < ChildViewCompletedTask childId={childId} role={role} />
                     </div>
                 </div>
+            }
+            {
+                activeTab === ("about") && <div>About</div>
+            }
+            {
+                activeTab === ("events") &&
+                <ChildEvent />
+
             }
 
             <BottomNav />
