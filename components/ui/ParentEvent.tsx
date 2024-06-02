@@ -22,10 +22,6 @@ const ParentEvent = () => {
                 const res = await fetch(`api/schedule/${userId}`)
                 const data = await res.json()
                 setDateData(data)
-                data.map((date) => {
-                    // console.log(date);
-                })
-
             } catch (error) {
                 setError(error.message)
             } finally {
@@ -34,23 +30,27 @@ const ParentEvent = () => {
         }
         fetchData();
     }, [userId]);
-    // console.log(dateData);
 
     useEffect(() => {
-        const currentDate = new Date();
         if (dateData) {
+            const currentDate = new Date();
             const futureEvents = [];
+            const archiveEvents = [];
+
             dateData.forEach((dates) => {
                 const eventTime = new Date(dates.timeLine);
-
-                if (currentDate > eventTime) {
-                    futureEvents.push(dates)
+                console.log(dates);
+                if (eventTime > currentDate) {
+                    futureEvents.push(dates);
+                } else {
+                    archiveEvents.push(dates);
                 }
             })
 
             setIsUpcomingData(futureEvents);
         }
     }, [dateData]);
+    console.log(isUpcomingData.length);
 
     if (loading) {
         return <div className="flex justify-center items-center p-2 ">Loading Events...</div>;
