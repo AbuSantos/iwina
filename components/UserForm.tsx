@@ -10,6 +10,7 @@ import aBoyChild from "@/public/images/aBoyChild.png"
 import { FaCamera } from "react-icons/fa";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import Input from './Input'
 // import Notification from './Notification'
 // import Notification, { showNotification } from "@/context/NotificationContext";
 
@@ -18,9 +19,19 @@ import "react-toastify/dist/ReactToastify.css";
 const UserForm = () => {
     const router = useRouter()
     const [userData, setUserData] = useState({
-        password: '',
         username: '',
-    })
+        password: '',
+        favTeachersName: '',
+        favFood: '',
+        allergies: '',
+        doctorsName: '',
+        birthday: '',
+        favColor: '',
+        bestFriendsName: '',
+        favArtiste: '',
+        favSong: '',
+        favSubject: '',
+    });
     const [selectAvatar, setSelectedAvatar] = useState(0)
     const [newTryAvatar, setNewTryAvatar] = useState("")
     const [selectImage, setSelectedImage] = useState("")
@@ -34,8 +45,6 @@ const UserForm = () => {
         // Retrieve selectedAvatar and newAvatar values from local storage during component initialization
         const storedSelectedAvatar = window.localStorage.getItem('user_selected_avatar_index');
         const storedNewAvatar = window.localStorage.getItem('user_selected_avatar_url');
-        console.log(storedSelectedAvatar);
-
         if (storedSelectedAvatar === null) {
             setSelectedImage(avatars[0]?.src);
         } else {
@@ -78,7 +87,6 @@ const UserForm = () => {
         }))
     }
     const userId = (session?.user as any)?.id
-    console.log(newAvatar);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -89,6 +97,16 @@ const UserForm = () => {
                     userId,
                     password: userData.password,
                     username: userData.username,
+                    favTeachersName: userData.favTeachersName,
+                    favFood: userData.favFood,
+                    allergies: userData.allergies,
+                    doctorsName: userData.doctorsName,
+                    birthday: userData.birthday,
+                    favColor: userData.favColor,
+                    bestFriendsName: userData.bestFriendsName,
+                    favArtiste: userData.favArtiste,
+                    favSong: userData.favSong,
+                    favSubject: userData.favSubject,
                     image: newAvatar ? newAvatar : selectImage,
                 }),
             })
@@ -115,16 +133,24 @@ const UserForm = () => {
             } else {
                 console.log("successfully added");
                 // router.push('/createTask')
-                // toast.success(<Notification msg={"Username added succesfully"} />)
-                // handleClick()
 
                 router.refresh()
                 // displayMsg()
             }
             setUserData({
-                password: '',
                 username: '',
-            })
+                password: '',
+                favTeachersName: '',
+                favFood: '',
+                allergies: '',
+                doctorsName: '',
+                birthday: '',
+                favColor: '',
+                bestFriendsName: '',
+                favArtiste: '',
+                favSong: '',
+                favSubject: '',
+            });
         } catch (error) {
             console.log(error);
 
@@ -234,17 +260,17 @@ const UserForm = () => {
 
             <form action="submit" onSubmit={handleSubmit} method="post">
                 <div className="flex flex-col  p-2">
-
                     <div className="p-2 w-full">
                         <input
                             type="text"
                             name="username"
-                            placeholder="Username"
+                            placeholder="Name"
                             onChange={handleChange}
                             value={userData.username}
                             required
-                            className="w-full flex  mt-2 p-4 text-sm text-gray-500 outline-0 shadow-sm border-2 border-gray-100 rounded-lg "
+                            className="w-full flex  mt-2 p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-500"
                         />
+
                     </div>
                     <div className="p-2">
                         <input
@@ -254,8 +280,89 @@ const UserForm = () => {
                             required
                             onChange={handleChange}
                             value={userData.password}
-                            className="w-full flex  mt-2 p-4 text-sm text-gray-500 outline-0 shadow-sm border-2 border-gray-100 rounded-lg "
+                            className="w-full flex p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-400"
 
+
+                        />
+                    </div>
+                    <div className='flex gap-1 mt-2 p-2'>
+                        <input
+                            type="text"
+                            name="birthday"
+                            placeholder="Birthday"
+                            onChange={handleChange}
+                            value={userData.birthday}
+                            required
+                            className="w-full flex p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-400"
+                        />
+                        <input
+                            type="text"
+                            name="favSubject"
+                            placeholder="Fav Subject"
+                            onChange={handleChange}
+                            value={userData.favSubject}
+                            required
+                            className="w-full flex p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-400"
+                        />
+                    </div>
+                    <div className='flex gap-1 mt-2 p-2'>
+                        <input
+                            type="text"
+                            name="favColor"
+                            placeholder="Fav Color"
+                            onChange={handleChange}
+                            value={userData.favColor}
+                            required
+                            className="w-full flex p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-400"
+                        />
+                        <input
+                            type="text"
+                            name="favFood"
+                            placeholder="Fav Food"
+                            onChange={handleChange}
+                            value={userData.favFood}
+                            required
+                            className="w-full flex p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-400"
+                        />
+                    </div>
+                    <div className='flex gap-1 mt-2  p-2'>
+                        <input
+                            type="text"
+                            name="doctorsName"
+                            placeholder="Doctors Name"
+                            onChange={handleChange}
+                            value={userData.doctorsName}
+                            required
+                            className="w-full flex p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-400"
+                        />
+                        <input
+                            type="text"
+                            name="favTeachersName"
+                            placeholder="Fav Teacher"
+                            onChange={handleChange}
+                            value={userData.favTeachersName}
+                            required
+                            className="w-full flex p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-400"
+                        />
+                    </div>
+                    <div className='flex gap-1 mt-2 p-2'>
+                        <input
+                            type="text"
+                            name="favSong"
+                            placeholder="Fav Song"
+                            onChange={handleChange}
+                            value={userData.favSong}
+                            required
+                            className="w-full flex p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-400"
+                        />
+                        <input
+                            type="text"
+                            name="favArtiste"
+                            placeholder="Fav Artiste"
+                            onChange={handleChange}
+                            value={userData.favArtiste}
+                            required
+                            className="w-full flex p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-400"
                         />
                     </div>
                     <div className='absolute bottom-20 flex space-x-8 items-center '>

@@ -11,6 +11,7 @@ import Goals from '@/components/Goals/Goaltab/Goals';
 import Tab from '@/components/ui/Tab';
 import { KidData } from '@/types/types';
 import ChildEvent from '@/components/Events/ChildEvent';
+import AboutChild from '@/components/ChildView/AboutChild';
 
 const ChildProfileView = () => {
     const params = useSearchParams()
@@ -30,7 +31,6 @@ const ChildProfileView = () => {
         }
         fetchKids()
     }, [childId])
-    // console.log(data);
 
     const handleTab = (tab: string) => {
         setActiveTab(tab)
@@ -69,7 +69,7 @@ const ChildProfileView = () => {
                 </div>
             }
             {
-                activeTab === ("about") && <div>About</div>
+                activeTab === ("about") && <AboutChild childId={childId} data={data} />
             }
             {
                 activeTab === ("events") &&

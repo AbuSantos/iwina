@@ -40,6 +40,7 @@ const KidsSchema = new Schema({
     type: String,
     required: false,
   },
+
   favColor: {
     type: String,
     required: false,
