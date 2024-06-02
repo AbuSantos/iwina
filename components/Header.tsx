@@ -11,18 +11,13 @@ import { IoMdLogOut } from "react-icons/io";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 import Balance from "./ParentProfile/Balance";
+import { SessionUser } from "@/types/types";
 
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
 
-interface SessionUser {
-    id: string;
-    name?: string;
-    email?: string;
-    image?: string;
-    role?: string;
-}
+
 const Header = () => {
     const { data: session } = useSession()
     const role = (session?.user as SessionUser)?.role

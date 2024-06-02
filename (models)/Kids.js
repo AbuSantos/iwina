@@ -20,6 +20,46 @@ const KidsSchema = new Schema({
     },
   ],
   image: { type: String },
+  favTeachersName: {
+    type: String,
+    required: false,
+  },
+  favFood: {
+    type: String,
+    required: false,
+  },
+  allergies: {
+    type: String,
+    required: false,
+  },
+  doctorsName: {
+    type: String,
+    required: false,
+  },
+  birthday: {
+    type: String,
+    required: false,
+  },
+  favColor: {
+    type: String,
+    required: false,
+  },
+  bestFriendsName: {
+    type: String,
+    required: false,
+  },
+  favArtiste: {
+    type: String,
+    required: false,
+  },
+  favSong: {
+    type: String,
+    required: false,
+  },
+  favSubject: {
+    type: String,
+    required: false,
+  },
   completedTasks: [
     {
       type: Schema.Types.ObjectId,
