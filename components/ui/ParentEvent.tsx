@@ -7,9 +7,10 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import line from "@/public/images/line.svg"
 import lineB from "@/public/images/lineB.svg"
+import { useSearchParams } from "next/navigation"
 const fredoka = Fredoka({ subsets: ["latin"] })
 
-const ParentEvent = ({ mode }) => {
+const ParentEvent = ({ mode, childId }) => {
     const { data: session } = useSession()
     const userId = (session?.user as any)?.id
     const [dateData, setDateData] = useState([])
@@ -37,18 +38,25 @@ const ParentEvent = ({ mode }) => {
             const currentDate = new Date();
             const futureEvents = [];
             const archiveEvents = [];
+            const childEvents = []
 
             dateData.forEach((dates) => {
                 const eventTime = new Date(dates.timeLine);
-                console.log(dates);
                 if (eventTime > currentDate) {
                     futureEvents.push(dates);
+                    if (dates.user === childId) {
+                        childEvents.push(dates)
+                    }
                 } else {
                     archiveEvents.push(dates);
                 }
             })
 
-            setIsUpcomingData(futureEvents);
+            if (mode === "child") {
+                setIsUpcomingData(childEvents);
+            } else {
+                setIsUpcomingData(futureEvents);
+            }
         }
     }, [dateData]);
 
@@ -59,6 +67,8 @@ const ParentEvent = ({ mode }) => {
     if (error) {
         return <div className="flex justify-center items-center p-2 ">Error: {error}</div>;
     }
+
+
     return (
         <div className=" w-full mb-20">
             <header className="flex justify-between p-2">
