@@ -53,7 +53,7 @@ const ChildProfileView = () => {
                     </header>
             }
             <div>
-                <Tab tab1={"Goals"} tab2={"Home"} tab3={"About"} tab4={"Events"} activeTab={activeTab} handleTab={handleTab} />
+                <Tab tab1={"Goals"} tab2={"Home"} tab3={"About"} tab4={"Events"} activeTab={activeTab} handleTab={handleTab} role={role} />
             </div>
             {
                 activeTab === ("goals") && <Goals childId={childId} />
@@ -68,14 +68,20 @@ const ChildProfileView = () => {
                     </div>
                 </div>
             }
-            {
-                activeTab === ("about") && <AboutChild childId={childId} data={data} />
-            }
-            {
-                activeTab === ("events") &&
-                <ChildEvent />
 
+            {
+                role === "parent" ? <>
+                    {
+                        activeTab === ("about") && <AboutChild childId={childId} data={data} />
+                    }
+                    {
+                        activeTab === ("events") &&
+                        <ChildEvent />
+
+                    }
+                </> : ""
             }
+
 
             <BottomNav />
         </div>
