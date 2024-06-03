@@ -2,18 +2,16 @@ import { Poppins } from 'next/font/google'
 import Image from 'next/image'
 const poppins = Poppins({ weight: '400', subsets: ["latin"] })
 const AboutChild = ({ childId, data }) => {
-    console.log(data)
     return (
-        <div className='text-slate-700 w-full'>
+        <div className='text-slate-700 w-full flex flex-col justify-center items-center '>
             <header className='flex items-center justify-center flex-col'>
                 <Image src={data.image} alt={data.username} width={100} height={100} />
-                <p className='text-xl'>{data.username}</p>
             </header>
-            <div className='space-y-3  w-[90%]'>
-                <section>
-                    <div className='flex gap-2 items-center justify-center text-2xl'>
-                        <span className="text-xl">Birthday: </span>
-                        <p>{data.birthday}</p>
+            <div className='space-y-3  w-[95%]'>
+                <section >
+                    <div className='flex gap-2 items-center justify-center '>
+                        <p className='text-xl'>{data.username}</p>
+                        <p className='text-xl'>{data.birthday}</p>
                     </div>
                 </section>
 
@@ -59,8 +57,8 @@ const AboutChild = ({ childId, data }) => {
                         <p className='text-xl text-slate-700 bg-slate-300 p-2 w-full'>{data.favColor}</p>
                     </div>
                 </section>
-            </div>
-        </div>
+            </div >
+        </div >
 
     )
 
