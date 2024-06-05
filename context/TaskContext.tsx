@@ -4,7 +4,7 @@ import { Action } from './types'
 
 // defining the initial state
 const initialState = {
-    data: null,
+    data: [],
     loading: false,
     error: null
 }

@@ -11,7 +11,7 @@ const taskSchema = new Schema(
       required: true,
     },
     taskDdl: {
-      type: Date,
+      type: String,
       required: true,
     },
     taskPnt: {

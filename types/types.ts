@@ -14,7 +14,7 @@ export interface SessionUser {
 }
 export interface TaskType {
   description?: String;
-  deadline: Date;
+  deadline: string;
   points?: number;
   status?: String;
   pickedBy?: String;

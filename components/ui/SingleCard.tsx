@@ -77,7 +77,7 @@ const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt
             </div>
 
             <p className={`text-[0.7rem] text-gray-900 ${fredoka.className}`}>
-              {formatTime(deadline)}
+              {deadline}
             </p>
           </div>
           <div className="flex items-center justify-between">

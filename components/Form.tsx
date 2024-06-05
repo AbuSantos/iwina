@@ -76,7 +76,7 @@ const Form = ({ type }: PropsType) => {
                     <div className="flex items-center gap-3">
                         <label htmlFor="deadline" className={`${fredoka.className} text-base text-gray-500  `}>
                             Deadline
-                            <Input placeholder="HH : MM" type="datetime" name="deadline"
+                            <Input placeholder="12:AM" type="text" name="deadline"
                                 id="deadline" className="w-2/4 rounded-none text-gray-950 outline-none" value={task.deadline} onChange={handleChange} />
                         </label>
                         <label htmlFor="points" className={`py-2 ${fredoka.className} text-base text-gray-500 `}>
