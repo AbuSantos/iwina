@@ -51,15 +51,17 @@ const OngoingTask = ({ setActiveTab }) => {
             {
                 data.map(task => {
                     const { taskDesc, taskDdl, taskPnt, status, createdAt } = task
-                    return (<div className="text-gray-800 flex justify-between items-center w-11/12 bg-[#dfd7fb] rounded-xl">
+                    return (
+                        <div className="text-gray-800 flex justify-between items-center w-11/12 bg-[#dfd7fb] rounded-xl">
 
-                        < TaskCard
-                            description={taskDesc}
-                            deadline={taskDdl}
-                            points={taskPnt}
-                            status={status}
-                            createdAt={createdAt} />
-                    </div>
+                            < TaskCard
+                                description={taskDesc}
+                                deadline={taskDdl}
+                                points={taskPnt}
+                                status={status}
+                                createdAt={createdAt}
+                            />
+                        </div>
                     )
                 }
                 )

@@ -14,11 +14,11 @@ export interface SessionUser {
 }
 export interface TaskType {
   description?: String;
-  deadline: string;
+  deadline?: string;
   points?: number;
   status?: String;
   pickedBy?: String;
   createdAt?: Date;
-  mode: string;
+  mode?: string;
   onOpen?: () => void;
 }

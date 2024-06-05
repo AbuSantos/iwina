@@ -8,6 +8,7 @@ import Image from "next/image";
 import { AiOutlineComment } from "react-icons/ai";
 import InputSlider from "./InputSlider";
 import { useTaskContext } from "@/context/TaskContext";
+import CommentModal from "../tasks/CommentModal";
 
 
 type ChildIdType = {
@@ -16,14 +17,10 @@ type ChildIdType = {
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 const ChildOngoingTask = ({ childId, data, role }) => {
-    const { data: session } = useSession();
     const { state, fetchTasks } = useTaskContext()
-    const userRole = (session?.user as any)?.role;
-    // console.log(userRole);
-
+    const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
-
         fetchTasks("GET", `api/tasks/${childId}/inprogress`)
     }, [childId]);
 
@@ -31,7 +28,9 @@ const ChildOngoingTask = ({ childId, data, role }) => {
     if (state.loading) return <p>Loading...</p>;
     // console.log(state.data);
 
-
+    const handleModal = () => {
+        setOpenModal((prev) => !prev)
+    }
     return (
         <div className={`border-2 bg-[#dfd7fb] font-medium rounded-xl py-2 px-3 w-11/12`}>
             <div>
@@ -48,19 +47,29 @@ const ChildOngoingTask = ({ childId, data, role }) => {
                         <div className=" w-full ">
                             <InputSlider />
                         </div>
+
+
                         <div className="flex items-center justify-around mt-6">
-                            <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
-                                <AiOutlineComment />
-                                <span className="ml-2 text-sm">
-                                    Comment
-                                </span>
-                            </button>
-                            <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
-                                🕝
-                                <span className="ml-2 text-sm">
-                                    Remind
-                                </span>
-                            </button>
+                            {
+                                role === "child" ?
+                                    <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg " onClick={handleModal}>
+                                        <AiOutlineComment />
+                                        <span className="ml-2 text-sm">
+                                            Comment
+                                        </span>
+                                    </button> : <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
+                                        🕝
+                                        <span className="ml-2 text-sm">
+                                            Remind
+                                        </span>
+                                    </button>
+
+                            }
+
+                            {
+                                openModal && <CommentModal setOpenModal={setOpenModal} />
+                            }
+
                         </div>
                     </>
                 ))}

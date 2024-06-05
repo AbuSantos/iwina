@@ -12,7 +12,7 @@ const InputSlider: React.FC = () => {
 
         const showSliderValue = () => {
             if (rangeSlider && rangeBullet) {
-                //@ts-ignore
+                // @ts-ignore
                 rangeBullet.innerHTML = rangeSlider.value;
                 //@ts-ignore
                 const bulletPosition = rangeSlider.value / rangeSlider.max;
@@ -27,10 +27,10 @@ const InputSlider: React.FC = () => {
     }, []);
 
     const { data: session } = useSession()
-
     useEffect(() => {
         if (session?.user?.image) {
-            document.documentElement.style.setProperty('--session-image', `url(https://res.cloudinary.com/du5poiq3l/image/upload/v1712149065/rqmbrjnkdfiomjvl17xb.png)`);
+            const userImage = session?.user?.image
+            document.documentElement.style.setProperty('--session-image', userImage);
         } else {
             document.documentElement.style.setProperty('--session-image', 'none');
         }

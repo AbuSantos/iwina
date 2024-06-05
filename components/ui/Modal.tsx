@@ -141,7 +141,7 @@ const Modal = ({ taskId, onClose, points, deadline, description, status, pickedB
                     status={status}
                     pickedBy={pickedBy}
                     createdAt={createdAt}
-                    deadline={deadline as unknown as Date}
+                    deadline={deadline}
                     points={points}
                     mode="modal"
                 />

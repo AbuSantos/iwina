@@ -6,7 +6,7 @@ import Image from "next/image"
 import ongoingchore from "@/public/images/ongoingchore.png"
 import { Montserrat } from "next/font/google"
 import { useTaskContext } from "@/context/TaskContext"
-
+import { TaskType } from "@/types/types"
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 const CompletedTask = ({ setActiveTab }) => {
@@ -21,7 +21,7 @@ const CompletedTask = ({ setActiveTab }) => {
 
     interface TaskType {
         taskDesc: string,
-        taskDdl: Date,
+        taskDdl: string,
         taskPnt: number,
         status: string,
         createdAt: Date,
