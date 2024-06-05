@@ -52,6 +52,7 @@ const Form = ({ type }: PropsType) => {
         }
 
     }
+
     const handleChange = (e) => {
         const { name, value } = e.target
         setTask((prev) => ({ ...prev, [name]: value }))

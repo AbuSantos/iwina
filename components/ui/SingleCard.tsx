@@ -6,20 +6,11 @@ import clean from "@/public/images/clean.svg"
 import wash from "@/public/images/wash.svg"
 import food from "@/public/images/food.svg"
 import { formatTime } from '@/lib/FormatTime'
+import { TaskType } from '@/types/types'
 import { Fredoka, Montserrat } from 'next/font/google'
 const fredoka = Fredoka({ subsets: ["latin"] })
 const montserrat = Montserrat({ subsets: ["latin"] })
 
-type TaskType = {
-  description?: String,
-  deadline: Date,
-  points?: number,
-  status?: String,
-  pickedBy?: String,
-  createdAt?: Date,
-  mode: string,
-  onOpen?: () => void
-}
 const SingleCard = ({ description, deadline, points, status, pickedBy, createdAt, onOpen, mode }: TaskType) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [selectImage, setSelectedImage] = useState()

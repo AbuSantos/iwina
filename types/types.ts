@@ -12,3 +12,13 @@ export interface SessionUser {
   image?: string;
   role?: string;
 }
+export interface TaskType {
+  description?: String;
+  deadline: Date;
+  points?: number;
+  status?: String;
+  pickedBy?: String;
+  createdAt?: Date;
+  mode: string;
+  onOpen?: () => void;
+}

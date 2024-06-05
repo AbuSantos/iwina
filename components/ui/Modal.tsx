@@ -151,7 +151,7 @@ const Modal = ({ taskId, onClose, points, deadline, description, status, pickedB
                         <div className="flex flex-col space-y-2 ">
                             <button className='bg-[#6229b3] p-4 '
                                 onClick={acceptTask}
-                            // disabled={isRewarded}
+                                disabled={isRewarded}
                             >
                                 {
                                     isRewarded ? "Rewarded" :

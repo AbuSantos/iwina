@@ -96,7 +96,7 @@ const UserForm = () => {
                 body: JSON.stringify({
                     userId,
                     password: userData.password,
-                    username: userData.username,
+                    username: userData.username.toLowerCase(),
                     favTeachersName: userData.favTeachersName,
                     favFood: userData.favFood,
                     allergies: userData.allergies,
