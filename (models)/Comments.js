@@ -31,5 +31,5 @@ const CommentSchema = new Schema(
   { timestamps: true }
 );
 
-//if no task, create a new one
+//if no comment, create a new one
 export const Comments = models.Comments || model("Comments", CommentSchema);
