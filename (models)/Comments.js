@@ -11,6 +11,10 @@ const CommentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    childId: {
+      type: Schema.Types.ObjectId,
+      ref: "Kids",
+    },
     message: {
       type: String,
       required: true,
@@ -26,3 +30,6 @@ const CommentSchema = new Schema(
   },
   { timestamps: true }
 );
+
+//if no task, create a new one
+export const Comments = models.Comments || model("Comments", CommentSchema);
