@@ -8,30 +8,49 @@ import { useEffect, useState } from "react"
 import line from "@/public/images/line.svg"
 import lineB from "@/public/images/lineB.svg"
 import { useSearchParams } from "next/navigation"
+import { SessionUser } from "@/types/types"
 const fredoka = Fredoka({ subsets: ["latin"] })
 
 const ParentEvent = ({ mode, childId }) => {
     const { data: session } = useSession()
-    const userId = (session?.user as any)?.id
+    const userId = (session?.user as SessionUser)?.id
+    const role = (session?.user as SessionUser)?.role
     const [dateData, setDateData] = useState([])
     const [isUpcomingData, setIsUpcomingData] = useState([])
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [kids, setKids] = useState([])
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await fetch(`api/schedule/${userId}`)
+        const fetchKids = async () => {
+            const res = await fetch(`api/users/${userId}/user/kids?role=${role}`);
+            if (res.ok) {
                 const data = await res.json()
-                setDateData(data)
-            } catch (error) {
-                setError(error.message)
-            } finally {
-                setLoading(false)
+                setKids(data)
             }
         }
-        fetchData();
-    }, [userId]);
+        fetchKids()
+    }, [userId, role])
+
+    const familyId = role === "parent" ? userId : kids?.[0]?.creator
+
+    useEffect(() => {
+        if (familyId) {
+            const fetchData = async () => {
+                try {
+                    const res = await fetch(`api/schedule/${familyId}`);
+                    if (!res.ok) throw new Error("Failed to fetch schedule");
+                    const data = await res.json();
+                    setDateData(data);
+                } catch (error) {
+                    setError(error.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchData();
+        }
+    }, [userId, familyId]);
 
     useEffect(() => {
         if (dateData) {
