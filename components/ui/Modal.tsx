@@ -121,7 +121,7 @@ const Modal = ({ taskId, onClose, points, deadline, description, status, pickedB
 
     //@ts-ignore
     const isCreator = creator._id === (session?.data?.user as any)?.id
-    console.log(isCreator, creator);
+    // console.log(isCreator, creator);
 
     const isCompleted = status === "Completed" || "Rewarded"
     const isRewarded = status === "Rewarded"
@@ -151,7 +151,7 @@ const Modal = ({ taskId, onClose, points, deadline, description, status, pickedB
                         <div className="flex flex-col space-y-2 ">
                             <button className='bg-[#6229b3] p-4 '
                                 onClick={acceptTask}
-                                disabled={isRewarded}
+                            // disabled={isRewarded}
                             >
                                 {
                                     isRewarded ? "Rewarded" :
