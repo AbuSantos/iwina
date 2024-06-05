@@ -13,15 +13,14 @@ const CommentModal = ({ setOpenModal }) => {
             <div className="relative p-4 w-full max-w-2xl h-3/6 text-gray-200 bg-[#dfd7fb] rounded-tl-3xl rounded-tr-3xl dark:bg-gray-700 slide-In">
                 <div className="flex justify-end">
                     <button
-                        className="text-gray-200 text-lg"
+                        className="text-gray-200 text-3xl"
                         onClick={() => setOpenModal(false)}
                     >
-                        close
                         <IoClose />
                     </button>
                 </div>
                 <div>
-                    This is the comment on a task
+                  
                 </div>
             </div>
         </div>
