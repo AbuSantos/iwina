@@ -7,6 +7,7 @@ import { IoImagesOutline } from "react-icons/io5";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 import parent from "@/public/images/parent.png";
 import Image from 'next/image';
+import { SessionUser } from '@/types/types';
 
 const MessageForm = () => {
     const [messages, setMessages] = useState([]);
@@ -20,7 +21,7 @@ const MessageForm = () => {
     const messageContainerRef = useRef<HTMLDivElement>(null)
 
     const userId = (session?.user as any)?.id
-    const role = (session?.user as any)?.role
+    const role = (session?.user as SessionUser)?.role
 
     // Create a ref for the socket connection
     const socket = useSocket("http://localhost:8080")
@@ -78,7 +79,7 @@ const MessageForm = () => {
 
         }
     }, [scrollIntoViewBool]);
-    
+
     useEffect(() => {
         const secondMessage = messages[messages.length - 2];
 

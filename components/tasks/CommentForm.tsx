@@ -1,6 +1,8 @@
 "use client"
 import { Messages } from '@/(models)/Message'
 import useSocket from '@/context/useSocket'
+import { SessionUser } from '@/types/types'
+import { useSession } from 'next-auth/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { IoImagesOutline } from 'react-icons/io5'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
@@ -11,16 +13,20 @@ const CommentForm = ({ taskId, user, creator }) => {
     const [isPreviousMessage, setIsPreviousMessage] = useState<boolean>(false);
     const [scrollIntoViewBool, setScrollIntoViewBool] = useState(null)
     const messageContainerRef = useRef<HTMLDivElement>(null)
+    const { data: session } = useSession()
+
 
     const socket = useSocket("http://localhost:8080")
     const commentRoomId = taskId
+    const userId = (session?.user as SessionUser)?.id
+
 
     const sendMessage = (e) => {
         e.preventDefault()
         // Check that there is a nonempty message and socket is present
 
-        if (socket && currentMessage && user && creator && commentRoomId) {
-            socket.emit("send-comment", currentMessage, user, creator, commentRoomId);
+        if (socket && currentMessage && user && creator && commentRoomId && userId) {
+            socket.emit("send-comment", currentMessage, user, creator, commentRoomId, userId);
             setCurrentMessage("")
         }
     };

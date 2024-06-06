@@ -26,7 +26,6 @@ const ChildOngoingTask = ({ childId, data }) => {
     }, [childId]);
     // Return loading indicator while fetching data
     if (state.loading) return <p>Loading...</p>;
-    console.log(state.data);
 
 
     return (
