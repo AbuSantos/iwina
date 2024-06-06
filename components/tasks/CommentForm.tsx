@@ -1,13 +1,16 @@
 "use client"
 import { Messages } from '@/(models)/Message'
 import useSocket from '@/context/useSocket'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IoImagesOutline } from 'react-icons/io5'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
 
 const CommentForm = ({ taskId, user, creator }) => {
     const [currentMessage, setCurrentMessage] = useState("")
     const [messages, setMessage] = useState([])
+    const [isPreviousMessage, setIsPreviousMessage] = useState<boolean>(false);
+    const [scrollIntoViewBool, setScrollIntoViewBool] = useState(null)
+    const messageContainerRef = useRef<HTMLDivElement>(null)
 
     const socket = useSocket("http://localhost:8080")
     const commentRoomId = taskId
@@ -21,6 +24,20 @@ const CommentForm = ({ taskId, user, creator }) => {
             setCurrentMessage("")
         }
     };
+    useEffect(() => {
+        if (messages.length > 0) {
+            const isLastMessage = messages[messages.length - 1];
+            setScrollIntoViewBool(isLastMessage);
+        }
+    }, [messages]);
+    useEffect(() => {
+        if (scrollIntoViewBool) {
+            const messageElement = messageContainerRef.current;
+            messageElement.scrollIntoView({ behavior: "smooth", block: "end" });
+
+
+        }
+    }, [scrollIntoViewBool]);
 
     useEffect(() => {
         if (socket) {
@@ -39,15 +56,15 @@ const CommentForm = ({ taskId, user, creator }) => {
             // Set up the event listener for receiving messages
             socket.on('receive-comment', (message, user, parent) => {
                 console.log(`Received comment from ${user}: ${message}`);
-                // setIsSender(userId === senderID)
                 setMessage((prevMessages) => [...prevMessages, { message, user, parent }]);
             });
         }
     }, [socket]);
 
     return (
-        <div>
-            <div>
+        <div  >
+
+            <div ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '100%' }} className='bg-red-500'>
                 {
                     messages.map((message, index) => {
                         return (

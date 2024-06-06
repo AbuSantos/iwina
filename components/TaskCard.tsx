@@ -15,7 +15,6 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt, 
 
     const handleModal = () => {
         setOpenModal((prev) => !prev)
-        // joinRoom()
     }
 
     return (
