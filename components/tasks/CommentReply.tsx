@@ -9,6 +9,7 @@ const CommentReply = ({ taskId }) => {
             const fetchComment = async () => {
                 try {
                     const res = await fetch(`api/comments/${taskId}`)
+                    console.log(res)
                     if (!res) {
                         throw new Error("No Data found")
                     }

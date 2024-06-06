@@ -9,7 +9,12 @@ interface Params {
 export const GET = async (req: NextRequest, { params }: { params: Params }) => {
   try {
     await connectToDB();
-    const comments = await Comments.find({ roomId: params.id });
+
+    const comments = await Comments.find({ roomId: params.id })
+      .populate("childId")
+      .populate("taskId")
+      .populate("parentId");
+
     return new Response(JSON.stringify(comments), { status: 200 });
   } catch (error) {
     return new Response(

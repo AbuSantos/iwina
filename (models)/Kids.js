@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema, model, models } = mongoose;
 
-const KidsSchema = new Schema({
+const kidsSchema = new Schema({
   creator: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -75,6 +75,6 @@ const KidsSchema = new Schema({
   ],
 });
 
-const Kids = models.KidsSchema || model("KidsSchema", KidsSchema);
+const Kids = models.Kids || model("Kids", kidsSchema);
 
 export default Kids;
