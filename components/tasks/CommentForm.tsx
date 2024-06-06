@@ -10,37 +10,37 @@ const CommentForm = ({ taskId, user, creator }) => {
     const [messages, setMessage] = useState([])
 
     const socket = useSocket("http://localhost:8080")
-    const roomId = taskId
+    const commentRoomId = taskId
 
-    const sendMessage = async (e) => {
+    const sendMessage = (e) => {
         e.preventDefault()
         // Check that there is a nonempty message and socket is present
 
-        if (socket && currentMessage && user && creator && roomId) {
-            await socket.emit("send-comment", currentMessage, user, creator, roomId);
+        if (socket && currentMessage && user && creator && commentRoomId) {
+            socket.emit("send-comment", currentMessage, user, creator, commentRoomId);
             setCurrentMessage("")
         }
     };
 
     useEffect(() => {
         if (socket) {
-            if (socket && user && creator && roomId) {
-                socket.emit("join-comment", user, creator, roomId)
+            if (socket && user && creator && commentRoomId) {
+                socket.emit("join-comment", user, creator, commentRoomId)
             } else {
                 console.log("you cannot join this room")
             }
         }
-    }, [socket, user, roomId])
+    }, [socket, user, commentRoomId, creator])
 
 
     useEffect(() => {
         // Initialize the socket connection once
         if (socket) {
             // Set up the event listener for receiving messages
-            socket.on("receive-comment", (message: string, user, parent) => {
-                console.log("message", message, user, parent);
+            socket.on('receive-comment', (message, user, parent) => {
+                console.log(`Received comment from ${user}: ${message}`);
                 // setIsSender(userId === senderID)
-                setMessage((prevMessages) => [...prevMessages, { message, user }]);
+                setMessage((prevMessages) => [...prevMessages, { message, user, parent }]);
             });
         }
     }, [socket]);

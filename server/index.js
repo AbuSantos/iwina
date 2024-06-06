@@ -49,11 +49,11 @@ server.on("connection", async (socket) => {
     }
   });
 
-  socket.on("join-comment", (user, parent, roomId) => {
-    console.log(roomId, "room");
-    if (user && parent && roomId) {
-      socket.join(roomId);
-      commentRooms[socket.io] = roomId;
+  socket.on("join-comment", (user, parent, commentRoomId) => {
+    console.log(commentRoomId, "room");
+    if (user && parent && commentRoomId) {
+      socket.join(commentRoomId);
+      commentRooms[socket.id] = commentRoomId;
       // console.log(`${socket.id} joined ${roomId}`);
     } else {
       console.log("User Id, room Id or Parent Id missing");
@@ -95,13 +95,15 @@ server.on("connection", async (socket) => {
     }
   });
 
-  socket.on("send-comment", (message, user, parent, roomId) => {
+  socket.on("send-comment", (message, user, parent, commentRoomId) => {
     // we check if we've roomId, then we check if the id is in the commentroom
-    if (roomId && commentRooms[socket.io] === roomId) {
-      socket.to(roomId).emit("receive-comment", message, user, parent);
+    if (commentRoomId && commentRooms[socket.id] === commentRoomId) {
+      console.log(`${user}  Sending message to room: ${commentRoomId}`);
+
+      socket.to(commentRoomId).emit("receive-comment", message, user, parent);
       socket.emit("receive-comment", message, user, parent);
     } else {
-      console.log(`User ${socket.id} not in room ${roomId}`);
+      console.log(`User ${socket.id} not in room ${commentRoomId}`);
     }
   });
 
