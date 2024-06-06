@@ -57,7 +57,7 @@ export const PATCH = async (
       existingTask.user = status === "In Progress" ? userId : null;
 
       const pickedUser = await Kids.findById(userId).exec();
-      console.log(existingTask, "picked by username");
+      // console.log(existingTask, "picked by username");
       // console.log(pickedUser, "picked");
 
       if (!pickedUser) {

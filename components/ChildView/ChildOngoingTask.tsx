@@ -9,6 +9,7 @@ import { AiOutlineComment } from "react-icons/ai";
 import InputSlider from "./InputSlider";
 import { useTaskContext } from "@/context/TaskContext";
 import CommentModal from "../tasks/CommentModal";
+import { SessionUser, TaskType } from "@/types/types";
 
 
 type ChildIdType = {
@@ -16,26 +17,23 @@ type ChildIdType = {
 }
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-const ChildOngoingTask = ({ childId, data, role }) => {
+const ChildOngoingTask = ({ childId, data }) => {
     const { state, fetchTasks } = useTaskContext()
-    const [openModal, setOpenModal] = useState(false)
-
+    const { data: session } = useSession()
+    const role = (session?.user as SessionUser).role
     useEffect(() => {
         fetchTasks("GET", `api/tasks/${childId}/inprogress`)
     }, [childId]);
-
     // Return loading indicator while fetching data
     if (state.loading) return <p>Loading...</p>;
-    // console.log(state.data);
+    console.log(state.data);
 
-    const handleModal = () => {
-        setOpenModal((prev) => !prev)
-    }
+
     return (
-        <div className={`border-2 bg-[#dfd7fb] font-medium rounded-xl py-2 px-3 w-11/12`}>
-            <div>
+        <div className={`font-medium  py-2 px-3 w-11/12`}>
+            <div className="">
                 {state.data?.map((task) => (
-                    <>
+                    < div className="mt-4 rounded-xl  bg-[#dfd7fb] p-3" >
                         <TaskCard
                             key={task._id} // Make sure to include a unique key for each TaskCard
                             status={task.status}
@@ -43,35 +41,15 @@ const ChildOngoingTask = ({ childId, data, role }) => {
                             deadline={task.taskDdl}
                             points={task.taskPnt}
                             createdAt={task.createdAt}
+                            role={role}
+                            taskId={task._id}
+                            user={task.user}
+                            creator={task.creator}
                         />
                         <div className=" w-full ">
                             <InputSlider />
                         </div>
-
-
-                        <div className="flex items-center justify-around mt-6">
-                            {
-                                role === "child" ?
-                                    <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg " onClick={handleModal}>
-                                        <AiOutlineComment />
-                                        <span className="ml-2 text-sm">
-                                            Comment
-                                        </span>
-                                    </button> : <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
-                                        🕝
-                                        <span className="ml-2 text-sm">
-                                            Remind
-                                        </span>
-                                    </button>
-
-                            }
-
-                            {
-                                openModal && <CommentModal setOpenModal={setOpenModal} />
-                            }
-
-                        </div>
-                    </>
+                    </div>
                 ))}
 
 

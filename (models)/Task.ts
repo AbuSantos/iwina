@@ -29,7 +29,7 @@ const taskSchema = new Schema(
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Kids",
     },
     children: [
       {

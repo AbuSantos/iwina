@@ -21,4 +21,8 @@ export interface TaskType {
   createdAt?: Date;
   mode?: string;
   onOpen?: () => void;
+  role?: string;
+  taskId?: string;
+  user?: string;
+  creator?: string;
 }

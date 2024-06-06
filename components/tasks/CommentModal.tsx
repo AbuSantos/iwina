@@ -1,7 +1,9 @@
 import React from 'react'
 import { IoClose } from 'react-icons/io5'
+import CommentForm from './CommentForm'
+import CommentReply from './CommentReply'
 
-const CommentModal = ({ setOpenModal }) => {
+const CommentModal = ({ setOpenModal, taskId, user, creator }) => {
     return (
         <div className="fixed inset-0 z-50 flex items-end justify-center">
 
@@ -20,7 +22,8 @@ const CommentModal = ({ setOpenModal }) => {
                     </button>
                 </div>
                 <div>
-                  
+                    <CommentReply />
+                    <CommentForm taskId={taskId} user={user} creator={creator} />
                 </div>
             </div>
         </div>

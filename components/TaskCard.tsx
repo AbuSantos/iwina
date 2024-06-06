@@ -1,19 +1,25 @@
 import { FormatTimeDifference, formatTime } from '@/lib/FormatTime'
 import { Fredoka, Montserrat } from 'next/font/google'
-import { useRouter } from 'next/navigation'
-import SingleCard from './ui/SingleCard';
 import { TaskType } from '@/types/types';
+import { AiOutlineComment } from 'react-icons/ai';
+import { useState } from 'react';
+import CommentModal from './tasks/CommentModal';
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
-const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }: TaskType) => {
+
+const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt, role, taskId, user, creator }: TaskType) => {
+    const [openModal, setOpenModal] = useState(false)
+
+    const handleModal = () => {
+        setOpenModal((prev) => !prev)
+    }
 
     return (
         <div className="prompt_card">
-            <div className="flex justify-between gap-5 items-center ">
+            <div className="">
                 <div
-                    className="flex "
-                // onClick={() => router.push(`/user?id=${prompt.creator._id}`)}
+                    className=""
                 >
                     <div className="flex flex-col p-3">
                         <p className="text-[0.8rem] text-gray-500 ml-4 ">
@@ -37,6 +43,38 @@ const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt }
                         </p> */}
                         <span className='p-2 text-gray-500 text-[0.7rem]'> {FormatTimeDifference(createdAt)}</span>
                     </div>
+                </div>
+                <div className="flex items-center justify-around p-2">
+                    {
+                        role && role === "child" ?
+                            <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg " onClick={handleModal}>
+                                <AiOutlineComment />
+                                <span className="ml-2 text-sm">
+                                    Comment
+                                </span>
+                            </button> :
+                            <>
+                                <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg " onClick={handleModal}>
+                                    <AiOutlineComment />
+                                    <span className="ml-2 text-sm">
+                                        Comment
+                                    </span>
+                                </button>
+                                <button className="flex items-center justify-center bg-[#6229b3] text-[#dfd7fb] py-2 px-5 rounded-lg ">
+                                    🕝
+                                    <span className="ml-2 text-sm">
+                                        Remind
+                                    </span>
+                                </button>
+                            </>
+
+                    }
+
+                    {
+                        openModal &&
+                        <CommentModal setOpenModal={setOpenModal} taskId={taskId} user={user} creator={creator} />
+                    }
+
                 </div>
             </div>
         </div>

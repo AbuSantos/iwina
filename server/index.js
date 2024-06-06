@@ -32,6 +32,7 @@ const connectDB = async () => {
 };
 // Map of users to their respective rooms
 const userRooms = {};
+
 const userLocations = {};
 
 server.on("connection", async (socket) => {
@@ -47,6 +48,12 @@ server.on("connection", async (socket) => {
       console.log("User ID or room ID missing");
     }
   });
+
+  // socket.on("join-comment", (user, parent, roomId) => {
+  //   if (user && parent && roomId) {
+  //     socket.join(roomId);
+  //   }
+  // });
 
   socket.on("join-location", (userId, familyLocationId) => {
     if (userId && familyLocationId) {
@@ -76,8 +83,17 @@ server.on("connection", async (socket) => {
     if (roomId && userRooms[socket.id] === roomId) {
       // Broadcast the message to the specified room
       socket.to(roomId).emit("receive-message", message, userId);
-      console.log(userId, "userId");
+      // console.log(userId, "userId");
       socket.emit("receive-message", message, userId);
+    } else {
+      console.log(`User ${socket.id} not in room ${roomId}`);
+    }
+  });
+
+  socket.on("send-comment", (message, user, parent) => {
+    console.log(message);
+    if (message && user && parent) {
+      socket.emit("receive-comment", message, user, parent);
     } else {
       console.log(`User ${socket.id} not in room ${roomId}`);
     }
@@ -102,15 +118,6 @@ server.on("connection", async (socket) => {
         user = await Kids.findById(userId);
       }
 
-      // console.log(user, "usern amer");
-      // const newLocation = await new Location({
-      //   user: userId,
-      //   username,
-      //   latitude,
-      //   longitude,
-      //   accuracy,
-      //   familyLocationId,
-      // });
       // Create or update the location for the user
       await Location.findOneAndUpdate(
         { user },

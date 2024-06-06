@@ -78,6 +78,7 @@ const MessageForm = () => {
 
         }
     }, [scrollIntoViewBool]);
+    
     useEffect(() => {
         const secondMessage = messages[messages.length - 2];
 
