@@ -20,7 +20,7 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 const ChildOngoingTask = ({ childId, data }) => {
     const { state, fetchTasks } = useTaskContext()
     const { data: session } = useSession()
-    const role = (session?.user as SessionUser).role
+    const role = (session?.user as SessionUser)?.role
     useEffect(() => {
         fetchTasks("GET", `api/tasks/${childId}/inprogress`)
     }, [childId]);

@@ -9,15 +9,15 @@ const CommentReply = () => {
         // Initialize the socket connection once
         if (socket) {
             // Set up the event listener for receiving messages
-            socket.on("receive-comment", (message: string,) => {
-                console.log("message");
-                // setIsSender(userId === senderID)
-                setMessage((prevMessages) => [...prevMessages, { message }]);
-            });
+            // socket.on("receive-comment", (message: string,) => {
+            //     console.log("message");
+            //     // setIsSender(userId === senderID)
+            //     setMessage((prevMessages) => [...prevMessages, { message }]);
+            // });
         }
     }, [socket]);
     return (
-        <div>{message}</div>
+        <div></div>
     )
 }
 

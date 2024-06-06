@@ -32,7 +32,7 @@ const connectDB = async () => {
 };
 // Map of users to their respective rooms
 const userRooms = {};
-
+const commentRooms = {};
 const userLocations = {};
 
 server.on("connection", async (socket) => {
@@ -49,11 +49,16 @@ server.on("connection", async (socket) => {
     }
   });
 
-  // socket.on("join-comment", (user, parent, roomId) => {
-  //   if (user && parent && roomId) {
-  //     socket.join(roomId);
-  //   }
-  // });
+  socket.on("join-comment", (user, parent, roomId) => {
+    console.log(roomId, "room");
+    if (user && parent && roomId) {
+      socket.join(roomId);
+      commentRooms[socket.io] = roomId;
+      // console.log(`${socket.id} joined ${roomId}`);
+    } else {
+      console.log("User Id, room Id or Parent Id missing");
+    }
+  });
 
   socket.on("join-location", (userId, familyLocationId) => {
     if (userId && familyLocationId) {
@@ -90,9 +95,10 @@ server.on("connection", async (socket) => {
     }
   });
 
-  socket.on("send-comment", (message, user, parent) => {
-    console.log(message);
-    if (message && user && parent) {
+  socket.on("send-comment", (message, user, parent, roomId) => {
+    // we check if we've roomId, then we check if the id is in the commentroom
+    if (roomId && commentRooms[socket.io] === roomId) {
+      socket.to(roomId).emit("receive-comment", message, user, parent);
       socket.emit("receive-comment", message, user, parent);
     } else {
       console.log(`User ${socket.id} not in room ${roomId}`);

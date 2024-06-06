@@ -1,4 +1,5 @@
 "use client"
+import { Messages } from '@/(models)/Message'
 import useSocket from '@/context/useSocket'
 import React, { useEffect, useState } from 'react'
 import { IoImagesOutline } from 'react-icons/io5'
@@ -6,17 +7,31 @@ import { MdOutlineEmojiEmotions } from 'react-icons/md'
 
 const CommentForm = ({ taskId, user, creator }) => {
     const [currentMessage, setCurrentMessage] = useState("")
+    const [messages, setMessage] = useState([])
+
     const socket = useSocket("http://localhost:8080")
     const roomId = taskId
 
     const sendMessage = async (e) => {
         e.preventDefault()
         // Check that there is a nonempty message and socket is present
+
         if (socket && currentMessage && user && creator && roomId) {
             await socket.emit("send-comment", currentMessage, user, creator, roomId);
             setCurrentMessage("")
         }
     };
+
+    useEffect(() => {
+        if (socket) {
+            if (socket && user && creator && roomId) {
+                socket.emit("join-comment", user, creator, roomId)
+            } else {
+                console.log("you cannot join this room")
+            }
+        }
+    }, [socket, user, roomId])
+
 
     useEffect(() => {
         // Initialize the socket connection once
@@ -25,14 +40,24 @@ const CommentForm = ({ taskId, user, creator }) => {
             socket.on("receive-comment", (message: string, user, parent) => {
                 console.log("message", message, user, parent);
                 // setIsSender(userId === senderID)
-                // setMessage((prevMessages) => [...prevMessages, { message }]);
+                setMessage((prevMessages) => [...prevMessages, { message, user }]);
             });
         }
     }, [socket]);
 
     return (
         <div>
-
+            <div>
+                {
+                    messages.map((message, index) => {
+                        return (
+                            <p key={index}>
+                                {message.message}
+                            </p>
+                        )
+                    })
+                }
+            </div>
 
             <div style={{
                 position: 'fixed',
