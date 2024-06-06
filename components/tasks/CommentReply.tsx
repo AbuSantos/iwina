@@ -2,20 +2,26 @@
 import useSocket from '@/context/useSocket';
 import React, { useEffect, useState } from 'react'
 
-const CommentReply = () => {
-    const socket = useSocket("http://localhost:8080")
+const CommentReply = ({ taskId }) => {
     const [message, setMessage] = useState([])
     useEffect(() => {
-        // Initialize the socket connection once
-        if (socket) {
-            // Set up the event listener for receiving messages
-            // socket.on("receive-comment", (message: string,) => {
-            //     console.log("message");
-            //     // setIsSender(userId === senderID)
-            //     setMessage((prevMessages) => [...prevMessages, { message }]);
-            // });
+        if (taskId) {
+            const fetchComment = async () => {
+                try {
+                    const res = await fetch(`api/comments/${taskId}`)
+                    if (!res) {
+                        throw new Error("No Data found")
+                    }
+                    const data = await res.json()
+                    console.log(data)
+                } catch (error) {
+                    console.log(error.message)
+                }
+            }
+            fetchComment()
         }
-    }, [socket]);
+
+    }, [taskId]);
     return (
         <div></div>
     )

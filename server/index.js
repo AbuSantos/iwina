@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { Location } from "../(models)/Location.js";
 import User from "../(models)/User.js";
 import Kids from "../(models)/Kids.js";
+import { Comments } from "../(models)/Comments.js";
 
 // Initialize the server on port 8080 and set up CORS policy
 const server = new Server(8080, {
@@ -95,11 +96,19 @@ server.on("connection", async (socket) => {
     }
   });
 
-  socket.on("send-comment", (message, user, parent, commentRoomId) => {
+  socket.on("send-comment", async (message, user, parent, commentRoomId) => {
     // we check if we've roomId, then we check if the id is in the commentroom
-    if (commentRoomId && commentRooms[socket.id] === commentRoomId) {
-      console.log(`${user}  Sending message to room: ${commentRoomId}`);
 
+    const newComment = new Comments({
+      parentId: parent,
+      message: message,
+      childId: user,
+      roomId: commentRoomId,
+      taskId: commentRoomId,
+    });
+    await newComment.save();
+
+    if (commentRoomId && commentRooms[socket.id] === commentRoomId) {
       socket.to(commentRoomId).emit("receive-comment", message, user, parent);
       socket.emit("receive-comment", message, user, parent);
     } else {

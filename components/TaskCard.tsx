@@ -4,14 +4,12 @@ import { TaskType } from '@/types/types';
 import { AiOutlineComment } from 'react-icons/ai';
 import { useState } from 'react';
 import CommentModal from './tasks/CommentModal';
-import useSocket from '@/context/useSocket';
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
 
 const TaskCard = ({ description, deadline, points, status, pickedBy, createdAt, role, taskId, user, creator }: TaskType) => {
     const [openModal, setOpenModal] = useState(false)
-    const socket = useSocket("http://localhost:8080")
 
     const handleModal = () => {
         setOpenModal((prev) => !prev)

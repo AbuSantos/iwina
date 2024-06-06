@@ -34,8 +34,6 @@ const CommentForm = ({ taskId, user, creator }) => {
         if (scrollIntoViewBool) {
             const messageElement = messageContainerRef.current;
             messageElement.scrollIntoView({ behavior: "smooth", block: "end" });
-
-
         }
     }, [scrollIntoViewBool]);
 
@@ -55,7 +53,6 @@ const CommentForm = ({ taskId, user, creator }) => {
         if (socket) {
             // Set up the event listener for receiving messages
             socket.on('receive-comment', (message, user, parent) => {
-                console.log(`Received comment from ${user}: ${message}`);
                 setMessage((prevMessages) => [...prevMessages, { message, user, parent }]);
             });
         }
@@ -64,13 +61,17 @@ const CommentForm = ({ taskId, user, creator }) => {
     return (
         <div  >
 
-            <div ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '100%' }} className='bg-red-500'>
+            <div ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '100%' }} >
                 {
                     messages.map((message, index) => {
                         return (
-                            <p key={index}>
-                                {message.message}
-                            </p>
+                            <div>
+
+                                <p key={index} className='text-gray-900 text-sm'>
+                                    {message.message}
+                                </p>
+                            </div>
+
                         )
                     })
                 }

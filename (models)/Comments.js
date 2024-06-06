@@ -5,7 +5,6 @@ const CommentSchema = new Schema(
   {
     creator: {
       type: String,
-      required: true, // Reference path based on the value of creatorType
     },
     parentId: {
       type: Schema.Types.ObjectId,
