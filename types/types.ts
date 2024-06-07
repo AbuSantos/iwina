@@ -6,7 +6,7 @@ export interface KidData {
 }
 
 export interface SessionUser {
-  id: string;
+  id: string | Number;
   name?: string;
   email?: string;
   image?: string;

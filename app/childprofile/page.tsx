@@ -36,7 +36,6 @@ const ChildProfileView = () => {
     const handleTab = (tab: string) => {
         setActiveTab(tab)
     }
-    console.log(userId)
 
     return (
         <div className='' >
