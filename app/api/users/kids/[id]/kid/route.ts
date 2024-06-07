@@ -11,7 +11,6 @@ export const GET = async (req: Request, { params }: { params: ParamsType }) => {
   try {
     await connectToDB();
     const kid = await Kids.findById(params.id).exec();
-    console.log(kid.kids, "Kids found");
 
     // const parent = await User.findById(kid?.creator).lean().exec();
     return new Response(JSON.stringify(kid), { status: 200 });

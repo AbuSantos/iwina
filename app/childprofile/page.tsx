@@ -18,6 +18,7 @@ const ChildProfileView = () => {
     const childId = params.get("id")
     const { data: session } = useSession()
     const role = (session?.user as any)?.role
+    const userId = (session?.user as any)?.id
     const [data, setData] = useState<KidData | null>(null);
     const [activeTab, setActiveTab] = useState<string>("home");
 
@@ -35,13 +36,17 @@ const ChildProfileView = () => {
     const handleTab = (tab: string) => {
         setActiveTab(tab)
     }
+    console.log(userId)
 
     return (
         <div className='' >
             {
-                role === "parent" ? <div className=''>
-                    <Header childId={childId} data={data} role={role} />
-                </div> :
+                role === "parent" || userId !== childId
+                    ?
+                    <div className=''>
+                        <Header childId={childId} data={data} role={role} />
+                    </div>
+                    :
                     <header className="p-4">
                         <ProfileHeader
                             username={(data)?.username}
@@ -61,7 +66,7 @@ const ChildProfileView = () => {
             {
                 activeTab === ("home") && <div>
                     <div className='flex items-center justify-center mb-3 mt-16'>
-                        < ChildOngoingTask childId={childId} data={data} role={role} />
+                        < ChildOngoingTask childId={childId} data={data} />
                     </div>
                     <div className='flex items-center justify-center'>
                         < ChildViewCompletedTask childId={childId} role={role} />
