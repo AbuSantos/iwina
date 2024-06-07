@@ -3,6 +3,7 @@ import { Messages } from '@/(models)/Message'
 import useSocket from '@/context/useSocket'
 import { SessionUser } from '@/types/types'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
 import { IoImagesOutline } from 'react-icons/io5'
@@ -17,6 +18,7 @@ const CommentForm = ({ taskId, user, creator }) => {
     const { data: session } = useSession()
     const searchParams = useSearchParams()
     const id = searchParams.get("id")
+    const [commentImage, setCommentImage] = useState()
 
     const socket = useSocket("http://localhost:8080")
     const commentRoomId = taskId
@@ -67,6 +69,54 @@ const CommentForm = ({ taskId, user, creator }) => {
         }
     }, [socket]);
 
+    const handleCameraClick = () => {
+        const inputElement = document.getElementById("cameraInput")
+        if (inputElement) {
+            inputElement.click();
+            console.log(inputElement);
+        } else {
+            console.error("Camera input element not found");
+        }
+    }
+
+    const handleCameraInputChange = async (event) => {
+        const file = event.target.files[0]
+        if (file) {
+            const reader = new FileReader()
+            reader.onload = async () => {
+                await uploadFile(file)
+            }
+            if (reader.readyState === FileReader.EMPTY) {
+                reader.readAsDataURL(file);
+            } else {
+                console.error('FileReader is busy reading another file.');
+            }
+        }
+        console.log(file)
+    }
+
+    const uploadFile = async function (file: any) {
+        try {
+            const data = new FormData()
+            data.append('file', file)
+
+            const res = await fetch(`api/upload`, {
+                method: 'POST',
+                body: data
+            })
+
+            if (res.ok) {
+                const data = await res.json()
+                setCommentImage(data.url)
+            }
+
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+    console.log(commentImage);
+
+
     return (
         <div  >
 
@@ -79,6 +129,10 @@ const CommentForm = ({ taskId, user, creator }) => {
                                 <p key={index} className='text-gray-900 text-sm'>
                                     {message.message}
                                 </p>
+                                {
+                                    commentImage &&
+                                    <Image src={commentImage} alt="comment" height={50} width={60} />
+                                }
                             </div>
 
                         )
@@ -95,11 +149,17 @@ const CommentForm = ({ taskId, user, creator }) => {
 
                 <form onSubmit={(e) => sendMessage(e)}>
                     <div className="flex items-center px-3 py-2  bg-gray-50 dark:bg-gray-600">
-
-                        <button type="button" className="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                        <div onClick={handleCameraClick}>
+                            <input
+                                id="cameraInput"
+                                type="file"
+                                accept="image/*"
+                                capture="environment"
+                                style={{ display: 'none' }}
+                                onChange={handleCameraInputChange}
+                            />
                             <IoImagesOutline />
-                            <span className="sr-only">Upload image</span>
-                        </button>
+                        </div>
 
                         <button type="button" className="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                             <MdOutlineEmojiEmotions />

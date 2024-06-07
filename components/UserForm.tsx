@@ -172,7 +172,6 @@ const UserForm = () => {
     }
 
     const handleCameraInputChange = async (event) => {
-        // Handle camera input change here (e.g., upload image from camera)
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
