@@ -98,22 +98,42 @@ server.on("connection", async (socket) => {
 
   socket.on(
     "send-comment",
-    async (message, user, parent, commentRoomId, userId) => {
+    async (message, user, parent, commentRoomId, userId, commentImage) => {
       // we check if we've roomId, then we check if the id is in the commentroom
 
-      const newComment = new Comments({
-        creator: userId,
-        parentId: parent,
-        message: message,
-        childId: user,
-        roomId: commentRoomId,
-        taskId: commentRoomId,
-      });
-      await newComment.save();
+      // const newComment = new Comments({
+      //   creator: userId,
+      //   parentId: parent,
+      //   message: message,
+      //   childId: user,
+      //   roomId: commentRoomId,
+      //   taskId: commentRoomId,
+      //   image: commentImage,
+      // });
+      // await newComment.save();
 
       if (commentRoomId && commentRooms[socket.id] === commentRoomId) {
-        socket.to(commentRoomId).emit("receive-comment", message, user, parent);
-        socket.emit("receive-comment", message, user, parent, userId);
+        console.log(commentImage);
+        socket
+          .to(commentRoomId)
+          .emit(
+            "receive-comment",
+            message,
+            user,
+            parent,
+            commentRoomId,
+            userId,
+            commentImage
+          );
+        socket.emit(
+          "receive-comment",
+          message,
+          user,
+          parent,
+          commentRoomId,
+          userId,
+          commentImage
+        );
       } else {
         console.log(`User ${socket.id} not in room ${commentRoomId}`);
       }

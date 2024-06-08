@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { IoImagesOutline } from 'react-icons/io5'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
 
+
 const CommentForm = ({ taskId, user, creator }) => {
     const [currentMessage, setCurrentMessage] = useState("")
     const [messages, setMessage] = useState([])
@@ -19,22 +20,23 @@ const CommentForm = ({ taskId, user, creator }) => {
     const searchParams = useSearchParams()
     const id = searchParams.get("id")
     const [commentImage, setCommentImage] = useState()
+    const [previewImage, setPreviewImage] = useState()
 
     const socket = useSocket("http://localhost:8080")
     const commentRoomId = taskId
     const userId = (session?.user as SessionUser)?.id
     const role = (session?.user as SessionUser)?.role
 
-    console.log(role)
     const sendMessage = (e) => {
         e.preventDefault()
         // Check that there is a nonempty message and socket is present
 
         if (socket && currentMessage && user && creator && commentRoomId && userId) {
-            socket.emit("send-comment", currentMessage, user, creator, commentRoomId, userId);
+            socket.emit("send-comment", currentMessage, user, creator, commentRoomId, userId, commentImage);
             setCurrentMessage("")
         }
     };
+    
     useEffect(() => {
         if (messages.length > 0) {
             const isLastMessage = messages[messages.length - 1];
@@ -63,8 +65,9 @@ const CommentForm = ({ taskId, user, creator }) => {
         // Initialize the socket connection once
         if (socket) {
             // Set up the event listener for receiving messages
-            socket.on('receive-comment', (message, user, parent) => {
-                setMessage((prevMessages) => [...prevMessages, { message, user, parent }]);
+            socket.on('receive-comment', (message, user, parent, commentRoomIds,
+                userIds, images) => {
+                setMessage((prevMessages) => [...prevMessages, { message, user, parent, commentRoomIds, userIds, images }]);
             });
         }
     }, [socket]);
@@ -123,6 +126,7 @@ const CommentForm = ({ taskId, user, creator }) => {
             <div ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '100%' }} >
                 {
                     messages.map((message, index) => {
+                        console.log(message)
                         return (
                             <div>
 
@@ -130,8 +134,8 @@ const CommentForm = ({ taskId, user, creator }) => {
                                     {message.message}
                                 </p>
                                 {
-                                    commentImage &&
-                                    <Image src={commentImage} alt="comment" height={50} width={60} />
+                                    // commentImage &&
+                                    // <img src={commentImage} alt="comment" height={50} width={60} />
                                 }
                             </div>
 

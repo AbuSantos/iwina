@@ -18,6 +18,9 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+    },
     roomId: {
       type: String,
       required: true,
