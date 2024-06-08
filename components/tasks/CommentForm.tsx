@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
 import { IoImagesOutline } from 'react-icons/io5'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
+import parent from "@/public/images/parent.png"
 
 
 const CommentForm = ({ taskId, user, creator }) => {
@@ -36,7 +37,7 @@ const CommentForm = ({ taskId, user, creator }) => {
             setCurrentMessage("")
         }
     };
-    
+
     useEffect(() => {
         if (messages.length > 0) {
             const isLastMessage = messages[messages.length - 1];
@@ -76,7 +77,6 @@ const CommentForm = ({ taskId, user, creator }) => {
         const inputElement = document.getElementById("cameraInput")
         if (inputElement) {
             inputElement.click();
-            console.log(inputElement);
         } else {
             console.error("Camera input element not found");
         }
@@ -95,12 +95,12 @@ const CommentForm = ({ taskId, user, creator }) => {
                 console.error('FileReader is busy reading another file.');
             }
         }
-        console.log(file)
     }
 
     const uploadFile = async function (file: any) {
         try {
             const data = new FormData()
+            console.log(data)
             data.append('file', file)
 
             const res = await fetch(`api/upload`, {
@@ -110,6 +110,7 @@ const CommentForm = ({ taskId, user, creator }) => {
 
             if (res.ok) {
                 const data = await res.json()
+                setPreviewImage(data.url)
                 setCommentImage(data.url)
             }
 
@@ -117,7 +118,6 @@ const CommentForm = ({ taskId, user, creator }) => {
             console.log(error.message)
         }
     }
-    console.log(commentImage);
 
 
     return (
@@ -152,6 +152,15 @@ const CommentForm = ({ taskId, user, creator }) => {
             }} className=''>
 
                 <form onSubmit={(e) => sendMessage(e)}>
+                    <div>
+                        <div className='w-[10rem] border-gray-300 border-2 x bg-black ml-auto'>
+                            {
+                                previewImage &&
+                                <Image src={previewImage} alt="substitute" width={200} height={200} />
+                            }
+
+                        </div>
+                    </div>
                     <div className="flex items-center px-3 py-2  bg-gray-50 dark:bg-gray-600">
                         <div onClick={handleCameraClick}>
                             <input
@@ -170,6 +179,8 @@ const CommentForm = ({ taskId, user, creator }) => {
                             <span className="sr-only">Add emoji</span>
                         </button>
 
+
+
                         <textarea
                             id="chat" onChange={(e) => setCurrentMessage(e.target.value)}
                             value={currentMessage} rows={1}
@@ -178,6 +189,8 @@ const CommentForm = ({ taskId, user, creator }) => {
                             disabled={role !== "parent" && userId !== id}
                         >
                         </textarea>
+
+
 
                         <button type="submit" className="inline-flex justify-center p-2 text-[#9a78c9] rounded-full cursor-pointer hover:bg-blue-100 dark:text-[#dfd7fb] dark:hover:bg-gray-600">
                             <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
