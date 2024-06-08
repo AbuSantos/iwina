@@ -29,14 +29,28 @@ const CommentForm = ({ taskId, user, creator }) => {
     const role = (session?.user as SessionUser)?.role
 
     const sendMessage = (e) => {
-        e.preventDefault()
-        // Check that there is a nonempty message and socket is present
-
+        e.preventDefault();
         if (socket && currentMessage && user && creator && commentRoomId && userId) {
-            socket.emit("send-comment", currentMessage, user, creator, commentRoomId, userId, commentImage);
-            setCurrentMessage("")
+            const messageData = {
+                message: currentMessage,
+                user,
+                creator,
+                commentRoomId,
+                userId,
+
+            };
+
+            if (commentImage) {
+                messageData.image = commentImage;
+                setCommentImage(null);  // Reset comment image after sending
+                setPreviewImage(null);    // Reset the preview image
+            }
+
+            socket.emit("send-comment", messageData);
+            setCurrentMessage("");
         }
     };
+
 
     useEffect(() => {
         if (messages.length > 0) {
@@ -100,7 +114,6 @@ const CommentForm = ({ taskId, user, creator }) => {
     const uploadFile = async function (file: any) {
         try {
             const data = new FormData()
-            console.log(data)
             data.append('file', file)
 
             const res = await fetch(`api/upload`, {
@@ -119,6 +132,9 @@ const CommentForm = ({ taskId, user, creator }) => {
         }
     }
 
+    const handleSentImage = () => {
+        console.log("erro")
+    }
 
     return (
         <div  >
@@ -134,8 +150,8 @@ const CommentForm = ({ taskId, user, creator }) => {
                                     {message.message}
                                 </p>
                                 {
-                                    // commentImage &&
-                                    // <img src={commentImage} alt="comment" height={50} width={60} />
+                                    message.images &&
+                                    <img src={message.images} alt="comment" height={50} width={60} onClick={() => handleSentImage} />
                                 }
                             </div>
 

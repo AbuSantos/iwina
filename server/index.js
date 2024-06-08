@@ -96,49 +96,48 @@ server.on("connection", async (socket) => {
     }
   });
 
-  socket.on(
-    "send-comment",
-    async (message, user, parent, commentRoomId, userId, commentImage) => {
-      // we check if we've roomId, then we check if the id is in the commentroom
+  socket.on("send-comment", async (messageData) => {
+    const { message, user, parent, commentRoomId, userId, image } = messageData;
+    console.log(messageData);
 
-      // const newComment = new Comments({
-      //   creator: userId,
-      //   parentId: parent,
-      //   message: message,
-      //   childId: user,
-      //   roomId: commentRoomId,
-      //   taskId: commentRoomId,
-      //   image: commentImage,
-      // });
-      // await newComment.save();
+    // we check if we've roomId, then we check if the id is in the commentroom
 
-      if (commentRoomId && commentRooms[socket.id] === commentRoomId) {
-        console.log(commentImage);
-        socket
-          .to(commentRoomId)
-          .emit(
-            "receive-comment",
-            message,
-            user,
-            parent,
-            commentRoomId,
-            userId,
-            commentImage
-          );
-        socket.emit(
+    // const newComment = new Comments({
+    //   creator: userId,
+    //   parentId: parent,
+    //   message: message,
+    //   childId: user,
+    //   roomId: commentRoomId,
+    //   taskId: commentRoomId,
+    //   image: commentImage,
+    // });
+    // await newComment.save();
+
+    if (commentRoomId && commentRooms[socket.id] === commentRoomId) {
+      socket
+        .to(commentRoomId)
+        .emit(
           "receive-comment",
           message,
           user,
           parent,
           commentRoomId,
           userId,
-          commentImage
+          image
         );
-      } else {
-        console.log(`User ${socket.id} not in room ${commentRoomId}`);
-      }
+      socket.emit(
+        "receive-comment",
+        message,
+        user,
+        parent,
+        commentRoomId,
+        userId,
+        image
+      );
+    } else {
+      console.log(`User ${socket.id} not in room ${commentRoomId}`);
     }
-  );
+  });
 
   socket.on(
     "coordinates",
