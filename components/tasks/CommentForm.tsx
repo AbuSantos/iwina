@@ -156,7 +156,7 @@ const CommentForm = ({ taskId, user, creator }) => {
                         <div className='w-[10rem] border-gray-300 border-2 x bg-black ml-auto'>
                             {
                                 previewImage &&
-                                <Image src={previewImage} alt="substitute" width={200} height={200} />
+                                <img src={previewImage} alt="substitute" width={300} height={200} />
                             }
 
                         </div>
