@@ -1,15 +1,22 @@
 "use client"
 import { Messages } from '@/(models)/Message'
 import useSocket from '@/context/useSocket'
-import { SessionUser } from '@/types/types'
+import { MessageData, SessionUser } from '@/types/types'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
 import { IoImagesOutline } from 'react-icons/io5'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
-import parent from "@/public/images/parent.png"
 
+const FullscreenImageModal = ({ image, onClose }) => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="relative">
+            <img src={image} alt="Fullscreen" className="max-w-full max-h-full" />
+            <button onClick={onClose} className="absolute top-2 right-2 text-white text-2xl">&times;</button>
+        </div>
+    </div>
+);
 
 const CommentForm = ({ taskId, user, creator }) => {
     const [currentMessage, setCurrentMessage] = useState("")
@@ -22,6 +29,8 @@ const CommentForm = ({ taskId, user, creator }) => {
     const id = searchParams.get("id")
     const [commentImage, setCommentImage] = useState()
     const [previewImage, setPreviewImage] = useState()
+    const [fullscreenImage, setFullscreenImage] = useState(null);
+    const [isFullscreen, setIsFullscreen] = useState(false);
 
     const socket = useSocket("http://localhost:8080")
     const commentRoomId = taskId
@@ -31,7 +40,7 @@ const CommentForm = ({ taskId, user, creator }) => {
     const sendMessage = (e) => {
         e.preventDefault();
         if (socket && currentMessage && user && creator && commentRoomId && userId) {
-            const messageData = {
+            const messageData: MessageData = {
                 message: currentMessage,
                 user,
                 creator,
@@ -132,9 +141,15 @@ const CommentForm = ({ taskId, user, creator }) => {
         }
     }
 
-    const handleSentImage = () => {
-        console.log("erro")
-    }
+    const handleSentImage = (image) => {
+        setFullscreenImage(image);
+        setIsFullscreen(true);
+    };
+
+    const closeFullscreen = () => {
+        setIsFullscreen(false);
+        setFullscreenImage(null);
+    };
 
     return (
         <div  >
@@ -149,17 +164,27 @@ const CommentForm = ({ taskId, user, creator }) => {
                                 <p key={index} className='text-gray-900 text-sm'>
                                     {message.message}
                                 </p>
-                                {
-                                    message.images &&
-                                    <img src={message.images} alt="comment" height={50} width={60} onClick={() => handleSentImage} />
-                                }
+                                {message.images && (
+                                    <div className="">
+                                        <img
+                                            src={message.images}
+                                            alt="comment"
+                                            height={300}
+                                            width={100}
+                                            onClick={() => handleSentImage(message.images)}
+                                            className='cursor-pointer'
+                                        />
+                                    </div>
+                                )}
                             </div>
 
                         )
                     })
                 }
             </div>
-
+            {isFullscreen && (
+                <FullscreenImageModal image={fullscreenImage} onClose={closeFullscreen} />
+            )}
 
             <div style={{
                 position: 'fixed',

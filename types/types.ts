@@ -26,3 +26,11 @@ export interface TaskType {
   user?: string;
   creator?: string;
 }
+export type MessageData = {
+  message: string;
+  user: any;
+  creator: any;
+  commentRoomId: any;
+  userId: string | Number;
+  image?: string;
+};
