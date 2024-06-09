@@ -102,16 +102,16 @@ server.on("connection", async (socket) => {
 
     // we check if we've roomId, then we check if the id is in the commentroom
 
-    // const newComment = new Comments({
-    //   creator: userId,
-    //   parentId: parent,
-    //   message: message,
-    //   childId: user,
-    //   roomId: commentRoomId,
-    //   taskId: commentRoomId,
-    //   image: commentImage,
-    // });
-    // await newComment.save();
+    const newComment = new Comments({
+      creator: userId,
+      parentId: parent,
+      message: message,
+      childId: user,
+      roomId: commentRoomId,
+      taskId: commentRoomId,
+      image: image,
+    });
+    await newComment.save();
 
     if (commentRoomId && commentRooms[socket.id] === commentRoomId) {
       socket
