@@ -1,8 +1,22 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import "./style.css"
 
 const Input = () => {
+    const [rangeValue, setRangeValue] = useState()
+    
+    const debounce = (func, wait) => {
+        let timeout;
+
+        return function (...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args)
+            }
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        }
+    }
     useEffect(() => {
         const rangeSlider = document.getElementById("rs-range-line");
         const rangeBullet = document.getElementById("rs-bullet");
@@ -14,7 +28,8 @@ const Input = () => {
         function showSliderValue() {
             rangeBullet.innerHTML = rangeSlider.value;
             const bulletPosition = (rangeSlider.value / rangeSlider.max);
-            rangeBullet.style.left = (bulletPosition * 320) + "px";
+            rangeBullet.style.left = (bulletPosition * 335) + "px";
+            setRangeValue(rangeSlider.value)
         }
 
         // Cleanup function to remove event listeners
