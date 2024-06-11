@@ -1,9 +1,11 @@
 "use client"
 import { useEffect, useState } from "react"
 import "./style.css"
+import { currentPointState } from "@/atoms/pointAtom"
+import { useRecoilState } from "recoil"
 
 const Input = () => {
-    const [rangeValue, setRangeValue] = useState()
+    const [rangeValue, setRangeValue] = useRecoilState(currentPointState)
 
     const debounce = (func, wait) => {
         let timeout;
@@ -17,7 +19,7 @@ const Input = () => {
             timeout = setTimeout(later, wait);
         }
     }
-    
+
     useEffect(() => {
         const rangeSlider = document.getElementById("rs-range-line");
         const rangeBullet = document.getElementById("rs-bullet");
@@ -40,7 +42,7 @@ const Input = () => {
             }
         };
     }, []);
-    
+
     console.log(rangeValue)
     return (
         <div className="container w12/12 ">

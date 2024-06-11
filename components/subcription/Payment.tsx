@@ -1,10 +1,15 @@
+"use client"
+
 import Header from "../ParentProfile/Header"
 import AddFunds from '@/components/funds/AddFunds'
 import Input from "./input/Input"
+import { currentPointState } from "@/atoms/pointAtom"
+import { useRecoilValue, useRecoilState } from 'recoil'
 
 const Payment = () => {
+    const rangeValue = useRecoilValue(currentPointState)
     const handleRange = () => {
-        console.log()
+        console.log(rangeValue)
     }
 
 
@@ -22,6 +27,9 @@ const Payment = () => {
             </div>
 
             <AddFunds />
+            <button onClick={handleRange}>
+                test this button
+            </button>
 
         </div>
     )
