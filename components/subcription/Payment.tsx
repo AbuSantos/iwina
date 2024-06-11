@@ -18,7 +18,7 @@ const Payment = () => {
             <Header />
             <div className="flex items-center justify-center">
                 <span className="p-2 text-sm text-gray-600 text-center">
-                    For every point it earned by a child, the value would be the corresponding amount in real world currency.
+                    For every point earned by a child, the value would be the corresponding amount in real world currency.
                 </span>
             </div>
 
@@ -27,9 +27,7 @@ const Payment = () => {
             </div>
 
             <AddFunds />
-            <button onClick={handleRange}>
-                test this button
-            </button>
+           
 
         </div>
     )
