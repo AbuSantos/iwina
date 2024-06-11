@@ -45,7 +45,7 @@ const AddFunds = () => {
         <div className="w-[90%] flex m-auto">
             <form className="w-full flex m-auto flex-col">
                 <div className="flex items-center justify-center border border-gray-300 w-full rounded-lg p-2">
-                    <Input type="number" value={amount} placeholder="Add amount"
+                    <Input type="number" value={amount} placeholder="Buy more Point"
                         className=" outline-none border-none  p-2 w-[90%] "
                         onChange={(e) => setAmount(Number(e.target.value))}
                     />

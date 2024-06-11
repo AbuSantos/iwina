@@ -4,7 +4,7 @@ import "./style.css"
 
 const Input = () => {
     const [rangeValue, setRangeValue] = useState()
-    
+
     const debounce = (func, wait) => {
         let timeout;
 
@@ -17,6 +17,7 @@ const Input = () => {
             timeout = setTimeout(later, wait);
         }
     }
+    
     useEffect(() => {
         const rangeSlider = document.getElementById("rs-range-line");
         const rangeBullet = document.getElementById("rs-bullet");
@@ -29,7 +30,7 @@ const Input = () => {
             rangeBullet.innerHTML = rangeSlider.value;
             const bulletPosition = (rangeSlider.value / rangeSlider.max);
             rangeBullet.style.left = (bulletPosition * 335) + "px";
-            setRangeValue(rangeSlider.value)
+            debounce(setRangeValue(rangeSlider.value), 1000)
         }
 
         // Cleanup function to remove event listeners
@@ -39,7 +40,8 @@ const Input = () => {
             }
         };
     }, []);
-
+    
+    console.log(rangeValue)
     return (
         <div className="container w12/12 ">
             <div className="range-slider ">

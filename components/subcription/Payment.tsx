@@ -1,8 +1,6 @@
-"use client"
 import Header from "../ParentProfile/Header"
 import AddFunds from '@/components/funds/AddFunds'
 import Input from "./input/Input"
-import { useEffect } from "react"
 
 const Payment = () => {
     const handleRange = () => {
@@ -13,6 +11,11 @@ const Payment = () => {
     return (
         <div className="" >
             <Header />
+            <div className="flex items-center justify-center">
+                <span className="p-2 text-sm text-gray-600 text-center">
+                    For every point it earned by a child, the value would be the corresponding amount in real world currency.
+                </span>
+            </div>
 
             <div className="w-[98%] flex items-center justify-center m-auto mb-11">
                 <Input />
