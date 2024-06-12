@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   if (req.method === "POST") {
-    const { email, pointAmount } = await req.json();
+    const { email, pointAmount, emailredirect_url } = await req.json();
 
     try {
       const paystackResponse = await fetch(
@@ -17,6 +17,7 @@ export const POST = async (req: NextRequest) => {
           body: JSON.stringify({
             email,
             amount: pointAmount * 100,
+            callback_url: "http://localhost:3000/api/paystack/callback",
             // currency:"NGN"
           }),
         }
@@ -24,8 +25,11 @@ export const POST = async (req: NextRequest) => {
 
       if (paystackResponse.ok) {
         const responseData = await paystackResponse.json();
+        console.log(responseData);
         return Response.json({
-          reference: responseData,
+          status: "success",
+          authorization_url: responseData.data.authorization_url,
+
           // amount: responseData.data.amount,
         });
       } else {
