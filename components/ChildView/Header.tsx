@@ -25,9 +25,12 @@ const Header = ({ childId, data, role }) => {
                             <span className="text-[1rem] mr-1"> ⭐️ </span>
                             {`${data?.points}`}
                         </p>
+
                     </div>
                 </div>
+               
             </div>
+
 
         </div>
     )

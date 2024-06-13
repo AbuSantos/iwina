@@ -54,6 +54,14 @@ const AddFunds = () => {
         )
 
     }
+    const handleBalance = async () => {
+        const response = await fetch(`api/paystack/balance`)
+
+        if (response.ok) {
+            const data = await response.json()
+            console.log(data)
+        }
+    }
     const handlePaystackPayemnt = async (e) => {
         console.log(pointsData)
         e.preventDefault()
@@ -63,7 +71,7 @@ const AddFunds = () => {
             const pointAmount = pointsData.amount;
             const email = pointsData.email
             const points = pointsData.points
-            
+
             const response = await fetch(`api/paystack`, {
                 method: 'POST',
                 headers: {
@@ -128,7 +136,9 @@ const AddFunds = () => {
 
             </form>
 
-
+            <button onClick={handleBalance}>
+                handlebalance
+            </button>
 
         </div>
     )
