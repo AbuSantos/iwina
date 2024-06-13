@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import User from "@/(models)/User";
 
 export const GET = async (req: NextRequest) => {
-  console.log("Yess");
   const { searchParams } = new URL(req.url);
   const reference = searchParams.get("reference");
 
@@ -22,9 +22,22 @@ export const GET = async (req: NextRequest) => {
 
     if (paystackResponse.ok) {
       const responseData = await paystackResponse.json();
-
       if (responseData.data.status === "success") {
-        // Handle successful payment (e.g., update user points, record transaction)
+        const email = responseData.data.customer.email;
+        const pointAmount = responseData.data.amount;
+
+        console.log(pointAmount);
+        const user = await User.findOneAndUpdate(
+          { email: email },
+          { $inc: { points: pointAmount } },
+          { new: true }
+        );
+
+        if (!user) {
+          return Response.redirect(
+            new URL("/error?message=User not found", req.url)
+          );
+        }
         return Response.redirect(new URL("/paystacksuccess", req.url));
       } else {
         // Handle unsuccessful payment

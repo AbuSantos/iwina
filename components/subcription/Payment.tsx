@@ -18,7 +18,7 @@ const Payment = () => {
             <Header />
             <div className="flex items-center justify-center">
                 <span className="p-2 text-sm text-gray-600 text-center">
-                    For every point earned by a child, the value would be the corresponding amount in real world currency.
+                    For every <b>1000 Naira</b> worth of point, you get <b>2000 Points</b>, ie, if kids earn <b>1000 Points</b>, they get <b>500 Naira</b>
                 </span>
             </div>
 
@@ -27,7 +27,7 @@ const Payment = () => {
             </div>
 
             <AddFunds />
-           
+
 
         </div>
     )

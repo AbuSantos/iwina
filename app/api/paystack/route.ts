@@ -1,9 +1,8 @@
-import User from "@/(models)/User";
 import { NextRequest } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   if (req.method === "POST") {
-    const { email, pointAmount, emailredirect_url } = await req.json();
+    const { email, pointAmount, emailredirect_url, points } = await req.json();
 
     try {
       const paystackResponse = await fetch(
@@ -25,11 +24,9 @@ export const POST = async (req: NextRequest) => {
 
       if (paystackResponse.ok) {
         const responseData = await paystackResponse.json();
-        console.log(responseData);
         return Response.json({
           status: "success",
           authorization_url: responseData.data.authorization_url,
-
           // amount: responseData.data.amount,
         });
       } else {

@@ -62,13 +62,15 @@ const AddFunds = () => {
         try {
             const pointAmount = pointsData.amount;
             const email = pointsData.email
+            const points = pointsData.points
+            
             const response = await fetch(`api/paystack`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    pointAmount, email,
+                    pointAmount, email, points,
                     emailredirect_url: "http://localhost:3000"
                 })
             })
