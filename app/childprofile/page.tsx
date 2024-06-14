@@ -56,12 +56,15 @@ const ChildProfileView = () => {
                         />
                     </header>
             }
+            
             <div>
-                <Tab tab1={"Goals"} tab2={"Home"} tab3={"About"} tab4={"Events"} activeTab={activeTab} handleTab={handleTab} role={role} />
+                <Tab tab1={"Goals"} tab2={"Home"} tab3={"info"} tab4={"Events"} activeTab={activeTab} handleTab={handleTab} role={role} />
             </div>
+           
             {
                 activeTab === ("goals") && <Goals childId={childId} />
             }
+
             {
                 activeTab === ("home") && <div>
                     <div className='flex items-center justify-center mb-3 mt-16'>
@@ -76,7 +79,7 @@ const ChildProfileView = () => {
             {
                 role === "parent" ? <>
                     {
-                        activeTab === ("about") && <AboutChild childId={childId} data={data} />
+                        activeTab === ("info") && <AboutChild childId={childId} data={data} />
                     }
                     {
                         activeTab === ("events") &&
@@ -84,7 +87,6 @@ const ChildProfileView = () => {
                     }
                 </> : ""
             }
-
 
             {/* <BottomNav /> */}
         </div>

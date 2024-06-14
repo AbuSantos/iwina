@@ -63,7 +63,6 @@ const AddFunds = () => {
         }
     }
     const handlePaystackPayemnt = async (e) => {
-        console.log(pointsData)
         e.preventDefault()
         setLoading(true)
 
@@ -101,7 +100,7 @@ const AddFunds = () => {
 
         } finally {
             setLoading(false);
-            return Response.json({ status: 200, "Payment received": status })
+            return Response.json({ status: 200, })
         }
 
     }
@@ -136,9 +135,9 @@ const AddFunds = () => {
 
             </form>
 
-            <button onClick={handleBalance}>
+            {/* <button onClick={handleBalance}>
                 handlebalance
-            </button>
+            </button> */}
 
         </div>
     )
