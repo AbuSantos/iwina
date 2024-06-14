@@ -1,19 +1,35 @@
+"use client"
+import Tab from '@/components/ui/Tab'
 import { Poppins } from 'next/font/google'
 import Image from 'next/image'
+import { useState } from 'react';
 const poppins = Poppins({ weight: '400', subsets: ["latin"] })
+
 const AboutChild = ({ childId, data }) => {
+    const [activeTab, setActiveTab] = useState<string>("home");
+    const handleTab = (tab: string) => {
+        setActiveTab(tab)
+    }
     return (
+
         <div className='text-slate-700 w-full flex flex-col justify-center items-center '>
+
             <header className='flex items-center justify-center flex-col'>
                 <Image src={data.image} alt={data.username} width={100} height={100} />
-            </header>
-            <div className='space-y-3  w-[95%]'>
                 <section >
                     <div className='flex gap-2 items-center justify-center '>
                         <p className='text-xl'>{data.username}</p>
                         <p className='text-xl'>{data.birthday}</p>
                     </div>
                 </section>
+            </header>
+            <div>
+                <Tab tab1={"About"} tab2={"Bank"} handleTab={handleTab} activeTab={activeTab} />
+            </div>
+
+
+            <div className='space-y-3  w-[95%]'>
+
 
                 <section className=' m-auto'>
                     <div className='space-x-2 p-2'>

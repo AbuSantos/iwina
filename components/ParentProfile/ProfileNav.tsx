@@ -14,6 +14,7 @@ const ProfileNav = ({ profileLinks }) => {
         <div>
             {
                 (profileLinks)?.map((profile: ProfileType, index) => {
+                    console.log(profile)
                     return (
                         <div key={index} className={`flex justify-between items-center px-4 cursor-pointer mt-3`}
                         >

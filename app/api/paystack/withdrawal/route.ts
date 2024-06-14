@@ -3,6 +3,9 @@ import { NextRequest } from "next/server";
 export const POST = async (req: NextRequest) => {
   const { email, name, account_number, bank_code, amount } = await req.json();
 
+
+
+
   try {
     const paystackResponse = await fetch(
       "https://api.paystack.co/transferrecipient",

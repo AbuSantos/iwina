@@ -7,6 +7,8 @@ import girlchild from "@/public/images/girlchild.png"
 import { FaPlus } from "react-icons/fa6";
 import Link from "next/link"
 import { useTaskContext } from "@/context/TaskContext"
+import { useRecoilState } from "recoil"
+import { CurrentKidCount } from "@/atoms/kidsAtom"
 
 const fredoka = Fredoka({ subsets: ["latin"] })
 
@@ -16,12 +18,14 @@ const KidsScroll = () => {
     const userId = (session?.user as any)?.id
     const role = (session?.user as any)?.role
     const [kids, setKids] = useState()
+    const [kidsData, setKidsData] = useRecoilState(CurrentKidCount)
     useEffect(() => {
         const fetchKids = async () => {
             const res = await fetch(`api/users/${userId}/user/kids?role=${role}`);
             if (res.ok) {
                 const data = await res.json()
                 setKids(data)
+                setKidsData(data)
             }
         }
         fetchKids()

@@ -1,5 +1,16 @@
+type TabType = {
+    handleTab?: (tab: string) => void,
+    activeTab?: string,
+    tab1?: string,
+    tab2?: string,
+    tab3?: string,
+    tab4?: string,
+    role?: string
 
-const Tab = ({ handleTab, activeTab, tab1, tab2, tab3, tab4, role }) => {
+}
+
+const Tab = (props: TabType) => {
+    const { handleTab, activeTab, tab1, tab2, tab3, tab4, role } = props
     return (
         <div>
             <nav className="flex w-full bg-white items-center justify-center space-x-3 text-sm text-slate-500">

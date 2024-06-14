@@ -50,10 +50,7 @@ const ChildViewCompletedTask = ({ childId, role }) => {
         <div className={`border-2 bg-[#a191fe] font-medium rounded-xl py-2 px-3 w-11/12`}>
             {
                 (userTask as [])?.map((task: any) => {
-                    // console.log(reward);
-
                     const { taskDesc, taskDdl, taskPnt, status, updatedAt, _id } = task
-
                     return (
                         <div className="flex justify-between gap-5 items-center text-gray-200 ">
                             <div

@@ -13,7 +13,7 @@ const profileLinks = [
         link: '/details', icon: userDetails, title: "Personal Details"
     },
     {
-        link: '/map', icon: bank, title: "Bank Details"
+        link: '/bank', icon: bank, title: "Add Bank Details for Kids"
     },
     {
         link: '/calendar', icon: resident, title: "Residential Details"

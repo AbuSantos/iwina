@@ -11,7 +11,7 @@ import Goals from '@/components/Goals/Goaltab/Goals';
 import Tab from '@/components/ui/Tab';
 import { KidData } from '@/types/types';
 import ChildEvent from '@/components/Events/ChildEvent';
-import AboutChild from '@/components/ChildView/AboutChild';
+import AboutChild from '@/components/ChildView/childprofile/about/AboutChild';
 
 const ChildProfileView = () => {
     const params = useSearchParams()
@@ -81,7 +81,6 @@ const ChildProfileView = () => {
                     {
                         activeTab === ("events") &&
                         <ChildEvent />
-
                     }
                 </> : ""
             }

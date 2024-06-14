@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const page = () => {
     const [withdrawData, setWithdrawData] = useState({
@@ -16,13 +16,33 @@ const page = () => {
         })
         )
     }
-    const handleWithdraw = async () => {
-        const res = await fetch("api/paystack/withdrawal")
+    const handleWithdraw = async (e) => {
+        e.preventDefault()
+        const res = await fetch("/api/paystack/withdrawal", {
+            method: "POST",
+            body: JSON.stringify({
+                email: withdrawData.email,
+                name: withdrawData.name,
+                account_number: withdrawData.account_number,
+                bank_code: withdrawData.bank_code,
+                amount: withdrawData.amount
+            })
+        })
         if (res.ok) {
             const data = await res.json()
             console.log(data)
         }
     }
+    useEffect(() => {
+        const fetchBank = async () => {
+            const res = await fetch("api/paystack/getbank")
+            if (res.ok) {
+                const data = await res.json()
+                console.log(data)
+            }
+        }
+        fetchBank()
+    }, [])
     return (
         <div>
             <h2>Withdraw Funds</h2>
