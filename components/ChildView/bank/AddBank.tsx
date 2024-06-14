@@ -4,27 +4,19 @@ import React, { useEffect, useState } from 'react'
 const AddBank = () => {
     const [bank, setBanks] = useState([])
     const [bankCode, setBankCode] = useState(null)
-    const [bankname, setBankName] = useState("")
+    const [bankname, setBankName] = useState(null)
+    const [openDrop, setDrop] = useState(false)
+    const [loading, setLoading] = useState(false)
     opay: 999992
     mtn: "120003"
     const [bankDetails, setBankDetails] = useState({
         account_number: null,
         email: null,
         user_name: null,
-        mtn: null,
-        opay: null
-
+        bank_code: null
 
     })
-    console.log(bankname)
-    // const selectBankCode = () => {
-    //     if (bankname === "opay") {
-    //         setBankCode(999992)
-    //     } else if (bankname === "mtn") {
-    //         setBankCode(999992)
 
-    //     }
-    // }
     useEffect(() => {
         const fetchBank = async () => {
             const res = await fetch("api/paystack/getbank")
@@ -36,7 +28,6 @@ const AddBank = () => {
         }
         fetchBank()
     }, [])
-    const [openDrop, setDrop] = useState(false)
 
     const openDropDown = () => {
         setDrop(!openDrop)
@@ -50,7 +41,13 @@ const AddBank = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(bankDetails)
+        setLoading(true)
+
+
+    }
+    const handleNameChange = (name: string) => {
+        setBankName(name)
+        setDrop(false)
     }
     return (
         <div>
@@ -70,10 +67,10 @@ const AddBank = () => {
                 <div id="dropdown" className="z-10  bg-white divide-y divide-gray-100 rounded-lg shadow w-36 dark:bg-gray-700">
                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                         <li>
-                            <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setBankName("OPAY")}>Opay</a>
+                            <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => handleNameChange("OPAY")}>Opay</a>
                         </li>
                         <li>
-                            <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setBankName("MTN MOMO")}>MTN MOMO</a>
+                            <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => handleNameChange("MTN MOMO")}>MTN MOMO</a>
                         </li>
 
                     </ul>

@@ -15,11 +15,11 @@ const AboutChild = ({ childId, data }) => {
 
         <div className='text-slate-700 w-full flex flex-col justify-center items-center '>
             <header className='flex items-center justify-center flex-col'>
-                <Image src={data?.image} alt={data.username} width={100} height={100} />
+                <Image src={data?.image} alt={data?.username} width={100} height={100} />
                 <section >
                     <div className='flex gap-2 items-center justify-center '>
-                        <p className='text-xl'>{data.username}</p>
-                        <p className='text-xl'>{data.birthday}</p>
+                        <p className='text-xl'>{data?.username}</p>
+                        <p className='text-xl'>{data?.birthday}</p>
                     </div>
                 </section>
             </header>

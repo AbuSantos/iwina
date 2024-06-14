@@ -67,6 +67,12 @@ const kidsSchema = new Schema({
       ref: "Task",
     },
   ],
+  BankDetails: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "BankDetails",
+    },
+  ],
   goal: [
     {
       type: Schema.Types.ObjectId,
