@@ -3,15 +3,18 @@ import { SessionUser } from '@/types/types'
 import { useSession } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import Banks from './Banks'
 
 const AddBank = () => {
     const searcharams = useSearchParams()
     const userId = searcharams.get("id")
-    const [bank, setBanks] = useState([])
+    const [banks, setBanks] = useState([])
     const [bankCode, setBankCode] = useState(null)
     const [bankname, setBankName] = useState(null)
     const [openDrop, setDrop] = useState(false)
+    const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+    const [bankNameLoading, setBankNameLoading] = useState(false)
 
     // opay: 999992
     // mtn: "120003"
@@ -25,14 +28,29 @@ const AddBank = () => {
     console.log(userId)
     useEffect(() => {
         const fetchBank = async () => {
-            const res = await fetch(`api/bank/${userId}`)
-            if (res.ok) {
-                const data = await res.json()
-                console.log(data)
+            setBankNameLoading(true);
+            try {
+                const res = await fetch(`api/bank/${userId}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setBanks(data);
+                    console.log(data);
+                } else {
+                    const errorData = await res.json();
+                    setError(errorData.message || "Failed to fetch bank details");
+                }
+            } catch (error) {
+                console.log(error.message);
+                setError(error.message);
+            } finally {
+                setBankNameLoading(false);
             }
+        };
+
+        if (userId) {
+            fetchBank();
         }
-        fetchBank()
-    }, [])
+    }, [userId]);
 
     const openDropDown = () => {
         setDrop(!openDrop)
@@ -75,6 +93,24 @@ const AddBank = () => {
     }
     return (
         <div>
+            <section>
+                <h2>
+                    Your  Bank Details
+                </h2>
+                <div>
+                    {bankNameLoading && <p className='text-center p-2 text-violet-400'>Loading Bank Details...</p>}
+                    {/* {error && <p>Error: {error}</p>} */}
+                    {!bankNameLoading && !error && banks.length > 0 && (
+                        <div>
+                            {banks.map((bank, index) => (
+                                <Banks bank={bank} key={index} />
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </section>
+
+
             <h2>Add a Bank</h2>
 
             <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
