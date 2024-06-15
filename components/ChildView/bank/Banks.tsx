@@ -2,11 +2,37 @@
 import Image from "next/image"
 import eye from "@/public/images/eye.svg"
 import eyeOff from "@/public/images/eye-off.svg"
+import edit from "@/public/images/edit.svg"
 import { useState } from "react"
 const Banks = ({ bank }) => {
     const [showAccountNumber, setShowAccountNumber] = useState(false)
     const handleShowAccount = () => {
         setShowAccountNumber(!showAccountNumber)
+    }
+    const handleEdit = async (e) => {
+        e.preventDefault()
+        // setLoading(true)
+        try {
+            const res = await fetch(`api/bank/${bank._id}/edit`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        account_number: bankDetails.account_number,
+                        email: bankDetails.email,
+                        user_name: bankDetails.user_name,
+                        creator: userId,
+                        bank_name: bankname
+                    })
+                }
+            )
+
+            if (res.ok) {
+                console.log("success")
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+
     }
 
     return (
@@ -23,11 +49,13 @@ const Banks = ({ bank }) => {
                         showAccountNumber ? <p className="text-sm">{bank.account_number}</p> : ""
                     }
                 </div>
-                <div>
+                <div className="flex space-x-4">
                     {
-                        showAccountNumber ? <Image src={eye} alt="eyes" onClick={handleShowAccount} /> : <Image src={eyeOff} alt="eyes" onClick={handleShowAccount} />
+                        showAccountNumber ? <Image src={eye} alt="eyes" width={20} onClick={handleShowAccount} /> : <Image src={eyeOff} alt="eyes" width={20} onClick={handleShowAccount} />
                     }
+                    <Image src={edit} alt="eyes" onClick={handleShowAccount} width={20} />
                 </div>
+
             </section>
         </div>
     )
