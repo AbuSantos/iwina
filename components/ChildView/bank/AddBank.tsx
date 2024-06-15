@@ -1,22 +1,28 @@
 "use client"
+import { SessionUser } from '@/types/types'
+import { useSession } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const AddBank = () => {
+    const searcharams = useSearchParams()
+    const userId = searcharams.get("id")
     const [bank, setBanks] = useState([])
     const [bankCode, setBankCode] = useState(null)
     const [bankname, setBankName] = useState(null)
     const [openDrop, setDrop] = useState(false)
     const [loading, setLoading] = useState(false)
-    opay: 999992
-    mtn: "120003"
+
+    // opay: 999992
+    // mtn: "120003"
     const [bankDetails, setBankDetails] = useState({
         account_number: null,
         email: null,
         user_name: null,
-        bank_code: null
+        bank_code: null,
 
     })
-
+    console.log(userId)
     useEffect(() => {
         const fetchBank = async () => {
             const res = await fetch("api/paystack/getbank")
@@ -39,10 +45,29 @@ const AddBank = () => {
         }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        setLoading(true)
+        // setLoading(true)
+        try {
+            const res = await fetch("api/bank",
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        account_number: bankDetails.account_number,
+                        email: bankDetails.email,
+                        user_name: bankDetails.user_name,
+                        creator: userId,
+                        bank_name: bankname
+                    })
+                }
+            )
 
+            if (res.ok) {
+                console.log("success")
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
 
     }
     const handleNameChange = (name: string) => {

@@ -12,7 +12,15 @@ const BankSchema = new Schema({
   },
   email: {
     type: String,
+    // required: [true],
+  },
+  user_name: {
+    type: String,
     required: [true],
+  },
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: "Kids",
   },
 });
 
