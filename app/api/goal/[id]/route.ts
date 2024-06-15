@@ -8,9 +8,6 @@ export const GET = async (req, { params }) => {
     const goals = await Goal.find({ $or: [{ creator: id }, { _id: id }] });
     return new Response(JSON.stringify(goals), { status: 200 });
   } catch (err) {
-    return Response.json(
-      { message: "Failed to create a new task!" },
-      { status: 500 }
-    );
+    return Response.json({ message: "Failed to Fetch Goal!" }, { status: 500 });
   }
 };

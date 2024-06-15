@@ -25,10 +25,9 @@ const AddBank = () => {
     console.log(userId)
     useEffect(() => {
         const fetchBank = async () => {
-            const res = await fetch("api/paystack/getbank")
+            const res = await fetch(`api/bank/${userId}`)
             if (res.ok) {
                 const data = await res.json()
-                setBanks(data)
                 console.log(data)
             }
         }
