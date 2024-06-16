@@ -37,17 +37,14 @@ const AddBank = () => {
                 if (res.ok) {
                     const data = await res.json();
                     setBanks(data);
-                    console.log(data);
                 } else {
                     const errorData = await res.json();
                     setError(errorData.message || "Failed to fetch bank details");
                 }
             } catch (error) {
-                console.log(error.message);
                 setError(error.message);
             } finally {
                 setBankNameLoading(false);
-
             }
         };
 
@@ -72,36 +69,34 @@ const AddBank = () => {
                     })
                 }
             )
-
             if (res.ok) {
                 console.log("success")
             }
         } catch (error) {
-            console.log(error.message)
             setError(error.message)
         } finally {
             setLoading(false)
+            setSuccessful(false)
             setBankDetails({
                 account_number: "",
                 email: "",
                 user_name: "",
                 bank_code: "",
             })
-            setSuccessful(false)
         }
-
     }
 
     const addABank = () => {
         setOpenBankModal(!openBankModal)
-
+        setSuccessful(true)
     }
+
     return (
         <div>
             <section>
                 <div className='flex justify-between p-3 items-center'>
                     <h2 className='text-lg'>
-                        Your  Bank Details
+                        Your Bank Details
                     </h2>
                     < FullButton button_name={"Add a Bank"} onClick={addABank} />
                 </div>

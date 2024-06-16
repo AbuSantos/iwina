@@ -1,13 +1,12 @@
 "use client"
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import close from "@/public/images/close.svg"
 import success from "@/public/images/success.gif"
 import loadingButton from "@/public/images/loadingbutton.gif"
 import FullButton from '@/components/ui/Buttons'
 const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankName, handleSubmit, setBankDetails, bankDetails }) => {
     const [openDrop, setDrop] = useState(false)
-    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
     const openDropDown = () => {
         setDrop(!openDrop)
@@ -22,15 +21,7 @@ const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankNam
             ...prevData, [name]: value
         }))
     }
-    useEffect(() => {
-        const { user_name, email, account_number } = bankDetails;
-        if (user_name && email && account_number && bankname) {
-            setIsSubmitDisabled(false);
-        } else {
-            setIsSubmitDisabled(true);
-        }
-    }, [bankDetails, bankname]);
-
+    
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
             <div className="relative bg-gray-200  rounded-md w-5/6 ">
@@ -46,13 +37,13 @@ const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankNam
                             <section className=' w-full p-2'>
                                 <form >
                                     <div className='w-full p-2 '>
-                                        <input type="text" required name="user_name" value={bankDetails.user_name} onChange={handleChange} placeholder='Bank Account Name' className='w-full p-3 outline-none rounded-md' />
+                                        <input type="text" name="user_name" value={bankDetails.user_name} onChange={handleChange} placeholder='Bank Account Name' className='w-full p-3 outline-none rounded-md' />
                                     </div>
                                     <div className='w-full p-2'>
-                                        <input type="email" required name="email" value={bankDetails.email} onChange={handleChange} placeholder='Email' className='w-full p-3 outline-none rounded-md' />
+                                        <input type="email" name="email" value={bankDetails.email} onChange={handleChange} placeholder='Email' className='w-full p-3 outline-none rounded-md' />
                                     </div>
                                     <div className='w-full p-2'>
-                                        <input type="number" required name="account_number" value={bankDetails.account_number} onChange={handleChange} placeholder='Account Number' className='w-full p-3 outline-none rounded-md' />
+                                        <input type="number" name="account_number" value={bankDetails.account_number} onChange={handleChange} placeholder='Account Number' className='w-full p-3 outline-none rounded-md' />
                                     </div>
                                 </form>
 
@@ -84,7 +75,6 @@ const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankNam
                             </section>
                             <div className='flex mt-36 items-center justify-center p-3 '>
                                 <button onClick={handleSubmit}
-                                    disabled={isSubmitDisabled}
                                     className="text-white bg-violet-700 font-medium rounded-lg text-lg px-5 py-3.5 outline-none w-full" type="button"
                                 >
                                     {loading ?
@@ -93,6 +83,7 @@ const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankNam
                                             <Image alt="video" src={loadingButton} width={30} />
                                         </p>
                                         : "Submit"
+
                                     }
                                 </button>
                             </div>
@@ -102,7 +93,7 @@ const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankNam
 
                             <Image alt="video" src={success} width={50} />
                             <p className='text-xl'>
-                                Bank Successfully Added
+                                Bank Successfully Edited
                             </p>
                             < FullButton button_name="Back" onClick={() => setOpenBankModal(false)} />
                         </div>

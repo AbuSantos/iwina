@@ -9,31 +9,31 @@ const Banks = ({ bank }) => {
     const handleShowAccount = () => {
         setShowAccountNumber(!showAccountNumber)
     }
-    // const handleEdit = async (e) => {
-    //     e.preventDefault()
-    //     // setLoading(true)
-    //     try {
-    //         const res = await fetch(`api/bank/${bank._id}/edit`,
-    //             {
-    //                 method: "PATCH",
-    //                 body: JSON.stringify({
-    //                     account_number: bankDetails.account_number,
-    //                     email: bankDetails.email,
-    //                     user_name: bankDetails.user_name,
-    //                     creator: userId,
-    //                     bank_name: bankname
-    //                 })
-    //             }
-    //         )
+    const handleEdit = async (e) => {
+        e.preventDefault()
+        // setLoading(true)
+        try {
+            const res = await fetch(`api/bank/${bank._id}/edit`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        account_number: bankDetails.account_number,
+                        email: bankDetails.email,
+                        user_name: bankDetails.user_name,
+                        creator: userId,
+                        bank_name: bankname
+                    })
+                }
+            )
 
-    //         if (res.ok) {
-    //             console.log("success")
-    //         }
-    //     } catch (error) {
-    //         console.log(error.message)
-    //     }
+            if (res.ok) {
+                console.log("success")
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
 
-    // }
+    }
 
     return (
         <div>
