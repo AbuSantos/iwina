@@ -16,6 +16,8 @@ const AddBank = () => {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const [bankNameLoading, setBankNameLoading] = useState(false)
+    const [openBankModal, setOpenBankModal] = useState(false)
+    const [success, setSuccess] = useState(false)
 
     // opay: 999992
     // mtn: "120003"
@@ -26,11 +28,12 @@ const AddBank = () => {
         bank_code: null,
 
     })
+
     useEffect(() => {
         const fetchBank = async () => {
             setBankNameLoading(true);
             try {
-                const res = await fetch(`api/bank/${userId}`);
+                const res = await fetch(`api/bank/${userId}/`);
                 if (res.ok) {
                     const data = await res.json();
                     setBanks(data);
@@ -44,6 +47,7 @@ const AddBank = () => {
                 setError(error.message);
             } finally {
                 setBankNameLoading(false);
+
             }
         };
 
@@ -52,14 +56,11 @@ const AddBank = () => {
         }
     }, [userId]);
 
-
-  
-
     const handleSubmit = async (e) => {
         e.preventDefault()
-        // setLoading(true)
+        setLoading(true)
         try {
-            const res = await fetch("api/bank",
+            const res = await fetch("api/bank/",
                 {
                     method: "POST",
                     body: JSON.stringify({
@@ -77,13 +78,21 @@ const AddBank = () => {
             }
         } catch (error) {
             console.log(error.message)
+            setError(error.message)
+        } finally {
+            setLoading(false)
+            setBankDetails({
+                account_number: "",
+                email: "",
+                user_name: "",
+                bank_code: "",
+            })
         }
 
     }
 
-
     const addABank = () => {
-        console.log("bank");
+        setOpenBankModal(!openBankModal)
 
     }
     return (
@@ -108,14 +117,21 @@ const AddBank = () => {
                     )}
                 </div>
             </section>
-
-
-            <BankModal bankname={bankname} setBankName={setBankName} handleSubmit={handleSubmit}  bankDetails={bankDetails} setBankDetails={setBankDetails}/>
-
-
-
-
-
+            <div>
+                {
+                    openBankModal &&
+                    (
+                        <BankModal
+                            bankname={bankname}
+                            setBankName={setBankName}
+                            handleSubmit={handleSubmit}
+                            bankDetails={bankDetails}
+                            setBankDetails={setBankDetails}
+                            setOpenBankModal={setOpenBankModal}
+                        />
+                    )
+                }
+            </div>
         </div>
     )
 }
