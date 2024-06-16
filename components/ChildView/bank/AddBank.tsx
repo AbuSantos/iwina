@@ -17,7 +17,7 @@ const AddBank = () => {
     const [loading, setLoading] = useState(false)
     const [bankNameLoading, setBankNameLoading] = useState(false)
     const [openBankModal, setOpenBankModal] = useState(false)
-    const [success, setSuccess] = useState(false)
+    const [successful, setSuccessful] = useState(true)
 
     // opay: 999992
     // mtn: "120003"
@@ -87,6 +87,7 @@ const AddBank = () => {
                 user_name: "",
                 bank_code: "",
             })
+            setSuccessful(false)
         }
 
     }
@@ -128,6 +129,8 @@ const AddBank = () => {
                             bankDetails={bankDetails}
                             setBankDetails={setBankDetails}
                             setOpenBankModal={setOpenBankModal}
+                            successful={successful}
+                            loading={loading}
                         />
                     )
                 }
