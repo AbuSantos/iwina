@@ -57,7 +57,7 @@ const AddBank = () => {
         e.preventDefault()
         setLoading(true)
         try {
-            const res = await fetch("api/bank/",
+            const res = await fetch("api/bak/",
                 {
                     method: "POST",
                     body: JSON.stringify({
@@ -70,13 +70,18 @@ const AddBank = () => {
                 }
             )
             if (res.ok) {
+                setSuccessful(false)
+
                 console.log("success")
+            } else {
+                const errorData = await res.json();
+                setError(errorData.message || "Failed to add bank details");
+
             }
         } catch (error) {
-            setError(error.message)
+            console.log(error.message)
         } finally {
             setLoading(false)
-            setSuccessful(false)
             setBankDetails({
                 account_number: "",
                 email: "",
@@ -89,6 +94,7 @@ const AddBank = () => {
     const addABank = () => {
         setOpenBankModal(!openBankModal)
         setSuccessful(true)
+        setBankName(null)
     }
 
     return (
@@ -126,6 +132,7 @@ const AddBank = () => {
                             setOpenBankModal={setOpenBankModal}
                             successful={successful}
                             loading={loading}
+                            error={error}
                         />
                     )
                 }

@@ -3,9 +3,10 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import close from "@/public/images/close.svg"
 import success from "@/public/images/success.gif"
+import failure from "@/public/images/failure.gif"
 import loadingButton from "@/public/images/loadingbutton.gif"
 import FullButton from '@/components/ui/Buttons'
-const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankName, handleSubmit, setBankDetails, bankDetails }) => {
+const BankModal = ({ loading, successful, error, setOpenBankModal, bankname, setBankName, handleSubmit, setBankDetails, bankDetails }) => {
     const [openDrop, setDrop] = useState(false)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
@@ -35,10 +36,19 @@ const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankNam
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
             <div className="relative bg-gray-200  rounded-md w-5/6 ">
                 {
+                    error && <div className='flex flex-col  items-center justify-center p-4 h-44 space-y-4'>
+                        <Image alt="video" src={failure} width={50} />
+                        <p className='text-xl text-red-500'>
+                            Error
+                        </p>
+                        < FullButton button_name="Back" onClick={() => setOpenBankModal(false)} />
+                    </div>
+                }
+                {
                     successful ?
                         <div className='h-[70%]  md:h-[85%]'>
 
-                            <div className="flex  justify-end">
+                            <div className="flex justify-end">
                                 <Image src={close} alt="close" onClick={() => setOpenBankModal(false)} className="cursor-pointer" width={30} />
                             </div>
 
@@ -99,7 +109,6 @@ const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankNam
                         </div> :
 
                         <div className='flex flex-col  items-center justify-center p-4 h-44 space-y-4'>
-
                             <Image alt="video" src={success} width={50} />
                             <p className='text-xl'>
                                 Bank Successfully Added
