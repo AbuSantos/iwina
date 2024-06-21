@@ -6,7 +6,7 @@ import success from "@/public/images/success.gif"
 import failure from "@/public/images/failure.gif"
 import loadingButton from "@/public/images/loadingbutton.gif"
 import FullButton from '@/components/ui/Buttons'
-const BankModal = ({ loading, successful, bankError, setOpenBankModal, bankname, setBankName, handleSubmit, setBankDetails, bankDetails }) => {
+const BankModal = ({ isBankError, loading, successful, bankErrorMessage, setOpenBankModal, bankname, setBankName, handleSubmit, setBankDetails, bankDetails }) => {
     const [openDrop, setDrop] = useState(false)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
@@ -36,16 +36,16 @@ const BankModal = ({ loading, successful, bankError, setOpenBankModal, bankname,
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
             <div className="relative bg-gray-200  rounded-md w-5/6 ">
                 {
-                    bankError && <div className='flex flex-col  items-center justify-center p-4 h-44 space-y-4'>
+                    isBankError && <div className='flex flex-col  items-center justify-center p-4 h-44 space-y-4'>
                         <Image alt="video" src={failure} width={50} />
                         <p className='text-xl text-red-500'>
-                            {bankError}
+                            {bankErrorMessage}
                         </p>
                         < FullButton button_name="Try Again" onClick={() => setOpenBankModal(false)} />
                     </div>
                 }
                 {
-                    !bankError &&
+                    !isBankError &&
                     <>
                         {
                             successful ?

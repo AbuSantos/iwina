@@ -14,8 +14,8 @@ const AddBank = () => {
     const [bankCode, setBankCode] = useState(null)
     const [bankname, setBankName] = useState(null)
     const [error, setError] = useState("")
-    const [bankError, setBankError] = useState("")
-    const [bankErrorOption, setBankErrorOption] = useState(false)
+    const [bankErrorMessage, setBankErrorMessage] = useState("")
+    const [isBankError, setIsBankError] = useState(false)
     const [loading, setLoading] = useState(false)
     const [bankNameLoading, setBankNameLoading] = useState(false)
     const [openBankModal, setOpenBankModal] = useState(false)
@@ -67,17 +67,17 @@ const AddBank = () => {
                         email: bankDetails.email,
                         user_name: bankDetails.user_name,
                         creator: userId,
-                        bnk_name: bankname
+                        bank_name: bankname
                     })
                 }
             )
             if (res.ok) {
                 setSuccessful(false)
-
                 console.log("success")
             } else {
                 const errorData = await res.json();
-                setBankError(errorData.message || "Failed to add bank details");
+                setBankErrorMessage(errorData.message || "Failed to add bank details");
+                setIsBankError(true)
                 console.log(errorData.message)
             }
         } catch (error) {
@@ -97,7 +97,7 @@ const AddBank = () => {
         setOpenBankModal(!openBankModal)
         setSuccessful(true)
         setBankName(null)
-        setBankError("error")
+        setIsBankError(false)
     }
 
     return (
@@ -135,7 +135,8 @@ const AddBank = () => {
                             setOpenBankModal={setOpenBankModal}
                             successful={successful}
                             loading={loading}
-                            bankError={bankError}
+                            bankErrorMessage={bankErrorMessage}
+                            isBankError={isBankError}
                         />
                     )
                 }
