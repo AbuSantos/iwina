@@ -7,32 +7,10 @@ import loadingButton from "@/public/images/loadingbutton.gif"
 import FullButton from '@/components/ui/Buttons'
 import { useFetch } from '@/hooks/useFetch'
 const EditBankModal = ({ bankId, successful, setOpenBankModal, bankname, setBankName, handleSubmit, setBankDetails, bankDetails }) => {
-    const { data, loading } = useFetch(`api/bank/${bankId}/`)
+    const { data, loading, errorMessage } = useFetch(`api/bank/${bankId}/`)
 
     console.log(data)
-    //    useEffect(() => {
-    //         const fetchBank = async () => {
-    //             setBankNameLoading(true);
-    //             try {
-    //                 const res = await fetch(`api/bank/${userId}/`);
-    //                 if (res.ok) {
-    //                     const data = await res.json();
-    //                     setBanks(data);
-    //                 } else {
-    //                     const errorData = await res.json();
-    //                     setError(errorData.message || "Failed to fetch bank details");
-    //                 }
-    //             } catch (error) {
-    //                 setError(error.message);
-    //             } finally {
-    //                 setBankNameLoading(false);
-    //             }
-    //         };
 
-    //         if (userId) {
-    //             fetchBank();
-    //         }
-    //     }, [userId]);
 
     const [openDrop, setDrop] = useState(false)
 
@@ -49,7 +27,9 @@ const EditBankModal = ({ bankId, successful, setOpenBankModal, bankname, setBank
             ...prevData, [name]: value
         }))
     }
-    console.log(bankId)
+
+    loading && <p>loading...</p>
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
             <div className="relative bg-gray-200  rounded-md w-5/6 ">
