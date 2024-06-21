@@ -9,7 +9,6 @@ export const POST = async (req: NextRequest) => {
   const { account_number, email, user_name, creator, bank_name } =
     await req.json();
 
-  console.log(account_number, email, user_name, creator, bank_name);
   const kid = await Kids.findById(creator);
   console.log(kid);
   try {
@@ -28,11 +27,7 @@ export const POST = async (req: NextRequest) => {
     return Response.json({ message: "New Goal created successfully" });
   } catch (error) {
     console.error("Error Adding Bank:", error);
-
     // Return error response with detailed message
-    return Response.json(
-      { message: "Failed to add Bank!", error: error.message },
-      { status: 500 }
-    );
+    return Response.json({ message: "Failed to add Bank!" }, { status: 500 });
   }
 };

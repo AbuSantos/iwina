@@ -14,6 +14,8 @@ const AddBank = () => {
     const [bankCode, setBankCode] = useState(null)
     const [bankname, setBankName] = useState(null)
     const [error, setError] = useState("")
+    const [bankError, setBankError] = useState("")
+    const [bankErrorOption, setBankErrorOption] = useState(false)
     const [loading, setLoading] = useState(false)
     const [bankNameLoading, setBankNameLoading] = useState(false)
     const [openBankModal, setOpenBankModal] = useState(false)
@@ -57,7 +59,7 @@ const AddBank = () => {
         e.preventDefault()
         setLoading(true)
         try {
-            const res = await fetch("api/bak/",
+            const res = await fetch("api/bank/",
                 {
                     method: "POST",
                     body: JSON.stringify({
@@ -65,7 +67,7 @@ const AddBank = () => {
                         email: bankDetails.email,
                         user_name: bankDetails.user_name,
                         creator: userId,
-                        bank_name: bankname
+                        bnk_name: bankname
                     })
                 }
             )
@@ -75,8 +77,8 @@ const AddBank = () => {
                 console.log("success")
             } else {
                 const errorData = await res.json();
-                setError(errorData.message || "Failed to add bank details");
-
+                setBankError(errorData.message || "Failed to add bank details");
+                console.log(errorData.message)
             }
         } catch (error) {
             console.log(error.message)
@@ -95,6 +97,7 @@ const AddBank = () => {
         setOpenBankModal(!openBankModal)
         setSuccessful(true)
         setBankName(null)
+        setBankError("error")
     }
 
     return (
@@ -132,7 +135,7 @@ const AddBank = () => {
                             setOpenBankModal={setOpenBankModal}
                             successful={successful}
                             loading={loading}
-                            error={error}
+                            bankError={bankError}
                         />
                     )
                 }
