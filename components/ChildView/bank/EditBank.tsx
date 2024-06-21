@@ -5,7 +5,35 @@ import close from "@/public/images/close.svg"
 import success from "@/public/images/success.gif"
 import loadingButton from "@/public/images/loadingbutton.gif"
 import FullButton from '@/components/ui/Buttons'
-const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankName, handleSubmit, setBankDetails, bankDetails }) => {
+import { useFetch } from '@/hooks/useFetch'
+const EditBankModal = ({ bankId, successful, setOpenBankModal, bankname, setBankName, handleSubmit, setBankDetails, bankDetails }) => {
+    const { data, loading } = useFetch(`api/bank/${bankId}/`)
+
+    console.log(data)
+    //    useEffect(() => {
+    //         const fetchBank = async () => {
+    //             setBankNameLoading(true);
+    //             try {
+    //                 const res = await fetch(`api/bank/${userId}/`);
+    //                 if (res.ok) {
+    //                     const data = await res.json();
+    //                     setBanks(data);
+    //                 } else {
+    //                     const errorData = await res.json();
+    //                     setError(errorData.message || "Failed to fetch bank details");
+    //                 }
+    //             } catch (error) {
+    //                 setError(error.message);
+    //             } finally {
+    //                 setBankNameLoading(false);
+    //             }
+    //         };
+
+    //         if (userId) {
+    //             fetchBank();
+    //         }
+    //     }, [userId]);
+
     const [openDrop, setDrop] = useState(false)
 
     const openDropDown = () => {
@@ -21,7 +49,7 @@ const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankNam
             ...prevData, [name]: value
         }))
     }
-    
+    console.log(bankId)
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
             <div className="relative bg-gray-200  rounded-md w-5/6 ">
@@ -105,4 +133,4 @@ const BankModal = ({ loading, successful, setOpenBankModal, bankname, setBankNam
     )
 }
 
-export default BankModal
+export default EditBankModal

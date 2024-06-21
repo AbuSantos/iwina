@@ -4,11 +4,13 @@ import eye from "@/public/images/eye.svg"
 import eyeOff from "@/public/images/eye-off.svg"
 import edit from "@/public/images/edit.svg"
 import { useState } from "react"
+import EditBankModal from "./EditBank"
 const Banks = ({ bank }) => {
     const [showAccountNumber, setShowAccountNumber] = useState(false)
     const handleShowAccount = () => {
         setShowAccountNumber(!showAccountNumber)
     }
+    const [openBankModal, setOpenBankModal] = useState(false)
     const handleEdit = async (e) => {
         e.preventDefault()
         // setLoading(true)
@@ -34,7 +36,10 @@ const Banks = ({ bank }) => {
         }
 
     }
-
+    // console.log(bank._id)
+    const handleEditModal = () => {
+        setOpenBankModal(!openBankModal)
+    }
     return (
         <div>
             <section
@@ -53,7 +58,11 @@ const Banks = ({ bank }) => {
                     {
                         showAccountNumber ? <Image src={eye} alt="eyes" width={20} onClick={handleShowAccount} /> : <Image src={eyeOff} alt="eyes" width={20} onClick={handleShowAccount} />
                     }
-                    <Image src={edit} alt="eyes" onClick={handleShowAccount} width={20} />
+                    <Image src={edit} alt="eyes" onClick={handleEditModal} width={20} className="cursor-pointer" />
+                    {
+                        openBankModal &&
+                        <  EditBankModal setOpenBankModal={setOpenBankModal} bankId={bank._id} />
+                    }
                 </div>
 
             </section>
