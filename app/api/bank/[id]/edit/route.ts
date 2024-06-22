@@ -46,3 +46,18 @@ export const PATCH = async (req, { params }) => {
     });
   }
 };
+
+export const DELETE = async (req: NextRequest, { params }) => {
+  const { id } = params;
+  try {
+    await connectToDB();
+    await BankDetails.findByIdAndDelete(id);
+
+    return Response.json(
+      { message: "Task deleted successfully!" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return Response.json({ message: "Failed to delete Task" }, { status: 201 });
+  }
+};

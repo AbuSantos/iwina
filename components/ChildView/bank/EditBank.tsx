@@ -9,7 +9,7 @@ import { useFetch } from '@/hooks/useFetch'
 import { useSearchParams } from 'next/navigation'
 
 
-const EditBankModal = ({ bankId, setOpenBankModal, handleSubmit }) => {
+const EditBankModal = ({ bankId, setOpenBankModal }) => {
     const searcharams = useSearchParams()
     const userId = searcharams.get("id")
     const { data, loading, errorMessage } = useFetch(`api/bank/${bankId}/`)
