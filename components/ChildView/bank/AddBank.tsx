@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react'
 import Banks from './Banks'
 import FullButton from '@/components/ui/Buttons'
 import BankModal from './BankModal'
+import Image from 'next/image'
+import loadingState from "@/public/images/loadingstate.gif"
 
 const AddBank = () => {
     const searcharams = useSearchParams()
@@ -111,7 +113,10 @@ const AddBank = () => {
                 </div>
 
                 <div>
-                    {bankNameLoading && <p className='text-center p-2 text-violet-400'>Loading Bank Details...</p>}
+                    {bankNameLoading && <div className='flex items-center justify-center'>
+                        <Image src={loadingState} alt="loaiding state" width={100} />
+
+                    </div>}
                     {error && <p>Error: {error}</p>}
                     {!bankNameLoading && !error && banks.length > 0 && (
                         <div className='mb-2'>

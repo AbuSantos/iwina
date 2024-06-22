@@ -11,6 +11,7 @@ const Banks = ({ bank }) => {
     const [showAccountNumber, setShowAccountNumber] = useState(false)
     const [successful, setSuccessful] = useState(false)
     const [isError, setIsError] = useState(false)
+   
     const handleShowAccount = () => {
         setShowAccountNumber(!showAccountNumber)
     }
@@ -50,7 +51,7 @@ const Banks = ({ bank }) => {
                 </div>
                 <div>
                     {
-                        showAccountNumber ? <p className="text-sm">{bank.account_number}</p> : ""
+                        showAccountNumber && <p className="text-sm">{bank.account_number}</p>
                     }
                 </div>
                 <div className="flex space-x-4">
