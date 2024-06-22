@@ -3,6 +3,14 @@ import Kids from "@/(models)/Kids";
 import { connectToDB } from "@/utils/database";
 import { NextRequest } from "next/server";
 
+type bankDetailsType = {
+  account_number: number;
+  email: string;
+  user_name: string;
+  creator: string;
+  bank_name: string;
+};
+
 export const PATCH = async (req, { params }) => {
   try {
     await connectToDB();
@@ -14,23 +22,27 @@ export const PATCH = async (req, { params }) => {
     });
 
     if (!bankDetails) {
-      return new Response(
-        JSON.stringify({ message: "Bank not found!" }),
-        { status: 404 }
-      );
+      return new Response(JSON.stringify({ message: "Bank not found!" }), {
+        status: 404,
+      });
     }
 
     // Update the bank details with the new data
-    bankDetails.account_number = account_number 
-    bankDetails.email = email || bankDetails.email;
-    bankDetails.user_name = user_name || bankDetails.user_name;
-    bankDetails.bank_name = bank_name || bankDetails.bank_name;
-    bankDetails.creator = creator || bankDetails.creator;
+    bankDetails.account_number = account_number;
+    bankDetails.email = email ;
+    bankDetails.user_name = user_name ;
+    bankDetails.bank_name = bank_name ;
+    bankDetails.creator = creator ;
 
     await bankDetails.save();
 
-    return Response.json({ message: "Bank Details Successfully Updated!" });
+    return new Response(
+      JSON.stringify({ message: "Bank Details Successfully Updated!" }),
+      { status: 201 }
+    );
   } catch (err) {
-    return Response.json({ message: "Failed to fetch Bank!" }, { status: 500 });
+    return new Response(JSON.stringify({ message: "Failed to fetch Bank!" }), {
+      status: 500,
+    });
   }
 };

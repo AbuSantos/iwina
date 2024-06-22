@@ -6,9 +6,12 @@ import success from "@/public/images/success.gif"
 import loadingButton from "@/public/images/loadingbutton.gif"
 import FullButton from '@/components/ui/Buttons'
 import { useFetch } from '@/hooks/useFetch'
+import { useSearchParams } from 'next/navigation'
 
 
 const EditBankModal = ({ bankId, setOpenBankModal, handleSubmit }) => {
+    const searcharams = useSearchParams()
+    const userId = searcharams.get("id")
     const { data, loading, errorMessage } = useFetch(`api/bank/${bankId}/`)
     const [successful, setSuccessful] = useState(false)
     const [bankname, setBankName] = useState("")
@@ -19,18 +22,14 @@ const EditBankModal = ({ bankId, setOpenBankModal, handleSubmit }) => {
         user_name: '',
     })
 
-
-
     useEffect(() => {
         if (data) {
             setBankDetails({
                 account_number: data[0]?.account_number || '',
                 email: data[0]?.email || '',
                 user_name: data[0]?.user_name || '',
-
             })
             setBankName(data[0].bank_name || '')
-
         }
     }, [data])
 
@@ -58,11 +57,35 @@ const EditBankModal = ({ bankId, setOpenBankModal, handleSubmit }) => {
         }))
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
-        handleSubmit(bankDetails)
-        setSuccessful(true)
+        try {
+            const res = await fetch(`api/bank/${userId}/edit`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        account_number: bankDetails.account_number,
+                        email: bankDetails.email,
+                        user_name: bankDetails.user_name,
+                        creator: userId,
+                        bank_name: bankname
+                    })
+                }
+            )
+
+            if (res.ok) {
+                console.log("success")
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+
     }
+    // const onSubmit = (e) => {
+    //     e.preventDefault()
+    //     handleSubmit(bankDetails)
+    //     setSuccessful(true)
+    // }
 
     if (loading) {
         return (

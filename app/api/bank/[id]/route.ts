@@ -15,6 +15,8 @@ export const GET = async (req, { params }) => {
 
     return new Response(JSON.stringify(bank), { status: 200 });
   } catch (err) {
-    return Response.json({ message: "Failed to fetch Bank!" }, { status: 500 });
+    return new Response(JSON.stringify({ message: "Failed to fetch Bank!" }), {
+      status: 500,
+    });
   }
 };
