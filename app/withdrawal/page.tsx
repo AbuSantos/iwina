@@ -2,8 +2,9 @@
 import { useFetch } from '@/hooks/useFetch'
 import { SessionUser } from '@/types/types'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-
+import spinner from "@/public/images/spinner.gif"
 const page = () => {
     const { data: session } = useSession()
     const [openBankName, setOpenBankName] = useState(false)
@@ -51,32 +52,31 @@ const page = () => {
             console.log(data)
         }
     }
-    useEffect(() => {
-        const fetchBank = async () => {
-            const res = await fetch("api/paystack/getbank")
-            if (res.ok) {
-                const data = await res.json()
-                console.log(data)
-            }
-        }
-        fetchBank()
-    }, [])
+    // useEffect(() => {
+    //     const fetchBank = async () => {
+    //         const res = await fetch("api/paystack/getbank")
+    //         if (res.ok) {
+    //             const data = await res.json()
+    //             console.log(data)
+    //         }
+    //     }
+    //     fetchBank()
+    // }, [])
+    if (loading) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center ">
+                <Image src={spinner} alt="spinner" width={100} />
+            </div>
+        )
+    }
+
+    console.log(data)
     return (
         <div className='p-3 w-4/6 flex flex-col m-auto'>
             <h2 className=' text-center p-3 capitalize font-semibold '>Withdraw your earned funds</h2>
             <section className='flex items-center justify-center'>
                 <form action="form action" onSubmit={handleWithdraw} className='flex flex-col items-center justify-center w-full space-y-3'>
-                    {/* <div className='w-full border border-violet-500 border-opacity-15 p-2 rounded-md'>
-                        <input placeholder='Email' type="email" name="email" value={withdrawData.email} onChange={handleChange} className='outline-none' />
-                    </div>
 
-                    <div className='w-full border border-violet-500 border-opacity-15 p-2 rounded-md'>
-                        <input placeholder='name' type="text" name="name" value={withdrawData.name} onChange={handleChange} />
-                    </div>
-
-                    <div className='w-full border border-violet-500 border-opacity-15 p-2 rounded-md'>
-                        <input placeholder='account' type="number" name="account_number" value={withdrawData.account_number} onChange={handleChange} />
-                    </div> */}
                     <div className='flex space-x-2 w-full border border-violet-500 border-opacity-15 p-2  rounded-md'>
                         <input placeholder='amount' type="number" name="amount" value={withdrawData.amount} onChange={handleChange} className='outline-none' />
                     </div>
@@ -94,17 +94,22 @@ const page = () => {
                         {openBankName && (
                             <div id="dropdown" className="z-10 divide-y divide-gray-100 rounded-lg w-full">
                                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-200 w-full" aria-labelledby="dropdownDefaultButton" >
-                                    <li>
-                                        <a href="#" className="block px-4 py-2 w-full hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white mb-2 dark:bg-gray-700" onClick={() => handleNameChange("OPAY")}>Opay</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" className="block px-4 py-2 w-full hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white dark:bg-gray-700 rounded-b-md" onClick={() => handleNameChange("MTN MOMO")}>MTN MOMO</a>
-                                    </li>
+                                    {
+                                        data.map((bank, index) => (
+                                            <li key={index} >
+                                                <a href="#" className="block px-4 py-2 w-full hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white mb-2 dark:bg-gray-700" onClick={() => handleNameChange(bank.bank_name)}>{bank.bank_name}</a>
+                                            </li>
+                                        ))
+                                    }
                                 </ul>
                             </div>
                         )}
                     </div>
+                    {/* <div className='w-full border border-violet-500 border-opacity-15 p-2 rounded-md'>
+                        <input placeholder='Email' type="email" name="email" value={withdrawData.email} onChange={handleChange} className='outline-none' />
+                    </div>
 
+                   */}
 
                     <button type='submit'>
                         withdraw
