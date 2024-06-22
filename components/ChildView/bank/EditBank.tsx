@@ -60,7 +60,7 @@ const EditBankModal = ({ bankId, setOpenBankModal, handleSubmit }) => {
     const onSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await fetch(`api/bank/${userId}/edit`,
+            const res = await fetch(`api/bank/${bankId}/edit`,
                 {
                     method: "PATCH",
                     body: JSON.stringify({

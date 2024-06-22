@@ -20,7 +20,7 @@ export const PATCH = async (req, { params }) => {
     const bankDetails = await BankDetails.find({
       $or: [{ creator: id }, { _id: id }],
     });
-
+    console.log(bankDetails);
     if (!bankDetails) {
       return new Response(JSON.stringify({ message: "Bank not found!" }), {
         status: 404,
@@ -28,13 +28,13 @@ export const PATCH = async (req, { params }) => {
     }
 
     // Update the bank details with the new data
-    bankDetails.account_number = account_number;
-    bankDetails.email = email ;
-    bankDetails.user_name = user_name ;
-    bankDetails.bank_name = bank_name ;
-    bankDetails.creator = creator ;
+    bankDetails[0].account_number = account_number;
+    bankDetails[0].email = email;
+    bankDetails[0].user_name = user_name;
+    bankDetails[0].bank_name = bank_name;
+    bankDetails[0].creator = creator;
 
-    await bankDetails.save();
+    await bankDetails[0].save();
 
     return new Response(
       JSON.stringify({ message: "Bank Details Successfully Updated!" }),
