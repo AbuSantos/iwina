@@ -59,12 +59,12 @@ const Banks = ({ bank }) => {
                         showAccountNumber ? <Image src={eye} alt="eyes" width={20} onClick={handleShowAccount} /> : <Image src={eyeOff} alt="eyes" width={20} onClick={handleShowAccount} />
                     }
                     <Image src={edit} alt="eyes" onClick={handleEditModal} width={20} className="cursor-pointer" />
-                    {
-                        openBankModal &&
-                        <  EditBankModal setOpenBankModal={setOpenBankModal} bankId={bank._id} />
-                    }
-                </div>
 
+                </div>
+                {
+                    openBankModal &&
+                    <  EditBankModal setOpenBankModal={setOpenBankModal} bankId={bank._id} />
+                }
             </section>
         </div>
     )
