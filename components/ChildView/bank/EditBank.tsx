@@ -14,6 +14,8 @@ const EditBankModal = ({ bankId, setOpenBankModal }) => {
     const userId = searcharams.get("id")
     const { data, loading, errorMessage } = useFetch(`api/bank/${bankId}/`)
     const [successful, setSuccessful] = useState(false)
+    const [editError, setEditError] = useState("")
+    const [editLoading, setEditLoading] = useState(false)
     const [bankname, setBankName] = useState("")
     const [openDrop, setDrop] = useState(false)
     const [bankDetails, setBankDetails] = useState({
@@ -59,6 +61,7 @@ const EditBankModal = ({ bankId, setOpenBankModal }) => {
 
     const onSubmit = async (e) => {
         e.preventDefault()
+        setEditLoading(true)
         try {
             const res = await fetch(`api/bank/${bankId}/edit`,
                 {
@@ -75,17 +78,16 @@ const EditBankModal = ({ bankId, setOpenBankModal }) => {
 
             if (res.ok) {
                 console.log("success")
+                setSuccessful(true)
             }
         } catch (error) {
             console.log(error.message)
+            setEditError(error.message)
+        } finally {
+            setEditLoading(true)
         }
 
     }
-    // const onSubmit = (e) => {
-    //     e.preventDefault()
-    //     handleSubmit(bankDetails)
-    //     setSuccessful(true)
-    // }
 
     if (loading) {
         return (
@@ -161,7 +163,8 @@ const EditBankModal = ({ bankId, setOpenBankModal }) => {
                                     <button type="submit"
                                         className="text-white bg-violet-700 font-medium rounded-lg text-lg px-5 py-3.5 outline-none w-full"
                                     >
-                                        {loading ?
+                                        {editLoading ?
+
                                             <p className='flex items-center justify-center'>
                                                 Loading
                                                 <Image alt="loading" src={loadingButton} width={30} />

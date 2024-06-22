@@ -12,15 +12,17 @@ type bankDetailsType = {
 };
 
 export const PATCH = async (req, { params }) => {
+  const { id } = params;
   try {
     await connectToDB();
-    const { account_number, email, user_name, bank_name, creator } = req.json();
-    const { id } = params;
+    const { account_number, email, user_name, bank_name, creator } =
+      await req.json();
+    console.log(account_number, email, creator);
 
     const bankDetails = await BankDetails.find({
       $or: [{ creator: id }, { _id: id }],
     });
-    console.log(bankDetails);
+    console.log(bankDetails[0]);
     if (!bankDetails) {
       return new Response(JSON.stringify({ message: "Bank not found!" }), {
         status: 404,
