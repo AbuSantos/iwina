@@ -9,27 +9,29 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] });
 
 // const fredoka = Fredoka{()}
-const Header = ({ childId, data, role }) => {
+const Header = ({ data, role }) => {
     const router = useRouter()
     return (
         <div>
-            <div className='flex items-center justify-between py-2 px-2 cursor-pointer'>
-                <IoChevronBackSharp style={{ fontSize: "30px" }} onClick={() => router.back()} />
 
-                <div className={` bg-gray-900 rounded-3xl text-center flex items-center justify-between space-x-2 text-gray-100 text-sm p-2`}>
-                    <div className="w-8 h-8">
-                        <Image src={data?.image} alt={data?.username} width={50} height={50} className="" />
+            {data &&
+                <div className='flex items-center justify-between py-2 px-2 cursor-pointer'>
+                    <IoChevronBackSharp style={{ fontSize: "30px" }} onClick={() => router.back()} />
+
+                    <div className={` bg-gray-900 rounded-3xl text-center flex items-center justify-between space-x-2 text-gray-100 text-sm p-2`}>
+                        <div className="w-8 h-8">
+                            <Image src={data?.image} alt={data?.username} width={50} height={50} className="" />
+                        </div>
+                        <div className=''>
+                            <p className='flex items-center justify-center text-[1rem]'>
+                                <span className="text-[1rem] mr-1"> ⭐️ </span>
+                                {`${data?.points}`}
+                            </p>
+
+                        </div>
                     </div>
-                    <div className=''>
-                        <p className='flex items-center justify-center text-[1rem]'>
-                            <span className="text-[1rem] mr-1"> ⭐️ </span>
-                            {`${data?.points}`}
-                        </p>
 
-                    </div>
-                </div>
-
-            </div>
+                </div>}
 
 
         </div>

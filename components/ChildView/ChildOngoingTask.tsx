@@ -10,6 +10,7 @@ import InputSlider from "./InputSlider";
 import { useTaskContext } from "@/context/TaskContext";
 import CommentModal from "../tasks/CommentModal";
 import { SessionUser, TaskType } from "@/types/types";
+import spinner from "@/public/images/spinner.gif"
 
 
 type ChildIdType = {
@@ -24,8 +25,9 @@ const ChildOngoingTask = ({ childId, data }) => {
     useEffect(() => {
         fetchTasks("GET", `api/tasks/${childId}/inprogress`)
     }, [childId]);
-    // Return loading indicator while fetching data
-    if (state.loading) return <p>Loading...</p>;
+    if (state.loading) return <div className='flex items-center justify-center'>
+        <Image src={spinner} alt="loaiding state" width={100} />
+    </div>;
 
 
     return (

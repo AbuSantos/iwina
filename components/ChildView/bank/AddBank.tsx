@@ -7,7 +7,7 @@ import Banks from './Banks'
 import FullButton from '@/components/ui/Buttons'
 import BankModal from './BankModal'
 import Image from 'next/image'
-import loadingState from "@/public/images/loadingstate.gif"
+import spinner from "@/public/images/spinner.gif"
 
 const AddBank = () => {
     const searcharams = useSearchParams()
@@ -114,7 +114,7 @@ const AddBank = () => {
 
                 <div>
                     {bankNameLoading && <div className='flex items-center justify-center'>
-                        <Image src={loadingState} alt="loaiding state" width={100} />
+                        <Image src={spinner} alt="loaiding state" width={100} />
 
                     </div>}
                     {error && <p>Error: {error}</p>}

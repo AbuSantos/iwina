@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import line from "@/public/images/line.svg"
+import spinner from "@/public/images/spinner.gif"
 import lineB from "@/public/images/lineB.svg"
 import { useSearchParams } from "next/navigation"
 import { SessionUser } from "@/types/types"
@@ -80,7 +81,9 @@ const ParentEvent = ({ mode, childId }) => {
     }, [dateData]);
 
     if (loading) {
-        return <div className="flex justify-center items-center p-2 ">Loading Events...</div>;
+        return <div className='flex items-center justify-center'>
+            <Image src={spinner} alt="loaiding state" width={100} />
+        </div>
     }
 
     if (error) {
