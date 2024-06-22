@@ -7,9 +7,11 @@ import loadingButton from "@/public/images/loadingbutton.gif"
 import FullButton from '@/components/ui/Buttons'
 import { useFetch } from '@/hooks/useFetch'
 
-const EditBankModal = ({ bankId, setOpenBankModal, bankname, setBankName, handleSubmit }) => {
+
+const EditBankModal = ({ bankId, setOpenBankModal, handleSubmit }) => {
     const { data, loading, errorMessage } = useFetch(`api/bank/${bankId}/`)
     const [successful, setSuccessful] = useState(false)
+    const [bankname, setBankName] = useState("")
     const [openDrop, setDrop] = useState(false)
     const [bankDetails, setBankDetails] = useState({
         account_number: '',
@@ -21,19 +23,25 @@ const EditBankModal = ({ bankId, setOpenBankModal, bankname, setBankName, handle
 
     useEffect(() => {
         if (data) {
-            console.log("Fetched data:", data) // Debugging
-
             setBankDetails({
                 account_number: data[0]?.account_number || '',
                 email: data[0]?.email || '',
                 user_name: data[0]?.user_name || '',
+
             })
+            setBankName(data[0].bank_name || '')
+
         }
     }, [data])
-    // useEffect(() => {
-    //     console.log("Updated bankDetails:", bankDetails) // Debugging
-    // }, [bankDetails])
 
+    useEffect(() => {
+        const { user_name, email, account_number } = bankDetails;
+        if (user_name && email && account_number && bankname) {
+            // setIsSubmitDisabled(false);
+        } else {
+            // setIsSubmitDisabled(true);
+        }
+    }, [bankDetails, bankname]);
     const openDropDown = () => {
         setDrop(!openDrop)
     }
@@ -66,13 +74,13 @@ const EditBankModal = ({ bankId, setOpenBankModal, bankname, setBankName, handle
 
 
 
-    // if (errorMessage) {
-    //     return (
-    //         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-    //             <p>Error: {errorMessage}</p>
-    //         </div>
-    //     )
-    // }
+    if (errorMessage) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+                <p>Error: {errorMessage}</p>
+            </div>
+        )
+    }
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
