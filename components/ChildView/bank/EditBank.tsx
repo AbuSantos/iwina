@@ -9,26 +9,30 @@ import { useFetch } from '@/hooks/useFetch'
 
 const EditBankModal = ({ bankId, setOpenBankModal, bankname, setBankName, handleSubmit }) => {
     const { data, loading, errorMessage } = useFetch(`api/bank/${bankId}/`)
-
+    const [successful, setSuccessful] = useState(false)
+    const [openDrop, setDrop] = useState(false)
     const [bankDetails, setBankDetails] = useState({
         account_number: '',
         email: '',
         user_name: '',
-        bank_code: '',
     })
-    const [successful, setSuccessful] = useState(false)
-    const [openDrop, setDrop] = useState(false)
+
+
 
     useEffect(() => {
         if (data) {
+            console.log("Fetched data:", data) // Debugging
+
             setBankDetails({
-                account_number: data.account_number || '',
-                email: data.email || '',
-                user_name: data.user_name || '',
-                bank_code: data.bank_code || '',
+                account_number: data[0]?.account_number || '',
+                email: data[0]?.email || '',
+                user_name: data[0]?.user_name || '',
             })
         }
     }, [data])
+    // useEffect(() => {
+    //     console.log("Updated bankDetails:", bankDetails) // Debugging
+    // }, [bankDetails])
 
     const openDropDown = () => {
         setDrop(!openDrop)
@@ -60,13 +64,15 @@ const EditBankModal = ({ bankId, setOpenBankModal, bankname, setBankName, handle
         )
     }
 
-    if (errorMessage) {
-        return (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-                <p>Error: {errorMessage}</p>
-            </div>
-        )
-    }
+
+
+    // if (errorMessage) {
+    //     return (
+    //         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+    //             <p>Error: {errorMessage}</p>
+    //         </div>
+    //     )
+    // }
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
