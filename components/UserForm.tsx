@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import sGirlChild from "@/public/images/sGirlChild.png"
 import boychild from "@/public/images/boychild.png"
+import loadingButton from "@/public/images/loadingbutton.gif"
 import aGirlChild from "@/public/images/aGirlChild.png"
 import aBoyChild from "@/public/images/aBoyChild.png"
 import { FaCamera } from "react-icons/fa";
@@ -42,6 +43,7 @@ const UserForm = () => {
     const [errMessage, setErrMessage] = useState('')
     const { data: session } = useSession()
     const [succesful, setSuccessful] = useState(false)
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
         // Retrieve selectedAvatar and newAvatar values from local storage during component initialization
         const storedSelectedAvatar = window.localStorage.getItem('user_selected_avatar_index');
@@ -90,6 +92,7 @@ const UserForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
         try {
             const res = await fetch("api/users/kids", {
                 method: 'POST',
@@ -156,6 +159,7 @@ const UserForm = () => {
 
             setErrMessage(error)
         } finally {
+            setLoading(false)
             setSuccessful(true)
         }
     }
@@ -374,9 +378,17 @@ const UserForm = () => {
                                 >
                                     Back
                                 </button>
-                                <input type="submit" value="Add Child"
-                                    className={`text-base px-7 py-2 g-[#4f2190] bg-[#4f2190]  m-auto  rounded-full  text-[#faf9fb]`}
-                                />
+                                <button type="submit"
+                                    className={`text-base px-7 py-2 g-[#4f2190] bg-[#4f2190]  m-auto  rounded-full  text-[#faf9fb] `}
+                                >
+                                    {loading ?
+                                        <p className='flex items-center justify-center '>
+                                            Adding Child
+                                            <Image alt="video" src={loadingButton} width={30} />
+                                        </p>
+                                        : "Add a Child"
+                                    }
+                                </button>
                             </div>
                         </div>
                     </form>
