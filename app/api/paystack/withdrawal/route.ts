@@ -1,8 +1,23 @@
+import Kids from "@/(models)/Kids";
 import { NextRequest } from "next/server";
 
 export const POST = async (req: NextRequest) => {
-  const { email, name, account_number, bank_code, amount } = await req.json();
+  const { email, name, account_number, bank_code, amount, userId } =
+    await req.json();
 
+  const kid = await Kids.findById(userId);
+  if (!kid) {
+    return new Response("Kid not found", {
+      status: 500,
+    });
+  }
+
+  // if (kid.points < amount) {
+  //   console.log(kid);
+  //   return new Response("Insufficient points", {
+  //     status: 500,
+  //   });
+  // }
   try {
     const paystackResponse = await fetch(
       "https://api.paystack.co/transferrecipient",
@@ -22,7 +37,6 @@ export const POST = async (req: NextRequest) => {
         }),
       }
     );
-
     if (!paystackResponse.ok) {
       const errorMessage = await paystackResponse.text();
       const errorObject = JSON.parse(errorMessage);
@@ -53,8 +67,8 @@ export const POST = async (req: NextRequest) => {
     });
 
     const transactionData = await transferResponse.json();
-    console.log(transactionData);
-
+    kid.points -= amount;
+    kid.save();
     // return new Response(
     //   JSON.stringify({
     //     status: "success",

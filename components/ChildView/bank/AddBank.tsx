@@ -23,8 +23,7 @@ const AddBank = () => {
     const [openBankModal, setOpenBankModal] = useState(false)
     const [successful, setSuccessful] = useState(true)
 
-    // opay: 999992
-    // mtn: "120003"
+  
     const [bankDetails, setBankDetails] = useState({
         account_number: null,
         email: null,
