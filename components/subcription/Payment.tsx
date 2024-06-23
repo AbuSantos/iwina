@@ -2,7 +2,7 @@
 
 import Header from "../ParentProfile/Header"
 import AddFunds from '@/components/funds/AddFunds'
-import Input from "./input/Input"
+// import Input from "./input/Input"
 import { currentPointState } from "@/atoms/pointAtom"
 import { useRecoilValue, useRecoilState } from 'recoil'
 
