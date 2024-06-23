@@ -222,7 +222,7 @@ const UserForm = () => {
 
     return (
         <div>
-            {/* {showErr && <p>{errMessage}</p>} */}
+            {showErr && <p>{errMessage}</p>}
             {/* <Notification /> */}
             {
                 !succesful ? <>

@@ -34,3 +34,8 @@ export type MessageData = {
   userId: string | Number;
   image?: string;
 };
+
+export type ParentEventType = {
+  mode?: string;
+  childId?: string;
+};

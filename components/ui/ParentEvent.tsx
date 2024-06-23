@@ -9,10 +9,10 @@ import line from "@/public/images/line.svg"
 import spinner from "@/public/images/spinner.gif"
 import lineB from "@/public/images/lineB.svg"
 import { useSearchParams } from "next/navigation"
-import { SessionUser } from "@/types/types"
+import { ParentEventType, SessionUser } from "@/types/types"
 const fredoka = Fredoka({ subsets: ["latin"] })
 
-const ParentEvent = ({ mode, childId }) => {
+const ParentEvent = ({ mode, childId }: ParentEventType) => {
     const { data: session } = useSession()
     const userId = (session?.user as SessionUser)?.id
     const role = (session?.user as SessionUser)?.role
