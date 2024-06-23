@@ -23,7 +23,7 @@ const Payment = () => {
             </div>
 
             <div className="w-[98%] flex items-center justify-center m-auto mb-11">
-                <Input />
+                {/* <Input /> */}
             </div>
 
             <AddFunds />
