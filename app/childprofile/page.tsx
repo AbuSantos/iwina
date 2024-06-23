@@ -43,7 +43,7 @@ const ChildProfileView = () => {
                 role === "parent" || userId !== childId
                     ?
                     <div className=''>
-                        <Header childId={childId} data={data} role={role} />
+                        <Header data={data} role={role} />
                     </div>
                     :
                     <header className="p-4">
@@ -56,11 +56,11 @@ const ChildProfileView = () => {
                         />
                     </header>
             }
-            
+
             <div>
                 <Tab tab1={"Goals"} tab2={"Home"} tab3={"info"} tab4={"Events"} activeTab={activeTab} handleTab={handleTab} role={role} />
             </div>
-           
+
             {
                 activeTab === ("goals") && <Goals childId={childId} />
             }
