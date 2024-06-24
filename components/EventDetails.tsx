@@ -55,7 +55,7 @@ export const EventDetails = ({ dateData }) => {
                 </p>
             </nav>
 
-            <div className="h-screen overflow-y-scroll mt-20">
+            <div className="h-screen overflow-y-scroll mt-20 no-scrollbar">
                 {activeTab === "upcoming" && (
                     upcomingData.length === 0 ? (
                         <div>

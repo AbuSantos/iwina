@@ -38,6 +38,7 @@ const MessageReply = () => {
         fetchMessages()
     }, [userId, familyRoomId])
     // console.log(messages);
+   
     useEffect(() => {
         if (messages.length > 0) {
             const isLastMessage = messages[messages.length - 1]
@@ -65,7 +66,8 @@ const MessageReply = () => {
                         <div key={_id} className={`mb-2 ${isCurrentUserMessage ? "text-right" : "text-left"}`} ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '80vh' }}>
                             <div className={`flex ${isCurrentUserMessage ? "justify-end" : "justify-start"}`}>
                                 <div className={`overflow-hidden 
-                                ${isCurrentUserMessage ? "rounded-tr-3xl rounded-tl-3xl rounded-bl-3xl text-[#dfd7fb] bg-[#6229b3]" : "rounded-3xl bg-[#dfd7fb] text-[#6229b3]"
+                                ${isCurrentUserMessage ? 
+                                    "rounded-tr-3xl rounded-tl-3xl rounded-bl-3xl text-[#dfd7fb] bg-[#6229b3]" : "rounded-3xl bg-[#dfd7fb] text-[#6229b3]"
                                     }`}
                                     style={{ maxWidth: '80%' }}>
                                     <p className="p-2 text-[0.85rem]">

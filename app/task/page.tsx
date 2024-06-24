@@ -1,7 +1,7 @@
 'use client'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Task from "@/components/Task"
 import TaskCard from '@/components/TaskCard'
 import Notification from '@/components/Notification'
@@ -10,7 +10,7 @@ import { useTaskContext } from '@/context/TaskContext'
 
 
 
-const page = () => {
+const Tasks = () => {
     const searchParams = useSearchParams()
     const taskId = searchParams.get("id")
     const session = useSession()
@@ -167,4 +167,10 @@ const page = () => {
     )
 }
 
-export default page
+const TasksWrapper: React.FC = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <Tasks />
+    </Suspense>
+);
+
+export default TasksWrapper

@@ -1,6 +1,4 @@
 "use client"
-import Link from "next/link";
-import TaskCard from "./TaskCard";
 import { useState, useEffect } from "react";
 import OngoingTask from "./OngoingTask";
 import CompletedTask from "./CompletedTask";
@@ -39,7 +37,7 @@ const Task = ({ }) => {
                         }`}>Completed Tasks</button>
             </div>
 
-            <div className="mt-10 w-full ">
+            <div className=" w-full ">
                 {
                     activeTab === 'new' &&
                     <div >

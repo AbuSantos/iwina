@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import TaskCard from '../TaskCard'
 import { RiGiftLine } from 'react-icons/ri'
 import { IoClose } from "react-icons/io5";
+import SingleCard from './SingleCard'
 
 interface ModalProps {
     taskId: string;
@@ -120,7 +121,7 @@ const Modal = ({ taskId, onClose, points, deadline, description, status, pickedB
 
     //@ts-ignore
     const isCreator = creator._id === (session?.data?.user as any)?.id
-    console.log(isCreator, creator);
+    // console.log(isCreator, creator);
 
     const isCompleted = status === "Completed" || "Rewarded"
     const isRewarded = status === "Rewarded"
@@ -135,13 +136,14 @@ const Modal = ({ taskId, onClose, points, deadline, description, status, pickedB
                     <IoClose />
                 </span>
 
-                <TaskCard
+                <SingleCard
                     description={description}
                     status={status}
                     pickedBy={pickedBy}
                     createdAt={createdAt}
-                    deadline={deadline as unknown as Date}
+                    deadline={deadline}
                     points={points}
+                    mode="modal"
                 />
 
                 {

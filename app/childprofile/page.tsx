@@ -7,14 +7,20 @@ import ChildViewCompletedTask from '@/components/ChildView/ChildViewCompleted';
 import BottomNav from '@/components/BottomNav';
 import ProfileHeader from '@/components/ChildView/childprofile/ProfileHeader';
 import { useSession } from 'next-auth/react';
+import Goals from '@/components/Goals/Goaltab/Goals';
+import Tab from '@/components/ui/Tab';
+import { KidData } from '@/types/types';
+import ChildEvent from '@/components/Events/ChildEvent';
+import AboutChild from '@/components/ChildView/childprofile/about/AboutChild';
 
 const ChildProfileView = () => {
     const params = useSearchParams()
     const childId = params.get("id")
-    const [data, setData] = useState()
     const { data: session } = useSession()
     const role = (session?.user as any)?.role
-    console.log(session);
+    const userId = (session?.user as any)?.id
+    const [data, setData] = useState<KidData | null>(null);
+    const [activeTab, setActiveTab] = useState<string>("home");
 
     useEffect(() => {
         const fetchKids = async () => {
@@ -22,38 +28,67 @@ const ChildProfileView = () => {
             if (res.ok) {
                 const data = await res.json()
                 setData(data)
-                // console.log(data)
             }
         }
         fetchKids()
     }, [childId])
-    console.log(data);
+
+    const handleTab = (tab: string) => {
+        setActiveTab(tab)
+    }
 
     return (
         <div className='' >
-            {role === "child" && <header className="p-4">
-                {/* <div className=''>
-                    <Header childId={childId} data={data} role={role} />
-                </div> */}
+            {
+                role === "parent" || userId !== childId
+                    ?
+                    <div className=''>
+                        <Header data={data} role={role} />
+                    </div>
+                    :
+                    <header className="p-4">
+                        <ProfileHeader
+                            username={(data)?.username}
+                            image={data?.image}
+                            taskCount={(data?.
+                                completedTasks)?.length}
+                            points={data?.points}
+                        />
+                    </header>
+            }
 
-                <ProfileHeader
-                    username={(data)?.username}
-                    image={data?.image}
-                    taskCount={data?.
-                        ongoingTasks?.length}
-                    points={data?.points}
-                />
-            </header>}
-
-
-
-            <div className='flex items-center justify-center mb-3 '>
-                < ChildOngoingTask childId={childId} data={data} role={role} />
+            <div>
+                <Tab tab1={"Goals"} tab2={"Home"} tab3={"info"} tab4={"Events"} activeTab={activeTab} handleTab={handleTab} role={role} />
             </div>
-            <div className='flex items-center justify-center'>
-                < ChildViewCompletedTask childId={childId} role={role} />
-            </div>
-            <BottomNav />
+
+            {
+                activeTab === ("goals") && <Goals childId={childId} />
+            }
+
+            {
+                activeTab === ("home") && <div>
+                    <div className='flex items-center justify-center mb-3 mt-16'>
+                        < ChildOngoingTask childId={childId} data={data} />
+                    </div>
+                    <div className='flex items-center justify-center'>
+                        < ChildViewCompletedTask childId={childId} role={role} />
+                    </div>
+                </div>
+            }
+
+            {
+                role === "parent" ? <>
+                    {
+                        activeTab === ("info") && <AboutChild childId={childId} data={data} />
+                    }
+                    {
+                        activeTab === ("events") &&
+                        <ChildEvent />
+                    }
+                </> : ""
+            }
+
+            {/* <BottomNav /> */}
         </div>
     )
 }

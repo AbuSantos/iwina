@@ -6,32 +6,61 @@ import Image from "next/image"
 import ongoingchore from "@/public/images/ongoingchore.png"
 import { Montserrat } from "next/font/google"
 import { useTaskContext } from "@/context/TaskContext"
-
+import { TaskType } from "@/types/types"
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 const CompletedTask = ({ setActiveTab }) => {
     const { data: session, status } = useSession()
     const { state, fetchTasks } = useTaskContext()
+    const [data, setData] = useState([])
     const userId = (session?.user as any)?.id
     const userRole = (session?.user as any)?.role
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+
 
     interface TaskType {
         taskDesc: string,
-        taskDdl: Date,
+        taskDdl: string,
         taskPnt: number,
         status: string,
         createdAt: Date,
     }
 
     useEffect(() => {
-        fetchTasks("GET", `api/tasks/${userId}/completed?role=${userRole}`)
-    }, [])
+        const fetchTasks = async () => {
+            try {
+                const res = await fetch(`api/tasks/${userId}/completed?role=${userRole}`);
+                if (!res.ok) {
+                    throw new Error('Failed to fetch tasks');
+                }
+                const newData = await res.json();
+                setData(newData);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (userId) {
+            fetchTasks();
+        }
+    }, [userId, userRole]);
+    if (loading) {
+        return <div className="flex justify-center items-center p-2 ">Loading...</div>;
+    }
+
+    if (error) {
+        return <div className="flex justify-center items-center p-2 ">Error: {error}</div>;
+    }
+    console.log(data)
 
     return (
-        <div className=" flex flex-col items-center space-y-3 mb-20">
+        <div className=" flex flex-col items-center space-y-3 p-2">
             {
-                state.data?.map((task: TaskType) => {
-                    console.log(task);
+                data?.map((task: TaskType) => {
+                    // console.log(task);
                     const { taskDesc, taskDdl, taskPnt, status, createdAt } = task
                     return (
                         <div className="text-gray-800 flex justify-between items-center w-11/12 bg-[#dfd7fb] rounded-xl">
@@ -43,9 +72,10 @@ const CompletedTask = ({ setActiveTab }) => {
                                 createdAt={createdAt}
                             />
                         </div>)
-                })}
+                })
+            }
             {
-                state.data && state.data?.length === 0 && (
+                data && data?.length === 0 && (
                     <div className="flex items-center flex-col justify-center">
                         <Image src={ongoingchore} height={200} alt="a kid sweeping" />
                         {
@@ -64,7 +94,6 @@ const CompletedTask = ({ setActiveTab }) => {
                                 </>
                             )
                         }
-
                     </div>
                 )}
         </div>

@@ -7,8 +7,22 @@ import bcrypt from "bcrypt";
 export const POST = async (req: NextRequest) => {
   try {
     await connectToDB();
-    const { username, password, userId, image } = await req.json();
-    // console.log(image, "OK");
+    const {
+      username,
+      password,
+      userId,
+      image,
+      favTeachersName,
+      favFood,
+      allergies,
+      doctorsName,
+      birthday,
+      favColor,
+      bestFriendsName,
+      favArtiste,
+      favSong,
+      favSubject,
+    } = await req.json();
 
     const newKid = new Kids({
       creator: userId,
@@ -16,6 +30,16 @@ export const POST = async (req: NextRequest) => {
       image,
       password,
       points: 0,
+      favTeachersName,
+      favFood,
+      allergies,
+      doctorsName,
+      birthday,
+      favColor,
+      bestFriendsName,
+      favArtiste,
+      favSong,
+      favSubject,
       completedTasks: [],
       ongoingTasks: [],
       goal: [],
@@ -48,12 +72,9 @@ export const POST = async (req: NextRequest) => {
     await parent.save();
 
     newKid.id = newKid.id;
-    // hashing th password hash
+    // hashing the password hash
     const hashPassword = await bcrypt.hash(newKid.password, 10);
-    // console.log(hashPassword);
-
     newKid.password = hashPassword;
-
     await Kids.create(newKid);
 
     const profile = {
@@ -62,6 +83,7 @@ export const POST = async (req: NextRequest) => {
       username: newKid.username,
       image: newKid.image,
     };
+
     return Response.json({ message: "Kid created", profile }, { status: 200 });
   } catch (error) {
     console.log(error);

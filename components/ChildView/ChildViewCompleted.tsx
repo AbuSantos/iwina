@@ -15,7 +15,7 @@ const fredoka = Fredoka({ subsets: ["latin"] });
 const ChildViewCompletedTask = ({ childId, role }) => {
     const router = useRouter()
     const session = useSession()
-    const [userTask, setUserTask] = useState()
+    const [userTask, setUserTask] = useState([])
     const [reward, setReward] = useState(true)
     const userId = (session?.data?.user as any)?.id
     useEffect(() => {
@@ -29,11 +29,7 @@ const ChildViewCompletedTask = ({ childId, role }) => {
 
         fetchTask()
     }, [])
-    console.log(userTask);
-
     const handleReward = async (taskId: string) => {
-        console.log(taskId);
-
         try {
             const res = await fetch(`/api/task/${taskId}/acceptTask`, {
                 method: "PATCH",
@@ -54,10 +50,7 @@ const ChildViewCompletedTask = ({ childId, role }) => {
         <div className={`border-2 bg-[#a191fe] font-medium rounded-xl py-2 px-3 w-11/12`}>
             {
                 (userTask as [])?.map((task: any) => {
-                    // console.log(reward);
-
                     const { taskDesc, taskDdl, taskPnt, status, updatedAt, _id } = task
-
                     return (
                         <div className="flex justify-between gap-5 items-center text-gray-200 ">
                             <div

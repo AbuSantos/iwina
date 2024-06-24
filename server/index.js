@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { Location } from "../(models)/Location.js";
 import User from "../(models)/User.js";
 import Kids from "../(models)/Kids.js";
+import { Comments } from "../(models)/Comments.js";
 
 // Initialize the server on port 8080 and set up CORS policy
 const server = new Server(8080, {
@@ -32,6 +33,7 @@ const connectDB = async () => {
 };
 // Map of users to their respective rooms
 const userRooms = {};
+const commentRooms = {};
 const userLocations = {};
 
 server.on("connection", async (socket) => {
@@ -45,6 +47,17 @@ server.on("connection", async (socket) => {
       userRooms[socket.id] = familyRoomId;
     } else {
       console.log("User ID or room ID missing");
+    }
+  });
+
+  socket.on("join-comment", (user, parent, commentRoomId) => {
+    console.log(commentRoomId, "room");
+    if (user && parent && commentRoomId) {
+      socket.join(commentRoomId);
+      commentRooms[socket.id] = commentRoomId;
+      // console.log(`${socket.id} joined ${roomId}`);
+    } else {
+      console.log("User Id, room Id or Parent Id missing");
     }
   });
 
@@ -76,10 +89,53 @@ server.on("connection", async (socket) => {
     if (roomId && userRooms[socket.id] === roomId) {
       // Broadcast the message to the specified room
       socket.to(roomId).emit("receive-message", message, userId);
-      console.log(userId, "userId");
+      // console.log(userId, "userId");
       socket.emit("receive-message", message, userId);
     } else {
       console.log(`User ${socket.id} not in room ${roomId}`);
+    }
+  });
+
+  socket.on("send-comment", async (messageData) => {
+    const { message, user, parent, commentRoomId, userId, image } = messageData;
+    console.log(messageData);
+
+    // we check if we've roomId, then we check if the id is in the commentroom
+
+    const newComment = new Comments({
+      creator: userId,
+      parentId: parent,
+      message: message,
+      childId: user,
+      roomId: commentRoomId,
+      taskId: commentRoomId,
+      image: image,
+    });
+    await newComment.save();
+
+    if (commentRoomId && commentRooms[socket.id] === commentRoomId) {
+      socket
+        .to(commentRoomId)
+        .emit(
+          "receive-comment",
+          message,
+          user,
+          parent,
+          commentRoomId,
+          userId,
+          image
+        );
+      socket.emit(
+        "receive-comment",
+        message,
+        user,
+        parent,
+        commentRoomId,
+        userId,
+        image
+      );
+    } else {
+      console.log(`User ${socket.id} not in room ${commentRoomId}`);
     }
   });
 
@@ -102,15 +158,6 @@ server.on("connection", async (socket) => {
         user = await Kids.findById(userId);
       }
 
-      // console.log(user, "usern amer");
-      // const newLocation = await new Location({
-      //   user: userId,
-      //   username,
-      //   latitude,
-      //   longitude,
-      //   accuracy,
-      //   familyLocationId,
-      // });
       // Create or update the location for the user
       await Location.findOneAndUpdate(
         { user },

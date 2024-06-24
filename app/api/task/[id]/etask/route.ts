@@ -29,8 +29,6 @@ export const PATCH = async (
   { params }: { params: ParamsType }
 ) => {
   const { status, userId } = await req.json();
-  console.log(userId, "userId");
-
   try {
     //we check if the inputed values is one of the allowed values
     if (!status || !["In Progress", "Completed"].includes(status)) {
@@ -57,7 +55,7 @@ export const PATCH = async (
       existingTask.user = status === "In Progress" ? userId : null;
 
       const pickedUser = await Kids.findById(userId).exec();
-      console.log(existingTask, "picked by username");
+      // console.log(existingTask, "picked by username");
       // console.log(pickedUser, "picked");
 
       if (!pickedUser) {

@@ -15,11 +15,9 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 
     return new Response(JSON.stringify(messages), { status: 200 });
   } catch (error) {
-    return (
-      Response.json({ message: "Failed to fetch tasks" }),
-      {
-        status: 500,
-      }
+    return new Response(
+      JSON.stringify({ message: "Failed to fetch messages" }),
+      { status: 500 }
     );
   }
 };

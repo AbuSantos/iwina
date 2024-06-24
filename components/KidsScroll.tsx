@@ -7,6 +7,8 @@ import girlchild from "@/public/images/girlchild.png"
 import { FaPlus } from "react-icons/fa6";
 import Link from "next/link"
 import { useTaskContext } from "@/context/TaskContext"
+import { useRecoilState } from "recoil"
+import { CurrentKidCount } from "@/atoms/kidsAtom"
 
 const fredoka = Fredoka({ subsets: ["latin"] })
 
@@ -16,13 +18,14 @@ const KidsScroll = () => {
     const userId = (session?.user as any)?.id
     const role = (session?.user as any)?.role
     const [kids, setKids] = useState()
-
+    const [kidsData, setKidsData] = useRecoilState(CurrentKidCount)
     useEffect(() => {
         const fetchKids = async () => {
             const res = await fetch(`api/users/${userId}/user/kids?role=${role}`);
             if (res.ok) {
                 const data = await res.json()
                 setKids(data)
+                setKidsData(data)
             }
         }
         fetchKids()
@@ -30,14 +33,12 @@ const KidsScroll = () => {
 
     return (
         <div className="w-full p-3">
-            <h2 className={`${fredoka.className} text-lg font-medium`}>{role === "parent" ? "Your children" : "Your Siblings"}</h2>
             <div className="flex overflow-x-auto space-x-5 scrollbar-hide mt-3 items-center" >
                 {
                     (kids as [])?.map((kid: any) => {
-                        // console.log(kid);
                         return (
                             <div key={kid?._id}>
-                                <Link href={`/childprofile?id=${kid._id}`} className="flex flex-col items-center justify-center space-y-2">
+                                <Link href={`/childprofile?id=${kid._id}`} className={`${kid._id === userId && "hidden "} flex flex-col items-center justify-center space-y-2 `} >
                                     < div className=" bg-[#dfd7fb] p-3 rounded-full h-14 w-14 flex items-center justify-center" >
                                         <Image src={kid.image} alt="girl child" width={100} height={100} />
                                     </div>
