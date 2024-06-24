@@ -79,31 +79,29 @@ const AddFunds = () => {
             const email = pointsData.email
             const points = pointsData.amount - ((pointsData.amount * 1) / 100)
 
+            const response = await fetch(`api/paystack`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    pointAmount, email, points,
+                    emailredirect_url: "http://localhost:3000"
+                })
+            })
 
-            console.log(points)
-            // const response = await fetch(`api/paystack`, {
-            //     method: 'POST',
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify({
-            //         pointAmount, email, points,
-            //         emailredirect_url: "http://localhost:3000"
-            //     })
-            // })
+            if (response.ok) {
+                const data = await response.json()
 
-            // if (response.ok) {
-            //     const data = await response.json()
+                if (data.status === 'success') {
+                    window.location.href = data.authorization_url;
+                } else {
+                    console.error(data.error);
+                }
 
-            //     if (data.status === 'success') {
-            //         window.location.href = data.authorization_url;
-            //     } else {
-            //         console.error(data.error);
-            //     }
-
-            // } else {
-            //     return Response.json({ status: 400, "Paystack API Error:": response.status });
-            // }
+            } else {
+                return Response.json({ status: 400, "Paystack API Error:": response.status });
+            }
 
         } catch (error) {
             console.log(error.message)

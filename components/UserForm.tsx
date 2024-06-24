@@ -371,7 +371,7 @@ const UserForm = () => {
                                     className="w-full flex p-4 text-sm text-gray-500 outline-0 shadow-sm border-b-2 border-b-gray-400"
                                 />
                             </div>
-                            <div className='absolute bottom-20 flex space-x-8 items-center '>
+                            <div className='p-4 py-8 flex items-center justify-center  '>
                                 <button type="submit"
                                     className={`text-base px-16 py-2 text-[#4f2190] bg-[#fff]  border-2 border-[#4f2190] m-auto rounded-full`}
                                     onClick={() => router.back()}
