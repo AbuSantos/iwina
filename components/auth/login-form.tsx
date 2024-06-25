@@ -7,12 +7,14 @@ import { Form, FormControl, FormField, FormLabel, FormItem, FormMessage } from "
 import { LoginSchema } from "@/schemas"
 import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button"
-import eye from "@/public/images/eye.svg"
-import Image from "next/image"
-import { AiOutlineConsoleSql } from "react-icons/ai"
 import { FormError } from "@/components/errorandsuces/form-error"
-export const LoginForm = () => {
+import { FormSuccess } from "@/components/errorandsuces/form-success"
+import { Login } from "@/actions/login"
+import { useTransition } from "react"
 
+
+export const LoginForm = () => {
+    const [isPending, startTransition] = useTransition()
     {/**
      Initialize the form with react-hook-form, integrating Zod for validation
  - The form's validation schema is defined using Zod's `LoginSchema`
@@ -30,8 +32,10 @@ export const LoginForm = () => {
         }
     })
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-        console.log(values);
-
+        // using the useTransition hook from react
+        startTransition(() => {
+            Login(values)
+        })
     }
     console.log(form)
     return (
@@ -56,6 +60,7 @@ export const LoginForm = () => {
                                             {...field}
                                             placeholder="iwinosa@gmail.com"
                                             type="email"
+                                            disabled={isPending}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -76,6 +81,8 @@ export const LoginForm = () => {
                                             {...field}
                                             placeholder="******"
                                             type="password"
+                                            disabled={isPending}
+
                                         />
                                     </FormControl>
                                     {/* <Image src={eye} alt="eye" /> */}
@@ -85,8 +92,11 @@ export const LoginForm = () => {
 
                         </FormField>
                     </div>
-                    <FormError message="invalid credentials" />
-                    <Button size="lg" className="w-full" type="submit">Login</Button>
+                    <FormError message="" />
+                    <FormSuccess message="" />
+                    <Button
+                        disabled={isPending}
+                        size="lg" className="w-full" type="submit">Login</Button>
                 </form>
             </Form>
         </CardWrapper>

@@ -4,7 +4,7 @@ interface FormSuccessProps {
     message?: string;
 }
 
-export const FormError = ({ message }: FormSuccessProps) => {
+export const FormSuccess = ({ message }: FormSuccessProps) => {
     if (!message) {
         return null
     }
