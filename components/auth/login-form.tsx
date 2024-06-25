@@ -9,8 +9,18 @@ import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button"
 import eye from "@/public/images/eye.svg"
 import Image from "next/image"
+import { AiOutlineConsoleSql } from "react-icons/ai"
 export const LoginForm = () => {
 
+    {/**
+     Initialize the form with react-hook-form, integrating Zod for validation
+ - The form's validation schema is defined using Zod's `LoginSchema`
+ - `useForm` hook is used to handle form state and validation
+ - `zodResolver` is used to connect Zod schema validation with react-hook-form
+ - Default values for the form fields are set to empty strings
+ @Usage:
+ This setup enables the form to use `LoginSchema` for validating the email and password fields.
+*/}
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
@@ -18,9 +28,11 @@ export const LoginForm = () => {
             password: "",
         }
     })
+    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+        console.log(values);
 
+    }
     console.log(form)
-
     return (
         <CardWrapper
             headLabel="Welcome Back"
@@ -30,7 +42,7 @@ export const LoginForm = () => {
         >
             <Form {...form}>
                 {/* the handle submit comes from the form constant */}
-                <form onSubmit={form.handleSubmit(() => { })} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-4">
                         <FormField
                             control={form.control}
