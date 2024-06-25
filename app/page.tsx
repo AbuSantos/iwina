@@ -10,6 +10,9 @@ import Task from "@/components/Task";
 import BottomNav from "@/components/BottomNav";
 import { Knock } from "@knocklabs/node"
 import ParentEvent from "@/components/ui/ParentEvent";
+import { Button } from "@/components/ui/button";
+import LoginButton from "@/components/auth/login-button";
+import LoginRegister from "@/components/login/Login";
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
 
@@ -86,8 +89,16 @@ const Home = () => {
                 </p>
               </div>
 
-              <div className="flex justify-center flex-col mt-5 w-full">
-                {
+              <div className="flex justify-center mt-5">
+
+                <LoginButton  >
+                  <Button size="lg" className="text-lg ">
+                    Join Us
+                  </Button>
+                </LoginButton>
+
+
+                {/* {
                   provider && Object.values(provider).map((prov: any) => (
 
                     <button
@@ -101,11 +112,14 @@ const Home = () => {
                       Sign in {prov.name}
                     </button>
                   ))
-                }
+                } */}
               </div>
             </div>
           </div>
       }
+      {/* {
+        <LoginRegister />
+      } */}
     </div >
   )
 }
