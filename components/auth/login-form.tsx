@@ -10,6 +10,7 @@ import { Button } from "../ui/button"
 import eye from "@/public/images/eye.svg"
 import Image from "next/image"
 import { AiOutlineConsoleSql } from "react-icons/ai"
+import { FormError } from "@/components/errorandsuces/form-error"
 export const LoginForm = () => {
 
     {/**
@@ -84,6 +85,7 @@ export const LoginForm = () => {
 
                         </FormField>
                     </div>
+                    <FormError message="invalid credentials" />
                     <Button size="lg" className="w-full" type="submit">Login</Button>
                 </form>
             </Form>
