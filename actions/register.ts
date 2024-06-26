@@ -1,6 +1,8 @@
 "use server";
+import User from "@/(models)/User";
 import { RegisterSchema } from "@/schemas";
 import * as z from "zod";
+import bcrypt from "bcrypt";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
@@ -9,7 +11,14 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: "Invalid Fields" };
   }
 
-  console.log(validatedFields);
+  const hashPassword = await bcrypt.hash(validatedFields.data.password, 10);
+  // newKid.password = hashPassword;
+  const user = new User({
+    name: validatedFields.data.username,
+    email: validatedFields.data.email,
+    password: hashPassword,
+  });
 
+  await user.save();
   return { success: "Succesfully Registered" };
 };

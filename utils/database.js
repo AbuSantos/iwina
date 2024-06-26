@@ -11,7 +11,7 @@ export const connectToDB = async () => {
     return; //to stop it from reconnecting
   }
 
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === "development") {
     if (global.isConnected) {
       console.log("Mongoose already connected (global)");
       return;
