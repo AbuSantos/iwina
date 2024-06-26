@@ -11,11 +11,19 @@ export const connectToDB = async () => {
     return; //to stop it from reconnecting
   }
 
+  if (process.env.NODE_ENV === "production") {
+    if (global.isConnected) {
+      console.log("Mongoose already connected (global)");
+      return;
+    }
+  }
+
   try {
     const mongoUri = process.env.MONGODB_URI;
     if (!mongoUri) {
       console.log("Mongo Uri isnt defined");
     }
+
     await mongoose.connect(`${mongoUri}`, {
       dbName: "iwina",
       bufferCommands: true, // Disable command buffering
@@ -23,6 +31,9 @@ export const connectToDB = async () => {
     });
 
     isConnected = true;
+    if (process.env.NODE_ENV !== "production") {
+      global.isConnected = true; // Track connection state globally in development
+    }
     console.log("Mongo Connected");
   } catch (error) {
     console.log(error);

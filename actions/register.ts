@@ -9,5 +9,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: "Invalid Fields" };
   }
 
+  console.log(validatedFields);
+
   return { success: "Succesfully Registered" };
 };
