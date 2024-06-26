@@ -10,11 +10,13 @@ import { Button } from "../ui/button"
 import { FormError } from "@/components/errorandsuces/form-error"
 import { FormSuccess } from "@/components/errorandsuces/form-success"
 import { Login } from "@/actions/login"
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 
 
 export const LoginForm = () => {
     const [isPending, startTransition] = useTransition()
+    const [isError, setIsError] = useState("")
+    const [isSuccess, setIsSuccess] = useState("")
     {/**
      Initialize the form with react-hook-form, integrating Zod for validation
  - The form's validation schema is defined using Zod's `LoginSchema`
@@ -32,12 +34,16 @@ export const LoginForm = () => {
         }
     })
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+        setIsError("")
+        setIsSuccess("")
         // using the useTransition hook from react
         startTransition(() => {
-            Login(values)
+            Login(values).then((data) => {
+                setIsError(data.error)
+                setIsSuccess(data.success)
+            })
         })
     }
-    console.log(form)
     return (
         <CardWrapper
             headLabel="Welcome Back"
@@ -92,8 +98,8 @@ export const LoginForm = () => {
 
                         </FormField>
                     </div>
-                    <FormError message="" />
-                    <FormSuccess message="" />
+                    <FormError message={isError} />
+                    <FormSuccess message={isSuccess} />
                     <Button
                         disabled={isPending}
                         size="lg" className="w-full" type="submit">Login</Button>
