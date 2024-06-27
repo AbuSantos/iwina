@@ -3,7 +3,7 @@
  * @type string
  *
  */
-export const publicRoutes = [];
+export const publicRoutes = ["/"];
 
 /**
  *  An array of auth routes,
@@ -11,7 +11,7 @@ export const publicRoutes = [];
  * @type {string[]}
  *
  */
-export const authRoutes = ["/auth/login", "auth/register"];
+export const authRoutes = ["/auth/login", "/auth/register"];
 
 /**
  *  the prefix for api auth routes,
@@ -19,8 +19,7 @@ export const authRoutes = ["/auth/login", "auth/register"];
  * @type {string}
  *
  */
-export const apiAuthPrefix = "api/auth";
-
+export const apiAuthPrefix = "/api/auth";
 
 /**
  *  the default redirect path
