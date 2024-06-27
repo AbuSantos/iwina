@@ -1,7 +1,19 @@
+{
+  /**
+  Since mongodb much like prisma doesnt work on the edge, we create an auth to trigger the middleware .
+  
+https://authjs.dev/getting-started/migrating-to-v5
+  for more info:
+  */
+}
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
-import Google from "next-auth/providers/google";
+import authConfig from "@/auth.config";
+import clientPromise from "./lib/db";
 
+// const mongo = new clientPromise()
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  providers: [GitHub, Google],
+  adapter: MongoDBAdapter(clientPromise),
+  session: { strategy: "jwt" },
+  ...authConfig,
 });
