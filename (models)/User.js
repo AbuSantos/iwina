@@ -1,62 +1,62 @@
 import mongoose from "mongoose";
 const { Schema, model, models } = mongoose;
 
-// const UserSchema = new Schema({
-//   email: {
-//     type: String,
-//     unique: [true, "Email already exists!"],
-//     // required: [true, "Email is required!"],
-//   },
-//   username: {
-//     type: String,
-//     match: [
-//       /^[a-zA-Z0-9\s]{8,20}$/,
-//       "Username invalid, it should contain 8-20 alphanumeric letters and be unique!",
-//     ],
-//   },
-//   image: { type: String },
-//   password: { type: String },
-//   points: {
-//     type: Number,
-//   },
-//   ongoingTasks: [
-//     {
-//       type: Schema.Types.ObjectId,
-//       ref: "Task",
-//     },
+// // const UserSchema = new Schema({
+// //   email: {
+// //     type: String,
+// //     unique: [true, "Email already exists!"],
+// //     // required: [true, "Email is required!"],
+// //   },
+// //   username: {
+// //     type: String,
+// //     match: [
+// //       /^[a-zA-Z0-9\s]{8,20}$/,
+// //       "Username invalid, it should contain 8-20 alphanumeric letters and be unique!",
+// //     ],
+// //   },
+// //   image: { type: String },
+// //   password: { type: String },
+// //   points: {
+// //     type: Number,
+// //   },
+// //   ongoingTasks: [
+// //     {
+// //       type: Schema.Types.ObjectId,
+// //       ref: "Task",
+// //     },
+// //   ],
+// //   completedTasks: [
+// //     {
+// //       type: Schema.Types.ObjectId,
+// //       ref: "Task",
+// //     },
+// //   ],
+// //   kids: [
+// //     {
+// //       type: Schema.Types.ObjectId,
+// //       ref: "Kids",
+// //     },
+// //   ],
+// // });
+
+// // const User = models.User || model("User", UserSchema);
+
+// // export default User;
+
+// // User Schema
+// const userSchema = new Schema({
+//   name: { type: String, default: null },
+//   email: { type: String, unique: true, default: null },
+//   emailVerified: { type: Date, default: null },
+//   image: { type: String, default: null },
+//   accounts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Account" }],
+//   sessions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Session" }],
+//   Authenticators: [
+//     { type: mongoose.Schema.Types.ObjectId, ref: "Authenticator" },
 //   ],
-//   completedTasks: [
-//     {
-//       type: Schema.Types.ObjectId,
-//       ref: "Task",
-//     },
-//   ],
-//   kids: [
-//     {
-//       type: Schema.Types.ObjectId,
-//       ref: "Kids",
-//     },
-//   ],
+//   createdAt: { type: Date, default: Date.now },
+//   updatedAt: { type: Date, default: Date.now },
 // });
-
-// const User = models.User || model("User", UserSchema);
-
-// export default User;
-
-// User Schema
-const userSchema = new Schema({
-  name: { type: String, default: null },
-  email: { type: String, unique: true, default: null },
-  emailVerified: { type: Date, default: null },
-  image: { type: String, default: null },
-  accounts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Account" }],
-  sessions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Session" }],
-  Authenticators: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "Authenticator" },
-  ],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
 
 // Account Schema
 const accountSchema = new Schema({
@@ -106,7 +106,7 @@ const authenticatorSchema = new Schema({
 });
 authenticatorSchema.index({ userId: 1, credentialID: 1 }, { unique: true });
 
-const User = mongoose.model("User", userSchema);
+const User = models.User || model("User", userSchema);
 const Account = mongoose.model("Account", accountSchema);
 const Session = mongoose.model("Session", sessionSchema);
 const VerificationToken = mongoose.model(

@@ -9,10 +9,15 @@ https://authjs.dev/getting-started/migrating-to-v5
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth from "next-auth";
 import authConfig from "@/auth.config";
-import clientPromise from "./lib/db";
+import clientPromise from "@/lib/db";
 
 // const mongo = new clientPromise()
-export const { auth, handlers, signIn, signOut } = NextAuth({
+export const {
+  auth,
+  handlers: { GET, POST },
+  signIn,
+  signOut,
+} = NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   session: { strategy: "jwt" },
   ...authConfig,

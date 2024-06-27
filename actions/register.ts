@@ -1,5 +1,5 @@
 "use server";
-import User from "@/(models)/User";
+import NewUser from "@/(models)/NewUser";
 import { RegisterSchema } from "@/schemas";
 import * as z from "zod";
 import bcrypt from "bcrypt";
@@ -13,7 +13,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const hashPassword = await bcrypt.hash(validatedFields.data.password, 10);
   // newKid.password = hashPassword;
-  const user = new User({
+  const user = new NewUser({
     name: validatedFields.data.username,
     email: validatedFields.data.email,
     password: hashPassword,

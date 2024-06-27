@@ -1,3 +1,4 @@
+import clientPromise from "@/lib/db";
 import mongoose from "mongoose";
 
 //creating a a connection state and track connection status
@@ -19,12 +20,13 @@ export const connectToDB = async () => {
   }
 
   try {
-    const mongoUri = process.env.MONGODB_URI;
-    if (!mongoUri) {
-      console.log("Mongo Uri isnt defined");
-    }
-
-    await mongoose.connect(`${mongoUri}`, {
+    // const mongoUri = process.env.MONGODB_URI;
+    // if (!mongoUri) {
+    //   console.log("Mongo Uri isnt defined");
+    // }
+    const client = await clientPromise;
+    await mongoose.connect(client.s.url, {
+      // await mongoose.connect(`${mongoUri}`, {
       dbName: "iwina",
       bufferCommands: true, // Disable command buffering
       socketTimeoutMS: 10000,
