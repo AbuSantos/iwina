@@ -39,8 +39,8 @@ export const LoginForm = () => {
         // using the useTransition hook from react
         startTransition(() => {
             Login(values).then((data) => {
-                setIsError(data.error)
-                setIsSuccess(data.success)
+                setIsError(data?.error)
+                setIsSuccess(data?.success)
             })
         })
     }

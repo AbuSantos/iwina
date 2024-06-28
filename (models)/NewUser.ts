@@ -5,6 +5,11 @@ const NewUserSchema = new Schema({
   name: { type: String, default: null },
   email: { type: String, unique: true, default: null },
   password: { type: String },
+  role: {
+    type: String,
+    enum: ["parent", "mum", "dad", "child"],
+    default: "parent",
+  },
   emailVerified: { type: Date, default: null },
   image: { type: String, default: null },
   accounts: [{ type: Schema.Types.ObjectId, ref: "Account" }],
