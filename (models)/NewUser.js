@@ -1,8 +1,10 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import mongoose from "mongoose";
+const { Schema, model, models } = mongoose;
 
 const NewUserSchema = new Schema({
   name: { type: String, default: null },
   email: { type: String, unique: true, default: null },
+  password: { type: String },
   emailVerified: { type: Date, default: null },
   image: { type: String, default: null },
   accounts: [{ type: Schema.Types.ObjectId, ref: "Account" }],
@@ -13,6 +15,6 @@ const NewUserSchema = new Schema({
 });
 // console.log("models", mongoose.models); // Debugging line
 // console.log("new schema", NewUserSchema); // Debugging line
-export default mongoose.model("NewUser", NewUserSchema);
+const NewUser = models?.NewUser || model("NewUser", NewUserSchema);
 
-// export default NewUser;
+export default NewUser;

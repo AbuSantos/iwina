@@ -3,8 +3,10 @@ import NewUser from "@/(models)/NewUser";
 import { RegisterSchema } from "@/schemas";
 import * as z from "zod";
 import bcrypt from "bcrypt";
-
+import { connectToDB } from "@/utils/database";
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
+  await connectToDB();
+
   const validatedFields = RegisterSchema.safeParse(values);
 
   if (!validatedFields) {

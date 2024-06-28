@@ -15,7 +15,7 @@ export default {
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
           const user = await NewUser.findOne({ email: email });
-
+            
           if (!user || !user.password) {
             return null;
           }

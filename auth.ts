@@ -12,12 +12,7 @@ import authConfig from "@/auth.config";
 import clientPromise from "@/lib/db";
 
 // const mongo = new clientPromise()
-export const {
-  auth,
-  handlers: { GET, POST },
-  signIn,
-  signOut,
-} = NextAuth({
+export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   session: { strategy: "jwt" },
   ...authConfig,

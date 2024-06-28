@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 let isConnected = false;
 
 export const connectToDB = async () => {
+  console.log("Connecting to MongoDB...");
   mongoose.set("strictQuery", true); //Ensure that the query shape matches the query shape in the model state object
 
   if (isConnected) {
@@ -29,7 +30,8 @@ export const connectToDB = async () => {
       // await mongoose.connect(`${mongoUri}`, {
       dbName: "iwina",
       bufferCommands: true, // Disable command buffering
-      socketTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 20000, // Example: Increase server selection timeout
+      socketTimeoutMS: 45000,
     });
 
     isConnected = true;
