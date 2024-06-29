@@ -11,12 +11,31 @@ import NextAuth, { DefaultSession } from "next-auth";
 import authConfig from "@/auth.config";
 import clientPromise from "@/lib/db";
 import { getUserById } from "./data/user";
-
-
+import NewUser from "./(models)/NewUser";
 
 // const mongo = new clientPromise()
 export const { auth, handlers, signIn, signOut } = NextAuth({
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
+  events: {
+    async linkAccount({ user }) {
+      await NewUser.findByIdAndUpdate({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
+    },
+  },
   callbacks: {
+    // async signIn({ user }) {
+    //   const existingUser = await getUserById(user.id);
+    //   if (!existingUser || !existingUser.emailVerified) {
+    //     return false;
+    //   }
+    //   return true;
+    // },
+
     async session({ token, session }) {
       //setting the session id to the jwt sub
       if (token.sub && session.user) {
@@ -35,7 +54,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (!existingUser) return token;
 
       token.role = existingUser.role;
-      console.log(existingUser);
+      // console.log(existingUser);
       return token;
     },
   },

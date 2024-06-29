@@ -1,6 +1,7 @@
 import { auth, signOut } from "@/auth"
 const HomePage = async () => {
     const session = await auth()
+    console.log("role", session.user.role)
     return (
         <div>
 

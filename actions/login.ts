@@ -5,7 +5,9 @@ import * as z from "zod";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
+import { connectToDB } from "@/utils/database";
 export const Login = async (values: z.infer<typeof LoginSchema>) => {
+  await connectToDB();
   //validating the data
   const validatedFields = LoginSchema.safeParse(values);
 

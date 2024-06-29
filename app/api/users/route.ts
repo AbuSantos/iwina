@@ -1,4 +1,5 @@
-import User from "@/(models)/User";
+import NewUser from "@/(models)/NewUser";
+// import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
@@ -7,16 +8,16 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     await connectToDB();
 
     const { username, password, email } = await req.json();
-    console.log(username, password, email, "Testinfg ");
+    // console.log(username, password, email, "Testinfg ");
 
-    const newUser = new User({
+    const newUser = new NewUser({
       username,
       password,
       email,
-      points: 0,
-      completedTasks: [],
-      ongoingTasks: [],
-      kids: [],
+      // points: 0,
+      // completedTasks: [],
+      // ongoingTasks: [],
+      // kids: [],
     });
     console.log(newUser.points, "password");
 
@@ -29,7 +30,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     }
 
     //checking for duplicates
-    const duplicate = await User.findOne({ email: newUser.email })
+    const duplicate = await NewUser.findOne({ email: newUser.email })
       .lean()
       .exec();
 
@@ -40,13 +41,13 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       );
     }
 
-    // hashing th password hash
+    // hashing the password hash
     const hashPassword = await bcrypt.hash(newUser.password, 10);
     console.log(hashPassword);
 
     newUser.password = hashPassword;
 
-    await User.create(newUser);
+    await NewUser.create(newUser);
     return Response.json({ message: "user created" }, { status: 200 });
   } catch (error) {
     console.log(error);
