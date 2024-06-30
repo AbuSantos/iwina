@@ -1,10 +1,18 @@
 import { AuthHeader } from "@/components/auth/header"
 import { BackButton } from "@/components/auth/back-button"
-BackButton
-
+import { Card, CardFooter, CardHeader } from "@/components/ui/card"
 const AuthErrorCard = () => {
     return (
-        <div>AuthErrorCard</div>
+        <Card className="w-400px shadow-md">
+            <CardHeader>
+                <AuthHeader label="Opps, something went wrong" />
+            </CardHeader>
+            <CardFooter
+            >
+                <BackButton label="Back to login" href="/auth/login" />
+            </CardFooter>
+        </Card>
+
     )
 }
 

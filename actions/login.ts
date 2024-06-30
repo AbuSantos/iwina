@@ -7,7 +7,6 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { connectToDB } from "@/utils/database";
 export const Login = async (values: z.infer<typeof LoginSchema>) => {
-  await connectToDB();
   //validating the data
   const validatedFields = LoginSchema.safeParse(values);
 
@@ -17,6 +16,7 @@ export const Login = async (values: z.infer<typeof LoginSchema>) => {
 
   const { email, password } = validatedFields.data;
   try {
+    await connectToDB();
     await signIn("credentials", {
       email,
       password,
@@ -24,6 +24,7 @@ export const Login = async (values: z.infer<typeof LoginSchema>) => {
     });
   } catch (error) {
     if (error instanceof AuthError) {
+      console.log(error);
       switch (error.type) {
         case "CredentialsSignin":
           return { error: "Invalid Credentials!" };

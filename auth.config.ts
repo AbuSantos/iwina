@@ -5,6 +5,7 @@ import NewUser from "@/(models)/NewUser";
 import type { NextAuthConfig } from "next-auth";
 import { LoginSchema } from "@/schemas";
 import bcrypt from "bcryptjs";
+import { connectToDB } from "./utils/database";
 
 export default {
   providers: [
@@ -33,12 +34,14 @@ export default {
     }),
     Credentials({
       async authorize(credentials) {
+        console.log(credentials, "credentials");
+
         //we validating the fields again
         const validatedFields = LoginSchema.safeParse(credentials);
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
           const user = await NewUser.findOne({ email: email });
-
+          console.log(user);
           if (!user || !user.password) {
             return null;
           }

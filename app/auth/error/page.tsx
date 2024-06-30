@@ -1,7 +1,8 @@
+import AuthErrorCard from "@/components/auth/auth-error"
 
 const AuthError = () => {
     return (
-        <div>AuthError</div>
+        < AuthErrorCard />
     )
 }
 
