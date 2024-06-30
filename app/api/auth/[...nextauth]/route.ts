@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDB } from "@/utils/database";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import User from "@/(models)/User";
 import Kids from "@/(models)/Kids";
 
@@ -11,14 +11,14 @@ const handler = NextAuth({
     GoogleProvider({
       profile(profile) {
         const points = profile.points || 0;
-        const { sub, email, name, image } = profile;
+        const { sub, email, name, picture } = profile;
         let userRole = "parent";
 
         return {
           id: sub,
           email,
           name,
-          image,
+          image: picture,
           points,
           role: userRole,
         };
@@ -26,9 +26,9 @@ const handler = NextAuth({
 
       clientId: process.env.CLIENT_ID || "",
       clientSecret: process.env.CLIENT_SECRET || "",
-      httpOptions: {
-        timeout: 40000,
-      },
+      // httpOptions: {
+      //   timeout: 40000,
+      // },
     }),
     CredentialsProvider({
       name: "As Kids",
@@ -65,7 +65,7 @@ const handler = NextAuth({
 
           if (foundKid && typeof foundKid.password) {
             const match = await bcrypt.compare(
-              credentials.password,
+              credentials?.password,
               foundKid.password
             );
 
@@ -87,7 +87,7 @@ const handler = NextAuth({
 
   callbacks: {
     async session({ session }) {
-      // console.log("sessions start", session);
+      console.log("sessions start", session);
       try {
         await connectToDB();
 
@@ -100,12 +100,13 @@ const handler = NextAuth({
         const parentUser = await User.findOne(query);
         const kidUser = await Kids.findOne(query);
         // console.log(kidUser, "kidUser");
-
         // Update the session user ID based on the user type
         if (parentUser) {
           (session.user as any).id = parentUser._id.toString();
           (session.user as any).role = "parent";
-          session.user.image = parentUser.image;
+          (session.user as any).image = session.user.image;
+
+          // session.user.image = parentUser.image;
         } else if (kidUser) {
           (session.user as any).id = kidUser._id.toString();
           //@ts-ignore

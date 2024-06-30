@@ -15,6 +15,7 @@ import LoginButton from "@/components/auth/login-button";
 import LoginRegister from "@/components/login/Login";
 const montserrat = Montserrat({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"] })
+// import { signIn } from "next-auth/react"
 
 interface SessionUser {
   id: string;
@@ -29,11 +30,15 @@ const Home = () => {
 
   useEffect(() => {
     const setProviders = async () => {
+
       const resp = await getProviders()
       setProvider(resp)
+
     }
     setProviders()
   }, [])
+
+  console.log(session)
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
@@ -65,6 +70,10 @@ const Home = () => {
     }
   }, [userId, session]);
 
+  const onClick = (provider: "google" | "credentials") => {
+    signIn(provider)
+  }
+
   return (
     <div className="flex justify-center items-center flex-col w-full">
       {
@@ -89,21 +98,27 @@ const Home = () => {
                 </p>
               </div>
 
-              <div className="flex justify-center mt-5">
-
+              <div className="flex flex-col justify-center mt-5">
+                {/* 
                 <LoginButton  >
-                  <Button size="lg" className="text-lg ">
+                  <Button size="lg" className="text-lg " onClick={() => onClick("google")} >
                     Join Us
                   </Button>
-                </LoginButton>
+                </LoginButton> */}
 
 
-                {/* {
+                {/* 
+                signIn(provider, {
+                  callbackUrl: DEFAULT_LOGIN_REDIRECT
+        }) */}
+                {
                   provider && Object.values(provider).map((prov: any) => (
 
                     <button
                       key={prov.name}
-                      onClick={() => signIn(prov.id)}
+                      onClick={() => signIn(prov.id, {
+                        callbackUrl: "/home"
+                      })}
                       className={`text-xl p-4 w-11/12 mb-3 
                       ${prov.name === "Google" ? "bg-[#4f2190] text-[#faf9fb] "
                           : "bg-[#fff] text-[#4f2190] border-2 border-[#4f2190]"}
@@ -112,7 +127,8 @@ const Home = () => {
                       Sign in {prov.name}
                     </button>
                   ))
-                } */}
+                }
+
               </div>
             </div>
           </div>
