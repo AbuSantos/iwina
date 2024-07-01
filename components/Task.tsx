@@ -5,6 +5,7 @@ import CompletedTask from "./CompletedTask";
 import Feed from "./Feed";
 import { useSession } from "next-auth/react";
 import { useTaskContext } from "@/context/TaskContext";
+import { useFetch } from "@/hooks/useFetch";
 
 
 
@@ -12,14 +13,16 @@ const Task = ({ }) => {
     const { data: session } = useSession()
     const userId = (session?.user as any)?.id
     const { state, fetchTasks } = useTaskContext()
-
+    const { data, errorMessage, loading } = useFetch(`api/task/${userId}/alltask`)
     const [activeTab, setActiveTab] = useState("new");
     const handleTabChange = (tab: string) => {
         setActiveTab(tab)
     }
     useEffect(() => {
         fetchTasks("GET", `api/task/${userId}/alltask`)
-    }, [])
+    }, [userId])
+
+
     return (
         <section className="w-full flex flex-col items-center justify-center">
             <div className="flex space-x-2 w-full items-center text-[0.8rem]">

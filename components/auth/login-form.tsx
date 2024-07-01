@@ -10,6 +10,7 @@ import { Button } from "../ui/button"
 import eye from "@/public/images/eye.svg"
 import Image from "next/image"
 import { AiOutlineConsoleSql } from "react-icons/ai"
+import { signIn } from "next-auth/react"
 export const LoginForm = () => {
 
     {/**
@@ -29,6 +30,7 @@ export const LoginForm = () => {
         }
     })
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+       
         console.log(values);
 
     }

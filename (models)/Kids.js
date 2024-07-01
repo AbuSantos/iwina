@@ -81,6 +81,6 @@ const kidsSchema = new Schema({
   ],
 });
 
-const Kids = models.Kids || model("Kids", kidsSchema);
+const Kids = models?.Kids || model("Kids", kidsSchema);
 
 export default Kids;

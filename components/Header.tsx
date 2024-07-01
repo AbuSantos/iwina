@@ -20,6 +20,7 @@ const fredoka = Fredoka({ subsets: ["latin"] })
 
 const Header = () => {
     const { data: session } = useSession()
+    console.log(session)
     const role = (session?.user as SessionUser)?.role
     const id = (session?.user as SessionUser)?.id
 
