@@ -48,7 +48,7 @@ const BottomNav = () => {
         setActiveTab(tab)
     }
     return (
-        <div className='w-full'
+        <div className='w-full mt-20'
             style={{
                 position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999,
                 cursor: 'pointer'

@@ -10,8 +10,8 @@ import Image from 'next/image'
 import spinner from "@/public/images/spinner.gif"
 
 const AddBank = () => {
-    const searcharams = useSearchParams()
-    const userId = searcharams.get("id")
+    const searchparams = useSearchParams()
+    const userId = searchparams.get("id")
     const [banks, setBanks] = useState([])
     const [bankCode, setBankCode] = useState(null)
     const [bankname, setBankName] = useState(null)
@@ -23,7 +23,7 @@ const AddBank = () => {
     const [openBankModal, setOpenBankModal] = useState(false)
     const [successful, setSuccessful] = useState(true)
 
-  
+
     const [bankDetails, setBankDetails] = useState({
         account_number: null,
         email: null,
@@ -72,6 +72,7 @@ const AddBank = () => {
                     })
                 }
             )
+
             if (res.ok) {
                 setSuccessful(false)
                 console.log("success")
@@ -79,7 +80,7 @@ const AddBank = () => {
                 const errorData = await res.json();
                 setBankErrorMessage(errorData.message || "Failed to add bank details");
                 setIsBankError(true)
-                console.log(errorData.message)
+                // console.log(errorData.message)
             }
         } catch (error) {
             console.log(error.message)

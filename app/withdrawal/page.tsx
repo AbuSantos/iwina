@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import spinner from "@/public/images/spinner.gif"
+import BottomNav from '@/components/BottomNav'
 const page = () => {
     const { data: session } = useSession()
     const [openBankName, setOpenBankName] = useState(false)
@@ -16,18 +17,16 @@ const page = () => {
         bank_name: "",
         bank_code: null,
         email: ""
-
     })
     const [withdrawData, setWithdrawData] = useState({
         amount: null
     })
     const userId = (session?.user as SessionUser)?.id
     const { data, loading, errorMessage } = useFetch(`api/bank/${userId}/`)
-
-
     const openBankDropDown = () => {
         setOpenBankName(!openBankName)
     }
+
     const handleChange = (e) => {
         const { name, value } = e.target
         setWithdrawData((prevData) => ({
@@ -64,12 +63,12 @@ const page = () => {
                 userId: userId
             })
         })
+
         if (res.ok) {
             const data = await res.json()
             console.log(data)
         }
     }
-
 
     if (loading) {
         return (
@@ -78,9 +77,19 @@ const page = () => {
             </div>
         )
     }
+    console.log(data)
     return (
         <div className='p-3 w-4/6 flex flex-col m-auto'>
-            <h2 className=' text-center p-3 capitalize font-semibold '>Withdraw your earned funds</h2>
+            <div>
+                <h2 className=' text-center p-3 capitalize font-semibold '>Withdraw your earned funds</h2>
+                <div className='flex space-x-2 p-4 items-center justify-center'>
+                    <p> Your balance:</p>
+                    <span>
+                        {data && data[0]?.creator?.points}
+                    </span>
+                </div>
+
+            </div>
             <section className='flex items-center justify-center'>
                 <form action="form action" onSubmit={handleWithdraw} className='flex flex-col items-center justify-center w-full space-y-3'>
 
@@ -100,6 +109,7 @@ const page = () => {
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                                     </svg>
                                 </button>
+
                                 {openBankName && (
                                     <div id="dropdown" className="z-10 divide-y divide-gray-100 rounded-lg w-full">
                                         <ul className="py-2 text-sm text-gray-700 dark:text-gray-200 w-full" aria-labelledby="dropdownDefaultButton" >
@@ -113,11 +123,14 @@ const page = () => {
                                         </ul>
                                     </div>
                                 )}
+
                             </div>
                     }
+
                     <div>
                         {
-                            isSelectBank && <div>
+                            isSelectBank &&
+                            <div>
                                 <div className='flex space-x-1  '>
                                     <span className='text-[0.6rem] text-gray-600'>Account Number:</span>
                                     <p className='text-gray-700 text-[1rem]'>{bankDetails.account_number}</p>
@@ -135,11 +148,15 @@ const page = () => {
                         }
                     </div>
 
-                    <button type='submit'>
-                        withdraw
-                    </button>
+                    <div className='pt-20'>
+                        <button type='submit' className='text-white bg-violet-700 font-medium rounded-md px-10 text-sm w-full py-2.5 text-center inline-flex items-center outline-none mt-20'>
+                            withdraw
+                        </button>
+                    </div>
                 </form>
             </section>
+
+            <BottomNav />
         </div >
     )
 }

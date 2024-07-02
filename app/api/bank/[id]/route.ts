@@ -7,11 +7,9 @@ export const GET = async (req, { params }) => {
   try {
     await connectToDB();
     const { id } = params;
-    console.log(id, "id");
-
     const bank = await BankDetails.find({
       $or: [{ creator: id }, { _id: id }],
-    });
+    }).populate("creator");
 
     return new Response(JSON.stringify(bank), { status: 200 });
   } catch (err) {
