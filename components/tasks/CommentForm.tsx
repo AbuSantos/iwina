@@ -67,6 +67,7 @@ const CommentForm = ({ taskId, user, creator }) => {
             setScrollIntoViewBool(isLastMessage);
         }
     }, [messages]);
+
     useEffect(() => {
         if (scrollIntoViewBool) {
             const messageElement = messageContainerRef.current;
@@ -152,7 +153,8 @@ const CommentForm = ({ taskId, user, creator }) => {
     };
 
     return (
-        <div  >
+        <div
+        >
 
             <div ref={messageContainerRef} style={{ overflowY: 'auto', maxHeight: '100%' }} >
                 {
@@ -227,7 +229,8 @@ const CommentForm = ({ taskId, user, creator }) => {
                             value={currentMessage} rows={1}
                             className="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border   dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none"
                             placeholder="Your message..."
-                            disabled={role !== "parent" && userId !== id}
+                        // TODO, edit the comment for task picker only
+                        // disabled={role !== "parent" && userId !== id}
                         >
                         </textarea>
 

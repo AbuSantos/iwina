@@ -48,10 +48,11 @@ const BottomNav = () => {
         setActiveTab(tab)
     }
     return (
-        <div className='w-full  h-[130px]' style={{
-            position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999,
-            cursor: 'pointer'
-        }}>
+        <div className='w-full'
+            style={{
+                position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999,
+                cursor: 'pointer'
+            }}>
             {
 
                 role === 'parent' && (
@@ -62,7 +63,7 @@ const BottomNav = () => {
                     </div>
                 )
             }
-            <div className='flex h-[80px] items-center justify-around border-t-2 border-gray-200 bg-slate-50 rounded-r-xl rounded-l-xl shadow-xl'
+            <div className='flex h-[70px] items-center justify-around border-t-2 border-gray-200 bg-slate-50 rounded-r-xl rounded-l-xl shadow-xl'
             >
                 {
                     navLinks.map((menu, index) => (

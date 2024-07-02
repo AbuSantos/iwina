@@ -5,7 +5,7 @@ import CommentReply from './CommentReply'
 
 const CommentModal = ({ setOpenModal, taskId, user, creator }) => {
     return (
-        <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ overflowY: 'auto', maxHeight: '100%' }}>
+        <div className="fixed inset-0 z-[1000] flex items-end justify-center" style={{ overflowY: 'auto', maxHeight: '100%' }}>
 
             <div
                 className="fixed inset-0 bg-black bg-opacity-50"

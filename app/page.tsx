@@ -73,7 +73,7 @@ const Home = () => {
 
   const onClick = (provider: "google" | "credentials") => {
     signIn(provider, {
-      callbackUrl: "/",
+      callbackUrl: "/home",
     })
   }
 
