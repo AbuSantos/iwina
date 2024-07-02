@@ -19,7 +19,7 @@ export const authRoutes = [
 ];
 
 /**
- *  the prefix for api auth routes,
+ * The prefix for api auth routes,
  * routes with this prefix are used for api auth
  * @type {string}
  *

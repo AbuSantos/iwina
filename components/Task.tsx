@@ -6,6 +6,8 @@ import Feed from "./Feed";
 import { useSession } from "next-auth/react";
 import { useTaskContext } from "@/context/TaskContext";
 import { useFetch } from "@/hooks/useFetch";
+import Image from "next/image";
+import spinner from "@/public/images/spinner.gif"
 
 
 
@@ -18,9 +20,9 @@ const Task = ({ }) => {
     const handleTabChange = (tab: string) => {
         setActiveTab(tab)
     }
-    useEffect(() => {
-        fetchTasks("GET", `api/task/${userId}/alltask`)
-    }, [userId])
+    // useEffect(() => {
+    //     fetchTasks("GET", `api/task/${userId}/alltask`)
+    // }, [userId])
 
 
     return (

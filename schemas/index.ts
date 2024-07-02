@@ -12,7 +12,7 @@ Define a schema for login validation using Zod
 */
 }
 export const LoginSchema = z.object({
-  email: z.string().email({
+  username: z.string({
     message: "Invalid email",
   }),
   password: z.string().min(1, {

@@ -10,6 +10,7 @@ import Task from "@/components/Task";
 import BottomNav from "@/components/BottomNav";
 import { Knock } from "@knocklabs/node"
 import ParentEvent from "@/components/ui/ParentEvent";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import LoginButton from "@/components/auth/login-button";
 import LoginRegister from "@/components/login/Login";
@@ -71,7 +72,9 @@ const Home = () => {
   }, [userId, session]);
 
   const onClick = (provider: "google" | "credentials") => {
-    signIn(provider)
+    signIn(provider, {
+      callbackUrl: "/",
+    })
   }
 
   return (
@@ -99,19 +102,17 @@ const Home = () => {
               </div>
 
               <div className="flex flex-col justify-center mt-5">
-                {/* 
-                <LoginButton  >
-                  <Button size="lg" className="text-lg " onClick={() => onClick("google")} >
-                    Join Us
-                  </Button>
-                </LoginButton> */}
 
 
-                {/* 
-                signIn(provider, {
-                  callbackUrl: DEFAULT_LOGIN_REDIRECT
-        }) */}
-                {
+                <Link href="/auth/login" className="text-xl p-4 w-11/12 mb-3 bg-[#fff] text-[#4f2190] border-2 border-[#4f2190] m-auto font-medium rounded-full text-center">
+                  Continue as Kids
+                </Link>
+
+                <button onClick={() => onClick("google")} className="text-xl p-4 w-11/12 mb-3 bg-[#4f2190] text-[#faf9fb] border-2 border-[#4f2190] m-auto font-medium rounded-full text-center">
+                  Sign in as Parent
+                </button>
+
+                {/* {
                   provider && Object.values(provider).map((prov: any) => (
 
                     <button
@@ -127,15 +128,13 @@ const Home = () => {
                       Sign in {prov.name}
                     </button>
                   ))
-                }
+                } */}
 
               </div>
             </div>
           </div>
       }
-      {/* {
-        <LoginRegister />
-      } */}
+
     </div >
   )
 }

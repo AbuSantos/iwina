@@ -7,7 +7,6 @@ import bcrypt from "bcryptjs";
 import User from "@/(models)/User";
 import Kids from "@/(models)/Kids";
 
-
 export default {
   providers: [
     Google({
@@ -44,11 +43,10 @@ export default {
         password: {
           label: "Password",
           type: "password",
-          placeholder: "YourPassword",
+          placeholder: "Your Password",
         },
       },
       async authorize(credentials) {
-        // console.log(credentials, "credentials");
         try {
           if (!credentials || !credentials.username || !credentials.password) {
             // Return null if required credentials are missing
@@ -64,7 +62,7 @@ export default {
             username: string;
             image: string;
           };
-          // console.log(foundUser, "found user");
+          console.log(foundKid, "found user");
 
           if (foundKid && typeof foundKid.password) {
             const match = await bcrypt.compare(

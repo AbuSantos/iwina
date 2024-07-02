@@ -11,6 +11,7 @@ import eye from "@/public/images/eye.svg"
 import Image from "next/image"
 import { AiOutlineConsoleSql } from "react-icons/ai"
 import { signIn } from "next-auth/react"
+import { Login } from "@/actions/login"
 export const LoginForm = () => {
 
     {/**
@@ -25,12 +26,12 @@ export const LoginForm = () => {
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
-            email: "",
+            username: "",
             password: "",
         }
     })
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-       
+        Login(values)
         console.log(values);
 
     }
@@ -48,15 +49,15 @@ export const LoginForm = () => {
                     <div className="space-y-4">
                         <FormField
                             control={form.control}
-                            name="email"
+                            name="username"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel>Username</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
                                             placeholder="iwinosa@gmail.com"
-                                            type="email"
+                                            type="text"
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -86,7 +87,7 @@ export const LoginForm = () => {
 
                         </FormField>
                     </div>
-                    <Button size="lg" className="w-full" type="submit">Login</Button>
+                    <Button size="lg" className="w-full" type="submit">Login As a Kid</Button>
                 </form>
             </Form>
         </CardWrapper>
