@@ -25,9 +25,14 @@ const ProfileHeader = ({ username, taskCount, image, points }) => {
                     <span className={`${montserrat.className} text-slate-500`}>Total Earnings</span>
                     <h2 className={`flex ${fredoka.className} text-3xl text-center`}>Points: {points} ⭐️</h2>
                 </div>
-                <Link href="/withdrawal">
-                    Withdrawal
-                </Link>
+
+                {
+                    // points > 0 &&
+                    <Link href="/withdrawal">
+                        Withdrawal
+                    </Link>
+                }
+
             </section>
         </div>
     )

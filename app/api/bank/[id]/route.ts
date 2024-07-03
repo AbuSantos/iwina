@@ -1,9 +1,19 @@
 import BankDetails from "@/(models)/BankDetails";
 import Kids from "@/(models)/Kids";
 import { connectToDB } from "@/utils/database";
+import innitMiddleware from "@/utils/initmiddleware";
 import { NextRequest } from "next/server";
+import Cors from "cors";
 
-export const GET = async (req, { params }) => {
+const cors = innitMiddleware(
+  Cors({
+    origin: "http://localhost:3001",
+    methods: ["POST", "GET", "OPTIONS"],
+  })
+);
+export const GET = async (req, { params }, res) => {
+  await cors(req, res);
+
   try {
     await connectToDB();
     const { id } = params;
@@ -17,4 +27,9 @@ export const GET = async (req, { params }) => {
       status: 500,
     });
   }
+};
+
+export const OPTIONS = async (req, res) => {
+  await cors(req, res);
+  res.status(200).end();
 };

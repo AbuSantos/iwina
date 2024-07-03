@@ -2,9 +2,10 @@ import BankDetails from "@/(models)/BankDetails";
 import Kids from "@/(models)/Kids";
 import User from "@/(models)/User";
 import { connectToDB } from "@/utils/database";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import initMiddleware from "@/utils/initmiddleware";
 
-export const POST = async (req: NextRequest) => {
+export const POST = async (req: NextRequest, res: NextResponse) => {
   await connectToDB();
   const { account_number, email, user_name, creator, bank_name } =
     await req.json();
