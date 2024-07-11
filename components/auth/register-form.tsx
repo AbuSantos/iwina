@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button"
 import { FormError } from "@/components/errorandsuces/form-error"
 import { FormSuccess } from "@/components/errorandsuces/form-success"
-import { Login } from "@/actions/login"
 import { useState, useTransition } from "react"
 import { register } from "@/actions/register"
 
@@ -35,6 +34,7 @@ export const RegisterForm = () => {
             password: "",
         }
     })
+
     const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
         setIsError("")
         setIsSuccess("")
@@ -46,6 +46,7 @@ export const RegisterForm = () => {
             })
         })
     }
+    
     return (
         <CardWrapper
             headLabel="Create an Account"
